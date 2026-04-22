@@ -1,0 +1,41 @@
+import Fastify from 'fastify';
+
+import { registerAttachments } from './routes/attachments.js';
+import { registerHealth } from './routes/health.js';
+import { registerJobs } from './routes/jobs.js';
+import { registerRuntime } from './routes/runtime.js';
+import registerSessionRoutes from './routes/sessions.js';
+import { shutdownToolRuntime } from './runtimes/pi/toolRuntime.js';
+
+export function buildServer() {
+  const server = Fastify({ logger: false, bodyLimit: 50 * 1024 * 1024 });
+
+  server.addHook('onRequest', (request, reply, done) => {
+    const origin = request.headers.origin;
+    if (origin) {
+      reply.header('Access-Control-Allow-Origin', origin);
+      reply.header('Vary', 'Origin');
+    }
+    reply.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+    reply.header('Access-Control-Allow-Headers', 'content-type');
+
+    if (request.method === 'OPTIONS') {
+      reply.code(204).send();
+      return;
+    }
+
+    done();
+  });
+
+  registerHealth(server);
+  registerAttachments(server);
+  registerJobs(server);
+  registerRuntime(server);
+  void registerSessionRoutes(server);
+
+  server.addHook('onClose', async () => {
+    await shutdownToolRuntime();
+  });
+
+  return server;
+}

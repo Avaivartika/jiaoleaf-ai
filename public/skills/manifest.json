@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "ai-research/20-ml-paper-writing",
+      "name": "ml-paper-writing",
+      "description": "Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verification workflows.",
+      "tags": [
+        "Academic Writing",
+        "NeurIPS",
+        "ICML",
+        "ICLR",
+        "ACL",
+        "AAAI",
+        "COLM",
+        "LaTeX",
+        "Paper Writing",
+        "Citations",
+        "Research"
+      ],
+      "source": "ai-research",
+      "path": "skills/ai-research/20-ml-paper-writing/SKILL.md"
+    },
+    {
+      "id": "anthropic/doc-coauthoring",
+      "name": "doc-coauthoring",
+      "description": "Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.",
+      "tags": [],
+      "source": "anthropic",
+      "path": "skills/anthropic/doc-coauthoring/SKILL.md"
+    },
+    {
+      "id": "custom/humanizer",
+      "name": "humanizer",
+      "description": "Remove signs of AI-generated writing from text. Use when editing or reviewing\ntext to make it sound more natural and human-written. Based on Wikipedia's\ncomprehensive \"Signs of AI writing\" guide. Detects and fixes patterns including:\ninflated symbolism, promotional language, superficial -ing analyses, vague\nattributions, em dash overuse, rule of three, AI vocabulary words, negative\nparallelisms, and excessive conjunctive phrases.\n",
+      "tags": [],
+      "source": "custom",
+      "path": "skills/custom/humanizer/SKILL.md"
+    },
+    {
+      "id": "custom/mermaid",
+      "name": "mermaid",
+      "description": "Render Mermaid diagrams using the built-in render_mermaid MCP tool.\nSupports flowcharts, sequence diagrams, state diagrams, class diagrams,\nand ER diagrams. Use when the user asks for any visual diagram, flowchart,\nor architecture visualization. Produces SVG or ASCII output with theming.\n",
+      "tags": [],
+      "source": "custom",
+      "path": "skills/custom/mermaid/SKILL.md"
+    },
+    {
+      "id": "custom/paper-reviewer",
+      "name": "paper-reviewer",
+      "description": "This skill should be used when users request peer reviews of academic papers or manuscripts. It produces structured, evidence-based reviews following top-tier venue standards with no scores or accept/reject decisions. Activates on requests like \"review this paper\", \"provide a peer review\", or \"analyze this manuscript\".",
+      "tags": [],
+      "source": "custom",
+      "path": "skills/custom/paper-reviewer/SKILL.md"
+    },
+    {
+      "id": "custom/venue-compliance",
+      "name": "venue-compliance",
+      "description": "Check if a LaTeX manuscript complies with venue submission requirements. Searches for call-for-papers or author guidelines, extracts formatting rules, and produces a compliance checklist.\n",
+      "tags": [
+        "Compliance",
+        "Formatting",
+        "Submission",
+        "LaTeX",
+        "Conference",
+        "Journal"
+      ],
+      "source": "custom",
+      "path": "skills/custom/venue-compliance/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib"
+      ]
+    },
+    {
+      "id": "k-dense/citation-management",
+      "name": "citation-management",
+      "description": "Comprehensive citation management for academic research. Search Google Scholar and PubMed for papers, extract accurate metadata, validate citations, and generate properly formatted BibTeX entries. This skill should be used when you need to find papers, verify citation information, convert DOIs to BibTeX, or ensure reference accuracy in scientific writing.",
+      "tags": [],
+      "source": "k-dense",
+      "path": "skills/k-dense/citation-management/SKILL.md"
+    },
+    {
+      "id": "science/bioinformatics",
+      "name": "bioinformatics",
+      "description": "Review genomics, transcriptomics, proteomics, single-cell, multi-omics, sequence analysis, and computational biology manuscripts.",
+      "tags": [
+        "bioinformatics",
+        "genomics",
+        "single-cell",
+        "multi-omics"
+      ],
+      "source": "science",
+      "path": "skills/science/bioinformatics/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib",
+        "*.csv"
+      ]
+    },
+    {
+      "id": "science/cheminformatics",
+      "name": "cheminformatics",
+      "description": "Review molecular ML, QSAR, docking, retrosynthesis, reaction prediction, molecular generation, and chemistry manuscript claims.",
+      "tags": [
+        "chemistry",
+        "cheminformatics",
+        "molecular-ml",
+        "docking"
+      ],
+      "source": "science",
+      "path": "skills/science/cheminformatics/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib",
+        "*.csv"
+      ]
+    },
+    {
+      "id": "science/clinical-research",
+      "name": "clinical-research",
+      "description": "Review clinical, biomedical, epidemiology, and health AI manuscripts for study design, reporting, bias, outcomes, and safety claims.",
+      "tags": [
+        "clinical",
+        "health-ai",
+        "epidemiology",
+        "reporting"
+      ],
+      "source": "science",
+      "path": "skills/science/clinical-research/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib"
+      ]
+    },
+    {
+      "id": "science/data-visualization",
+      "name": "data-visualization",
+      "description": "Improve scientific figures, tables, captions, and visual explanation. Use for plotting guidance, figure layout, accessibility, and result presentation.",
+      "tags": [
+        "figures",
+        "tables",
+        "visualization",
+        "captions"
+      ],
+      "source": "science",
+      "path": "skills/science/data-visualization/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.csv",
+        "*.png",
+        "*.pdf"
+      ]
+    },
+    {
+      "id": "science/literature-review",
+      "name": "literature-review",
+      "description": "Build a structured literature review for a manuscript. Use for related work, paper positioning, research gaps, contribution framing, and citation synthesis.",
+      "tags": [
+        "literature",
+        "related-work",
+        "citations",
+        "research"
+      ],
+      "source": "science",
+      "path": "skills/science/literature-review/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib"
+      ]
+    },
+    {
+      "id": "science/materials-physics",
+      "name": "materials-physics",
+      "description": "Review materials science, condensed matter, physics, simulation, characterization, and computational modeling manuscripts.",
+      "tags": [
+        "physics",
+        "materials",
+        "simulation",
+        "characterization"
+      ],
+      "source": "science",
+      "path": "skills/science/materials-physics/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib",
+        "*.csv"
+      ]
+    },
+    {
+      "id": "science/rebuttal-response",
+      "name": "rebuttal-response",
+      "description": "Draft reviewer rebuttals, response letters, revision summaries, and point-by-point replies for academic submissions.",
+      "tags": [
+        "rebuttal",
+        "peer-review",
+        "response-letter",
+        "revision"
+      ],
+      "source": "science",
+      "path": "skills/science/rebuttal-response/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib"
+      ]
+    },
+    {
+      "id": "science/statistical-analysis",
+      "name": "statistical-analysis",
+      "description": "Check statistical claims, experimental reporting, p-values, confidence intervals, ablations, baselines, and reproducibility language in scientific papers.",
+      "tags": [
+        "statistics",
+        "experiments",
+        "reproducibility",
+        "ablation"
+      ],
+      "source": "science",
+      "path": "skills/science/statistical-analysis/SKILL.md",
+      "autoContext": [
+        "*.tex",
+        "*.bib",
+        "*.csv"
+      ]
+    }
+  ]
+}

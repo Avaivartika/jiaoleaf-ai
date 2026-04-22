@@ -1,0 +1,77 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+build/
+dist/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+.secrets
+.local
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+**/.DS_Store
+Thumbs.db
+
+# Chrome extension
+*.crx
+*.pem
+*.key
+
+# Temporary files
+*.tmp
+*.temp
+.context/
+.cache/
+.parcel-cache/
+.turbo/
+
+# Git
+.worktrees/
+
+# Agent planning artifacts
+progress.md
+findings.md
+task_plan.md
+STATE_SUMMARY.md
+MAINTAINER.md
+README-DISTRIBUTION.md
+docs/*
+!docs/manus/
+!docs/manus/**
+!docs/native-messaging.md
+
+*.rb
+
+dist-native/
+.codex/
+.agents/
+
+# Agent Configuration
+CLAUDE.md
+!/CLAUDE.md

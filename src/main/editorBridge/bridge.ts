@@ -1,0 +1,869 @@
+import { getContentAfterCursor, getContentBeforeCursor, getCmView } from '../helpers';
+import { applyReplacementAtRange, onReplaceContent } from '../eventHandlers';
+import { MAX_LENGTH_AFTER_CURSOR, MAX_LENGTH_BEFORE_CURSOR } from '../../constants';
+
+const REQUEST_EVENT = 'ageaf:editor:request';
+const RESPONSE_EVENT = 'ageaf:editor:response';
+const REPLACE_EVENT = 'ageaf:editor:replace';
+const INSERT_EVENT = 'ageaf:editor:insert';
+const APPLY_REQUEST_EVENT = 'ageaf:editor:apply:request';
+const APPLY_RESPONSE_EVENT = 'ageaf:editor:apply:response';
+const FILE_REQUEST_EVENT = 'ageaf:editor:file-content:request';
+const FILE_RESPONSE_EVENT = 'ageaf:editor:file-content:response';
+const FILE_NAVIGATE_REQUEST_EVENT = 'ageaf:editor:file-navigate:request';
+const FILE_NAVIGATE_RESPONSE_EVENT = 'ageaf:editor:file-navigate:response';
+const HISTORY_REQUEST_EVENT = 'ageaf:editor:history:request';
+const HISTORY_RESPONSE_EVENT = 'ageaf:editor:history:response';
+const HISTORY_STATE_EVENT = 'ageaf:editor:history:state';
+
+interface SelectionRequest {
+  requestId: string;
+}
+
+interface SelectionResponse {
+  requestId: string;
+  activeName: string | null;
+  selection: string;
+  before: string;
+  after: string;
+  from: number;
+  to: number;
+  head: number;
+  lineFrom: number;
+  lineTo: number;
+}
+
+interface ApplyPatchRequest {
+  text: string;
+}
+
+interface ApplyReplaceRangeRequest {
+  requestId: string;
+  kind: 'replaceRange';
+  from: number;
+  to: number;
+  expectedOldText: string;
+  text: string;
+}
+
+interface ApplyReplaceInFileRequest {
+  requestId: string;
+  kind: 'replaceInFile';
+  filePath: string;
+  expectedOldText: string;
+  text: string;
+  from?: number;
+  to?: number;
+}
+
+type ApplyRequest = ApplyReplaceRangeRequest | ApplyReplaceInFileRequest;
+
+interface ApplyResponse {
+  requestId: string;
+  ok: boolean;
+  error?: string;
+}
+
+interface FileContentRequest {
+  requestId: string;
+  name: string;
+  /**
+   * Optional tab/file label to restore after reading content.
+   * Useful for background reads that temporarily activate another file.
+   */
+  returnTo?: string | null;
+}
+
+interface FileContentResponse {
+  requestId: string;
+  name: string;
+  content: string;
+  activeName: string | null;
+  ok: boolean;
+  error?: string;
+}
+
+interface FileNavigateRequest {
+  requestId: string;
+  name: string;
+}
+
+interface FileNavigateResponse {
+  requestId: string;
+  ok: boolean;
+}
+
+interface HistoryRequest {
+  requestId: string;
+  direction: 'undo' | 'redo';
+}
+
+interface HistoryResponse {
+  requestId: string;
+  ok: boolean;
+  error?: string;
+}
+
+let reviewChangeInProgress = false;
+const patchedViews = new WeakSet<any>();
+let addToHistoryAnnotationType: any = null;
+let addToHistoryResolved = false;
+let nextHistoryMarker = 0;
+let historyMarkers = [0];
+let historyMarkerIndex = 0;
+
+function getCurrentHistoryMarker() {
+  return historyMarkers[historyMarkerIndex] ?? 0;
+}
+
+function emitHistoryState() {
+  window.dispatchEvent(
+    new CustomEvent(HISTORY_STATE_EVENT, {
+      detail: { marker: getCurrentHistoryMarker() },
+    })
+  );
+}
+
+function resolveAddToHistory(view: any) {
+  if (addToHistoryResolved) return;
+  addToHistoryResolved = true;
+  try {
+    const tr = view.state.update({});
+    const Tx = tr.constructor;
+    if (Tx?.addToHistory?.of) {
+      addToHistoryAnnotationType = Tx.addToHistory;
+    }
+  } catch {
+    // CM6 internals not accessible; accept changes remain in native undo history.
+  }
+}
+
+function getAddToHistoryFalse() {
+  return addToHistoryAnnotationType?.of?.(false);
+}
+
+function installDispatchTracker(view: any) {
+  if (patchedViews.has(view)) return;
+
+  resolveAddToHistory(view);
+
+  const original = view.dispatch.bind(view);
+  view.dispatch = function (...specs: any[]) {
+    const docBefore = view.state.doc;
+    original(...specs);
+    if (view.state.doc === docBefore) return;
+    if (reviewChangeInProgress) return;
+
+    let isUndo = false;
+    let isRedo = false;
+    for (const spec of specs) {
+      if (!spec) continue;
+      const anns = spec.annotations;
+      if (!anns) continue;
+      const list = Array.isArray(anns) ? anns : [anns];
+      for (const ann of list) {
+        const v = ann?.value;
+        if (typeof v !== 'string') continue;
+        if (v.startsWith('undo')) isUndo = true;
+        if (v.startsWith('redo')) isRedo = true;
+      }
+    }
+
+    let changed = false;
+    if (isUndo) {
+      if (historyMarkerIndex > 0) {
+        historyMarkerIndex -= 1;
+        changed = true;
+      }
+    } else if (isRedo) {
+      if (historyMarkerIndex + 1 < historyMarkers.length) {
+        historyMarkerIndex += 1;
+        changed = true;
+      }
+    } else {
+      historyMarkers = historyMarkers.slice(0, historyMarkerIndex + 1);
+      historyMarkers.push(++nextHistoryMarker);
+      historyMarkerIndex = historyMarkers.length - 1;
+      changed = true;
+    }
+
+    if (changed) emitHistoryState();
+  };
+
+  patchedViews.add(view);
+  emitHistoryState();
+}
+
+function getTrackedCmView() {
+  const view = getCmView();
+  installDispatchTracker(view);
+  return view;
+}
+
+function extractFilenameFromLabel(raw: string): string | null {
+  let value = raw.trim();
+  if (!value) return null;
+  value = value.replace(/\*+$/, '').trim(); // unsaved marker
+  value = value.replace(/\s*\(.*?\)\s*$/, '').trim(); // trailing "(...)" metadata
+  if (!value) return null;
+
+  const matches = value.match(/[A-Za-z0-9_./-]+\.[A-Za-z0-9]{1,10}/g);
+  if (!matches || matches.length === 0) return null;
+  return matches[matches.length - 1] ?? null;
+}
+
+function getActiveTabName(): string | null {
+  const selectors = [
+    '.cm-tab.is-active, .cm-tab[aria-selected="true"]',
+    '.cm-tab--active',
+    '[role="treeitem"][aria-selected="true"]',
+    '[role="tab"][aria-selected="true"]',
+  ];
+  for (const selector of selectors) {
+    const selected = document.querySelector(selector);
+    if (!(selected instanceof HTMLElement)) continue;
+    const label = (
+      selected.getAttribute('aria-label') ??
+      selected.getAttribute('title') ??
+      selected.textContent ??
+      ''
+    ).trim();
+    const extracted = extractFilenameFromLabel(label);
+    if (extracted) return extracted;
+  }
+  return null;
+}
+
+function normalizeFileName(filePath: string): string {
+  const trimmed = filePath.trim();
+  const parts = trimmed.split('/').filter(Boolean);
+  return parts.length > 0 ? parts[parts.length - 1] : trimmed;
+}
+
+function matchesActiveFile(activeName: string | null, filePath: string): boolean {
+  if (!activeName) return false;
+  const active = activeName.trim().toLowerCase();
+  const target = filePath.trim().toLowerCase();
+  const base = normalizeFileName(target).toLowerCase();
+  return active === target || active === base;
+}
+
+function findClickableByName(name: string): HTMLElement | null {
+  const candidates = Array.from(
+    document.querySelectorAll(
+      [
+        '[role="tab"]',
+        '[role="treeitem"]',
+        '[data-testid="file-name"]',
+        '.file-tree-item-name',
+        '.file-name',
+        '.entity-name',
+        '.file-label',
+        '.cm-tab',
+        '.cm-tab-label',
+      ].join(', ')
+    )
+  );
+  const targetLower = name.trim().toLowerCase();
+  for (const node of candidates) {
+    if (!(node instanceof HTMLElement)) continue;
+    if (node.closest('#ageaf-panel-root')) continue;
+    const text = (node.getAttribute('aria-label') ?? node.getAttribute('title') ?? node.textContent ?? '')
+      .trim()
+      .toLowerCase();
+    if (!text) continue;
+    if (text === targetLower || text.endsWith(targetLower) || text.includes(targetLower)) {
+      return node;
+    }
+  }
+  return null;
+}
+
+function restoreActiveFile(desiredName: string | null, activeName: string | null) {
+  // Best-effort restore previous active file (avoid disrupting the user).
+  try {
+    const desired = desiredName?.trim();
+    if (!desired) return;
+    if (activeName && desired === activeName) return;
+
+    // Try restoring by full label/path first, then by basename.
+    const restore = findClickableByName(desired);
+    if (restore) {
+      restore.click();
+      return;
+    }
+    const parts = desired.split('/').filter(Boolean);
+    if (parts.length > 1) {
+      const base = parts[parts.length - 1]!;
+      const restoreBase = findClickableByName(base);
+      restoreBase?.click();
+    }
+  } catch {
+    // ignore restore errors
+  }
+}
+
+async function tryActivateFileByName(name: string): Promise<boolean> {
+  const el = findClickableByName(name);
+  if (!el) return false;
+  el.click();
+  return true;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function waitForDocChange(previousHash: string, timeoutMs = 2000) {
+  const start = Date.now();
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const view = getCmView();
+    const next = view.state.sliceDoc(0, view.state.doc.length);
+    const hash = `${next.length}:${next.slice(0, 64)}:${next.slice(-64)}`;
+    if (hash !== previousHash) return;
+    if (Date.now() - start > timeoutMs) return;
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(60);
+  }
+}
+
+async function onFileContentRequest(event: Event) {
+  const detail = (event as CustomEvent<FileContentRequest>).detail;
+  if (!detail?.requestId || !detail?.name) return;
+
+  const requested = String(detail.name).trim();
+  let view: ReturnType<typeof getCmView> | null = null;
+  let originalName: string | null = null;
+  let returnTo: string | null = null;
+  let content = '';
+  let activeName: string | null = null;
+  let ok = true;
+  let error: string | undefined;
+
+  try {
+    view = getTrackedCmView();
+    const beforeText = view.state.sliceDoc(0, view.state.doc.length);
+    const beforeHash = `${beforeText.length}:${beforeText.slice(0, 64)}:${beforeText.slice(-64)}`;
+    originalName = getActiveTabName();
+    returnTo = (detail.returnTo ?? originalName) ?? null;
+
+    if (requested && (!originalName || originalName.trim() !== requested)) {
+      const activated = await tryActivateFileByName(requested);
+      if (!activated) {
+        ok = false;
+        error = `Unable to activate requested file: ${requested}`;
+      } else {
+        await waitForDocChange(beforeHash, 2500);
+      }
+    }
+
+    activeName = getActiveTabName();
+    content = view.state.sliceDoc(0, view.state.doc.length);
+
+    // If we didn't end up on the requested file, do not claim success.
+    if (ok && requested && !matchesActiveFile(activeName, requested)) {
+      ok = false;
+      error = `Requested file not active (requested: ${requested}, active: ${activeName ?? 'unknown'})`;
+    }
+  } catch (err) {
+    ok = false;
+    error = err instanceof Error ? err.message : String(err);
+  }
+
+  if (returnTo) restoreActiveFile(returnTo, activeName);
+
+  const response: FileContentResponse = {
+    requestId: detail.requestId,
+    name: requested,
+    content,
+    activeName,
+    ok,
+    ...(error ? { error } : {}),
+  };
+
+  window.dispatchEvent(new CustomEvent(FILE_RESPONSE_EVENT, { detail: response }));
+}
+
+function onSelectionRequest(event: Event) {
+  const detail = (event as CustomEvent<SelectionRequest>).detail;
+  if (!detail?.requestId) return;
+
+  let response: SelectionResponse & { ok?: boolean; error?: string };
+  try {
+    const view = getTrackedCmView();
+    const state = view.state;
+    const { from, to, head } = state.selection.main;
+    const activeName = getActiveTabName();
+
+    const inclusiveEnd = to > from ? Math.max(from, to - 1) : to;
+    response = {
+      requestId: detail.requestId,
+      activeName,
+      selection: state.sliceDoc(from, to),
+      before: getContentBeforeCursor(state, from, MAX_LENGTH_BEFORE_CURSOR),
+      after: getContentAfterCursor(state, to, MAX_LENGTH_AFTER_CURSOR),
+      from,
+      to,
+      head,
+      lineFrom: state.doc.lineAt(from).number,
+      lineTo: state.doc.lineAt(inclusiveEnd).number,
+    };
+  } catch (err) {
+    response = {
+      requestId: detail.requestId,
+      activeName: getActiveTabName(),
+      selection: '',
+      before: '',
+      after: '',
+      from: 0,
+      to: 0,
+      head: 0,
+      lineFrom: 1,
+      lineTo: 1,
+      ok: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
+
+  window.dispatchEvent(new CustomEvent(RESPONSE_EVENT, { detail: response }));
+}
+
+async function onApplyRequest(event: Event) {
+  const detail = (event as CustomEvent<ApplyRequest>).detail;
+  if (!detail?.requestId) return;
+  let ok = true;
+  let error: string | undefined;
+
+  try {
+    let view = getTrackedCmView();
+
+    const withProtectedEditBypass = (fn: () => void) => {
+      const key = '__ageafAllowProtectedEdits';
+      const prev = (window as any)[key];
+      (window as any)[key] = true;
+      try {
+        fn();
+      } finally {
+        (window as any)[key] = prev;
+      }
+    };
+
+    const findClosestOccurrence = (fullText: string, needle: string, hintFrom: number) => {
+      if (!needle) return null;
+      const windowSize = 8000;
+      const start = Math.max(0, hintFrom - Math.floor(windowSize / 2));
+      const end = Math.min(fullText.length, hintFrom + Math.floor(windowSize / 2));
+      const chunk = fullText.slice(start, end);
+      const hits: number[] = [];
+      let idx = chunk.indexOf(needle);
+      while (idx !== -1) {
+        hits.push(start + idx);
+        idx = chunk.indexOf(needle, idx + Math.max(1, needle.length));
+        if (hits.length > 10) break;
+      }
+      if (hits.length === 0) return null;
+      // Choose the closest hit to the original from position.
+      let best = hits[0];
+      let bestDist = Math.abs(best - hintFrom);
+      for (const pos of hits.slice(1)) {
+        const dist = Math.abs(pos - hintFrom);
+        if (dist < bestDist) {
+          best = pos;
+          bestDist = dist;
+        }
+      }
+      // Only accept if reasonably close (prevents wrong replacements when repeated text exists).
+      if (bestDist > 4000) return null;
+      return { from: best, to: best + needle.length };
+    };
+
+    if (detail.kind === 'replaceRange') {
+      const hasValidRange =
+        typeof detail.from === 'number' &&
+        Number.isFinite(detail.from) &&
+        typeof detail.to === 'number' &&
+        Number.isFinite(detail.to) &&
+        detail.to >= detail.from;
+
+      if (
+        typeof detail.expectedOldText !== 'string' ||
+        typeof detail.text !== 'string' ||
+        !hasValidRange
+      ) {
+        ok = false;
+        error = 'Invalid replaceRange patch';
+      } else {
+        const current = view.state.sliceDoc(detail.from, detail.to);
+        if (current !== detail.expectedOldText) {
+          // If offsets shifted due to earlier edits (e.g., multiple hunks in same paragraph),
+          // fall back to locating the expected text near the original position.
+          const full = view.state.sliceDoc(0, view.state.doc.length);
+          const closest = findClosestOccurrence(full, detail.expectedOldText, detail.from);
+          if (!closest) {
+            ok = false;
+            error = 'Selection changed';
+          } else {
+            const verify = view.state.sliceDoc(closest.from, closest.to);
+            if (verify !== detail.expectedOldText) {
+              ok = false;
+              error = 'Selection changed';
+            } else {
+              withProtectedEditBypass(() => {
+                reviewChangeInProgress = true;
+                try {
+                  applyReplacementAtRange(
+                    view,
+                    closest.from,
+                    closest.to,
+                    detail.text,
+                    { annotations: getAddToHistoryFalse() }
+                  );
+                } finally {
+                  reviewChangeInProgress = false;
+                }
+              });
+            }
+          }
+        } else {
+          withProtectedEditBypass(() => {
+            reviewChangeInProgress = true;
+            try {
+              applyReplacementAtRange(view, detail.from, detail.to, detail.text, {
+                annotations: getAddToHistoryFalse(),
+              });
+            } finally {
+              reviewChangeInProgress = false;
+            }
+          });
+        }
+      }
+    } else if (detail.kind === 'replaceInFile') {
+      if (
+        typeof detail.filePath !== 'string' ||
+        typeof detail.expectedOldText !== 'string' ||
+        typeof detail.text !== 'string'
+      ) {
+        ok = false;
+        error = 'Invalid replaceInFile patch';
+      } else {
+        const originalName = getActiveTabName();
+
+        const activateTargetFile = async () => {
+          const beforeText = view.state.sliceDoc(0, view.state.doc.length);
+          const beforeHash = `${beforeText.length}:${beforeText.slice(0, 64)}:${beforeText.slice(-64)}`;
+          const candidates = Array.from(
+            new Set([detail.filePath.trim(), normalizeFileName(detail.filePath)])
+          ).filter(Boolean);
+
+          for (const candidate of candidates) {
+            // eslint-disable-next-line no-await-in-loop
+            const activated = await tryActivateFileByName(candidate);
+            if (activated) {
+              // eslint-disable-next-line no-await-in-loop
+              await waitForDocChange(beforeHash, 2500);
+              view = getCmView();
+              break;
+            }
+          }
+        };
+
+        const resolveReplacementRange = () => {
+          const rangeFrom =
+            typeof detail.from === 'number' && Number.isFinite(detail.from) ? detail.from : null;
+          const rangeTo =
+            typeof detail.to === 'number' && Number.isFinite(detail.to) ? detail.to : null;
+
+          // Try explicit from/to with content verification
+          if (
+            typeof rangeFrom === 'number' &&
+            typeof rangeTo === 'number' &&
+            rangeTo >= rangeFrom
+          ) {
+            const current = view.state.sliceDoc(rangeFrom, rangeTo);
+            if (current === detail.expectedOldText) {
+              return { ok: true as const, from: rangeFrom, to: rangeTo };
+            }
+            const full = view.state.sliceDoc(0, view.state.doc.length);
+            const closest = findClosestOccurrence(full, detail.expectedOldText, rangeFrom);
+            if (closest) {
+              return { ok: true as const, from: closest.from, to: closest.to };
+            }
+            // Offsets don't match content — fall through to indexOf search.
+          }
+
+          const full = view.state.sliceDoc(0, view.state.doc.length);
+          const first = full.indexOf(detail.expectedOldText);
+          if (first === -1) {
+            return {
+              ok: false as const,
+              error: 'Expected text not found',
+              retryable: true as const,
+            };
+          }
+          const second = full.indexOf(
+            detail.expectedOldText,
+            first + detail.expectedOldText.length
+          );
+          if (second !== -1) {
+            return {
+              ok: false as const,
+              error: 'Expected text appears multiple times',
+              retryable: false as const,
+            };
+          }
+          return { ok: true as const, from: first, to: first + detail.expectedOldText.length };
+        };
+
+        try {
+          const hasExplicitRange =
+            typeof detail.from === 'number' &&
+            Number.isFinite(detail.from) &&
+            typeof detail.to === 'number' &&
+            Number.isFinite(detail.to) &&
+            detail.to >= detail.from;
+
+          if (!detail.expectedOldText && !hasExplicitRange) {
+            ok = false;
+            error = 'Expected text missing';
+          } else {
+            let activated = false;
+            let resolved = resolveReplacementRange();
+
+            if (!resolved.ok && resolved.retryable) {
+              try {
+                await activateTargetFile();
+                activated = true;
+                resolved = resolveReplacementRange();
+              } catch (err) {
+                ok = false;
+                error = err instanceof Error ? err.message : String(err);
+              }
+            }
+
+            if (ok && resolved.ok) {
+              const current = view.state.sliceDoc(resolved.from, resolved.to);
+              if (current !== detail.expectedOldText) {
+                if (!activated) {
+                  try {
+                    await activateTargetFile();
+                    activated = true;
+                  } catch (err) {
+                    ok = false;
+                    error = err instanceof Error ? err.message : String(err);
+                  }
+                }
+
+                if (ok) {
+                  const refreshed = resolveReplacementRange();
+                  if (refreshed.ok) {
+                    const refreshedCurrent = view.state.sliceDoc(refreshed.from, refreshed.to);
+                    if (refreshedCurrent !== detail.expectedOldText) {
+                      ok = false;
+                      error = 'Selection changed';
+                    } else {
+                      withProtectedEditBypass(() => {
+                        reviewChangeInProgress = true;
+                        try {
+                          applyReplacementAtRange(
+                            view,
+                            refreshed.from,
+                            refreshed.to,
+                            detail.text,
+                            { annotations: getAddToHistoryFalse() }
+                          );
+                        } finally {
+                          reviewChangeInProgress = false;
+                        }
+                      });
+                    }
+                  } else if (refreshed.error === 'Expected text not found') {
+                    ok = false;
+                    error = `Open ${normalizeFileName(detail.filePath)} in Overleaf and retry.`;
+                  } else {
+                    ok = false;
+                    error = refreshed.error;
+                  }
+                }
+              } else {
+                withProtectedEditBypass(() => {
+                  reviewChangeInProgress = true;
+                  try {
+                    applyReplacementAtRange(
+                      view,
+                      resolved.from as number,
+                      resolved.to as number,
+                      detail.text,
+                      { annotations: getAddToHistoryFalse() }
+                    );
+                  } finally {
+                    reviewChangeInProgress = false;
+                  }
+                });
+              }
+            } else if (ok && !resolved.ok) {
+              ok = false;
+              error =
+                resolved.error === 'Expected text not found'
+                  ? `Open ${normalizeFileName(detail.filePath)} in Overleaf and retry.`
+                  : resolved.error;
+            }
+          }
+        } finally {
+          restoreActiveFile(originalName, getActiveTabName());
+        }
+      }
+    } else {
+      ok = false;
+      error = 'Unsupported apply request kind';
+    }
+  } catch (err) {
+    ok = false;
+    error = err instanceof Error ? err.message : String(err);
+  }
+
+  const response: ApplyResponse = {
+    requestId: detail.requestId,
+    ok,
+    ...(error ? { error } : {}),
+  };
+
+  window.dispatchEvent(new CustomEvent(APPLY_RESPONSE_EVENT, { detail: response }));
+}
+
+function onReplaceSelection(event: Event) {
+  const detail = (event as CustomEvent<ApplyPatchRequest>).detail;
+  if (!detail?.text) return;
+
+  try {
+    const view = getTrackedCmView();
+    const { from, to } = view.state.selection.main;
+
+    onReplaceContent(
+      new CustomEvent('copilot:editor:replace', {
+        detail: { content: detail.text, from, to }
+      })
+    );
+  } catch {
+    // Editor is not ready yet.
+  }
+}
+
+function onInsertAtCursor(event: Event) {
+  const detail = (event as CustomEvent<ApplyPatchRequest>).detail;
+  if (!detail?.text) return;
+
+  try {
+    const view = getTrackedCmView();
+    const { head } = view.state.selection.main;
+    const selection = { anchor: head + detail.text.length };
+
+    reviewChangeInProgress = true;
+    try {
+      view.dispatch({
+        changes: { from: head, to: head, insert: detail.text },
+        selection,
+      });
+    } finally {
+      reviewChangeInProgress = false;
+    }
+  } catch {
+    // Editor is not ready yet.
+  }
+}
+
+async function onFileNavigateRequest(event: Event) {
+  const detail = (event as CustomEvent<FileNavigateRequest>).detail;
+  if (!detail?.requestId || !detail?.name) return;
+
+  let ok = false;
+  try {
+    ok = await tryActivateFileByName(String(detail.name));
+  } catch {
+    ok = false;
+  }
+
+  const response: FileNavigateResponse = {
+    requestId: detail.requestId,
+    ok,
+  };
+  window.dispatchEvent(
+    new CustomEvent(FILE_NAVIGATE_RESPONSE_EVENT, { detail: response })
+  );
+}
+
+function onHistoryRequest(event: Event) {
+  const detail = (event as CustomEvent<HistoryRequest>).detail;
+  if (!detail?.requestId) return;
+
+  let ok = true;
+  let error: string | undefined;
+
+  try {
+    if (detail.direction !== 'undo' && detail.direction !== 'redo') {
+      ok = false;
+      error = 'Unsupported history direction';
+    } else {
+      const view = getTrackedCmView();
+      const editorDom = view.contentDOM as HTMLElement;
+      const activeEl = document.activeElement as HTMLElement | null;
+      editorDom.focus();
+
+      let handled = false;
+      try {
+        const inputType =
+          detail.direction === 'undo' ? 'historyUndo' : 'historyRedo';
+        const beforeInput = new InputEvent('beforeinput', {
+          inputType,
+          bubbles: true,
+          cancelable: true,
+        });
+        handled = !editorDom.dispatchEvent(beforeInput);
+      } catch {
+        handled = false;
+      }
+
+      if (!handled) {
+        const command = detail.direction === 'undo' ? 'undo' : 'redo';
+        handled = Boolean(document.execCommand(command));
+      }
+
+      if (!handled) {
+        ok = false;
+        error = `Unable to ${detail.direction} editor history`;
+      }
+
+      if (activeEl && activeEl !== editorDom) {
+        activeEl.focus();
+      }
+    }
+  } catch (err) {
+    ok = false;
+    error = err instanceof Error ? err.message : String(err);
+  }
+
+  const response: HistoryResponse = {
+    requestId: detail.requestId,
+    ok,
+    ...(error ? { error } : {}),
+  };
+  window.dispatchEvent(
+    new CustomEvent(HISTORY_RESPONSE_EVENT, { detail: response })
+  );
+}
+
+export function registerEditorBridge() {
+  try {
+    installDispatchTracker(getTrackedCmView());
+    emitHistoryState();
+  } catch {
+    // Editor boot can race bridge registration; lazy init on first request.
+  }
+  window.addEventListener(REQUEST_EVENT, onSelectionRequest as EventListener);
+  window.addEventListener(FILE_REQUEST_EVENT, onFileContentRequest as EventListener);
+  window.addEventListener(APPLY_REQUEST_EVENT, onApplyRequest as EventListener);
+  window.addEventListener(REPLACE_EVENT, onReplaceSelection as EventListener);
+  window.addEventListener(INSERT_EVENT, onInsertAtCursor as EventListener);
+  window.addEventListener(FILE_NAVIGATE_REQUEST_EVENT, onFileNavigateRequest as EventListener);
+  window.addEventListener(HISTORY_REQUEST_EVENT, onHistoryRequest as EventListener);
+}

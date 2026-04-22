@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["host", "test", "node_modules"]
+}

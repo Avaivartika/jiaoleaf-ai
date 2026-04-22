@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible problem in JiaoLeaf AI.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting an issue. Please include enough detail for maintainers to reproduce it.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the exact actions that trigger the bug.
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        Browser:
+        Extension version:
+        Site: latex.sjtu.edu.cn / latex-en.sjtu.edu.cn / overleaf.com
+        Runtime provider: OpenAI / Anthropic / BYOK
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste relevant browser console, extension error, or host logs. Remove API keys and private document content.

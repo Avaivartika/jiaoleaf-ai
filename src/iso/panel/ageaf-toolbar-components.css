@@ -1,0 +1,2495 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * SJTU OVERLEAF AI TOOLBAR COMPONENTS - COMPACT BOTTOM CONTROLS
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * Compact two-row bottom control layout:
+ * Row 1: Model selector | Thinking selector | Context ring | YOLO toggle
+ * Row 2: Session tabs (1,2,3) | Action buttons (6 buttons)
+ *
+ * Theme: Emerald Studio (#39b98a)
+ *
+ * Layout order (top to bottom):
+ * 1. Header
+ * 2. Chat messages
+ * 3. Input area
+ * 4. Bottom controls (two rows combined)
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ageaf-panel.light .ageaf-bottom-controls {
+  background: var(--ageaf-charcoal);
+  border-top-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-control-bar {
+  border-bottom-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-selector {
+  background: var(--ageaf-surface);
+  border-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-selector:hover {
+  background: var(--ageaf-slate);
+}
+
+.ageaf-panel.light .ageaf-context-ring__bg {
+  stroke: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-yolo-toggle__switch {
+  background: var(--ageaf-slate);
+  border-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-yolo-toggle__switch::before {
+  background: var(--ageaf-text-secondary);
+}
+
+.ageaf-panel.light .ageaf-session-tab {
+  background: var(--ageaf-surface);
+  border-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-session-tab.is-active {
+  color: var(--ageaf-text-primary);
+}
+
+.ageaf-panel.light .ageaf-toolbar-action {
+  background: var(--ageaf-surface);
+  border-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-toolbar-action__tooltip {
+  background: var(--ageaf-slate);
+  color: var(--ageaf-text-primary);
+  border-color: var(--ageaf-border);
+}
+
+.ageaf-panel.light .ageaf-toolbar-action__tooltip::after {
+  border-top-color: var(--ageaf-slate);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BOTTOM CONTROLS CONTAINER (Compact two-row layout)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-bottom-controls {
+  display: flex;
+  flex-direction: column;
+  background: var(--ageaf-black);
+  border-top: 1px solid var(--ageaf-border);
+  order: 4;
+  /* After input area */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTROL BAR (Row 1: Model, Thinking, Context, YOLO)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--ageaf-space-sm) var(--ageaf-space-lg);
+  gap: var(--ageaf-space-md);
+  border-bottom: 1px solid var(--ageaf-border);
+}
+
+.ageaf-control-bar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--ageaf-space-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.ageaf-control-bar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--ageaf-space-lg);
+}
+
+/* Model & Thinking Selectors (Compact) */
+.ageaf-selector {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--ageaf-slate);
+  border: 1.5px solid var(--ageaf-border);
+  border-radius: var(--ageaf-radius-full);
+  font-family: var(--ageaf-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ageaf-text-primary);
+  cursor: pointer;
+  transition: all var(--ageaf-transition-fast);
+  white-space: nowrap;
+  height: 36px;
+}
+
+.ageaf-selector:hover {
+  border-color: var(--ageaf-emerald);
+  background: var(--ageaf-surface);
+  box-shadow: 0 0 0 2px var(--ageaf-emerald-soft);
+}
+
+.ageaf-selector__label {
+  font-size: 11px;
+  color: var(--ageaf-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: var(--ageaf-space-xs);
+}
+
+.ageaf-selector__value {
+  color: var(--ageaf-text-primary);
+  font-weight: 600;
+}
+
+.ageaf-selector__value--accent {
+  color: var(--ageaf-emerald-light);
+}
+
+/* Context Usage Ring (Compact) */
+.ageaf-context-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ageaf-context-ring__circle {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.ageaf-context-ring__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ageaf-context-ring__bg {
+  fill: none;
+  stroke: var(--ageaf-border);
+  stroke-width: 3;
+}
+
+.ageaf-context-ring__progress {
+  fill: none;
+  stroke: var(--ageaf-emerald);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s var(--ageaf-ease-out);
+  filter: drop-shadow(0 0 4px var(--ageaf-emerald-glow));
+}
+
+.ageaf-context-ring__percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--ageaf-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ageaf-emerald);
+  text-shadow: 0 0 8px var(--ageaf-emerald-glow);
+}
+
+.ageaf-context-ring__label {
+  font-family: var(--ageaf-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ageaf-text-primary);
+}
+
+/* Warning state for high usage */
+.ageaf-context-ring--warning .ageaf-context-ring__progress {
+  stroke: var(--ageaf-warning);
+  filter: drop-shadow(0 0 4px rgba(255, 179, 87, 0.4));
+}
+
+.ageaf-context-ring--warning .ageaf-context-ring__percentage {
+  color: var(--ageaf-warning);
+  text-shadow: 0 0 8px rgba(255, 179, 87, 0.4);
+}
+
+/* Critical state for very high usage */
+.ageaf-context-ring--critical .ageaf-context-ring__progress {
+  stroke: var(--ageaf-error);
+  filter: drop-shadow(0 0 4px rgba(255, 107, 107, 0.4));
+}
+
+.ageaf-context-ring--critical .ageaf-context-ring__percentage {
+  color: var(--ageaf-error);
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+
+/* YOLO Toggle Switch (Compact) */
+.ageaf-yolo-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ageaf-yolo-toggle__label {
+  font-family: var(--ageaf-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ageaf-text-primary);
+}
+
+.ageaf-yolo-toggle__switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--ageaf-border);
+  border-radius: var(--ageaf-radius-full);
+  cursor: pointer;
+  transition: all var(--ageaf-transition-base);
+  border: 1.5px solid transparent;
+  flex: 0 0 auto;
+}
+
+.ageaf-yolo-toggle__switch::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: var(--ageaf-text-primary);
+  border-radius: 50%;
+  transition: all var(--ageaf-transition-base);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ageaf-yolo-toggle__switch:hover {
+  border-color: var(--ageaf-emerald-soft);
+}
+
+/* Active state */
+.ageaf-yolo-toggle__switch.is-active {
+  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
+  border-color: var(--ageaf-emerald);
+  box-shadow: 0 0 0 2px var(--ageaf-emerald-soft);
+}
+
+.ageaf-yolo-toggle__switch.is-active::before {
+  left: calc(100% - 20px);
+  background: var(--ageaf-black);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACTIONS ROW (Row 2: Session tabs + Action buttons)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ageaf-space-md);
+  padding: var(--ageaf-space-sm) var(--ageaf-space-lg);
+}
+
+.ageaf-sessions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ageaf-sessions::-webkit-scrollbar {
+  display: none;
+}
+
+.ageaf-session-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--ageaf-slate);
+  border: 1.5px solid var(--ageaf-border);
+  border-radius: 50%;
+  font-family: var(--ageaf-font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ageaf-text-secondary);
+  cursor: pointer;
+  transition: all var(--ageaf-transition-base);
+  flex-shrink: 0;
+}
+
+.ageaf-session-tab:hover {
+  border-color: var(--ageaf-emerald);
+  background: var(--ageaf-surface);
+  color: var(--ageaf-emerald-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(57, 185, 138, 0.2);
+}
+
+.ageaf-session-tab.is-active {
+  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
+  border-color: var(--ageaf-emerald);
+  color: var(--ageaf-black);
+  box-shadow:
+    0 0 0 3px var(--ageaf-emerald-soft),
+    0 4px 12px rgba(57, 185, 138, 0.3);
+}
+
+.ageaf-session-tab.is-active:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* Close button on hover */
+.ageaf-session-tab__close {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: var(--ageaf-error);
+  border: 2px solid var(--ageaf-black);
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--ageaf-transition-fast);
+}
+
+.ageaf-session-tab:hover .ageaf-session-tab__close {
+  display: flex;
+}
+
+.ageaf-session-tab__close:hover {
+  transform: scale(1.2);
+  background: #ff4d4d;
+}
+
+.ageaf-session-tab__close::before,
+.ageaf-session-tab__close::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 1.5px;
+  background: white;
+}
+
+.ageaf-session-tab__close::before {
+  transform: rotate(45deg);
+}
+
+.ageaf-session-tab__close::after {
+  transform: rotate(-45deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOLBAR ACTIONS (Part of Row 2)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ageaf-toolbar-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--ageaf-slate);
+  border: 1.5px solid var(--ageaf-border);
+  border-radius: var(--ageaf-radius-lg);
+  color: var(--ageaf-text-secondary);
+  cursor: pointer;
+  transition: all var(--ageaf-transition-base);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ageaf-toolbar-action::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--ageaf-emerald);
+  opacity: 0;
+  transition: opacity var(--ageaf-transition-fast);
+}
+
+.ageaf-toolbar-action:hover::before {
+  opacity: 0.1;
+}
+
+.ageaf-toolbar-action:hover {
+  border-color: var(--ageaf-emerald);
+  color: var(--ageaf-emerald-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(57, 185, 138, 0.2);
+}
+
+.ageaf-toolbar-action:active {
+  transform: translateY(0);
+}
+
+.ageaf-toolbar-action__icon {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge for file count, etc. (Compact) */
+.ageaf-toolbar-action__badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  background: var(--ageaf-emerald);
+  border: 1.5px solid var(--ageaf-black);
+  border-radius: var(--ageaf-radius-full);
+  font-family: var(--ageaf-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ageaf-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Tooltip on hover */
+.ageaf-toolbar-action__tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: var(--ageaf-charcoal);
+  border: 1px solid var(--ageaf-emerald);
+  border-radius: var(--ageaf-radius-md);
+  font-family: var(--ageaf-font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ageaf-text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--ageaf-transition-fast);
+  z-index: 100;
+  box-shadow: var(--ageaf-shadow-md);
+}
+
+.ageaf-toolbar-action__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--ageaf-emerald);
+}
+
+.ageaf-toolbar-action:hover .ageaf-toolbar-action__tooltip {
+  opacity: 1;
+}
+
+/* Destructive action (clear, close) */
+.ageaf-toolbar-action--destructive:hover {
+  border-color: var(--ageaf-error);
+  color: var(--ageaf-error);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+.ageaf-toolbar-action--destructive::before {
+  background: var(--ageaf-error);
+}
+
+/* Primary action (new chat) */
+.ageaf-toolbar-action--primary {
+  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
+  border-color: var(--ageaf-emerald);
+  color: var(--ageaf-black);
+}
+
+.ageaf-toolbar-action--primary::before {
+  background: white;
+  opacity: 0;
+}
+
+.ageaf-toolbar-action--primary:hover::before {
+  opacity: 0.15;
+}
+
+.ageaf-toolbar-action--primary:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 0 0 3px var(--ageaf-emerald-soft),
+    0 4px 16px rgba(57, 185, 138, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .ageaf-control-bar {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+
+  .ageaf-selector {
+    font-size: 12px;
+    padding: 6px 12px;
+    height: 32px;
+  }
+
+  .ageaf-context-ring__circle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ageaf-yolo-toggle__switch {
+    width: 42px;
+    height: 24px;
+  }
+
+  .ageaf-actions-row {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+
+  .ageaf-session-tab,
+  .ageaf-toolbar-action {
+    width: 34px;
+    height: 34px;
+  }
+
+  .ageaf-toolbar-action__icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes ageaf-context-pulse {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 4px var(--ageaf-emerald-glow));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 8px var(--ageaf-emerald-glow));
+  }
+}
+
+.ageaf-context-ring__progress {
+  animation: ageaf-context-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ageaf-badge-pop {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.ageaf-toolbar-action__badge {
+  animation: ageaf-badge-pop 0.3s var(--ageaf-ease-out);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERLEAF-INTEGRATED THEME
+   Keeps the assistant visually quiet beside Overleaf instead of using the full neon
+   brand treatment. These rules are intentionally last in the cascade.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-panel {
+  --ageaf-font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --ageaf-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --ageaf-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.ageaf-panel.light {
+  --ageaf-black: #ffffff;
+  --ageaf-charcoal: #f7f8fa;
+  --ageaf-slate: #edf1f5;
+  --ageaf-surface: #ffffff;
+  --ageaf-border: #d6dee6;
+  --ageaf-emerald: #138a43;
+  --ageaf-emerald-light: #1fa45a;
+  --ageaf-emerald-dark: #0f6f36;
+  --ageaf-emerald-soft: rgba(19, 138, 67, 0.1);
+  --ageaf-emerald-glow: rgba(19, 138, 67, 0.16);
+  --ageaf-text-primary: #25313b;
+  --ageaf-text-secondary: #4a5864;
+  --ageaf-text-muted: #6b7785;
+  --ageaf-text-dim: #8b97a3;
+  --ageaf-panel-bg: #f7f8fa;
+  --ageaf-panel-surface: #ffffff;
+  --ageaf-panel-border: #d6dee6;
+  --ageaf-panel-accent: #138a43;
+  --ageaf-panel-accent-soft: rgba(19, 138, 67, 0.1);
+  --ageaf-panel-text: #25313b;
+  --ageaf-panel-muted: #5f6d78;
+  --ageaf-panel-status: #996c00;
+  --ageaf-panel-shadow: -1px 0 0 #cfd7df, 0 10px 24px rgba(32, 45, 56, 0.12);
+  --ageaf-divider-line: rgba(68, 84, 98, 0.35);
+  --ageaf-divider-hover-bg: rgba(68, 84, 98, 0.08);
+  --ageaf-divider-active-bg: rgba(68, 84, 98, 0.14);
+}
+
+.ageaf-panel:not(.light) {
+  --ageaf-charcoal: #17212b;
+  --ageaf-slate: #202b36;
+  --ageaf-surface: #253240;
+  --ageaf-border: #3a4857;
+  --ageaf-emerald: #2da44e;
+  --ageaf-emerald-dark: #238636;
+  --ageaf-emerald-soft: rgba(45, 164, 78, 0.14);
+  --ageaf-text-primary: #f0f3f6;
+  --ageaf-text-secondary: #d7dee6;
+  --ageaf-text-muted: #aab6c2;
+  --ageaf-panel-shadow: -1px 0 0 rgba(255, 255, 255, 0.08), 0 14px 32px rgba(0, 0, 0, 0.24);
+}
+
+.ageaf-panel,
+.ageaf-panel.light {
+  background: var(--ageaf-panel-bg);
+  background-image: none;
+}
+
+.ageaf-panel::before {
+  display: none;
+}
+
+.ageaf-panel__inner {
+  background: var(--ageaf-panel-bg);
+}
+
+.ageaf-panel__header {
+  background: #17212b;
+  border-bottom: 1px solid #2f3b48;
+  box-shadow: none;
+  min-height: 58px;
+}
+
+.ageaf-panel__name {
+  color: #f4f7fa;
+  font-family: var(--ageaf-font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.ageaf-panel__intro {
+  color: #b9c4cf;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ageaf-panel__header .ageaf-panel__theme-toggle,
+.ageaf-panel__header .ageaf-panel__help,
+.ageaf-panel__header .ageaf-provider {
+  background: #1f2b37;
+  border-color: #3a4857;
+  color: #dbe3ea;
+}
+
+.ageaf-panel__header .ageaf-provider__label {
+  color: #dbe3ea;
+}
+
+.ageaf-panel__header .ageaf-panel__theme-toggle:hover,
+.ageaf-panel__header .ageaf-panel__help:hover {
+  background: #263545;
+  border-color: #4c5d6f;
+  color: #ffffff;
+}
+
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help,
+.ageaf-provider,
+.ageaf-runtime__button,
+.ageaf-runtime__yolo,
+.ageaf-toolbar-action,
+.ageaf-session-tab,
+.ageaf-panel__editor,
+.ageaf-panel__input {
+  border-radius: 6px;
+}
+
+.ageaf-panel__input {
+  background: var(--ageaf-panel-surface);
+  border-top: 1px solid var(--ageaf-panel-border);
+  box-shadow: 0 -1px 0 rgba(32, 45, 56, 0.06);
+}
+
+.ageaf-runtime {
+  background: #2f3b48;
+  border-bottom: 1px solid #243140;
+  margin: 0 -4px 0 -6px;
+  padding: 8px 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ageaf-runtime__button,
+.ageaf-runtime__yolo {
+  background: #f7f8fa;
+  border-color: #cfd7df;
+  color: #25313b;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.ageaf-runtime__button:hover,
+.ageaf-runtime__yolo:hover {
+  background: #ffffff;
+  border-color: #9fb0bf;
+}
+
+.ageaf-panel:not(.light) .ageaf-runtime__button,
+.ageaf-panel:not(.light) .ageaf-runtime__yolo {
+  background: #1f2b37;
+  border-color: #47586a;
+  color: #eef3f8;
+}
+
+.ageaf-panel__toolbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  background: #edf1f5;
+  border: 1px solid #d6dee6;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+  background: #202b36;
+  border-color: #3a4857;
+}
+
+.ageaf-session-tabs,
+.ageaf-toolbar-actions {
+  min-width: 0;
+}
+
+.ageaf-toolbar-actions {
+  justify-content: space-between;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  background: #ffffff;
+  border-color: #d6dee6;
+  color: #43515e;
+  box-shadow: 0 1px 1px rgba(32, 45, 56, 0.04);
+}
+
+.ageaf-panel:not(.light) .ageaf-toolbar-button,
+.ageaf-panel:not(.light) .ageaf-session-tab {
+  background: #17212b;
+  border-color: #3a4857;
+  color: #dbe3ea;
+}
+
+.ageaf-panel__editor {
+  background: var(--ageaf-panel-surface);
+  border-color: var(--ageaf-panel-border);
+  color: var(--ageaf-panel-text);
+  box-shadow: inset 0 1px 2px rgba(32, 45, 56, 0.06);
+}
+
+.ageaf-message--assistant,
+.ageaf-patch-review,
+.ageaf-file-summary,
+.ageaf-cot-item,
+.ageaf-runtime__menu,
+.ageaf-toolbar-menu__list {
+  background: var(--ageaf-panel-surface);
+  border-color: var(--ageaf-panel-border);
+  color: var(--ageaf-panel-text);
+}
+
+.ageaf-message--user {
+  background: var(--ageaf-panel-accent-soft);
+  border-color: rgba(19, 138, 67, 0.22);
+  color: var(--ageaf-panel-text);
+}
+
+.ageaf-panel__theme-toggle:hover,
+.ageaf-panel__help:hover,
+.ageaf-runtime__button:hover,
+.ageaf-toolbar-action:hover,
+.ageaf-session-tab:hover {
+  background: var(--ageaf-panel-accent-soft);
+  border-color: rgba(19, 138, 67, 0.28);
+  color: var(--ageaf-panel-accent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERLEAF-ALIGNED COMPOSER REFINEMENT
+   Mirrors Overleaf's dark menu strip + grey toolbar hierarchy and keeps skills
+   behind one explicit control instead of showing every skill inline.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-panel__input {
+  padding: 0;
+  background: #f5f6f7;
+}
+
+.ageaf-runtime {
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-height: 46px;
+  margin: 0;
+  padding: 7px 10px;
+  background: #2d3a48;
+  border-top: 1px solid #1e2a36;
+  border-bottom: 1px solid #1e2a36;
+}
+
+.ageaf-runtime__refresh {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: #c7d1dc;
+  border-color: #48596a;
+}
+
+.ageaf-runtime__picker {
+  max-width: 34%;
+}
+
+.ageaf-runtime__button,
+.ageaf-runtime__yolo {
+  height: 30px;
+  border-radius: 4px;
+  background: #f7f8fa;
+  border-color: #c6d0da;
+  color: #22303c;
+}
+
+.ageaf-runtime__label {
+  color: #667482;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ageaf-runtime__value {
+  color: #22303c;
+  font-weight: 600;
+}
+
+.ageaf-runtime__usage {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: #c7d1dc;
+}
+
+.ageaf-runtime__ring {
+  width: 24px;
+  height: 24px;
+}
+
+.ageaf-runtime__yolo {
+  flex-basis: 82px;
+  min-width: 82px;
+  max-width: 82px;
+}
+
+.ageaf-panel__toolbar {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #eef1f4;
+}
+
+.ageaf-toolbar-strip {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 7px 10px;
+  border-bottom: 1px solid #d4dce4;
+}
+
+.ageaf-session-tabs {
+  gap: 5px;
+  padding: 0;
+}
+
+.ageaf-session-tab {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-color: #c8d2dc;
+  color: #2e3b47;
+  box-shadow: none;
+}
+
+.ageaf-session-tab.is-active {
+  background: #ffffff;
+  border-color: #9cc7ad;
+  color: #13251a;
+  box-shadow: inset 3px 0 0 #138a43;
+}
+
+.ageaf-toolbar-actions {
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0;
+}
+
+.ageaf-toolbar-actions::-webkit-scrollbar,
+.ageaf-session-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.ageaf-toolbar-button {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-color: #c8d2dc;
+  color: #344450;
+  box-shadow: none;
+}
+
+.ageaf-toolbar-button--text {
+  width: auto;
+  min-width: 64px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.ageaf-toolbar-button:hover:not(:disabled),
+.ageaf-toolbar-button:focus-visible:not(:disabled),
+.ageaf-session-tab:hover:not(:disabled),
+.ageaf-session-tab:focus-visible:not(:disabled) {
+  background: #e4ebe7;
+  border-color: #95b9a3;
+  color: #0f6f36;
+}
+
+.ageaf-toolbar-menu__list,
+.ageaf-runtime__menu,
+.ageaf-runtime__group-models {
+  background: #ffffff;
+  border-color: #c8d2dc;
+  color: #25313b;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px rgba(32, 45, 56, 0.18);
+}
+
+.ageaf-toolbar-menu__option,
+.ageaf-runtime__option {
+  color: #25313b;
+  border-radius: 3px;
+}
+
+.ageaf-toolbar-menu__option:hover:not(:disabled),
+.ageaf-runtime__option:hover,
+.ageaf-runtime__option.is-selected {
+  background: #e8f2ec;
+  border-color: #b7d4c2;
+  color: #0f6f36;
+}
+
+.ageaf-skill-menu__list {
+  width: min(360px, calc(100vw - 32px));
+  max-height: 360px;
+  overflow: auto;
+  padding: 6px;
+}
+
+.ageaf-skill-menu__option {
+  display: grid;
+  gap: 3px;
+  padding: 8px 10px;
+}
+
+.ageaf-skill-menu__name {
+  font-family: var(--ageaf-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ageaf-skill-menu__description {
+  color: #5f6d78;
+  font-size: 12px;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.ageaf-skill-menu__manage {
+  margin-top: 4px;
+  border-top: 1px solid #d6dee6;
+  color: #0f6f36;
+  font-weight: 700;
+}
+
+.ageaf-panel__editor {
+  margin: 10px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-color: #cfd7df;
+  min-height: 86px;
+}
+
+.ageaf-panel:not(.light) .ageaf-panel__input,
+.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+  background: #202b36;
+}
+
+.ageaf-panel:not(.light) .ageaf-toolbar-strip {
+  border-bottom-color: #394858;
+}
+
+.ageaf-panel:not(.light) .ageaf-toolbar-button,
+.ageaf-panel:not(.light) .ageaf-session-tab,
+.ageaf-panel:not(.light) .ageaf-panel__editor,
+.ageaf-panel:not(.light) .ageaf-toolbar-menu__list,
+.ageaf-panel:not(.light) .ageaf-runtime__menu,
+.ageaf-panel:not(.light) .ageaf-runtime__group-models {
+  background: #17212b;
+  border-color: #435466;
+  color: #dbe3ea;
+}
+
+.ageaf-panel:not(.light) .ageaf-toolbar-menu__option,
+.ageaf-panel:not(.light) .ageaf-runtime__option {
+  color: #dbe3ea;
+}
+
+.ageaf-panel:not(.light) .ageaf-skill-menu__description {
+  color: #aab6c2;
+}
+
+.ageaf-settings__skill-actions {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.ageaf-settings__skill-list {
+  display: grid;
+  gap: 6px;
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid var(--ageaf-panel-border);
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ageaf-settings__skill-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 143, 158, 0.22);
+}
+
+.ageaf-settings__skill-check {
+  margin-top: 0;
+}
+
+.ageaf-settings__skill-check span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ageaf-settings__skill-check strong {
+  font-family: var(--ageaf-font-mono);
+  font-size: 12px;
+}
+
+.ageaf-settings__skill-check small {
+  color: var(--ageaf-panel-muted);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.ageaf-settings__skill-source {
+  border: 1px solid var(--ageaf-panel-border);
+  border-radius: 999px;
+  padding: 2px 7px;
+  color: var(--ageaf-panel-muted);
+  font-size: 11px;
+}
+
+.ageaf-settings__skill-remove {
+  border: 1px solid var(--ageaf-panel-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ageaf-panel-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.ageaf-settings__skill-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .ageaf-toolbar-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .ageaf-toolbar-actions {
+    justify-content: flex-start;
+  }
+
+  .ageaf-runtime {
+    flex-wrap: wrap;
+  }
+
+  .ageaf-settings__skill-row,
+  .ageaf-settings__skill-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   OVERLEAF HARD ALIGNMENT PASS
+   Final cascade layer: remove standalone-app spacing and match Overleaf's
+   project editor density (top navbar + secondary toolbar + flat panes).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ageaf-panel,
+.ageaf-panel.light,
+.ageaf-panel:not(.light) {
+  --ageaf-overleaf-top: #111b26;
+  --ageaf-overleaf-subbar: #2d3a48;
+  --ageaf-overleaf-subbar-border: #1f2a35;
+  --ageaf-overleaf-pane: #f3f5f7;
+  --ageaf-overleaf-border: #cfd8e1;
+  --ageaf-overleaf-button: #f8fafb;
+  --ageaf-overleaf-text: #25313b;
+  --ageaf-overleaf-muted: #63717d;
+  --ageaf-overleaf-green: #138a43;
+  background: var(--ageaf-overleaf-pane) !important;
+  background-image: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
+}
+
+.ageaf-panel__inner {
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  background: var(--ageaf-overleaf-pane) !important;
+}
+
+.ageaf-panel__header {
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) auto !important;
+  grid-template-rows: 40px 40px !important;
+  grid-template-areas:
+    "logo title actions"
+    "tips tips tips" !important;
+  align-items: center !important;
+  gap: 0 !important;
+  min-height: 80px !important;
+  height: 80px !important;
+  padding: 0 !important;
+  background: var(--ageaf-overleaf-top) !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.ageaf-panel__logo {
+  grid-area: logo !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 0 0 8px !important;
+  opacity: 0.74 !important;
+  filter: none !important;
+}
+
+.ageaf-panel__title {
+  grid-area: title !important;
+  min-width: 0 !important;
+  padding-left: 6px !important;
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 8px !important;
+}
+
+.ageaf-panel__name {
+  color: #f4f7fa !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 40px !important;
+  letter-spacing: 0 !important;
+  opacity: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.ageaf-panel__intro {
+  color: #b8c2cc !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  line-height: 40px !important;
+  opacity: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.ageaf-panel__header-actions {
+  grid-area: actions !important;
+  gap: 4px !important;
+  padding-right: 6px !important;
+}
+
+.ageaf-provider,
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  height: 28px !important;
+  border-radius: 3px !important;
+  background: #162331 !important;
+  border: 1px solid #6f8090 !important;
+  color: #e6edf3 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-provider {
+  padding: 0 8px !important;
+  min-width: 72px !important;
+}
+
+.ageaf-provider__label {
+  color: #e6edf3 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  width: 28px !important;
+  min-width: 28px !important;
+}
+
+.ageaf-tips {
+  grid-area: tips !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  background: var(--ageaf-overleaf-subbar) !important;
+  border-top: 1px solid var(--ageaf-overleaf-subbar-border) !important;
+  color: #e0a32b !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em !important;
+  animation: none !important;
+}
+
+.ageaf-panel__body {
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: var(--ageaf-overleaf-pane) !important;
+}
+
+.ageaf-panel__chat {
+  height: 100% !important;
+  padding: 10px 10px 12px !important;
+  background: var(--ageaf-overleaf-pane) !important;
+  scrollbar-color: #aab6c2 transparent !important;
+}
+
+.ageaf-message {
+  margin: 0 0 10px !important;
+  animation: none !important;
+}
+
+.ageaf-message--assistant,
+.ageaf-message--system,
+.ageaf-message--user {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-message__content {
+  max-width: none !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--ageaf-overleaf-border) !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: var(--ageaf-overleaf-text) !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+  letter-spacing: 0 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-message--user .ageaf-message__content {
+  border-color: #b7d4c2 !important;
+  background: #eef8f2 !important;
+}
+
+.ageaf-message__status,
+.ageaf-message__thinking,
+.ageaf-message__cot {
+  margin: 0 0 6px !important;
+  padding: 6px 9px !important;
+  border-radius: 4px !important;
+  border: 1px solid #b7d4c2 !important;
+  background: #eef8f2 !important;
+  color: #0f6f36 !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+}
+
+.ageaf-patch-review,
+.ageaf-file-summary {
+  margin: 0 0 10px !important;
+  border-radius: 4px !important;
+  border-color: var(--ageaf-overleaf-border) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.ageaf-generating {
+  margin: 6px 0 !important;
+  padding: 0 !important;
+  color: var(--ageaf-overleaf-muted) !important;
+}
+
+.ageaf-panel__scroll {
+  border-radius: 4px !important;
+  border: 1px solid var(--ageaf-overleaf-border) !important;
+  background: #ffffff !important;
+  color: var(--ageaf-overleaf-text) !important;
+  box-shadow: 0 2px 8px rgba(32, 45, 56, 0.15) !important;
+}
+
+.ageaf-runtime {
+  height: 40px !important;
+  min-height: 40px !important;
+  padding: 5px 8px !important;
+  background: var(--ageaf-overleaf-subbar) !important;
+  border-top: 1px solid var(--ageaf-overleaf-subbar-border) !important;
+  border-bottom: 1px solid var(--ageaf-overleaf-subbar-border) !important;
+  gap: 5px !important;
+  overflow: hidden !important;
+}
+
+.ageaf-runtime__refresh,
+.ageaf-runtime__button,
+.ageaf-runtime__yolo {
+  height: 28px !important;
+  border-radius: 4px !important;
+  border: 1px solid #647485 !important;
+  background: #f8fafb !important;
+  color: var(--ageaf-overleaf-text) !important;
+  box-shadow: none !important;
+}
+
+.ageaf-runtime__button {
+  padding: 0 8px !important;
+}
+
+.ageaf-runtime__refresh {
+  width: 28px !important;
+  min-width: 28px !important;
+}
+
+.ageaf-runtime__picker {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+.ageaf-runtime__picker:first-of-type {
+  flex-grow: 1.2 !important;
+}
+
+.ageaf-runtime__picker:nth-of-type(2) {
+  flex-grow: 1 !important;
+}
+
+.ageaf-runtime__value,
+.ageaf-runtime__value--accent,
+.ageaf-runtime__label {
+  color: var(--ageaf-overleaf-text) !important;
+  font-size: 12px !important;
+}
+
+.ageaf-runtime__label {
+  color: var(--ageaf-overleaf-muted) !important;
+}
+
+.ageaf-runtime__usage {
+  display: none !important;
+  color: #d7e0e8 !important;
+}
+
+.ageaf-runtime__yolo {
+  flex: 0 0 68px !important;
+  min-width: 68px !important;
+  max-width: 68px !important;
+  padding: 0 7px !important;
+}
+
+.ageaf-runtime__yolo-text {
+  width: auto !important;
+  font-size: 10px !important;
+}
+
+.ageaf-runtime__yolo-switch {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 14px !important;
+}
+
+.ageaf-runtime__yolo-thumb {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+  transform: translateX(10px) !important;
+}
+
+.ageaf-panel__input {
+  padding: 0 !important;
+  gap: 0 !important;
+  background: #f7f8fa !important;
+  border-top: 1px solid #d4dce4 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-toolbar-strip {
+  min-height: 38px !important;
+  height: 38px !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  padding: 4px 6px !important;
+  background: #eef1f4 !important;
+  border-top: 1px solid #d9e0e7 !important;
+  border-bottom: 1px solid #d4dce4 !important;
+}
+
+.ageaf-toolbar-actions {
+  gap: 3px !important;
+}
+
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px !important;
+  border-radius: 4px !important;
+  border: 1px solid #c6d0da !important;
+  background: transparent !important;
+  color: #344450 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-toolbar-button--text {
+  width: auto !important;
+  min-width: 50px !important;
+  padding: 0 7px !important;
+  background: #f8fafb !important;
+  font-size: 11px !important;
+}
+
+.ageaf-session-tab.is-active {
+  background: #ffffff !important;
+  border-color: #9cc7ad !important;
+  box-shadow: inset 3px 0 0 var(--ageaf-overleaf-green) !important;
+}
+
+.ageaf-toolbar-button:hover:not(:disabled),
+.ageaf-session-tab:hover:not(:disabled) {
+  background: #ffffff !important;
+  border-color: #95a6b7 !important;
+  color: #0f6f36 !important;
+}
+
+.ageaf-panel__editor {
+  min-height: 54px !important;
+  max-height: 150px !important;
+  margin: 6px !important;
+  padding: 8px 10px !important;
+  border-radius: 4px !important;
+  border: 1px solid #cfd8e1 !important;
+  background: #ffffff !important;
+  color: var(--ageaf-overleaf-text) !important;
+  box-shadow: none !important;
+  font-size: 13px !important;
+}
+
+.ageaf-panel__editor.is-empty::before {
+  color: #8b97a3 !important;
+  font-style: normal !important;
+}
+
+.ageaf-toolbar-menu__list,
+.ageaf-runtime__menu,
+.ageaf-runtime__group-models,
+.ageaf-skill,
+.ageaf-mention {
+  border-radius: 4px !important;
+  border: 1px solid #c6d0da !important;
+  background: #ffffff !important;
+  color: var(--ageaf-overleaf-text) !important;
+  box-shadow: 0 8px 20px rgba(32, 45, 56, 0.16) !important;
+}
+
+.ageaf-toolbar-menu__option,
+.ageaf-runtime__option,
+.ageaf-skill__option,
+.ageaf-mention__option {
+  border-radius: 3px !important;
+  color: var(--ageaf-overleaf-text) !important;
+}
+
+.ageaf-toolbar-menu__option:hover:not(:disabled),
+.ageaf-runtime__option:hover,
+.ageaf-skill__option.is-active,
+.ageaf-mention__option.is-active {
+  background: #e8f2ec !important;
+  border-color: #b7d4c2 !important;
+  color: #0f6f36 !important;
+}
+
+.ageaf-panel:not(.light) .ageaf-panel__input,
+.ageaf-panel:not(.light) .ageaf-panel__toolbar,
+.ageaf-panel:not(.light) .ageaf-toolbar-strip,
+.ageaf-panel:not(.light) .ageaf-panel__editor,
+.ageaf-panel:not(.light) .ageaf-message__content,
+.ageaf-panel:not(.light) .ageaf-patch-review,
+.ageaf-panel:not(.light) .ageaf-file-summary {
+  background: #f7f8fa !important;
+  color: var(--ageaf-overleaf-text) !important;
+}
+
+/* OVERLEAF STRICT ALIGNMENT PASS
+ * Treat the panel chrome as an Overleaf side pane, not as a separate app shell.
+ */
+.ageaf-panel {
+  --ageaf-overleaf-top-height: 40px;
+  --ageaf-overleaf-subbar-height: 40px;
+  --ageaf-overleaf-control-height: 28px;
+}
+
+.ageaf-panel__header {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: var(--ageaf-overleaf-top-height) var(--ageaf-overleaf-subbar-height) !important;
+  grid-template-areas:
+    "spacer actions"
+    "tips tips" !important;
+  min-height: calc(var(--ageaf-overleaf-top-height) + var(--ageaf-overleaf-subbar-height)) !important;
+  height: calc(var(--ageaf-overleaf-top-height) + var(--ageaf-overleaf-subbar-height)) !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border: 0 !important;
+  border-left: 1px solid #2f3a46 !important;
+  border-bottom: 0 !important;
+  background: var(--ageaf-overleaf-top) !important;
+  box-shadow: none !important;
+}
+
+.ageaf-panel__logo,
+.ageaf-panel__title {
+  display: none !important;
+}
+
+.ageaf-panel__header::before {
+  content: "";
+  grid-area: spacer;
+  align-self: stretch;
+  min-width: 0;
+  background: var(--ageaf-overleaf-top);
+}
+
+.ageaf-panel__header-actions {
+  grid-area: actions !important;
+  align-self: stretch !important;
+  height: var(--ageaf-overleaf-top-height) !important;
+  padding: 0 6px 0 0 !important;
+  gap: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  background: var(--ageaf-overleaf-top) !important;
+}
+
+.ageaf-provider,
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  height: var(--ageaf-overleaf-control-height) !important;
+  min-height: var(--ageaf-overleaf-control-height) !important;
+  border-radius: 4px !important;
+  border: 1px solid #718195 !important;
+  background: transparent !important;
+  color: #eef3f7 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-provider {
+  min-width: 84px !important;
+  padding: 0 10px !important;
+}
+
+.ageaf-provider__label {
+  font-size: 13px !important;
+  line-height: 1 !important;
+  color: #eef3f7 !important;
+}
+
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  width: 32px !important;
+  min-width: 32px !important;
+  padding: 0 !important;
+}
+
+.ageaf-tips {
+  grid-area: tips !important;
+  height: var(--ageaf-overleaf-subbar-height) !important;
+  min-height: var(--ageaf-overleaf-subbar-height) !important;
+  padding: 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  border: 0 !important;
+  border-top: 1px solid #17212b !important;
+  border-bottom: 1px solid #314254 !important;
+  background: var(--ageaf-overleaf-subbar) !important;
+  color: #e3a12b !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-panel__messages {
+  padding-top: 10px !important;
+}
+
+.ageaf-runtime {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 3px 6px !important;
+  gap: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  background: var(--ageaf-overleaf-subbar) !important;
+  border-top: 1px solid #314254 !important;
+  border-bottom: 1px solid #17212b !important;
+}
+
+.ageaf-runtime__refresh,
+.ageaf-runtime__button,
+.ageaf-runtime__yolo {
+  height: 26px !important;
+  min-height: 26px !important;
+  border-radius: 4px !important;
+  border: 1px solid #708092 !important;
+  background: #f8fafb !important;
+  color: var(--ageaf-overleaf-text) !important;
+  box-shadow: none !important;
+}
+
+.ageaf-runtime__refresh {
+  flex: 0 0 26px !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  padding: 0 !important;
+}
+
+.ageaf-runtime__picker {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+.ageaf-runtime__picker:first-of-type {
+  flex-grow: 1.15 !important;
+}
+
+.ageaf-runtime__picker:nth-of-type(2) {
+  flex-grow: 0.9 !important;
+}
+
+.ageaf-runtime__button {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 0 8px !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+.ageaf-runtime__value,
+.ageaf-runtime__value--accent {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  color: var(--ageaf-overleaf-text) !important;
+}
+
+.ageaf-runtime__label,
+.ageaf-runtime__usage {
+  display: none !important;
+}
+
+.ageaf-runtime__yolo {
+  flex: 0 0 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  padding: 0 5px !important;
+  gap: 4px !important;
+}
+
+.ageaf-runtime__yolo-text {
+  width: 8px !important;
+  min-width: 8px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.ageaf-runtime__yolo-switch {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 13px !important;
+}
+
+.ageaf-runtime__yolo-thumb {
+  width: 9px !important;
+  height: 9px !important;
+}
+
+.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+  transform: translateX(9px) !important;
+}
+
+.ageaf-toolbar-strip {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 4px 6px !important;
+  gap: 5px !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  background: #eef2f5 !important;
+  border-top: 1px solid #d4dde6 !important;
+  border-bottom: 1px solid #d4dde6 !important;
+}
+
+.ageaf-session-stack,
+.ageaf-toolbar-actions {
+  height: 26px !important;
+  min-height: 26px !important;
+}
+
+.ageaf-toolbar-actions {
+  gap: 4px !important;
+  justify-content: flex-end !important;
+  overflow: hidden !important;
+}
+
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  padding: 0 !important;
+  border-radius: 4px !important;
+  border: 1px solid #c0cad5 !important;
+  background: #f8fafb !important;
+  color: #344450 !important;
+  box-shadow: none !important;
+}
+
+.ageaf-toolbar-button--text {
+  width: auto !important;
+  min-width: 54px !important;
+  padding: 0 8px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.ageaf-panel__editor {
+  min-height: 48px !important;
+  max-height: 120px !important;
+  margin: 6px !important;
+  padding: 8px 10px !important;
+  border-radius: 4px !important;
+  font-size: 13px !important;
+}
+
+/* OVERLEAF SOURCE-BASED ALIGNMENT
+ * Mirrors Overleaf editor constants:
+ * - toolbar-height: 40px
+ * - toolbar-small-height: 32px
+ * - top buttons are flat nav cells, not rounded app buttons
+ */
+.ageaf-panel,
+.ageaf-panel.light,
+.ageaf-panel:not(.light) {
+  --ageaf-ol-toolbar-height: 40px;
+  --ageaf-ol-toolbar-small-height: 32px;
+  --ageaf-ol-top-bg: #111b26;
+  --ageaf-ol-alt-bg: #2d3a48;
+  --ageaf-ol-divider: #314254;
+  --ageaf-ol-divider-dark: #1c2733;
+  --ageaf-ol-content-bg: #f3f5f7;
+  --ageaf-ol-control-fg: #f4f7fa;
+}
+
+.ageaf-panel__header {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: var(--ageaf-ol-toolbar-height) var(--ageaf-ol-toolbar-small-height) !important;
+  grid-template-areas:
+    "spacer actions"
+    "tips tips" !important;
+  min-height: calc(var(--ageaf-ol-toolbar-height) + var(--ageaf-ol-toolbar-small-height)) !important;
+  height: calc(var(--ageaf-ol-toolbar-height) + var(--ageaf-ol-toolbar-small-height)) !important;
+  border-left: 1px solid var(--ageaf-ol-divider) !important;
+  border-bottom: 0 !important;
+  background: var(--ageaf-ol-top-bg) !important;
+}
+
+.ageaf-panel__header::before {
+  background: var(--ageaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+  box-sizing: border-box !important;
+}
+
+.ageaf-panel__header-actions {
+  height: var(--ageaf-ol-toolbar-height) !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+  background: var(--ageaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+  box-sizing: border-box !important;
+}
+
+.ageaf-provider,
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  height: var(--ageaf-ol-toolbar-height) !important;
+  min-height: var(--ageaf-ol-toolbar-height) !important;
+  border: 0 !important;
+  border-left: 1px solid var(--ageaf-ol-divider) !important;
+  border-radius: 0 !important;
+  background: var(--ageaf-ol-top-bg) !important;
+  color: var(--ageaf-ol-control-fg) !important;
+  box-shadow: none !important;
+}
+
+.ageaf-provider {
+  min-width: 110px !important;
+  padding: 0 14px !important;
+  justify-content: center !important;
+  gap: 7px !important;
+}
+
+.ageaf-provider__dot {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.ageaf-provider__label {
+  color: var(--ageaf-ol-control-fg) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  line-height: var(--ageaf-ol-toolbar-height) !important;
+}
+
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  width: 40px !important;
+  min-width: 40px !important;
+}
+
+.ageaf-provider:hover,
+.ageaf-panel__theme-toggle:hover,
+.ageaf-panel__help:hover {
+  background: #1b2937 !important;
+}
+
+.ageaf-tips {
+  height: var(--ageaf-ol-toolbar-small-height) !important;
+  min-height: var(--ageaf-ol-toolbar-small-height) !important;
+  padding: 0 11px !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  background: var(--ageaf-ol-alt-bg) !important;
+  color: #e3a12b !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+}
+
+.ageaf-panel__body {
+  background: var(--ageaf-ol-content-bg) !important;
+}
+
+.ageaf-panel__messages {
+  padding-top: 8px !important;
+}
+
+.ageaf-panel__chat {
+  padding-top: 8px !important;
+}
+
+.ageaf-runtime {
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 3px 6px !important;
+}
+
+.ageaf-runtime__refresh,
+.ageaf-runtime__button,
+.ageaf-runtime__yolo,
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  height: 24px !important;
+  min-height: 24px !important;
+  border-radius: 3px !important;
+}
+
+.ageaf-runtime__refresh,
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  width: 24px !important;
+  min-width: 24px !important;
+}
+
+.ageaf-runtime__yolo {
+  flex-basis: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+}
+
+.ageaf-toolbar-strip {
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 4px 6px !important;
+}
+
+.ageaf-session-stack,
+.ageaf-toolbar-actions {
+  height: 24px !important;
+  min-height: 24px !important;
+}
+
+.ageaf-toolbar-button--text {
+  min-width: 52px !important;
+  height: 24px !important;
+  line-height: 22px !important;
+}
+
+.ageaf-panel__editor {
+  min-height: 44px !important;
+  margin: 6px !important;
+}
+
+/* OVERLEAF INTERACTION + TOKEN ALIGNMENT
+ * Source references:
+ * - bg-dark-primary / neutral-90: #1b222c
+ * - bg-dark-secondary / neutral-80 / border-divider-dark: #2f3a4c
+ * - border-radius-base: 4px
+ */
+.ageaf-panel,
+.ageaf-panel.light,
+.ageaf-panel:not(.light) {
+  --ageaf-ol-neutral-10: #f4f5f6;
+  --ageaf-ol-neutral-20: #e7e9ee;
+  --ageaf-ol-neutral-30: #d0d5dd;
+  --ageaf-ol-neutral-60: #677283;
+  --ageaf-ol-neutral-70: #495365;
+  --ageaf-ol-neutral-80: #2f3a4c;
+  --ageaf-ol-neutral-90: #1b222c;
+  --ageaf-ol-green-10: #eaf6ef;
+  --ageaf-ol-green-50: #098842;
+  --ageaf-ol-green-70: #195936;
+  --ageaf-ol-blue-30: #97b6e5;
+  --ageaf-ol-top-bg: var(--ageaf-ol-neutral-90);
+  --ageaf-ol-alt-bg: var(--ageaf-ol-neutral-80);
+  --ageaf-ol-divider: var(--ageaf-ol-neutral-80);
+  --ageaf-ol-divider-dark: var(--ageaf-ol-neutral-80);
+  --ageaf-ol-content-bg: var(--ageaf-ol-neutral-10);
+  --ageaf-ol-control-fg: #ffffff;
+  --ageaf-ol-muted-fg: var(--ageaf-ol-neutral-20);
+  --ageaf-ol-radius: 4px;
+  --ageaf-ol-hover-bg: rgba(125, 125, 125, 0.2);
+  --ageaf-ol-focus-ring: inset 0 0 0 2px var(--ageaf-ol-blue-30);
+}
+
+.ageaf-panel__header {
+  background: var(--ageaf-ol-top-bg) !important;
+  border-left-color: var(--ageaf-ol-divider) !important;
+}
+
+.ageaf-panel__header::before,
+.ageaf-panel__header-actions {
+  background: var(--ageaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+}
+
+.ageaf-provider,
+.ageaf-panel__theme-toggle,
+.ageaf-panel__help {
+  background: var(--ageaf-ol-top-bg) !important;
+  border-left-color: var(--ageaf-ol-divider) !important;
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+.ageaf-provider:hover,
+.ageaf-panel__theme-toggle:hover,
+.ageaf-panel__help:hover {
+  background: var(--ageaf-ol-neutral-70) !important;
+}
+
+.ageaf-provider:focus-visible,
+.ageaf-panel__theme-toggle:focus-visible,
+.ageaf-panel__help:focus-visible,
+.ageaf-runtime__button:focus-visible,
+.ageaf-runtime__refresh:focus-visible,
+.ageaf-runtime__yolo:focus-visible,
+.ageaf-toolbar-button:focus-visible,
+.ageaf-session-tab:focus-visible {
+  outline: none !important;
+  box-shadow: var(--ageaf-ol-focus-ring) !important;
+}
+
+.ageaf-provider__label {
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+.ageaf-tips {
+  background: var(--ageaf-ol-alt-bg) !important;
+  color: #de8014 !important;
+}
+
+.ageaf-panel__input,
+.ageaf-panel__toolbar,
+.ageaf-panel:not(.light) .ageaf-panel__input,
+.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+  overflow: visible !important;
+  background: var(--ageaf-ol-neutral-10) !important;
+  border-top: 1px solid var(--ageaf-ol-neutral-30) !important;
+}
+
+.ageaf-runtime {
+  overflow: visible !important;
+  background: var(--ageaf-ol-alt-bg) !important;
+  border-top: 1px solid var(--ageaf-ol-divider) !important;
+  border-bottom: 1px solid var(--ageaf-ol-divider) !important;
+  position: relative !important;
+  z-index: 30 !important;
+}
+
+.ageaf-runtime__picker,
+.ageaf-toolbar-menu,
+.ageaf-skill-menu {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+.ageaf-runtime__refresh,
+.ageaf-runtime__button,
+.ageaf-runtime__yolo {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--ageaf-ol-radius) !important;
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+.ageaf-runtime__refresh:hover,
+.ageaf-runtime__button:hover,
+.ageaf-runtime__yolo:hover {
+  background: var(--ageaf-ol-hover-bg) !important;
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+.ageaf-runtime__value,
+.ageaf-runtime__value--accent,
+.ageaf-runtime__yolo-text {
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+.ageaf-runtime__yolo-switch {
+  background: var(--ageaf-ol-neutral-60) !important;
+}
+
+.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-switch {
+  background: #b8dbc8 !important;
+}
+
+.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+  background: var(--ageaf-ol-green-50) !important;
+}
+
+.ageaf-toolbar-strip {
+  overflow: visible !important;
+  background: var(--ageaf-ol-neutral-10) !important;
+  border-top: 1px solid var(--ageaf-ol-neutral-20) !important;
+  border-bottom: 1px solid var(--ageaf-ol-neutral-30) !important;
+  position: relative !important;
+  z-index: 25 !important;
+}
+
+.ageaf-toolbar-actions,
+.ageaf-session-tabs,
+.ageaf-session-stack {
+  overflow: visible !important;
+}
+
+.ageaf-toolbar-button,
+.ageaf-session-tab {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--ageaf-ol-radius) !important;
+  color: var(--ageaf-ol-neutral-70) !important;
+  box-shadow: none !important;
+}
+
+.ageaf-toolbar-button:hover:not(:disabled),
+.ageaf-toolbar-button:focus-visible:not(:disabled),
+.ageaf-session-tab:hover:not(:disabled),
+.ageaf-session-tab:focus-visible:not(:disabled) {
+  background: var(--ageaf-ol-neutral-20) !important;
+  border-color: transparent !important;
+  color: var(--ageaf-ol-neutral-90) !important;
+}
+
+.ageaf-session-tab.is-active {
+  background: #ffffff !important;
+  border-color: var(--ageaf-ol-neutral-30) !important;
+  box-shadow: inset 3px 0 0 var(--ageaf-ol-green-50) !important;
+  color: var(--ageaf-ol-neutral-90) !important;
+}
+
+.ageaf-toolbar-button--text {
+  min-width: 56px !important;
+  padding: 0 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+}
+
+.ageaf-runtime__menu,
+.ageaf-runtime__group-models,
+.ageaf-toolbar-menu__list {
+  z-index: 2147483647 !important;
+  background: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--ageaf-ol-radius) !important;
+  color: var(--ageaf-ol-neutral-90) !important;
+  box-shadow: 0 4px 16px rgba(30, 37, 48, 0.16) !important;
+}
+
+.ageaf-runtime__menu {
+  bottom: calc(100% + 4px) !important;
+}
+
+.ageaf-toolbar-menu__list {
+  bottom: calc(100% + 4px) !important;
+}
+
+.ageaf-runtime__picker.is-open .ageaf-runtime__menu,
+.ageaf-runtime__menu:hover,
+.ageaf-skill-menu.is-open .ageaf-toolbar-menu__list {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+.ageaf-runtime__picker:not(.is-open) .ageaf-runtime__menu,
+.ageaf-skill-menu:not(.is-open) .ageaf-toolbar-menu__list {
+  opacity: 0 !important;
+  transform: translateY(6px) !important;
+  pointer-events: none !important;
+}
+
+.ageaf-skill-menu .ageaf-toolbar-menu__list {
+  right: 8px !important;
+  left: 8px !important;
+  bottom: calc(100% + 8px) !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: min(300px, calc(100vh - 260px)) !important;
+  overflow: auto !important;
+}
+
+.ageaf-skill-menu__option {
+  grid-template-columns: 1fr !important;
+  min-width: 0 !important;
+}
+
+.ageaf-skill-menu__description {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+.ageaf-runtime__menu {
+  max-width: min(280px, calc(100vw - 48px)) !important;
+  max-height: min(260px, calc(100vh - 280px)) !important;
+  overflow: auto !important;
+}
+
+.ageaf-runtime__option,
+.ageaf-toolbar-menu__option {
+  min-height: 32px !important;
+  padding: 6px 10px !important;
+  border: 0 !important;
+  border-radius: var(--ageaf-ol-radius) !important;
+  background: #ffffff !important;
+  color: var(--ageaf-ol-neutral-90) !important;
+}
+
+.ageaf-runtime__option:hover,
+.ageaf-toolbar-menu__option:hover:not(:disabled),
+.ageaf-runtime__option.is-selected {
+  background: var(--ageaf-ol-neutral-10) !important;
+  color: var(--ageaf-ol-neutral-90) !important;
+}
+
+.ageaf-runtime__option.is-selected .ageaf-runtime__option-title {
+  color: var(--ageaf-ol-green-70) !important;
+}
+
+.ageaf-skill-menu__description {
+  color: var(--ageaf-ol-neutral-70) !important;
+}
+
+.ageaf-skill-menu__manage {
+  border-top: 1px solid var(--ageaf-ol-neutral-20) !important;
+  color: var(--ageaf-ol-green-70) !important;
+}
+
+.ageaf-toolbar-button[data-tooltip]::after {
+  bottom: calc(100% + 4px) !important;
+  left: 50% !important;
+  transform: translate(-50%, 4px) !important;
+  z-index: 2147483647 !important;
+  border-radius: var(--ageaf-ol-radius) !important;
+  background: var(--ageaf-ol-neutral-90) !important;
+  border: 1px solid var(--ageaf-ol-neutral-80) !important;
+  color: var(--ageaf-ol-control-fg) !important;
+}
+
+/* Final compact-toolbar guardrails: the action row must stay usable at min width. */
+.ageaf-panel__toolbar {
+  position: relative !important;
+  z-index: 80 !important;
+}
+
+.ageaf-toolbar-strip {
+  grid-template-columns: minmax(0, 1fr) !important;
+  z-index: 80 !important;
+}
+
+.ageaf-toolbar-strip:has(.ageaf-session-tabs) {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+}
+
+.ageaf-runtime {
+  z-index: 20 !important;
+}
+
+.ageaf-toolbar-actions {
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-content: space-between !important;
+  gap: 3px !important;
+  overflow: visible !important;
+}
+
+.ageaf-toolbar-button:not(.ageaf-toolbar-button--text),
+.ageaf-panel__settings.ageaf-toolbar-button {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+}
+
+.ageaf-toolbar-button--text {
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  padding: 0 4px !important;
+}
+
+.ageaf-toolbar-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.ageaf-skill-menu .ageaf-toolbar-menu__list {
+  z-index: 2147483647 !important;
+}
+
+/* Session tabs live in the header, not in the bottom action toolbar. */
+.ageaf-panel__header {
+  position: relative !important;
+  z-index: 90 !important;
+}
+
+.ageaf-panel__header-sessions {
+  grid-area: spacer !important;
+  align-self: stretch !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  height: var(--ageaf-ol-toolbar-height) !important;
+  overflow-x: auto !important;
+  padding: 0 8px !important;
+  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+  background: var(--ageaf-ol-top-bg) !important;
+  scrollbar-width: none !important;
+}
+
+.ageaf-panel__header:has(.ageaf-panel__header-sessions)::before {
+  display: none !important;
+}
+
+.ageaf-panel__header-sessions::-webkit-scrollbar {
+  display: none !important;
+}
+
+.ageaf-panel__header-sessions .ageaf-session-tab {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  font-size: 12px !important;
+  background: transparent !important;
+}
+
+.ageaf-toolbar-strip {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.ageaf-toolbar-strip:has(.ageaf-session-tabs) {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.ageaf-skill-menu {
+  position: static !important;
+}
+
+.ageaf-toolbar-menu:not(.ageaf-skill-menu) {
+  position: relative !important;
+}
+
+.ageaf-toolbar-button {
+  color: var(--ageaf-ol-neutral-70) !important;
+}
+
+.ageaf-toolbar-button:hover:not(:disabled),
+.ageaf-toolbar-button:focus-visible:not(:disabled) {
+  color: var(--ageaf-ol-neutral-90) !important;
+}
+
+.ageaf-toolbar-button:hover::after,
+.ageaf-toolbar-button:focus-visible::after {
+  opacity: 1 !important;
+  transform: translate(-50%, 0) !important;
+}
+
+/* Final visual polish: hide the sidecar seam while keeping resize hit testing. */
+.ageaf-panel:not(.ageaf-panel--collapsed) {
+  box-shadow: none !important;
+}
+
+.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider::before {
+  background: transparent !important;
+  opacity: 0 !important;
+  mix-blend-mode: normal !important;
+  box-shadow: none !important;
+}
+
+.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider,
+.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:hover,
+.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:focus-within,
+.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:active {
+  background: transparent !important;
+}
+
+.ageaf-panel__theme-toggle {
+  width: 32px !important;
+  min-width: 32px !important;
+}
+
+.ageaf-panel__theme-toggle svg {
+  width: 17px !important;
+  height: 17px !important;
+}
