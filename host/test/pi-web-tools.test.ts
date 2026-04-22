@@ -91,7 +91,10 @@ test('stripHtml collapses whitespace', () => {
 
 // ── web_search tool tests ───────────────────────────────────────────
 
-test('web_search falls back to DuckDuckGo without API key (returns results)', async () => {
+test(
+  'web_search falls back to DuckDuckGo without API key (returns results)',
+  { skip: process.env.CI ? 'DuckDuckGo fallback depends on external network availability.' : false },
+  async () => {
   const saved = process.env.AGEAF_PI_WEB_SEARCH_API_KEY;
   delete process.env.AGEAF_PI_WEB_SEARCH_API_KEY;
 
@@ -111,7 +114,8 @@ test('web_search falls back to DuckDuckGo without API key (returns results)', as
       process.env.AGEAF_PI_WEB_SEARCH_API_KEY = saved;
     }
   }
-});
+  }
+);
 
 test('web_search tool has correct metadata', () => {
   const tool = createWebSearchTool();

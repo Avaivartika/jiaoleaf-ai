@@ -3,7 +3,10 @@ import test from 'node:test';
 
 import type { JobEvent } from '../src/types.js';
 
-test('Claude runtime reports not_configured when missing auth', async () => {
+test(
+  'Claude runtime reports not_configured when missing auth',
+  { skip: process.env.CI ? 'Requires local Claude CLI behavior that is not stable on GitHub Actions.' : false },
+  async () => {
   const previousApiKey = process.env.ANTHROPIC_API_KEY;
   const previousClaude = process.env.CLAUDE_CODE_AVAILABLE;
   const previousMock = process.env.AGEAF_CLAUDE_MOCK;
@@ -37,4 +40,5 @@ test('Claude runtime reports not_configured when missing auth', async () => {
     if (previousDetect === undefined) delete process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT;
     else process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = previousDetect;
   }
-});
+  }
+);
