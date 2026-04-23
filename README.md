@@ -11,7 +11,7 @@
 
 ## Overview
 
-JiaoLeaf AI is a Chrome extension plus local companion host that adds an AI side panel directly inside:
+JiaoLeaf AI is a Chrome extension that adds an AI side panel directly inside:
 
 - `https://latex.sjtu.edu.cn`
 - `https://latex-en.sjtu.edu.cn`
@@ -19,7 +19,7 @@ JiaoLeaf AI is a Chrome extension plus local companion host that adds an AI side
 
 It is designed for academic LaTeX workflows: rewriting selected text, fixing compile errors, reviewing papers, checking citations, keeping notation consistent, and applying proposed edits back into the editor.
 
-The extension UI is aligned with Overleaf's two-level toolbar layout and supports multiple AI runtimes through a local host process.
+The OpenAI path can run directly inside the browser extension with an API key. The local companion host is optional and only needed for advanced local runtime integrations, native file dialogs, or CLI-backed providers.
 
 ## Features
 
@@ -29,7 +29,8 @@ The extension UI is aligned with Overleaf's two-level toolbar layout and support
 - **Compile-error assistance**: reads LaTeX logs and proposes focused fixes.
 - **Academic skills**: built-in workflows for paper review, citation management, venue compliance, literature review, statistics, and data visualization.
 - **Skill settings**: enable built-in skills or add your own custom skill instructions from the settings panel.
-- **Multiple runtimes**: supports Anthropic Claude, OpenAI Codex, and BYOK-compatible providers through the companion host.
+- **Browser-direct OpenAI**: basic chat, LaTeX help, and skills can run without `npm`, `host/`, or Codex CLI.
+- **Optional local runtimes**: supports Anthropic Claude and BYOK-compatible providers through the companion host when you explicitly need them.
 - **Theme-aware UI**: follows Overleaf-style light/dark chrome and compact toolbar spacing.
 
 ## Installation (Single Package)
@@ -50,15 +51,10 @@ Both now contain one unified package:
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
 5. Select the unzipped package root folder (the folder that directly contains `manifest.json`).
-6. Start the local host in a terminal:
+6. Open an Overleaf project on SJTU Overleaf or official Overleaf.
+7. In JiaoLeaf AI settings, open **Tools**, keep **Browser direct mode** enabled, and enter your OpenAI API key.
 
-```bash
-cd <unzipped-folder>/host
-npm install
-npm run dev
-```
-
-Then open an Overleaf project on SJTU Overleaf or official Overleaf.
+No terminal is required for the browser-direct OpenAI path. The `host/` folder is included for optional advanced local runtimes only.
 
 ## Build From Source
 
@@ -87,7 +83,7 @@ For development with automatic rebuilds:
 npm run watch
 ```
 
-In a separate terminal, start the host:
+For optional local runtime development, start the host in a separate terminal:
 
 ```bash
 cd host
@@ -102,7 +98,7 @@ Run:
 ```bash
 npm run build
 npm run sync:source-installable
-zip -r release/jiaoleaf-ai-v0.1.0.zip manifest.json extension host README.md LICENSE docs/native-messaging.md -x 'host/node_modules/*' 'host/dist/*' 'host/.env' 'host/.env.*'
+npm run pack
 ```
 
 This writes a single install bundle to:
@@ -111,7 +107,7 @@ This writes a single install bundle to:
 release/jiaoleaf-ai-v0.1.0.zip
 ```
 
-This bundle includes extension + host together.
+This bundle includes extension + host together. After unzip, load the extracted package root in Chrome.
 
 Release tags create GitHub Releases automatically. Maintainers publish a new installable asset with:
 
@@ -142,9 +138,9 @@ System Settings -> Privacy & Security
 
 Allow the blocked host item once, then retry from the extension settings panel.
 
-### OpenAI Codex
+### OpenAI
 
-Uses the local host to talk to the Codex runtime. Configure OpenAI/Codex access in the settings panel and select **OpenAI** in the provider menu.
+Uses browser-direct OpenAI by default. Configure the API key in **Settings -> Tools**, keep **Browser direct mode** enabled, and select **OpenAI** in the provider menu. This path does not require `host/`, `npm`, or Codex CLI.
 
 ### Anthropic Claude
 
@@ -191,7 +187,7 @@ Static extension assets are also exposed to the corresponding site origins.
 | `npm install` | Install extension dependencies |
 | `npm run build` | Build production extension into `build/` |
 | `npm run watch` | Rebuild extension during development |
-| `npm run pack` | Zip current `build/` into `release/` |
+| `npm run pack` | Build, sync, and zip a single install bundle into `release/` |
 | `npm run repack` | Build and then zip |
 | `npm test` | Run extension tests |
 | `cd host && npm install` | Install host dependencies |

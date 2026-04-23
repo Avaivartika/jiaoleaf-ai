@@ -7,6 +7,21 @@ const extensionDir = path.join(repoRoot, 'extension');
 const rootManifestPath = path.join(repoRoot, 'manifest.json');
 const buildManifestPath = path.join(buildDir, 'manifest.json');
 
+function removeDuplicateCopyArtifacts(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir)) {
+    const fullPath = path.join(dir, entry);
+    const stat = fs.statSync(fullPath);
+    if (stat.isDirectory()) {
+      removeDuplicateCopyArtifacts(fullPath);
+      continue;
+    }
+    if (/\s\d+(\.[^/\\]+)?$/.test(entry) || /\s\d+\./.test(entry)) {
+      fs.rmSync(fullPath, { force: true });
+    }
+  }
+}
+
 function mapObjectValues(obj, mapper) {
   if (!obj || typeof obj !== 'object') return obj;
   const out = {};
@@ -68,6 +83,7 @@ if (!fs.existsSync(buildManifestPath)) {
 
 fs.rmSync(extensionDir, { recursive: true, force: true });
 fs.cpSync(buildDir, extensionDir, { recursive: true });
+removeDuplicateCopyArtifacts(extensionDir);
 
 const buildManifest = JSON.parse(fs.readFileSync(buildManifestPath, 'utf8'));
 const rootManifest = rewriteForRepoRoot(buildManifest);

@@ -1,4 +1,5 @@
 import type { Options } from '../../types';
+import { browserOpenAITransport } from './browserOpenAITransport';
 import { httpTransport } from './httpTransport';
 import { nativeTransport } from './nativeTransport';
 import type {
@@ -93,13 +94,13 @@ function isMissingNativeHostError(error: unknown): boolean {
 export function createTransport(options: Options): Transport {
   const kind = options.transport === 'native' ? 'native' : 'http';
   if (kind === 'http') {
-    return httpTransport(options) as Transport;
+    return browserOpenAITransport(options, httpTransport(options) as Transport);
   }
 
   const native = nativeTransport(options) as unknown as Record<string, unknown>;
   const http = httpTransport(options) as unknown as Record<string, unknown>;
 
-  return new Proxy(native, {
+  const transport = new Proxy(native, {
     get(target, prop, receiver) {
       const value = Reflect.get(target, prop, receiver);
       if (typeof value !== 'function') {
@@ -121,4 +122,5 @@ export function createTransport(options: Options): Transport {
       };
     },
   }) as Transport;
+  return browserOpenAITransport(options, transport);
 }

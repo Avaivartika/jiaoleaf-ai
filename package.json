@@ -10,8 +10,8 @@
     "dev": "./scripts/dev.sh",
     "build": "webpack --mode=production --config config/webpack.config.js",
     "sync:source-installable": "node scripts/sync-source-installable.cjs",
-    "pack": "node pack.js",
-    "repack": "npm run build && npm run pack",
+    "pack": "npm run build && npm run sync:source-installable && node pack.js",
+    "repack": "npm run pack",
     "test": "node --test test/*.test.cjs",
     "format": "prettier --write --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\""
   },

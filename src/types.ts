@@ -49,6 +49,9 @@ export interface Options {
   claudeYoloMode?: boolean;
   codexModel?: string;
   codexReasoningEffort?: string;
+  openaiApiKey?: string;
+  openaiBaseUrl?: string;
+  openaiBrowserMode?: boolean;
   openaiApprovalPolicy?: 'untrusted' | 'on-request' | 'on-failure' | 'never';
   piProvider?: string;
   piModel?: string;

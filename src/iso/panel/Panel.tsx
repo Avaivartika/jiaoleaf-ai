@@ -11906,6 +11906,84 @@ const Panel = () => {
                     <div class="ageaf-settings__section">
                       <h3>Tools</h3>
                       <h4 class="ageaf-settings__subhead">OpenAI</h4>
+                      <label class="ageaf-settings__checkbox">
+                        <input
+                          type="checkbox"
+                          checked={settings.openaiBrowserMode ?? true}
+                          onChange={(event) =>
+                            updateSettings({
+                              openaiBrowserMode: (
+                                event.currentTarget as HTMLInputElement
+                              ).checked,
+                            })
+                          }
+                        />
+                        <span>Browser direct mode</span>
+                      </label>
+                      <p class="ageaf-settings__hint">
+                        Uses the OpenAI API directly from the extension. Local
+                        host is only needed for CLI tools and local file dialogs.
+                      </p>
+                      <label
+                        class="ageaf-settings__label"
+                        for="ageaf-openai-api-key"
+                      >
+                        OpenAI API key
+                      </label>
+                      <input
+                        id="ageaf-openai-api-key"
+                        class="ageaf-settings__input"
+                        type="password"
+                        autocomplete="off"
+                        value={settings.openaiApiKey ?? ''}
+                        onInput={(event) =>
+                          updateSettings({
+                            openaiApiKey: (event.target as HTMLInputElement)
+                              .value,
+                          })
+                        }
+                        placeholder="sk-..."
+                      />
+                      <label
+                        class="ageaf-settings__label"
+                        for="ageaf-openai-base-url"
+                      >
+                        OpenAI Base URL
+                      </label>
+                      <input
+                        id="ageaf-openai-base-url"
+                        class="ageaf-settings__input"
+                        type="text"
+                        value={
+                          settings.openaiBaseUrl ?? 'https://api.openai.com/v1'
+                        }
+                        onInput={(event) =>
+                          updateSettings({
+                            openaiBaseUrl: (event.target as HTMLInputElement)
+                              .value,
+                          })
+                        }
+                        placeholder="https://api.openai.com/v1"
+                      />
+                      <label
+                        class="ageaf-settings__label"
+                        for="ageaf-openai-model"
+                      >
+                        Model
+                      </label>
+                      <input
+                        id="ageaf-openai-model"
+                        class="ageaf-settings__input"
+                        type="text"
+                        value={settings.codexModel ?? CODEX_DEFAULT_MODEL_VALUE}
+                        onInput={(event) =>
+                          updateSettings({
+                            codexModel: (event.target as HTMLInputElement)
+                              .value,
+                          })
+                        }
+                        placeholder={CODEX_DEFAULT_MODEL_VALUE}
+                      />
                       <label
                         class="ageaf-settings__label"
                         for="ageaf-openai-approval-policy"

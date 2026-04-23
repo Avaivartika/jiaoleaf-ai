@@ -43,6 +43,7 @@ Thumbs.db
 *.pem
 *.key
 release/*.zip
+extension/**/* [0-9].*
 
 # Temporary files
 *.tmp

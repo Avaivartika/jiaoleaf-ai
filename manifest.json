@@ -44,6 +44,9 @@
     "storage",
     "nativeMessaging"
   ],
+  "host_permissions": [
+    "https://api.openai.com/*"
+  ],
   "content_scripts": [
     {
       "world": "MAIN",
