@@ -963,6 +963,14 @@ function stringifyCommand(spec: CodexCommandSpec): string {
   return [spec.command, ...spec.baseArgs].join(' ');
 }
 
+function isRetriableCommandResolutionError(error: NodeJS.ErrnoException): boolean {
+  const code = String(error.code ?? '').toUpperCase();
+  if (code === 'ENOENT') return true;
+  // Windows can throw EINVAL for .cmd execution under some execFile paths.
+  if (process.platform === 'win32' && code === 'EINVAL') return true;
+  return false;
+}
+
 async function execCodexWithFallback(
   candidates: CodexCommandSpec[],
   args: string[],
@@ -975,7 +983,7 @@ async function execCodexWithFallback(
       return;
     } catch (error) {
       const errno = error as NodeJS.ErrnoException;
-      if (errno?.code === 'ENOENT') {
+      if (isRetriableCommandResolutionError(errno)) {
         lastEnoent = errno;
         continue;
       }

@@ -29,6 +29,14 @@ function stringifyCommand(spec: CodexCommandSpec): string {
   return [spec.command, ...spec.baseArgs].join(' ');
 }
 
+function isRetriableCommandResolutionError(error: NodeJS.ErrnoException): boolean {
+  const code = String(error.code ?? '').toUpperCase();
+  if (code === 'ENOENT') return true;
+  // Windows can throw EINVAL for .cmd execution under some spawn paths.
+  if (process.platform === 'win32' && code === 'EINVAL') return true;
+  return false;
+}
+
 async function spawnCodexAppServerWithFallback(
   candidates: CodexCommandSpec[],
   opts: {
@@ -67,7 +75,7 @@ async function spawnCodexAppServerWithFallback(
       return { child, command: stringifyCommand(candidate) };
     }
 
-    if (result.error.code === 'ENOENT') {
+    if (isRetriableCommandResolutionError(result.error)) {
       lastError = result.error;
       continue;
     }

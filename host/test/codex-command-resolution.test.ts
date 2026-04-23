@@ -28,4 +28,15 @@ test('resolveCodexCommandSpecs includes codex and npx fallbacks', () => {
     commands.some((entry) => entry.includes('@openai/codex')),
     'expects npx @openai/codex fallback'
   );
+
+  if (process.platform === 'win32') {
+    assert.ok(
+      commands.some((entry) => entry.toLowerCase().startsWith('cmd.exe /d /s /c codex')),
+      'expects cmd.exe wrapped codex fallback on Windows'
+    );
+    assert.ok(
+      commands.some((entry) => entry.toLowerCase().includes('cmd.exe /d /s /c npx -y @openai/codex')),
+      'expects cmd.exe wrapped npx fallback on Windows'
+    );
+  }
 });

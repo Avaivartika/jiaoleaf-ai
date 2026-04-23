@@ -41,15 +41,20 @@ export function resolveCodexCommandSpecs(cliPath?: string): CodexCommandSpec[] {
 
   if (resolvedCliPath) {
     specs.push({ command: resolvedCliPath, baseArgs: [] });
+    if (isWindows) {
+      specs.push({ command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', resolvedCliPath] });
+    }
   }
 
   if (isWindows) {
     specs.push(
-      { command: 'codex.cmd', baseArgs: [] },
-      { command: 'codex.exe', baseArgs: [] },
       { command: 'codex', baseArgs: [] },
+      { command: 'codex.exe', baseArgs: [] },
+      { command: 'codex.cmd', baseArgs: [] },
+      { command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', 'codex'] },
       { command: 'npx.cmd', baseArgs: ['-y', '@openai/codex'] },
-      { command: 'npx', baseArgs: ['-y', '@openai/codex'] }
+      { command: 'npx', baseArgs: ['-y', '@openai/codex'] },
+      { command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', 'npx', '-y', '@openai/codex'] }
     );
   } else {
     specs.push(
