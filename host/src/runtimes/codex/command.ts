@@ -36,12 +36,12 @@ export function resolveCodexCliPath(cliPath?: string): string | undefined {
 
 export function resolveCodexCommandSpecs(cliPath?: string): CodexCommandSpec[] {
   const resolvedCliPath = normalizeCliPath(cliPath);
-  if (resolvedCliPath) {
-    return [{ command: resolvedCliPath, baseArgs: [] }];
-  }
-
   const specs: CodexCommandSpec[] = [];
   const isWindows = process.platform === 'win32';
+
+  if (resolvedCliPath) {
+    specs.push({ command: resolvedCliPath, baseArgs: [] });
+  }
 
   if (isWindows) {
     specs.push(

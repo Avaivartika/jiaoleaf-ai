@@ -11,7 +11,12 @@ test('resolveCodexCliPath expands home shortcut', () => {
 
 test('resolveCodexCommandSpecs keeps explicit cliPath as highest-priority command', () => {
   const specs = resolveCodexCommandSpecs('/custom/codex');
-  assert.deepEqual(specs, [{ command: '/custom/codex', baseArgs: [] }]);
+  assert.deepEqual(specs[0], { command: '/custom/codex', baseArgs: [] });
+  const commands = specs.map((spec) => [spec.command, ...spec.baseArgs].join(' '));
+  assert.ok(
+    commands.some((entry) => entry.includes('@openai/codex')),
+    'explicit path mode still keeps npx fallback'
+  );
 });
 
 test('resolveCodexCommandSpecs includes codex and npx fallbacks', () => {
