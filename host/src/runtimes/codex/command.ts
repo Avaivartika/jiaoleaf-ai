@@ -6,6 +6,8 @@ export type CodexCommandSpec = {
   baseArgs: string[];
 };
 
+type Platform = NodeJS.Platform;
+
 function normalizeCliPath(cliPath?: string): string | undefined {
   const rawCliPath = cliPath?.trim();
   if (!rawCliPath) return undefined;
@@ -34,26 +36,30 @@ export function resolveCodexCliPath(cliPath?: string): string | undefined {
   return normalizeCliPath(cliPath);
 }
 
-export function resolveCodexCommandSpecs(cliPath?: string): CodexCommandSpec[] {
+function quoteForCmd(value: string): string {
+  if (!/[\s&()^=;!'+,`~[\]{}]/.test(value)) return value;
+  return `"${value.replace(/"/g, '\\"')}"`;
+}
+
+export function resolveCodexCommandSpecs(
+  cliPath?: string,
+  platform: Platform = process.platform
+): CodexCommandSpec[] {
   const resolvedCliPath = normalizeCliPath(cliPath);
   const specs: CodexCommandSpec[] = [];
-  const isWindows = process.platform === 'win32';
+  const isWindows = platform === 'win32';
 
   if (resolvedCliPath) {
-    specs.push({ command: resolvedCliPath, baseArgs: [] });
     if (isWindows) {
-      specs.push({ command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', resolvedCliPath] });
+      specs.push({ command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', quoteForCmd(resolvedCliPath)] });
+    } else {
+      specs.push({ command: resolvedCliPath, baseArgs: [] });
     }
   }
 
   if (isWindows) {
     specs.push(
-      { command: 'codex', baseArgs: [] },
-      { command: 'codex.exe', baseArgs: [] },
-      { command: 'codex.cmd', baseArgs: [] },
       { command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', 'codex'] },
-      { command: 'npx.cmd', baseArgs: ['-y', '@openai/codex'] },
-      { command: 'npx', baseArgs: ['-y', '@openai/codex'] },
       { command: 'cmd.exe', baseArgs: ['/d', '/s', '/c', 'npx', '-y', '@openai/codex'] }
     );
   } else {

@@ -19,6 +19,31 @@ test('resolveCodexCommandSpecs keeps explicit cliPath as highest-priority comman
   );
 });
 
+test('resolveCodexCommandSpecs wraps every Windows candidate through cmd.exe to avoid spawn EINVAL', () => {
+  const specs = resolveCodexCommandSpecs(undefined, 'win32');
+  assert.ok(specs.length > 0);
+  assert.ok(specs.every((spec) => spec.command.toLowerCase() === 'cmd.exe'));
+  assert.ok(specs.every((spec) => spec.baseArgs.slice(0, 3).join(' ') === '/d /s /c'));
+
+  const commands = specs.map((spec) => [spec.command, ...spec.baseArgs].join(' '));
+  assert.ok(
+    commands.some((entry) => entry.toLowerCase().includes('/c codex')),
+    'expects cmd.exe wrapped codex fallback'
+  );
+  assert.ok(
+    commands.some((entry) => entry.toLowerCase().includes('/c npx -y @openai/codex')),
+    'expects cmd.exe wrapped npx fallback'
+  );
+});
+
+test('resolveCodexCommandSpecs quotes explicit Windows cliPath with spaces', () => {
+  const specs = resolveCodexCommandSpecs('C:\\Program Files\\Codex\\codex.cmd', 'win32');
+  assert.deepEqual(specs[0], {
+    command: 'cmd.exe',
+    baseArgs: ['/d', '/s', '/c', '"C:\\Program Files\\Codex\\codex.cmd"'],
+  });
+});
+
 test('resolveCodexCommandSpecs includes codex and npx fallbacks', () => {
   const specs = resolveCodexCommandSpecs(undefined);
   const commands = specs.map((spec) => [spec.command, ...spec.baseArgs].join(' '));
@@ -29,14 +54,8 @@ test('resolveCodexCommandSpecs includes codex and npx fallbacks', () => {
     'expects npx @openai/codex fallback'
   );
 
-  if (process.platform === 'win32') {
-    assert.ok(
-      commands.some((entry) => entry.toLowerCase().startsWith('cmd.exe /d /s /c codex')),
-      'expects cmd.exe wrapped codex fallback on Windows'
-    );
-    assert.ok(
-      commands.some((entry) => entry.toLowerCase().includes('cmd.exe /d /s /c npx -y @openai/codex')),
-      'expects cmd.exe wrapped npx fallback on Windows'
-    );
-  }
+  assert.ok(
+    commands.every((entry) => !entry.toLowerCase().startsWith('cmd.exe')),
+    'non-Windows default should not shell-wrap Codex commands'
+  );
 });
