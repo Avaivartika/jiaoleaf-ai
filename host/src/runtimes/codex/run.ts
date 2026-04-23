@@ -16,6 +16,7 @@ import { extractAllAgeafPatchFences } from '../../patch/ageafPatchFence.js';
 import { buildReplaceRangePatchesFromFileUpdates, canonicalizePatchFilePath, computePerHunkReplacements, extractOverleafFilesFromMessage, findOverleafFileContent } from '../../patch/fileUpdate.js';
 import { validatePatch } from '../../validate.js';
 import { getCodexAppServer } from './appServer.js';
+import { resolveCodexCliPath, resolveCodexCommandSpecs, type CodexCommandSpec } from './command.js';
 import { parseCodexTokenUsage } from './tokenUsage.js';
 import { getEnhancedPath, parseEnvironmentVariables } from '../claude/cli.js';
 import {
@@ -958,21 +959,44 @@ const askUserStdioServer = resolveStdioServerCommand('askUserStdioServer.js');
 const execFileAsync = promisify(execFile);
 const mcpRegisteredForCli = new Set<string>();
 
+function stringifyCommand(spec: CodexCommandSpec): string {
+  return [spec.command, ...spec.baseArgs].join(' ');
+}
+
+async function execCodexWithFallback(
+  candidates: CodexCommandSpec[],
+  args: string[],
+  options: { timeout?: number; env?: NodeJS.ProcessEnv }
+) {
+  let lastEnoent: NodeJS.ErrnoException | null = null;
+  for (const candidate of candidates) {
+    try {
+      await execFileAsync(candidate.command, [...candidate.baseArgs, ...args], options);
+      return;
+    } catch (error) {
+      const errno = error as NodeJS.ErrnoException;
+      if (errno?.code === 'ENOENT') {
+        lastEnoent = errno;
+        continue;
+      }
+      throw error;
+    }
+  }
+
+  if (lastEnoent) {
+    throw lastEnoent;
+  }
+  throw new Error(`No Codex command candidate succeeded for args: ${args.join(' ')}`);
+}
+
 async function ensureMcpServersRegistered(
   cliPath?: string,
   envVars?: string
 ): Promise<void> {
-  const rawCliPath = cliPath?.trim();
-  const resolvedCliPath =
-    rawCliPath === '~'
-      ? os.homedir()
-      : rawCliPath?.startsWith('~/')
-        ? path.join(os.homedir(), rawCliPath.slice(2))
-        : rawCliPath;
-  const command =
-    resolvedCliPath && resolvedCliPath.length > 0 ? resolvedCliPath : 'codex';
+  const resolvedCliPath = resolveCodexCliPath(cliPath);
+  const commandCandidates = resolveCodexCommandSpecs(cliPath);
   const registrationKey = [
-    command,
+    ...commandCandidates.map((candidate) => stringifyCommand(candidate)),
     mermaidStdioServer.command,
     ...mermaidStdioServer.args,
     askUserStdioServer.command,
@@ -995,9 +1019,12 @@ async function ensureMcpServersRegistered(
   let allSucceeded = true;
   for (const srv of servers) {
     try {
-      await execFileAsync(command, ['mcp', 'remove', srv.name], { timeout: 15000, env }).catch(() => {});
-      await execFileAsync(
-        command,
+      await execCodexWithFallback(commandCandidates, ['mcp', 'remove', srv.name], {
+        timeout: 15000,
+        env,
+      }).catch(() => {});
+      await execCodexWithFallback(
+        commandCandidates,
         ['mcp', 'add', srv.name, '--', srv.command, ...srv.args],
         { timeout: 15000, env }
       );

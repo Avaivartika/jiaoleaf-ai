@@ -1,9 +1,8 @@
 import { spawn } from 'node:child_process';
-import os from 'node:os';
-import path from 'node:path';
 import { createInterface } from 'node:readline';
 
 import { getEnhancedPath, parseEnvironmentVariables } from '../claude/cli.js';
+import { resolveCodexCliPath, resolveCodexCommandSpecs, type CodexCommandSpec } from './command.js';
 
 type JsonRpcId = number | string;
 
@@ -26,8 +25,68 @@ export type CodexAppServerConfig = {
   cwd: string;
 };
 
+function stringifyCommand(spec: CodexCommandSpec): string {
+  return [spec.command, ...spec.baseArgs].join(' ');
+}
+
+async function spawnCodexAppServerWithFallback(
+  candidates: CodexCommandSpec[],
+  opts: {
+    cwd: string;
+    env: NodeJS.ProcessEnv;
+  }
+): Promise<{ child: ReturnType<typeof spawn>; command: string }> {
+  let lastError: NodeJS.ErrnoException | null = null;
+
+  for (const candidate of candidates) {
+    const child = spawn(candidate.command, [...candidate.baseArgs, 'app-server'], {
+      cwd: opts.cwd,
+      env: opts.env,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+
+    const result = await new Promise<
+      { ok: true } | { ok: false; error: NodeJS.ErrnoException }
+    >((resolve) => {
+      let settled = false;
+
+      child.once('spawn', () => {
+        if (settled) return;
+        settled = true;
+        resolve({ ok: true });
+      });
+
+      child.once('error', (error: NodeJS.ErrnoException) => {
+        if (settled) return;
+        settled = true;
+        resolve({ ok: false, error });
+      });
+    });
+
+    if (result.ok) {
+      return { child, command: stringifyCommand(candidate) };
+    }
+
+    if (result.error.code === 'ENOENT') {
+      lastError = result.error;
+      continue;
+    }
+
+    throw result.error;
+  }
+
+  const tried = candidates.map((candidate) => stringifyCommand(candidate)).join(', ');
+  const details = lastError?.message ? ` (${lastError.message})` : '';
+  const error = new Error(
+    `Unable to start OpenAI Codex runtime. Tried: ${tried}. Install Codex CLI or set Settings -> Codex CLI Path.${details}`
+  );
+  (error as NodeJS.ErrnoException).code = 'ENOENT';
+  throw error;
+}
+
 export class CodexAppServer {
   private child: ReturnType<typeof spawn> | null = null;
+  private starting: Promise<void> | null = null;
   private nextId = 1;
   private readonly pending = new Map<number, PendingRequest>();
   private readonly listeners = new Set<(message: JsonRpcMessage) => void>();
@@ -61,150 +120,160 @@ export class CodexAppServer {
   }
 
   async start() {
-    if (this.started) return;
+    if (this.child) return;
+    if (this.starting) {
+      await this.starting;
+      return;
+    }
+
     this.started = true;
+    this.starting = (async () => {
+      const customEnv = parseEnvironmentVariables(this.config.envVars ?? '');
 
-    const customEnv = parseEnvironmentVariables(this.config.envVars ?? '');
+      // Track sensitive keys for cleanup
+      const sensitiveKeys = Object.keys(customEnv).filter(
+        (key) =>
+          key.includes('API_KEY') ||
+          key.includes('SECRET') ||
+          key.includes('TOKEN') ||
+          key.includes('AUTH')
+      );
 
-    // Track sensitive keys for cleanup
-    const sensitiveKeys = Object.keys(customEnv).filter(
-      (key) =>
-        key.includes('API_KEY') ||
-        key.includes('SECRET') ||
-        key.includes('TOKEN') ||
-        key.includes('AUTH')
-    );
+      const cliPath = resolveCodexCliPath(this.config.cliPath);
+      const commandCandidates = resolveCodexCommandSpecs(this.config.cliPath);
+      const env = {
+        ...process.env,
+        ...customEnv,
+        PATH: getEnhancedPath(customEnv.PATH, cliPath),
+      };
+      const { child, command } = await spawnCodexAppServerWithFallback(
+        commandCandidates,
+        {
+          cwd: this.config.cwd,
+          env,
+        }
+      );
+      this.child = child;
 
-    const rawCliPath = this.config.cliPath?.trim();
-    const cliPath =
-      rawCliPath === '~'
-        ? os.homedir()
-        : rawCliPath?.startsWith('~/')
-          ? path.join(os.homedir(), rawCliPath.slice(2))
-          : rawCliPath;
-    const env = {
-      ...process.env,
-      ...customEnv,
-      PATH: getEnhancedPath(customEnv.PATH, cliPath),
-    };
+      if (process.env.AGEAF_DEBUG_CLI === 'true') {
+        console.log('[CODEX DEBUG] spawning app-server', {
+          command,
+          cwd: this.config.cwd,
+          pid: child.pid ?? null,
+        });
+      }
 
-    const command = cliPath && cliPath.length > 0 ? cliPath : 'codex';
-    const child = spawn(command, ['app-server'], {
-      cwd: this.config.cwd,
-      env,
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
-    this.child = child;
+      const handleChildError = (error: Error) => {
+        this.child = null;
+        this.started = false;
+        this.initialized = false;
+        this.initializing = null;
+        this.starting = null;
+        for (const pending of this.pending.values()) {
+          pending.reject(error);
+        }
+        this.pending.clear();
+      };
 
-    if (process.env.AGEAF_DEBUG_CLI === 'true') {
-      console.log('[CODEX DEBUG] spawning app-server', {
-        command,
-        cwd: this.config.cwd,
-        pid: child.pid ?? null,
+      child.on('error', handleChildError);
+
+      child.on('exit', () => {
+        this.child = null;
+        this.started = false;
+        this.initialized = false;
+        this.initializing = null;
+        this.starting = null;
+        for (const pending of this.pending.values()) {
+          pending.reject(new Error('Codex app-server exited'));
+        }
+        this.pending.clear();
+
+        // CRITICAL: Wipe sensitive env vars from memory after CLI execution
+        if (sensitiveKeys.length > 0) {
+          for (const key of sensitiveKeys) {
+            if (key in customEnv) {
+              delete customEnv[key];
+              customEnv[key] = '';
+            }
+            if (key in env) {
+              const envRecord = env as Record<string, string | undefined>;
+              delete envRecord[key];
+              envRecord[key] = '';
+            }
+          }
+        }
       });
-    }
 
-    const handleChildError = (error: Error) => {
+      const stdout = child.stdout;
+      if (stdout) {
+        const rl = createInterface({ input: stdout });
+        rl.on('line', (line) => {
+          const trimmed = line.trim();
+          if (!trimmed) return;
+          let message: JsonRpcMessage;
+          try {
+            message = JSON.parse(trimmed) as JsonRpcMessage;
+          } catch {
+            return;
+          }
+
+          const idValue = message.id;
+          const id =
+            typeof idValue === 'number' && Number.isFinite(idValue)
+              ? idValue
+              : null;
+          const hasResultOrError =
+            Object.prototype.hasOwnProperty.call(message, 'result') ||
+            Object.prototype.hasOwnProperty.call(message, 'error');
+          const hasMethod = typeof message.method === 'string' && message.method.length > 0;
+
+          if (id != null && hasResultOrError) {
+            const pending = this.pending.get(id);
+            if (pending) {
+              this.pending.delete(id);
+              pending.resolve(message);
+            }
+            return;
+          }
+
+          if (hasMethod) {
+            for (const listener of this.listeners) {
+              listener(message);
+            }
+            return;
+          }
+        });
+      }
+
+      const stderr = child.stderr;
+      if (stderr) {
+        const rl = createInterface({ input: stderr });
+        rl.on('line', (line) => {
+          const trimmed = line.trim();
+          if (!trimmed) return;
+
+          for (const listener of this.stderrListeners) {
+            listener(trimmed);
+          }
+
+          if (process.env.AGEAF_DEBUG_CLI === 'true') {
+            // Keep this short; stderr can be noisy and may include user content.
+            console.log('[CODEX STDERR]', trimmed.slice(0, 300));
+          }
+        });
+      }
+    })();
+
+    try {
+      await this.starting;
+    } catch (error) {
       this.child = null;
       this.started = false;
       this.initialized = false;
       this.initializing = null;
-      for (const pending of this.pending.values()) {
-        pending.reject(error);
-      }
-      this.pending.clear();
-    };
-
-    child.on('error', handleChildError);
-
-    child.on('exit', () => {
-      this.child = null;
-      this.started = false;
-      this.initialized = false;
-      this.initializing = null;
-      for (const pending of this.pending.values()) {
-        pending.reject(new Error('Codex app-server exited'));
-      }
-      this.pending.clear();
-
-      // CRITICAL: Wipe sensitive env vars from memory after CLI execution
-      if (sensitiveKeys.length > 0) {
-        for (const key of sensitiveKeys) {
-          if (key in customEnv) {
-            delete customEnv[key];
-            customEnv[key] = '';
-          }
-          if (key in env) {
-            const envRecord = env as Record<string, string | undefined>;
-            delete envRecord[key];
-            envRecord[key] = '';
-          }
-        }
-      }
-    });
-
-    await new Promise<void>((resolve, reject) => {
-      child.once('spawn', () => resolve());
-      child.once('error', (error) => reject(error));
-    });
-
-    const stdout = child.stdout;
-    if (stdout) {
-      const rl = createInterface({ input: stdout });
-      rl.on('line', (line) => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
-        let message: JsonRpcMessage;
-        try {
-          message = JSON.parse(trimmed) as JsonRpcMessage;
-        } catch {
-          return;
-        }
-
-        const idValue = message.id;
-        const id =
-          typeof idValue === 'number' && Number.isFinite(idValue)
-            ? idValue
-            : null;
-        const hasResultOrError =
-          Object.prototype.hasOwnProperty.call(message, 'result') ||
-          Object.prototype.hasOwnProperty.call(message, 'error');
-        const hasMethod = typeof message.method === 'string' && message.method.length > 0;
-
-        if (id != null && hasResultOrError) {
-          const pending = this.pending.get(id);
-          if (pending) {
-            this.pending.delete(id);
-            pending.resolve(message);
-          }
-          return;
-        }
-
-        if (hasMethod) {
-          for (const listener of this.listeners) {
-            listener(message);
-          }
-          return;
-        }
-      });
-    }
-
-    const stderr = child.stderr;
-    if (stderr) {
-      const rl = createInterface({ input: stderr });
-      rl.on('line', (line) => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
-
-        for (const listener of this.stderrListeners) {
-          listener(trimmed);
-        }
-
-        if (process.env.AGEAF_DEBUG_CLI === 'true') {
-          // Keep this short; stderr can be noisy and may include user content.
-          console.log('[CODEX STDERR]', trimmed.slice(0, 300));
-        }
-      });
+      throw error;
+    } finally {
+      this.starting = null;
     }
   }
 
@@ -291,6 +360,7 @@ export class CodexAppServer {
   async stop() {
     const child = this.child;
     this.child = null;
+    this.starting = null;
     this.started = false;
     this.initialized = false;
     this.initializing = null;

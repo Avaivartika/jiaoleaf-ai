@@ -36,5 +36,5 @@ export function reloadDotenv(): void {
   for (const key of allKeys) {
     delete process.env[key];
   }
-  dotenvConfig({ override: true });
+  dotenvConfig({ override: true, quiet: true });
 }
