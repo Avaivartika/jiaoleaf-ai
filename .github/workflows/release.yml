@@ -20,17 +20,30 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run repack
+      - name: Package host source bundle
+        run: |
+          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
+          zip -r "$HOST_ZIP" host docs/native-messaging.md \
+            -x 'host/node_modules/*' 'host/dist/*' 'host/.env' 'host/.env.*'
       - name: Verify extension package
         run: |
-          ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
-          test -f "$ZIP"
-          unzip -Z1 "$ZIP" | grep -qx 'manifest.json'
-          node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$ZIP"
+          EXT_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
+          test -f "$EXT_ZIP"
+          test -f "$HOST_ZIP"
+          unzip -Z1 "$EXT_ZIP" | grep -qx 'manifest.json'
+          unzip -Z1 "$HOST_ZIP" | grep -qx 'host/package.json'
+          node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$EXT_ZIP"
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
-          gh release create "$GITHUB_REF_NAME" "$ZIP" \
-            --title "JiaoLeaf AI ${GITHUB_REF_NAME}" \
-            --notes "Download the zip attached to this release, unzip it, then load the unzipped folder in chrome://extensions. Do not use Code -> Download ZIP for installation."
+          EXT_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$EXT_ZIP" "$HOST_ZIP" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "$EXT_ZIP" "$HOST_ZIP" \
+              --title "JiaoLeaf AI ${GITHUB_REF_NAME}" \
+              --notes "Assets in this release: (1) jiaoleaf-ai-v*.zip for Chrome extension UI, (2) jiaoleaf-ai-host-source-v*.zip for local host runtime. Do not use Code -> Download ZIP for installation."
+          fi

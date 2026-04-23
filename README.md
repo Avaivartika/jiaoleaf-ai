@@ -32,25 +32,29 @@ The extension UI is aligned with Overleaf's two-level toolbar layout and support
 - **Multiple runtimes**: supports Anthropic Claude, OpenAI Codex, and BYOK-compatible providers through the companion host.
 - **Theme-aware UI**: follows Overleaf-style light/dark chrome and compact toolbar spacing.
 
-## Installation From Release Zip
+## Installation From Release Assets
 
-Do not use GitHub's green **Code -> Download ZIP** button for installation. That downloads the source repository, not the built Chrome extension, and Chrome will report `manifest file is missing or unreadable` if you load the repository root.
+`host/` means the local companion runtime process (a local backend service), not the browser extension UI.  
+The extension zip and host zip are intentionally separate because Chrome extensions cannot bundle and execute local native/Node host processes directly.
+
+Do not use GitHub's green **Code -> Download ZIP** button for installation. That downloads source code, not installable assets.
 
 1. Open the [latest GitHub Release](https://github.com/Avaivartika/jiaoleaf-ai/releases/latest).
-2. Download the attached `jiaoleaf-ai-v*.zip` asset.
+2. Download both assets:
+   - `jiaoleaf-ai-v*.zip` (Chrome extension UI)
+   - `jiaoleaf-ai-host-source-v*.zip` (local host runtime source)
 3. Do not download `Source code (zip)` or `Source code (tar.gz)`.
-4. Unzip it locally.
+4. Unzip both assets.
 5. Open Chrome and go to `chrome://extensions`.
 6. Enable **Developer mode**.
 7. Click **Load unpacked**.
 8. Select the unzipped extension folder that directly contains `manifest.json`.
    - Correct: `...\jiaoleaf-ai-v0.1.0\manifest.json` exists.
    - Incorrect: selecting the GitHub source folder, where `manifest.json` is only under `public\`.
-9. If you are running from source instead of the release zip, select this repository's generated `build/` folder.
-10. Start the local companion host:
+9. Start the host from the host asset in a terminal:
 
 ```bash
-cd host
+cd jiaoleaf-ai-host-source-v0.1.0/host
 npm install
 npm run dev
 ```
