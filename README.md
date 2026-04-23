@@ -34,13 +34,18 @@ The extension UI is aligned with Overleaf's two-level toolbar layout and support
 
 ## Installation From Release Zip
 
-1. Download the latest `jiaoleaf-ai-v*.zip` from this repository's release package.
+Do not use GitHub's green **Code -> Download ZIP** button for installation. That downloads the source repository, not the built Chrome extension, and Chrome will report `manifest file is missing or unreadable` if you load the repository root.
+
+1. Download the built extension zip: [`release/jiaoleaf-ai-v0.1.0.zip`](./release/jiaoleaf-ai-v0.1.0.zip).
 2. Unzip it locally.
 3. Open Chrome and go to `chrome://extensions`.
 4. Enable **Developer mode**.
 5. Click **Load unpacked**.
-6. Select the unzipped extension folder, or this repository's `build/` folder if you are running from source.
-7. Start the local companion host:
+6. Select the unzipped extension folder that directly contains `manifest.json`.
+   - Correct: `...\jiaoleaf-ai-v0.1.0\manifest.json` exists.
+   - Incorrect: selecting the GitHub source folder, where `manifest.json` is only under `public\`.
+7. If you are running from source instead of the release zip, select this repository's generated `build/` folder.
+8. Start the local companion host:
 
 ```bash
 cd host

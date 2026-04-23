@@ -19,9 +19,18 @@ try {
   }
   zip.writeZip(`${outdir}/${filename}`);
 
+  const releaseZip = new AdmZip(`${outdir}/${filename}`);
+  const manifestEntry = releaseZip.getEntry('manifest.json');
+  if (!manifestEntry) {
+    throw new Error('Release zip is missing root manifest.json');
+  }
+  JSON.parse(manifestEntry.getData().toString('utf8'));
+
   console.log(
     `Success! Created a ${filename} file under ${outdir} directory. You can upload this file to web store.`
   );
 } catch (e) {
   console.error('Error! Failed to generate a zip file.');
+  console.error(e);
+  process.exit(1);
 }
