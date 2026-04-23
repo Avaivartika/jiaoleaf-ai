@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "JiaoLeaf AI",
+  "version": "0.1.0",
+  "description": "AI assistant for SJTU Overleaf and Overleaf-compatible LaTeX projects",
+  "icons": {
+    "16": "extension/icons/icon_16.png",
+    "32": "extension/icons/icon_32.png",
+    "48": "extension/icons/icon_48.png",
+    "128": "extension/icons/icon_128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "extension/icons/icon_16.png",
+        "extension/icons/icon_32.png",
+        "extension/icons/icon_48.png",
+        "extension/icons/icon_128.png",
+        "extension/icons/icon_256.png",
+        "extension/fonts/*",
+        "extension/vendors-*.js",
+        "extension/skills/*"
+      ],
+      "matches": [
+        "https://www.overleaf.com/*",
+        "https://latex.sjtu.edu.cn/*",
+        "https://latex-en.sjtu.edu.cn/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "extension/background.js"
+  },
+  "action": {
+    "default_title": "JiaoLeaf AI",
+    "default_icon": {
+      "16": "extension/icons/icon_16.png",
+      "32": "extension/icons/icon_32.png",
+      "48": "extension/icons/icon_48.png",
+      "128": "extension/icons/icon_128.png"
+    }
+  },
+  "permissions": [
+    "storage",
+    "nativeMessaging"
+  ],
+  "content_scripts": [
+    {
+      "world": "MAIN",
+      "matches": [
+        "https://www.overleaf.com/project/*",
+        "https://latex.sjtu.edu.cn/project/*",
+        "https://latex-en.sjtu.edu.cn/project/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "extension/contentMainScript.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.overleaf.com/project/*",
+        "https://latex.sjtu.edu.cn/project/*",
+        "https://latex-en.sjtu.edu.cn/project/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "extension/contentIsoScript.js"
+      ],
+      "css": [
+        "extension/contentIsoScript.css"
+      ]
+    }
+  ]
+}

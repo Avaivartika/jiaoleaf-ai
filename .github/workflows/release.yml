@@ -19,31 +19,31 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm run repack
-      - name: Package host source bundle
+      - run: npm run build
+      - run: npm run sync:source-installable
+      - name: Package unified install bundle
         run: |
-          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
-          zip -r "$HOST_ZIP" host docs/native-messaging.md \
+          BUNDLE_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          mkdir -p release
+          zip -r "$BUNDLE_ZIP" manifest.json extension host README.md LICENSE docs/native-messaging.md \
             -x 'host/node_modules/*' 'host/dist/*' 'host/.env' 'host/.env.*'
-      - name: Verify extension package
+      - name: Verify unified bundle
         run: |
-          EXT_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
-          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
-          test -f "$EXT_ZIP"
-          test -f "$HOST_ZIP"
-          unzip -Z1 "$EXT_ZIP" | grep -qx 'manifest.json'
-          unzip -Z1 "$HOST_ZIP" | grep -qx 'host/package.json'
-          node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$EXT_ZIP"
+          BUNDLE_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          test -f "$BUNDLE_ZIP"
+          unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'manifest.json'
+          unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'host/package.json'
+          node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$BUNDLE_ZIP"
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          EXT_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
-          HOST_ZIP="release/jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip"
+          BUNDLE_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release upload "$GITHUB_REF_NAME" "$EXT_ZIP" "$HOST_ZIP" --clobber
+            gh release delete-asset "$GITHUB_REF_NAME" "jiaoleaf-ai-host-source-${GITHUB_REF_NAME}.zip" -y || true
+            gh release upload "$GITHUB_REF_NAME" "$BUNDLE_ZIP" --clobber
           else
-            gh release create "$GITHUB_REF_NAME" "$EXT_ZIP" "$HOST_ZIP" \
+            gh release create "$GITHUB_REF_NAME" "$BUNDLE_ZIP" \
               --title "JiaoLeaf AI ${GITHUB_REF_NAME}" \
-              --notes "Assets in this release: (1) jiaoleaf-ai-v*.zip for Chrome extension UI, (2) jiaoleaf-ai-host-source-v*.zip for local host runtime. Do not use Code -> Download ZIP for installation."
+              --notes "Single bundle: includes Chrome extension files at repository root and host runtime under host/. After unzip, load the bundle root in chrome://extensions and run host from host/."
           fi

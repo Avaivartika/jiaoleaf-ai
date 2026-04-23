@@ -9,6 +9,7 @@
     "watch": "webpack --mode=development --watch --config config/webpack.config.js",
     "dev": "./scripts/dev.sh",
     "build": "webpack --mode=production --config config/webpack.config.js",
+    "sync:source-installable": "node scripts/sync-source-installable.cjs",
     "pack": "node pack.js",
     "repack": "npm run build && npm run pack",
     "test": "node --test test/*.test.cjs",

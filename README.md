@@ -32,29 +32,28 @@ The extension UI is aligned with Overleaf's two-level toolbar layout and support
 - **Multiple runtimes**: supports Anthropic Claude, OpenAI Codex, and BYOK-compatible providers through the companion host.
 - **Theme-aware UI**: follows Overleaf-style light/dark chrome and compact toolbar spacing.
 
-## Installation From Release Assets
+## Installation (Single Package)
 
-`host/` means the local companion runtime process (a local backend service), not the browser extension UI.  
-The extension zip and host zip are intentionally separate because Chrome extensions cannot bundle and execute local native/Node host processes directly.
+You can install from either:
 
-Do not use GitHub's green **Code -> Download ZIP** button for installation. That downloads source code, not installable assets.
+- GitHub **Code -> Download ZIP**
+- GitHub **Release asset** `jiaoleaf-ai-v*.zip`
 
-1. Open the [latest GitHub Release](https://github.com/Avaivartika/jiaoleaf-ai/releases/latest).
-2. Download both assets:
-   - `jiaoleaf-ai-v*.zip` (Chrome extension UI)
-   - `jiaoleaf-ai-host-source-v*.zip` (local host runtime source)
-3. Do not download `Source code (zip)` or `Source code (tar.gz)`.
-4. Unzip both assets.
-5. Open Chrome and go to `chrome://extensions`.
-6. Enable **Developer mode**.
-7. Click **Load unpacked**.
-8. Select the unzipped extension folder that directly contains `manifest.json`.
-   - Correct: `...\jiaoleaf-ai-v0.1.0\manifest.json` exists.
-   - Incorrect: selecting the GitHub source folder, where `manifest.json` is only under `public\`.
-9. Start the host from the host asset in a terminal:
+Both now contain one unified package:
+
+- `manifest.json` at package root (load this root in Chrome)
+- `extension/` (compiled extension assets)
+- `host/` (local companion runtime source)
+
+1. Download and unzip one package.
+2. Open Chrome at `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked**.
+5. Select the unzipped package root folder (the folder that directly contains `manifest.json`).
+6. Start the local host in a terminal:
 
 ```bash
-cd jiaoleaf-ai-host-source-v0.1.0/host
+cd <unzipped-folder>/host
 npm install
 npm run dev
 ```
@@ -101,16 +100,18 @@ npm run dev
 Run:
 
 ```bash
-npm run repack
+npm run build
+npm run sync:source-installable
+zip -r release/jiaoleaf-ai-v0.1.0.zip manifest.json extension host README.md LICENSE docs/native-messaging.md -x 'host/node_modules/*' 'host/dist/*' 'host/.env' 'host/.env.*'
 ```
 
-This builds the extension and writes a Chrome-loadable zip to:
+This writes a single install bundle to:
 
 ```text
 release/jiaoleaf-ai-v0.1.0.zip
 ```
 
-The zip contains the extension build output only. The companion host still needs to be installed or run separately.
+This bundle includes extension + host together.
 
 Release tags create GitHub Releases automatically. Maintainers publish a new installable asset with:
 
