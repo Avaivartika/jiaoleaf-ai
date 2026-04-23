@@ -36,7 +36,15 @@ try {
   const filename = `${packageJson.name}-v${manifest.version}.zip`;
   const zip = new AdmZip();
   zip.addLocalFile('manifest.json');
-  for (const file of ['README.md', 'LICENSE', 'AGENTS.md']) {
+  for (const file of [
+    'README.md',
+    'LICENSE',
+    'AGENTS.md',
+    'start-jiaoleaf-host.cmd',
+    'start-jiaoleaf-host.command',
+    'login-codex.cmd',
+    'login-codex.command',
+  ]) {
     if (existsSync(file)) zip.addLocalFile(file);
   }
   addFolder(zip, 'extension', 'extension');

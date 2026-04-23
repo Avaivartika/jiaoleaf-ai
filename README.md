@@ -19,7 +19,7 @@ JiaoLeaf AI is a Chrome extension that adds an AI side panel directly inside:
 
 It is designed for academic LaTeX workflows: rewriting selected text, fixing compile errors, reviewing papers, checking citations, keeping notation consistent, and applying proposed edits back into the editor.
 
-The OpenAI path can run directly inside the browser extension with an API key. The local companion host is optional and only needed for advanced local runtime integrations, native file dialogs, or CLI-backed providers.
+The default OpenAI path uses your local Codex CLI through the JiaoLeaf host. That means you can sign in with your ChatGPT/Codex account locally and use the extension without buying a separate OpenAI API key. Browser-direct OpenAI API mode is available only as an optional fallback.
 
 ## Features
 
@@ -29,8 +29,9 @@ The OpenAI path can run directly inside the browser extension with an API key. T
 - **Compile-error assistance**: reads LaTeX logs and proposes focused fixes.
 - **Academic skills**: built-in workflows for paper review, citation management, venue compliance, literature review, statistics, and data visualization.
 - **Skill settings**: enable built-in skills or add your own custom skill instructions from the settings panel.
-- **Browser-direct OpenAI**: basic chat, LaTeX help, and skills can run without `npm`, `host/`, or Codex CLI.
-- **Optional local runtimes**: supports Anthropic Claude and BYOK-compatible providers through the companion host when you explicitly need them.
+- **Local Codex CLI by default**: use your existing ChatGPT/Codex login through the local Codex CLI.
+- **Optional browser-direct API mode**: use an OpenAI API key only if you explicitly enable API mode in settings.
+- **Optional local runtimes**: supports Anthropic Claude and BYOK-compatible providers through the companion host.
 - **Theme-aware UI**: follows Overleaf-style light/dark chrome and compact toolbar spacing.
 
 ## Installation (Single Package)
@@ -51,10 +52,16 @@ Both now contain one unified package:
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
 5. Select the unzipped package root folder (the folder that directly contains `manifest.json`).
-6. Open an Overleaf project on SJTU Overleaf or official Overleaf.
-7. In JiaoLeaf AI settings, open **Tools**, keep **Browser direct mode** enabled, and enter your OpenAI API key.
+6. If Codex CLI is not logged in yet, run the login helper once:
+   - Windows: double-click `login-codex.cmd`
+   - macOS/Linux: run `./login-codex.command`
+7. Start the local JiaoLeaf host:
+   - Windows: double-click `start-jiaoleaf-host.cmd`
+   - macOS/Linux: run `./start-jiaoleaf-host.command`
+8. Open an Overleaf project on SJTU Overleaf or official Overleaf.
+9. Select **OpenAI** in JiaoLeaf AI. Leave **Use OpenAI API directly** off unless you intentionally want API-key mode.
 
-No terminal is required for the browser-direct OpenAI path. The `host/` folder is included for optional advanced local runtimes only.
+Why the host exists: Chrome extensions cannot directly launch local CLI programs. The host is the local bridge that lets the browser panel talk to your already logged-in Codex CLI.
 
 ## Build From Source
 
@@ -138,9 +145,11 @@ System Settings -> Privacy & Security
 
 Allow the blocked host item once, then retry from the extension settings panel.
 
-### OpenAI
+### OpenAI / Codex CLI
 
-Uses browser-direct OpenAI by default. Configure the API key in **Settings -> Tools**, keep **Browser direct mode** enabled, and select **OpenAI** in the provider menu. This path does not require `host/`, `npm`, or Codex CLI.
+Uses local Codex CLI by default. Log in once with `login-codex.cmd` / `login-codex.command`, start the host, then select **OpenAI** in the provider menu. This path reuses your local ChatGPT/Codex login and does not require an OpenAI API key.
+
+Optional API-key mode is available in **Settings -> Tools** by enabling **Use OpenAI API directly instead of local Codex CLI** and entering an OpenAI API key.
 
 ### Anthropic Claude
 
@@ -190,6 +199,8 @@ Static extension assets are also exposed to the corresponding site origins.
 | `npm run pack` | Build, sync, and zip a single install bundle into `release/` |
 | `npm run repack` | Build and then zip |
 | `npm test` | Run extension tests |
+| `./login-codex.command` / `login-codex.cmd` | Log in to Codex CLI with a ChatGPT/Codex account |
+| `./start-jiaoleaf-host.command` / `start-jiaoleaf-host.cmd` | Start the local host bridge |
 | `cd host && npm install` | Install host dependencies |
 | `cd host && npm run dev` | Start the host in development mode |
 | `cd host && npm test` | Run host tests |

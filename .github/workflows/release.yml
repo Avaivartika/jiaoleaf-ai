@@ -19,20 +19,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm run build
-      - run: npm run sync:source-installable
       - name: Package unified install bundle
-        run: |
-          BUNDLE_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
-          mkdir -p release
-          zip -r "$BUNDLE_ZIP" manifest.json extension host README.md LICENSE docs/native-messaging.md \
-            -x 'host/node_modules/*' 'host/dist/*' 'host/.env' 'host/.env.*'
+        run: npm run pack
       - name: Verify unified bundle
         run: |
           BUNDLE_ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
           test -f "$BUNDLE_ZIP"
           unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'manifest.json'
           unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'host/package.json'
+          unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'start-jiaoleaf-host.cmd'
+          unzip -Z1 "$BUNDLE_ZIP" | grep -qx 'login-codex.cmd'
           node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$BUNDLE_ZIP"
       - name: Publish GitHub release
         env:
@@ -45,5 +41,5 @@ jobs:
           else
             gh release create "$GITHUB_REF_NAME" "$BUNDLE_ZIP" \
               --title "JiaoLeaf AI ${GITHUB_REF_NAME}" \
-              --notes "Single bundle: includes Chrome extension files at repository root and host runtime under host/. After unzip, load the bundle root in chrome://extensions and run host from host/."
+              --notes "Single bundle: load the extracted root in chrome://extensions, run login-codex once if needed, then start the local host helper. OpenAI defaults to local Codex CLI/ChatGPT login; API-key mode is optional."
           fi

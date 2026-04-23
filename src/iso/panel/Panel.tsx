@@ -11905,11 +11905,18 @@ const Panel = () => {
                   {settingsTab === 'tools' ? (
                     <div class="ageaf-settings__section">
                       <h3>Tools</h3>
-                      <h4 class="ageaf-settings__subhead">OpenAI</h4>
+                      <h4 class="ageaf-settings__subhead">
+                        OpenAI / Codex
+                      </h4>
+                      <p class="ageaf-settings__hint">
+                        Default mode uses the local Codex CLI through the
+                        JiaoLeaf host. This reuses your local ChatGPT/Codex
+                        login and does not require an OpenAI API key.
+                      </p>
                       <label class="ageaf-settings__checkbox">
                         <input
                           type="checkbox"
-                          checked={settings.openaiBrowserMode ?? true}
+                          checked={settings.openaiBrowserMode ?? false}
                           onChange={(event) =>
                             updateSettings({
                               openaiBrowserMode: (
@@ -11918,17 +11925,17 @@ const Panel = () => {
                             })
                           }
                         />
-                        <span>Browser direct mode</span>
+                        <span>Use OpenAI API directly instead of local Codex CLI</span>
                       </label>
                       <p class="ageaf-settings__hint">
-                        Uses the OpenAI API directly from the extension. Local
-                        host is only needed for CLI tools and local file dialogs.
+                        Optional fallback for users who prefer API keys. Leave
+                        this off to use your local Codex CLI login.
                       </p>
                       <label
                         class="ageaf-settings__label"
                         for="ageaf-openai-api-key"
                       >
-                        OpenAI API key
+                        OpenAI API key (API mode only)
                       </label>
                       <input
                         id="ageaf-openai-api-key"

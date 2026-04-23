@@ -64,7 +64,7 @@ function applyOptionDefaults(input: Options): { options: Options; hadLegacyKeys:
     options.blockedCommandsUnix = 'rm -rf\nchmod 777\nchmod -R 777';
   }
   if (!options.openaiApprovalPolicy) options.openaiApprovalPolicy = 'never';
-  if (options.openaiBrowserMode === undefined) options.openaiBrowserMode = true;
+  if (options.openaiBrowserMode === undefined) options.openaiBrowserMode = false;
   if (!options.openaiBaseUrl) options.openaiBaseUrl = 'https://api.openai.com/v1';
   // Backward-compatible migration:
   // - Previously `debugCliEvents` was used for "Show thinking and tool activity".
