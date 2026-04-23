@@ -44,7 +44,7 @@ function applyOptionDefaults(input: Options): { options: Options; hadLegacyKeys:
   if (options.transport !== 'http' && options.transport !== 'native') {
     options.transport = DEFAULT_TRANSPORT;
   }
-  if (options.transport !== 'native' && !options.hostUrl) {
+  if (!options.hostUrl) {
     options.hostUrl = 'http://127.0.0.1:3210';
   }
   options.claudeSessionScope = 'project';

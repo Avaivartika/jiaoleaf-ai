@@ -25,6 +25,32 @@ export interface SkillsManifest {
 let manifestCache: SkillsManifest | null = null;
 const markdownCache = new Map<string, string>();
 
+function resolveAssetCandidates(assetPath: string): string[] {
+  const normalized = assetPath.replace(/^\/+/, '');
+  const candidates = [normalized];
+  if (!normalized.startsWith('extension/')) {
+    candidates.push(`extension/${normalized}`);
+  }
+  return candidates;
+}
+
+async function fetchFirstAvailable(pathCandidates: string[]): Promise<Response> {
+  let lastError: Error | null = null;
+  for (const pathCandidate of pathCandidates) {
+    const url = chrome.runtime.getURL(pathCandidate);
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        return response;
+      }
+      lastError = new Error(`HTTP ${response.status} for ${pathCandidate}`);
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+    }
+  }
+  throw lastError ?? new Error(`Failed to fetch any candidate path: ${pathCandidates.join(', ')}`);
+}
+
 /**
  * Load the skills manifest from extension assets
  * @returns Promise<SkillsManifest>
@@ -34,12 +60,7 @@ export async function loadSkillsManifest(): Promise<SkillsManifest> {
     return manifestCache;
   }
 
-  const manifestUrl = chrome.runtime.getURL('skills/manifest.json');
-  const response = await fetch(manifestUrl);
-
-  if (!response.ok) {
-    throw new Error(`Failed to load skills manifest: ${response.statusText}`);
-  }
+  const response = await fetchFirstAvailable(resolveAssetCandidates('skills/manifest.json'));
 
   manifestCache = await response.json();
   return manifestCache!;
@@ -111,12 +132,7 @@ export async function loadSkillMarkdown(skill: SkillEntry): Promise<string> {
     return markdownCache.get(skill.id)!;
   }
 
-  const skillUrl = chrome.runtime.getURL(skill.path);
-  const response = await fetch(skillUrl);
-
-  if (!response.ok) {
-    throw new Error(`Failed to load skill ${skill.id}: ${response.statusText}`);
-  }
+  const response = await fetchFirstAvailable(resolveAssetCandidates(skill.path));
 
   const markdown = await response.text();
   const stripped = stripFrontmatter(markdown);

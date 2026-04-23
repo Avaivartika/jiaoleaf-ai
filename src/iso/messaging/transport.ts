@@ -79,7 +79,46 @@ export type Transport = {
   deleteSession: (provider: 'claude' | 'codex' | 'pi', sessionId: string) => Promise<void>;
 };
 
+function isMissingNativeHostError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? '');
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes('native messaging host not found') ||
+    normalized.includes('specified native messaging host not found') ||
+    normalized.includes('native host not found') ||
+    normalized.includes('could not establish connection')
+  );
+}
+
 export function createTransport(options: Options): Transport {
   const kind = options.transport === 'native' ? 'native' : 'http';
-  return (kind === 'native' ? nativeTransport(options) : httpTransport(options)) as Transport;
+  if (kind === 'http') {
+    return httpTransport(options) as Transport;
+  }
+
+  const native = nativeTransport(options) as unknown as Record<string, unknown>;
+  const http = httpTransport(options) as unknown as Record<string, unknown>;
+
+  return new Proxy(native, {
+    get(target, prop, receiver) {
+      const value = Reflect.get(target, prop, receiver);
+      if (typeof value !== 'function') {
+        return value;
+      }
+
+      return async (...args: unknown[]) => {
+        try {
+          return await (value as (...fnArgs: unknown[]) => Promise<unknown>).apply(target, args);
+        } catch (error) {
+          if (isMissingNativeHostError(error)) {
+            const fallback = http[prop as string];
+            if (typeof fallback === 'function') {
+              return await (fallback as (...fnArgs: unknown[]) => Promise<unknown>).apply(http, args);
+            }
+          }
+          throw error;
+        }
+      };
+    },
+  }) as Transport;
 }

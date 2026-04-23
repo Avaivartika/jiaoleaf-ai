@@ -13,7 +13,8 @@ const config = (env, argv) =>
     plugins: [
       new webpack.DefinePlugin({
         __AGEAF_BUILD_MODE__: JSON.stringify(argv.mode === 'production' ? 'production' : 'development'),
-        __AGEAF_DEFAULT_TRANSPORT__: JSON.stringify(argv.mode === 'production' ? 'native' : 'http'),
+        // Default to HTTP so users can run host via `npm run dev` without native host registration.
+        __AGEAF_DEFAULT_TRANSPORT__: JSON.stringify('http'),
       }),
     ],
     entry: {

@@ -30,7 +30,7 @@ test('webpack build defines Ageaf default transport by mode', () => {
 
   const prodDefine = findAgeafDefinePlugin(prodConfig.plugins);
   assert.ok(prodDefine, 'expected DefinePlugin for prod build');
-  assert.equal(prodDefine.definitions.__AGEAF_DEFAULT_TRANSPORT__, JSON.stringify('native'));
+  assert.equal(prodDefine.definitions.__AGEAF_DEFAULT_TRANSPORT__, JSON.stringify('http'));
   assert.equal(prodDefine.definitions.__AGEAF_BUILD_MODE__, JSON.stringify('production'));
 });
 
@@ -40,4 +40,3 @@ test('options defaults reference build-time transport constant', () => {
 
   assert.match(contents, /__AGEAF_DEFAULT_TRANSPORT__/);
 });
-
