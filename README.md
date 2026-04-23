@@ -36,16 +36,18 @@ The extension UI is aligned with Overleaf's two-level toolbar layout and support
 
 Do not use GitHub's green **Code -> Download ZIP** button for installation. That downloads the source repository, not the built Chrome extension, and Chrome will report `manifest file is missing or unreadable` if you load the repository root.
 
-1. Download the built extension zip: [`release/jiaoleaf-ai-v0.1.0.zip`](./release/jiaoleaf-ai-v0.1.0.zip).
-2. Unzip it locally.
-3. Open Chrome and go to `chrome://extensions`.
-4. Enable **Developer mode**.
-5. Click **Load unpacked**.
-6. Select the unzipped extension folder that directly contains `manifest.json`.
+1. Open the [latest GitHub Release](https://github.com/Avaivartika/jiaoleaf-ai/releases/latest).
+2. Download the attached `jiaoleaf-ai-v*.zip` asset.
+3. Do not download `Source code (zip)` or `Source code (tar.gz)`.
+4. Unzip it locally.
+5. Open Chrome and go to `chrome://extensions`.
+6. Enable **Developer mode**.
+7. Click **Load unpacked**.
+8. Select the unzipped extension folder that directly contains `manifest.json`.
    - Correct: `...\jiaoleaf-ai-v0.1.0\manifest.json` exists.
    - Incorrect: selecting the GitHub source folder, where `manifest.json` is only under `public\`.
-7. If you are running from source instead of the release zip, select this repository's generated `build/` folder.
-8. Start the local companion host:
+9. If you are running from source instead of the release zip, select this repository's generated `build/` folder.
+10. Start the local companion host:
 
 ```bash
 cd host
@@ -105,6 +107,13 @@ release/jiaoleaf-ai-v0.1.0.zip
 ```
 
 The zip contains the extension build output only. The companion host still needs to be installed or run separately.
+
+Release tags create GitHub Releases automatically. Maintainers publish a new installable asset with:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
 
 ## Runtime Providers
 

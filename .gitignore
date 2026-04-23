@@ -42,6 +42,7 @@ Thumbs.db
 *.crx
 *.pem
 *.key
+release/*.zip
 
 # Temporary files
 *.tmp

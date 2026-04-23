@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run repack
+      - name: Verify extension package
+        run: |
+          ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          test -f "$ZIP"
+          unzip -Z1 "$ZIP" | grep -qx 'manifest.json'
+          node -e "const AdmZip=require('adm-zip'); const zip=new AdmZip(process.argv[1]); JSON.parse(zip.getEntry('manifest.json').getData().toString('utf8')); console.log('manifest ok')" "$ZIP"
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ZIP="release/jiaoleaf-ai-${GITHUB_REF_NAME}.zip"
+          gh release create "$GITHUB_REF_NAME" "$ZIP" \
+            --title "JiaoLeaf AI ${GITHUB_REF_NAME}" \
+            --notes "Download the zip attached to this release, unzip it, then load the unzipped folder in chrome://extensions. Do not use Code -> Download ZIP for installation."
