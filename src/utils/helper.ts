@@ -66,6 +66,7 @@ function applyOptionDefaults(input: Options): { options: Options; hadLegacyKeys:
   if (!options.openaiApprovalPolicy) options.openaiApprovalPolicy = 'never';
   if (options.openaiBrowserMode === undefined) options.openaiBrowserMode = false;
   if (!options.openaiBaseUrl) options.openaiBaseUrl = 'https://api.openai.com/v1';
+  if (!options.codexReasoningEffort) options.codexReasoningEffort = 'low';
   // Backward-compatible migration:
   // - Previously `debugCliEvents` was used for "Show thinking and tool activity".
   // - Now we split it into:

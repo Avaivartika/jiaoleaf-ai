@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/start.js",
     "test": "tsx --test test/**/*.test.ts",
-    "test:ci": "tsx --test test/ageaf-patch-fence.test.ts test/ask-user-core.test.ts test/codex-command-resolution.test.ts test/codex-exec-fallback.test.ts test/command-blocklist.test.ts test/native-messaging-protocol.test.ts test/patch-schema.test.ts test/pi-custom-providers.test.ts test/pi-stream-buffer-diagram-close.test.ts test/text-attachments.test.ts test/tool-display-info.test.ts",
+    "test:ci": "tsx --test test/ageaf-patch-fence.test.ts test/ask-user-core.test.ts test/codex-command-resolution.test.ts test/codex-direct-exec-mode.test.ts test/codex-exec-fallback.test.ts test/command-blocklist.test.ts test/native-messaging-protocol.test.ts test/patch-schema.test.ts test/pi-custom-providers.test.ts test/pi-stream-buffer-diagram-close.test.ts test/text-attachments.test.ts test/tool-display-info.test.ts",
     "native": "tsx src/native.ts"
   },
   "dependencies": {

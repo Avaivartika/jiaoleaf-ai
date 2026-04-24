@@ -700,7 +700,7 @@ const CODEX_FALLBACK_MODELS: RuntimeModel[] = [
       { reasoningEffort: 'high', description: 'Deeper reasoning for complex tasks' },
       { reasoningEffort: 'xhigh', description: 'Maximum reasoning depth' },
     ],
-    defaultReasoningEffort: 'medium',
+    defaultReasoningEffort: 'low',
     isDefault: true,
   },
 ];
@@ -2143,8 +2143,8 @@ const Panel = () => {
           }
 
           const effort = metadata
-            ? metadata.currentReasoningEffort ??
-            options.codexReasoningEffort ??
+            ? options.codexReasoningEffort ??
+            metadata.currentReasoningEffort ??
             selectedModel?.defaultReasoningEffort ??
             null
             : options.codexReasoningEffort ??

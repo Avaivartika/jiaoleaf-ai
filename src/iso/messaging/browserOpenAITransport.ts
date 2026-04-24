@@ -31,7 +31,7 @@ function getOpenAIBaseUrl(options: Options) {
 
 function getCodexMetadata(options: Options): CodexRuntimeMetadata {
   const model = options.codexModel || 'gpt-5.4';
-  const effort = options.codexReasoningEffort || 'medium';
+  const effort = options.codexReasoningEffort || 'low';
   return {
     models: [
       {
@@ -105,7 +105,7 @@ function sendOpenAIMessage(options: Options, payload: JobPayload, signal?: Abort
   }
   const model = payload.runtime?.codex?.model || options.codexModel || 'gpt-5.4';
   const reasoningEffort =
-    payload.runtime?.codex?.reasoningEffort || options.codexReasoningEffort || 'medium';
+    payload.runtime?.codex?.reasoningEffort || options.codexReasoningEffort || 'low';
 
   return new Promise<{ text: string; usage?: any; id?: string | null }>((resolve, reject) => {
     if (signal?.aborted) {

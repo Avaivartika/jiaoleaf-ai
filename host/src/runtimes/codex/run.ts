@@ -57,6 +57,7 @@ const traceAllCodexEvents = process.env.AGEAF_CODEX_TRACE_ALL_EVENTS === 'true';
 const DEFAULT_CODEX_TURN_TIMEOUT_MS = 120 * 1000;
 const DEFAULT_CODEX_COMPLETION_GRACE_MS = 60 * 60 * 1000;
 const DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS = 20 * 1000;
+type CodexExecutionMode = 'app-server' | 'exec';
 function debugLog(message: string, data?: Record<string, unknown>) {
   if (!debugToConsole) return;
   console.log(`[CODEX DEBUG] ${message}`, data ?? '');
@@ -689,6 +690,13 @@ function getCodexCompletionGraceMs() {
   const parsed = Number(raw);
   if (!Number.isFinite(parsed) || parsed < 0) return DEFAULT_CODEX_COMPLETION_GRACE_MS;
   return parsed;
+}
+
+function getCodexExecutionMode(): CodexExecutionMode {
+  const raw = String(process.env.AGEAF_CODEX_EXEC_MODE ?? '').trim().toLowerCase();
+  if (raw === 'exec') return 'exec';
+  if (raw === 'app-server' || raw === 'appserver') return 'app-server';
+  return process.platform === 'win32' ? 'exec' : 'app-server';
 }
 
 function buildPrompt(
@@ -1332,9 +1340,92 @@ export async function runCodexJob(
     typeof runtime.reasoningEffort === 'string' && runtime.reasoningEffort.trim()
       ? runtime.reasoningEffort.trim()
       : null;
+  const turnTimeoutMs = getCodexTurnTimeoutMs();
+  const executionMode = getCodexExecutionMode();
+  const shouldUseDirectExec =
+    executionMode === 'exec' &&
+    images.length === 0 &&
+    (payload.action ?? 'chat') === 'chat';
   // Pre-register MCP servers before starting app-server.
   // This is idempotent and runs `codex mcp add` once per CLI path.
   await ensureMcpServersRegistered(runtime.cliPath, runtime.envVars);
+
+  if (executionMode === 'exec' && images.length > 0) {
+    emitTrace('Codex: direct CLI mode requested, but image attachments require app-server path');
+  }
+
+  if (shouldUseDirectExec) {
+    const pf = getProjectFiles(payload);
+    const projectDir = writeProjectFilesToDisk(pf, cwd);
+    const prompt = buildPrompt(payload, contextForPrompt, projectDir);
+    emitTrace('Codex: using direct CLI mode', {
+      threadId: threadId || undefined,
+      model: model ?? undefined,
+      effort: effort ?? undefined,
+      promptChars: prompt.length,
+    });
+
+    if (debugToConsole) {
+      debugLog('prompt', {
+        ...(options?.jobId ? { jobId: options.jobId } : {}),
+        promptLength: prompt.length,
+        promptPreview: prompt.substring(0, 500) + (prompt.length > 500 ? '…' : ''),
+        executionMode,
+      });
+    }
+
+    try {
+      const direct = await runCodexExecFallback({
+        cliPath: runtime.cliPath,
+        envVars: runtime.envVars,
+        cwd,
+        prompt,
+        model,
+        effort,
+        threadId: threadId || null,
+        timeoutMs: turnTimeoutMs,
+      });
+
+      if (direct.threadId) {
+        threadId = direct.threadId;
+        if (pf.length > 0 && !runtime.threadId) {
+          const directSessionCwd = getCodexSessionCwd(threadId);
+          writeProjectFilesToDisk(pf, directSessionCwd);
+        }
+      }
+
+      if (direct.usage) {
+        emitEvent({
+          event: 'usage',
+          data: {
+            model: null,
+            usedTokens: direct.usage.usedTokens,
+            contextWindow: direct.usage.contextWindow,
+          },
+        });
+      }
+
+      if (direct.text) {
+        emitEvent({ event: 'delta', data: { text: direct.text } });
+      }
+
+      emitEvent({
+        event: 'done',
+        data: { status: 'ok', threadId: threadId || undefined },
+      });
+      return;
+    } catch (error) {
+      emitEvent({
+        event: 'done',
+        data: {
+          status: 'error',
+          message: normalizeErrorMessage(error ?? 'Codex direct CLI mode failed'),
+          threadId: threadId || undefined,
+        },
+      });
+      return;
+    }
+  }
 
   const appServer = await getCodexAppServer({
     cliPath: runtime.cliPath,
@@ -1406,7 +1497,6 @@ export async function runCodexJob(
   const projectDir = writeProjectFilesToDisk(pf, sessionCwd);
 
   const prompt = buildPrompt(payload, contextForPrompt, projectDir);
-  const turnTimeoutMs = getCodexTurnTimeoutMs();
   emitTrace('Codex: prepared prompt', {
     action: payload.action ?? 'chat',
     promptChars: prompt.length,
@@ -1417,6 +1507,7 @@ export async function runCodexJob(
     blocklistEnabled: compiledBlockedPatterns.length > 0,
     model: model ?? undefined,
     effort: effort ?? undefined,
+    executionMode,
     turnTimeoutSec: Number.isFinite(turnTimeoutMs) && turnTimeoutMs > 0
       ? Math.round(turnTimeoutMs / 1000)
       : 0,
@@ -1428,6 +1519,7 @@ export async function runCodexJob(
       ...(options?.jobId ? { jobId: options.jobId } : {}),
       promptLength: prompt.length,
       promptPreview: prompt.substring(0, 500) + (prompt.length > 500 ? '…' : ''),
+      executionMode,
     });
   }
 
