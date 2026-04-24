@@ -48,15 +48,21 @@ if (args[0] === "exec") {
   const finish = (prompt) => {
     write({ type: "thread.started", thread_id: threadId });
     write({ type: "turn.started" });
-    write({
-      type: "item.completed",
-      item: {
-        id: "item_0",
-        type: "agent_message",
-        text:
+    const execChunks = process.env.CODEX_TEST_EXEC_TEXT_CHUNKS
+      ? process.env.CODEX_TEST_EXEC_TEXT_CHUNKS.split("|")
+      : [
           process.env.CODEX_TEST_EXEC_TEXT ||
-          `Exec fallback reply: ${String(prompt || "").trim() || "hello"}`,
-      },
+            `Exec fallback reply: ${String(prompt || "").trim() || "hello"}`,
+        ];
+    execChunks.forEach((text, index) => {
+      write({
+        type: "item.completed",
+        item: {
+          id: `item_${index}`,
+          type: "agent_message",
+          text,
+        },
+      });
     });
     write({
       type: "turn.completed",

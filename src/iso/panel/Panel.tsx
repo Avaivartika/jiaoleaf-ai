@@ -107,6 +107,9 @@ import {
 const DEFAULT_WIDTH = 360;
 const MIN_WIDTH = 280;
 const MAX_WIDTH = 900;
+const STREAM_REVEAL_INTERVAL_MS = 16;
+const STREAM_REVEAL_MIN_CHARS_PER_TICK = 160;
+const STREAM_REVEAL_MAX_TOKENS_PER_TICK = 40;
 const LIGHT_EDITOR_THEMES = new Set([
   'chrome',
   'clouds',
@@ -6330,16 +6333,25 @@ const Panel = () => {
         }
         return;
       }
-      const next = sessionState.streamTokens.shift();
-      if (!next) return;
-      sessionState.streamingText += next;
+      let nextChunk = '';
+      let tokenCount = 0;
+      while (
+        sessionState.streamTokens.length > 0 &&
+        tokenCount < STREAM_REVEAL_MAX_TOKENS_PER_TICK &&
+        (nextChunk.length < STREAM_REVEAL_MIN_CHARS_PER_TICK || tokenCount === 0)
+      ) {
+        nextChunk += sessionState.streamTokens.shift() ?? '';
+        tokenCount += 1;
+      }
+      if (!nextChunk) return;
+      sessionState.streamingText += nextChunk;
 
       // Only update UI if this is the current session
       if (conversationId === chatConversationIdRef.current) {
         streamingTextRef.current = sessionState.streamingText;
         setStreamingText(sessionState.streamingText);
       }
-    }, 30);
+    }, STREAM_REVEAL_INTERVAL_MS);
   };
 
   const enqueueStreamTokens = (

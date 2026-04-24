@@ -10,10 +10,12 @@ test('Codex direct exec mode bypasses stalled app-server path', async () => {
   const previousExecMode = process.env.JIAOLEAF_CODEX_EXEC_MODE;
   const previousFixtureHang = process.env.CODEX_TEST_HANG;
   const previousExecText = process.env.CODEX_TEST_EXEC_TEXT;
+  const previousExecTextChunks = process.env.CODEX_TEST_EXEC_TEXT_CHUNKS;
 
   process.env.JIAOLEAF_CODEX_EXEC_MODE = 'exec';
   process.env.CODEX_TEST_HANG = 'true';
-  process.env.CODEX_TEST_EXEC_TEXT = 'Hello from direct exec mode';
+  delete process.env.CODEX_TEST_EXEC_TEXT;
+  process.env.CODEX_TEST_EXEC_TEXT_CHUNKS = 'Hello from |direct exec mode';
 
   const cliPath = path.join(process.cwd(), 'test', 'fixtures', 'codex');
   const events: JobEvent[] = [];
@@ -40,6 +42,7 @@ test('Codex direct exec mode bypasses stalled app-server path', async () => {
       .filter((event) => event.event === 'delta')
       .map((event) => String((event.data as any)?.text ?? ''))
       .join('');
+    const deltaEvents = events.filter((event) => event.event === 'delta');
     const planText = events
       .filter((event) => event.event === 'plan')
       .map((event) => String((event.data as any)?.message ?? ''))
@@ -47,6 +50,7 @@ test('Codex direct exec mode bypasses stalled app-server path', async () => {
     const done = events.find((event) => event.event === 'done');
 
     assert.equal(deltaText, 'Hello from direct exec mode');
+    assert.ok(deltaEvents.length >= 2, 'expected direct exec chunks to stream before done');
     assert.doesNotMatch(planText, /switching to direct CLI mode/i);
     assert.equal((done?.data as any)?.status, 'ok');
   } finally {
@@ -56,6 +60,8 @@ test('Codex direct exec mode bypasses stalled app-server path', async () => {
     else process.env.CODEX_TEST_HANG = previousFixtureHang;
     if (previousExecText === undefined) delete process.env.CODEX_TEST_EXEC_TEXT;
     else process.env.CODEX_TEST_EXEC_TEXT = previousExecText;
+    if (previousExecTextChunks === undefined) delete process.env.CODEX_TEST_EXEC_TEXT_CHUNKS;
+    else process.env.CODEX_TEST_EXEC_TEXT_CHUNKS = previousExecTextChunks;
     await resetCodexAppServerForTests();
   }
 });

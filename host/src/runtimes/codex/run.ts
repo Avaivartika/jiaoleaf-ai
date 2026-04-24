@@ -1098,6 +1098,7 @@ async function runCodexExecFallback(options: {
   effort?: string | null;
   threadId?: string | null;
   timeoutMs?: number;
+  onDelta?: (text: string) => void;
 }): Promise<CodexExecFallbackResult> {
   const resolvedCliPath = resolveCodexCliPath(options.cliPath);
   const candidates = resolveCodexCommandSpecs(options.cliPath);
@@ -1130,6 +1131,7 @@ async function runCodexExecFallback(options: {
       : null;
 
   const textChunks: string[] = [];
+  let streamedText = '';
   let threadId = options.threadId?.trim() || null;
   let usage: { usedTokens: number; contextWindow: number | null } | null = null;
   let stderr = '';
@@ -1159,6 +1161,8 @@ async function runCodexExecFallback(options: {
         const extracted = extractAssistantTextFromItem(parsed.item);
         if (extracted && extracted.trim()) {
           textChunks.push(extracted);
+          streamedText += extracted;
+          options.onDelta?.(extracted);
         }
         return;
       }
@@ -1205,7 +1209,7 @@ async function runCodexExecFallback(options: {
 
   return {
     threadId,
-    text: textChunks.join('').trim(),
+    text: (streamedText || textChunks.join('')).trim(),
     usage,
   };
 }
@@ -1399,6 +1403,7 @@ export async function runCodexJob(
     }
 
     try {
+      let streamedDirectText = '';
       const direct = await runCodexExecFallback({
         cliPath: runtime.cliPath,
         envVars: runtime.envVars,
@@ -1408,6 +1413,10 @@ export async function runCodexJob(
         effort,
         threadId: threadId || null,
         timeoutMs: turnTimeoutMs,
+        onDelta: (text) => {
+          streamedDirectText += text;
+          emitEvent({ event: 'delta', data: { text } });
+        },
       });
 
       if (direct.threadId) {
@@ -1429,8 +1438,11 @@ export async function runCodexJob(
         });
       }
 
-      if (direct.text) {
-        emitEvent({ event: 'delta', data: { text: direct.text } });
+      const remainingText = direct.text
+        ? mergeTextSnapshot(streamedDirectText, direct.text).delta
+        : '';
+      if (remainingText) {
+        emitEvent({ event: 'delta', data: { text: remainingText } });
       }
 
       emitEvent({
@@ -3061,6 +3073,7 @@ export async function runCodexJob(
     });
 
     try {
+      let streamedFallbackText = '';
       const fallback = await runCodexExecFallback({
         cliPath: runtime.cliPath,
         envVars: runtime.envVars,
@@ -3070,6 +3083,18 @@ export async function runCodexJob(
         effort,
         threadId,
         timeoutMs: TURN_TIMEOUT_MS,
+        onDelta: (text) => {
+          streamedFallbackText += text;
+          if (!diagnostics.seenAnyDelta) {
+            diagnostics.seenAnyDelta = true;
+            emitTrace('Codex: first delta received via exec fallback');
+          }
+          if (!shouldHidePatchPayload) {
+            emitEvent({ event: 'delta', data: { text } });
+          } else {
+            emitVisibleDelta(text);
+          }
+        },
       });
 
       if (fallback.threadId) threadId = fallback.threadId;
@@ -3084,20 +3109,20 @@ export async function runCodexJob(
         });
       }
 
-      if (fallback.text) {
-        if (!diagnostics.seenAnyDelta) {
-          diagnostics.seenAnyDelta = true;
-          emitTrace('Codex: first delta received via exec fallback');
-        }
-        fullText = mergeTextSnapshot(fullText, fallback.text).merged;
+      const remainingFallbackText = fallback.text
+        ? mergeTextSnapshot(streamedFallbackText, fallback.text).delta
+        : '';
+      const fallbackTextForPatch = streamedFallbackText || fallback.text;
+      if (fallbackTextForPatch) {
+        fullText = mergeTextSnapshot(fullText, fallbackTextForPatch).merged;
       }
 
       emitPatchesFromCompletedText();
-      if (fallback.text) {
+      if (remainingFallbackText) {
         if (!shouldHidePatchPayload) {
-          emitEvent({ event: 'delta', data: { text: fallback.text } });
+          emitEvent({ event: 'delta', data: { text: remainingFallbackText } });
         } else {
-          emitVisibleDelta(fallback.text);
+          emitVisibleDelta(remainingFallbackText);
         }
       }
       flushVisibleBuffer();
