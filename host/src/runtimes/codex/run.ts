@@ -1,7 +1,8 @@
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
@@ -55,6 +56,7 @@ const debugToConsole = process.env.AGEAF_DEBUG_CLI === 'true';
 const traceAllCodexEvents = process.env.AGEAF_CODEX_TRACE_ALL_EVENTS === 'true';
 const DEFAULT_CODEX_TURN_TIMEOUT_MS = 120 * 1000;
 const DEFAULT_CODEX_COMPLETION_GRACE_MS = 60 * 60 * 1000;
+const DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS = 20 * 1000;
 function debugLog(message: string, data?: Record<string, unknown>) {
   if (!debugToConsole) return;
   console.log(`[CODEX DEBUG] ${message}`, data ?? '');
@@ -402,7 +404,7 @@ function redactTraceLine(value: string, limit = 240) {
 function extractAssistantTextFromItem(value: any): string | null {
   if (!value || typeof value !== 'object') return null;
 
-  // Some Codex builds nest the assistant message under `message` or `output`.
+  // Some Codex builds nest the assistant message under `message`, `output`, or `msg`.
   // Try those before applying role/type heuristics to the wrapper object.
   if (value.message && typeof value.message === 'object') {
     const nested = extractAssistantTextFromItem(value.message);
@@ -410,6 +412,10 @@ function extractAssistantTextFromItem(value: any): string | null {
   }
   if (value.output && typeof value.output === 'object') {
     const nested = extractAssistantTextFromItem(value.output);
+    if (nested) return nested;
+  }
+  if (value.msg && typeof value.msg === 'object') {
+    const nested = extractAssistantTextFromItem(value.msg);
     if (nested) return nested;
   }
 
@@ -460,6 +466,15 @@ function extractAssistantTextFromItem(value: any): string | null {
   }
 
   return null;
+}
+
+function getCodexExecFallbackStallMs(): number {
+  const raw = process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS;
+  if (raw === undefined) return DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) return DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS;
+  if (parsed <= 0) return 0;
+  return Math.floor(parsed);
 }
 
 function mergeTextSnapshot(existing: string, snapshot: string): { merged: string; delta: string } {
@@ -997,6 +1012,181 @@ async function execCodexWithFallback(
   throw new Error(`No Codex command candidate succeeded for args: ${args.join(' ')}`);
 }
 
+async function spawnCodexWithFallback(
+  candidates: CodexCommandSpec[],
+  args: string[],
+  opts: { cwd: string; env: NodeJS.ProcessEnv }
+): Promise<{ child: ReturnType<typeof spawn>; command: string }> {
+  let lastError: NodeJS.ErrnoException | null = null;
+
+  for (const candidate of candidates) {
+    const child = spawn(candidate.command, [...candidate.baseArgs, ...args], {
+      cwd: opts.cwd,
+      env: opts.env,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+
+    const result = await new Promise<
+      { ok: true } | { ok: false; error: NodeJS.ErrnoException }
+    >((resolve) => {
+      let settled = false;
+
+      child.once('spawn', () => {
+        if (settled) return;
+        settled = true;
+        resolve({ ok: true });
+      });
+
+      child.once('error', (error: NodeJS.ErrnoException) => {
+        if (settled) return;
+        settled = true;
+        resolve({ ok: false, error });
+      });
+    });
+
+    if (result.ok) {
+      return { child, command: stringifyCommand(candidate) };
+    }
+
+    if (isRetriableCommandResolutionError(result.error)) {
+      lastError = result.error;
+      continue;
+    }
+
+    throw result.error;
+  }
+
+  if (lastError) throw lastError;
+  throw new Error(`No Codex command candidate succeeded for args: ${args.join(' ')}`);
+}
+
+type CodexExecFallbackResult = {
+  threadId: string | null;
+  text: string;
+  usage: { usedTokens: number; contextWindow: number | null } | null;
+};
+
+async function runCodexExecFallback(options: {
+  cliPath?: string;
+  envVars?: string;
+  cwd: string;
+  prompt: string;
+  model?: string | null;
+  effort?: string | null;
+  threadId?: string | null;
+  timeoutMs?: number;
+}): Promise<CodexExecFallbackResult> {
+  const resolvedCliPath = resolveCodexCliPath(options.cliPath);
+  const candidates = resolveCodexCommandSpecs(options.cliPath);
+  const customEnv = parseEnvironmentVariables(options.envVars ?? '');
+  const env = {
+    ...process.env,
+    ...customEnv,
+    PATH: getEnhancedPath(customEnv.PATH, resolvedCliPath),
+  };
+
+  const args = options.threadId
+    ? ['exec', 'resume', '--json', '--skip-git-repo-check']
+    : ['exec', '--json', '--skip-git-repo-check'];
+  if (options.model) args.push('-m', options.model);
+  if (options.effort) args.push('-c', `model_reasoning_effort="${options.effort}"`);
+  if (options.threadId) args.push(options.threadId);
+  args.push('-');
+
+  const { child } = await spawnCodexWithFallback(candidates, args, {
+    cwd: options.cwd,
+    env,
+  });
+
+  const timeoutMs = Number(options.timeoutMs ?? DEFAULT_CODEX_TURN_TIMEOUT_MS);
+  const timeoutId =
+    Number.isFinite(timeoutMs) && timeoutMs > 0
+      ? setTimeout(() => {
+          child.kill();
+        }, timeoutMs)
+      : null;
+
+  const textChunks: string[] = [];
+  let threadId = options.threadId?.trim() || null;
+  let usage: { usedTokens: number; contextWindow: number | null } | null = null;
+  let stderr = '';
+
+  const stdoutDone = new Promise<void>((resolve, reject) => {
+    if (!child.stdout) {
+      resolve();
+      return;
+    }
+    const rl = createInterface({ input: child.stdout, crlfDelay: Infinity });
+    rl.on('line', (line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+      let parsed: any;
+      try {
+        parsed = JSON.parse(trimmed);
+      } catch {
+        return;
+      }
+
+      if (parsed?.type === 'thread.started' && typeof parsed.thread_id === 'string') {
+        threadId = parsed.thread_id;
+        return;
+      }
+
+      if (parsed?.type === 'item.completed') {
+        const extracted = extractAssistantTextFromItem(parsed.item);
+        if (extracted && extracted.trim()) {
+          textChunks.push(extracted);
+        }
+        return;
+      }
+
+      if (parsed?.type === 'turn.completed' && parsed?.usage && typeof parsed.usage === 'object') {
+        const inputTokens =
+          typeof parsed.usage.input_tokens === 'number' ? parsed.usage.input_tokens : 0;
+        const outputTokens =
+          typeof parsed.usage.output_tokens === 'number' ? parsed.usage.output_tokens : 0;
+        usage = {
+          usedTokens: Math.max(0, Math.floor(inputTokens + outputTokens)),
+          contextWindow: null,
+        };
+      }
+    });
+    rl.once('close', () => resolve());
+    rl.once('error', reject);
+  });
+
+  const stderrDone = new Promise<void>((resolve) => {
+    if (!child.stderr) {
+      resolve();
+      return;
+    }
+    child.stderr.on('data', (chunk) => {
+      stderr += String(chunk ?? '');
+    });
+    child.stderr.once('close', () => resolve());
+  });
+
+  const exitCode = await new Promise<number>((resolve, reject) => {
+    child.once('error', reject);
+    child.once('exit', (code) => resolve(code ?? 0));
+    child.stdin?.write(options.prompt);
+    child.stdin?.end();
+  });
+
+  await Promise.all([stdoutDone, stderrDone]);
+  if (timeoutId) clearTimeout(timeoutId);
+
+  if (exitCode !== 0) {
+    throw new Error(stderr.trim() || `Codex exec exited with code ${exitCode}`);
+  }
+
+  return {
+    threadId,
+    text: textChunks.join('').trim(),
+    usage,
+  };
+}
+
 async function ensureMcpServersRegistered(
   cliPath?: string,
   envVars?: string
@@ -1412,10 +1602,14 @@ export async function runCodexJob(
   let lastMessageTime = Date.now();
   const TURN_TIMEOUT_MS = getCodexTurnTimeoutMs();
   const COMPLETION_GRACE_MS = getCodexCompletionGraceMs();
+  const EXEC_FALLBACK_STALL_MS = getCodexExecFallbackStallMs();
   const HEARTBEAT_MS = 10000;
   let lastHeartbeatAt = 0;
   let lastTraceDiagnosticsAt = 0;
   let lastConsoleDiagnosticsAt = 0;
+  let heartbeatId: NodeJS.Timeout | null = null;
+  let stallFallbackId: NodeJS.Timeout | null = null;
+  let timeoutId: NodeJS.Timeout | null = null;
 
   const diagnostics = {
     totalEvents: 0,
@@ -1428,6 +1622,7 @@ export async function runCodexJob(
     seenTurnStarted: false,
     seenAnyDelta: false,
     seenTurnCompleted: false,
+    seenToolActivity: false,
     lastStderrLine: '',
     lastStderrAt: 0,
     lastRateLimitAt: 0,
@@ -1444,6 +1639,7 @@ export async function runCodexJob(
   let compactionNoticeEmitted = false;
   let compactionLifecycleSeen = false;
   let activeCompactionToolId: string | null = null;
+  let execFallbackStarted = false;
 
   // ─── Pending tool tracking for tool_complete lifecycle ───
   // Maps toolId → toolName so we can emit tool_complete when item/completed arrives.
@@ -1478,6 +1674,10 @@ export async function runCodexJob(
     pendingTools.clear();
   };
 
+  const markToolActivity = () => {
+    diagnostics.seenToolActivity = true;
+  };
+
   const emitCompactionLifecycle = (
     phase: 'tool_start' | 'compaction_complete' | 'tool_error',
     source?: unknown
@@ -1507,6 +1707,9 @@ export async function runCodexJob(
       },
     });
     if (phase === 'tool_start') {
+      markToolActivity();
+    }
+    if (phase === 'tool_start') {
       activeCompactionToolId = toolId;
       return;
     }
@@ -1524,6 +1727,12 @@ export async function runCodexJob(
     if (!completionGraceTimer) return;
     clearTimeout(completionGraceTimer);
     completionGraceTimer = null;
+  };
+
+  const clearStallFallbackTimer = () => {
+    if (!stallFallbackId) return;
+    clearTimeout(stallFallbackId);
+    stallFallbackId = null;
   };
 
   const emitPatchesFromCompletedText = () => {
@@ -1582,6 +1791,7 @@ export async function runCodexJob(
   const finalizeCompletion = () => {
     if (done) return;
     clearCompletionGraceTimer();
+    clearStallFallbackTimer();
     awaitingLateCompletionOutput = false;
 
     if (activeCompactionToolId) {
@@ -1968,6 +2178,7 @@ export async function runCodexJob(
         opts?: { input?: string; description?: string; message?: string },
       ) => {
         pendingTools.set(toolId, toolName);
+        markToolActivity();
         emitEvent({
           event: 'plan',
           data: {
@@ -1979,6 +2190,7 @@ export async function runCodexJob(
             message: opts?.message ?? `Running ${toolName}...`,
           },
         });
+        markToolActivity();
       };
 
       // ─── Process Codex items and emit plan events ───
@@ -2311,6 +2523,7 @@ export async function runCodexJob(
         const display = normalized ? extractToolDisplayInfo(toolName, normalized) : {};
 
         pendingTools.set(toolId, toolName);
+        markToolActivity();
         emitEvent({
           event: 'plan',
           data: {
@@ -2388,6 +2601,7 @@ export async function runCodexJob(
           const display = normalized ? extractToolDisplayInfo(toolName, normalized) : {};
 
           pendingTools.set(toolId, toolName);
+          markToolActivity();
           emitEvent({
             event: 'plan',
             data: {
@@ -2707,6 +2921,93 @@ export async function runCodexJob(
     }
   };
 
+  const runExecFallback = async (reason: 'stall' | 'timeout') => {
+    if (done || execFallbackStarted || images.length > 0) return false;
+    execFallbackStarted = true;
+    clearCompletionGraceTimer();
+    clearStallFallbackTimer();
+    awaitingLateCompletionOutput = false;
+    if (heartbeatId) clearInterval(heartbeatId);
+    if (timeoutId) clearTimeout(timeoutId);
+    unsubscribe();
+
+    emitTrace('Codex: falling back to exec mode', {
+      reason,
+      threadId,
+      model: model ?? undefined,
+      effort: effort ?? undefined,
+    });
+    emitEvent({
+      event: 'plan',
+      data: {
+        message: 'Codex app-server stalled, switching to direct CLI mode...',
+      },
+    });
+
+    try {
+      const fallback = await runCodexExecFallback({
+        cliPath: runtime.cliPath,
+        envVars: runtime.envVars,
+        cwd,
+        prompt,
+        model,
+        effort,
+        threadId,
+        timeoutMs: TURN_TIMEOUT_MS,
+      });
+
+      if (fallback.threadId) threadId = fallback.threadId;
+      if (fallback.usage) {
+        emitEvent({
+          event: 'usage',
+          data: {
+            model: null,
+            usedTokens: fallback.usage.usedTokens,
+            contextWindow: fallback.usage.contextWindow,
+          },
+        });
+      }
+
+      if (fallback.text) {
+        if (!diagnostics.seenAnyDelta) {
+          diagnostics.seenAnyDelta = true;
+          emitTrace('Codex: first delta received via exec fallback');
+        }
+        fullText = mergeTextSnapshot(fullText, fallback.text).merged;
+      }
+
+      emitPatchesFromCompletedText();
+      if (fallback.text) {
+        if (!shouldHidePatchPayload) {
+          emitEvent({ event: 'delta', data: { text: fallback.text } });
+        } else {
+          emitVisibleDelta(fallback.text);
+        }
+      }
+      flushVisibleBuffer();
+
+      done = true;
+      emitEvent({
+        event: 'done',
+        data: { status: 'ok', threadId },
+      });
+      resolveDone();
+      return true;
+    } catch (error) {
+      done = true;
+      emitEvent({
+        event: 'done',
+        data: {
+          status: 'error',
+          message: normalizeErrorMessage(error ?? 'Codex exec fallback failed'),
+          threadId,
+        },
+      });
+      resolveDone();
+      return true;
+    }
+  };
+
   // Track active Codex job for ask_user HTTP callback correlation.
   // Keyed by the Codex CLI PID so the stdio server can identify the job via process.ppid.
   // A per-PID turn lock serializes concurrent turns that share the same app-server,
@@ -2726,12 +3027,24 @@ export async function runCodexJob(
     await requestTurnStart();
 
     // Ensure the job never hangs forever if the Codex CLI stalls (common near 100% context).
-    let heartbeatId: NodeJS.Timeout | null = null;
-    let timeoutId: NodeJS.Timeout | null = null;
     const timeoutPromise = new Promise<void>((resolve) => {
       if (!Number.isFinite(TURN_TIMEOUT_MS) || TURN_TIMEOUT_MS <= 0) return;
       timeoutId = setTimeout(() => resolve(), TURN_TIMEOUT_MS);
     });
+
+    if (EXEC_FALLBACK_STALL_MS > 0) {
+      stallFallbackId = setTimeout(() => {
+        const shouldExecFallback =
+          !done &&
+          !execFallbackStarted &&
+          !diagnostics.seenAnyDelta &&
+          !diagnostics.seenTurnCompleted &&
+          !diagnostics.seenToolActivity;
+        if (shouldExecFallback) {
+          void runExecFallback('stall');
+        }
+      }, EXEC_FALLBACK_STALL_MS);
+    }
 
     heartbeatId = setInterval(() => {
       if (done) return;
@@ -2809,10 +3122,13 @@ export async function runCodexJob(
             : {}),
         });
       }
+
     }, HEARTBEAT_MS);
 
     await Promise.race([donePromise, timeoutPromise]);
     if (!done) {
+      const fellBack = await runExecFallback('timeout');
+      if (fellBack) return;
       clearCompletionGraceTimer();
       awaitingLateCompletionOutput = false;
       done = true;
@@ -2845,6 +3161,7 @@ export async function runCodexJob(
     }
     unsubscribe();
     clearCompletionGraceTimer();
+    clearStallFallbackTimer();
     if (timeoutId) clearTimeout(timeoutId);
     if (heartbeatId) clearInterval(heartbeatId);
   } finally {

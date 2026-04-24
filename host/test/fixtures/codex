@@ -18,10 +18,68 @@ function requireKeys(value, keys) {
   return keys.every((key) => hasOwn(value, key));
 }
 
+async function main() {
 const args = process.argv.slice(2);
 if (args.includes("--version")) {
   process.stdout.write("0.0.0-test\n");
   process.exit(0);
+}
+
+function extractPromptFromArgs(argv) {
+  const dashIndex = argv.lastIndexOf("-");
+  if (dashIndex >= 0) {
+    return { fromStdin: true, promptArgs: argv.slice(0, dashIndex), prompt: null };
+  }
+  return {
+    fromStdin: false,
+    promptArgs: argv.slice(0, -1),
+    prompt: argv.length > 0 ? argv[argv.length - 1] : "",
+  };
+}
+
+if (args[0] === "exec") {
+  const isResume = args[1] === "resume";
+  const relevant = isResume ? args.slice(2) : args.slice(1);
+  const promptInfo = extractPromptFromArgs(relevant);
+  const threadId = isResume
+    ? String(promptInfo.promptArgs[promptInfo.promptArgs.length - 1] ?? "thread-1")
+    : "thread-exec-1";
+
+  const finish = (prompt) => {
+    write({ type: "thread.started", thread_id: threadId });
+    write({ type: "turn.started" });
+    write({
+      type: "item.completed",
+      item: {
+        id: "item_0",
+        type: "agent_message",
+        text:
+          process.env.CODEX_TEST_EXEC_TEXT ||
+          `Exec fallback reply: ${String(prompt || "").trim() || "hello"}`,
+      },
+    });
+    write({
+      type: "turn.completed",
+      usage: {
+        input_tokens: 10,
+        output_tokens: 5,
+      },
+    });
+  };
+
+  if (promptInfo.fromStdin) {
+    let stdin = "";
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", (chunk) => {
+      stdin += chunk;
+    });
+    process.stdin.on("end", () => finish(stdin));
+    process.stdin.resume();
+    return;
+  }
+
+  finish(promptInfo.prompt);
+  return;
 }
 
 if (args[0] !== "app-server") {
@@ -210,6 +268,18 @@ rl.on("line", (line) => {
     write({ id: msg.id, result: { ok: true } });
     write({ method: "turn/started", params: { threadId, turn: { id: turnId } } });
 
+    if (process.env.CODEX_TEST_HANG === "true") {
+      setInterval(() => {}, 1000);
+      write({
+        method: "codex/event/user_message",
+        params: {
+          conversationId: threadId,
+          msg: { type: "user_message", text: "hello" },
+        },
+      });
+      return;
+    }
+
     const sendOutput = () => {
       write({
         method: "item/agentMessage/delta",
@@ -258,4 +328,11 @@ rl.on("line", (line) => {
   if (msg.id) {
     write({ id: msg.id, result: { ok: true } });
   }
+});
+
+}
+
+main().catch((error) => {
+  process.stderr.write(`${error instanceof Error ? error.stack || error.message : String(error)}\n`);
+  process.exit(1);
 });
