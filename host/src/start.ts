@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-import 'dotenv/config';
+import { config as dotenvConfig } from 'dotenv';
 import { buildServer } from './server.js';
 import { shutdownToolRuntime } from './runtimes/pi/toolRuntime.js';
+
+dotenvConfig({ quiet: true });
 
 // HTTP server entrypoint for development mode
 const server = buildServer();

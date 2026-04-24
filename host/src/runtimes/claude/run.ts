@@ -198,7 +198,7 @@ function buildMediaPromptStream(
     async *[Symbol.asyncIterator]() {
       yield {
         type: 'user',
-        message,
+        message: message as SDKUserMessage['message'],
         parent_tool_use_id: null,
         session_id: '',
       };

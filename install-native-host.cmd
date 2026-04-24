@@ -31,6 +31,24 @@ if not exist host\node_modules (
   popd
 )
 
+echo Building native host runtime...
+if exist host\dist rmdir /s /q host\dist
+pushd host
+call npm run build
+if errorlevel 1 (
+  popd
+  echo Native host build failed.
+  pause
+  exit /b 1
+)
+popd
+
+if not exist host\dist\src\native.js (
+  echo Native host build did not create host\dist\src\native.js.
+  pause
+  exit /b 1
+)
+
 set "MANIFEST_DIR=%LOCALAPPDATA%\JiaoLeafAI\NativeMessagingHosts"
 set "MANIFEST_PATH=%MANIFEST_DIR%\com.jiaoleaf.host.json"
 if not exist "%MANIFEST_DIR%" mkdir "%MANIFEST_DIR%"

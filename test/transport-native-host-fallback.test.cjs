@@ -11,5 +11,6 @@ test('native transport falls back to http when native host is missing', () => {
   assert.match(contents, /new Proxy\(native/);
   assert.match(contents, /native messaging host not found/i);
   assert.match(contents, /specified native messaging host not found/i);
+  assert.match(contents, /error when communicating with the native messaging host/i);
   assert.match(contents, /fallback/);
 });

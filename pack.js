@@ -5,7 +5,7 @@ const AdmZip = require('adm-zip');
 const outdir = 'release';
 const excludes = [
   /^host\/node_modules\//,
-  /^host\/dist\//,
+  /^host\/dist(\/|$)/,
   /^host\/\.env($|\.)/,
   /^\.git\//,
   /^node_modules\//,

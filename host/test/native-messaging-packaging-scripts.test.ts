@@ -51,7 +51,9 @@ test('Windows native host installer registers Chrome native messaging host', () 
   assert.match(installer, /NativeMessagingHosts/);
   assert.match(installer, /reg add "HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com\.jiaoleaf\.host"/);
   assert.match(installer, /build-native-manifest\.mjs/);
-  assert.doesNotMatch(installer, /npm run build/);
+  assert.match(installer, /npm run build/);
+  assert.match(installer, /host\\dist\\src\\native\.js/);
   assert.match(launcher, /dist\\src\\native\.js/);
-  assert.match(launcher, /tsx\\dist\\cli\.mjs/);
+  assert.doesNotMatch(launcher, /tsx\\dist\\cli\.mjs/);
+  assert.match(launcher, /native-host\.log/);
 });
