@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build a distributable .tar.gz bundle that installs the Ageaf host
+# Build a distributable .tar.gz bundle that installs the JiaoLeaf host
 # without requiring a compiled binary (Node runtime required on the target machine).
 #
 # Bundle contents:
@@ -15,24 +15,24 @@ set -euo pipefail
 # messaging, it speaks the stdio protocol instead.
 #
 # Output:
-#   dist-native/ageaf-host-macos-node-bundle.tar.gz
+#   dist-native/jiaoleaf-host-macos-node-bundle.tar.gz
 #
 # Distribution options:
 #   1. GitHub Releases (recommended):
 #      - Upload the .tar.gz as a release asset
-#      - URL format: https://github.com/OWNER/REPO/releases/download/vVERSION/ageaf-host-macos-node-bundle.tar.gz
+#      - URL format: https://github.com/OWNER/REPO/releases/download/vVERSION/jiaoleaf-host-macos-node-bundle.tar.gz
 #
 #   2. Separate distribution repository:
 #      - Use --prepare-dist-repo to create a repo structure
 #      - Push to a separate repo and tag it
-#      - URL format: https://github.com/OWNER/ageaf-host/archive/refs/tags/vVERSION.tar.gz
+#      - URL format: https://github.com/OWNER/jiaoleaf-host/archive/refs/tags/vVERSION.tar.gz
 #      - Note: The archive will contain the bundle directory, so adjust Homebrew formula accordingly
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 HOST_DIR="$ROOT_DIR/host"
 OUT_DIR="$ROOT_DIR/dist-native"
-BUNDLE_DIR="$OUT_DIR/ageaf-host-bundle"
-ARCHIVE_PATH="$OUT_DIR/ageaf-host-macos-node-bundle.tar.gz"
+BUNDLE_DIR="$OUT_DIR/jiaoleaf-host-bundle"
+ARCHIVE_PATH="$OUT_DIR/jiaoleaf-host-macos-node-bundle.tar.gz"
 NPM_PROD_DIR="$OUT_DIR/npm-prod-bundle"
 
 # Parse arguments
@@ -103,7 +103,7 @@ cp -R "$NPM_PROD_DIR/node_modules/." "$BUNDLE_DIR/node_modules/"
 # Install-time ESM marker (so Node treats installed .js files as ES modules)
 cat > "$BUNDLE_DIR/package.json" <<'EOF'
 {
-  "name": "ageaf-host-runtime",
+  "name": "jiaoleaf-host-runtime",
   "private": true,
   "type": "module"
 }
@@ -123,11 +123,11 @@ usage() {
 Usage:
   ./install.sh [--extension-id EXT_ID]
 
-Installs Ageaf native messaging host files to:
-  /usr/local/share/ageaf-host
+Installs JiaoLeaf native messaging host files to:
+  /usr/local/share/jiaoleaf-host
 and installs executables:
-  /usr/local/bin/ageaf-host
-  /usr/local/bin/ageaf-host-install-manifest
+  /usr/local/bin/jiaoleaf-host
+  /usr/local/bin/jiaoleaf-host-install-manifest
 
 Node.js is required (Node 20+ recommended).
 USAGE
@@ -179,7 +179,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RUNTIME_SRC="$SCRIPT_DIR"
 
-INSTALL_ROOT="/usr/local/share/ageaf-host"
+INSTALL_ROOT="/usr/local/share/jiaoleaf-host"
 BIN_DIR="/usr/local/bin"
 
 echo "Installing runtime to: $INSTALL_ROOT"
@@ -191,7 +191,7 @@ sudo cp "$RUNTIME_SRC/package.json" "$INSTALL_ROOT/package.json"
 
 echo "Installing executables to: $BIN_DIR"
 
-sudo tee "$BIN_DIR/ageaf-host" > /dev/null <<'WRAP'
+sudo tee "$BIN_DIR/jiaoleaf-host" > /dev/null <<'WRAP'
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -214,12 +214,12 @@ if [[ -z "$NODE_BIN" && -n "${HOME:-}" ]]; then
   shopt -u nullglob
 fi
 if [[ -z "$NODE_BIN" ]]; then
-  echo "ageaf-host: Node.js is required but was not found." >&2
+  echo "jiaoleaf-host: Node.js is required but was not found." >&2
   echo "Install Node 20+ (Homebrew recommended) and retry." >&2
   exit 127
 fi
 
-cd /usr/local/share/ageaf-host
+cd /usr/local/share/jiaoleaf-host
 
 # If stdin is NOT a TTY (piped by Chrome), run native messaging mode
 # Otherwise (manual launch), run HTTP server mode
@@ -229,21 +229,21 @@ else
   exec "$NODE_BIN" dist/src/start.js "$@"
 fi
 WRAP
-sudo chmod 0755 "$BIN_DIR/ageaf-host"
+sudo chmod 0755 "$BIN_DIR/jiaoleaf-host"
 
-sudo tee "$BIN_DIR/ageaf-host-install-manifest" > /dev/null <<'HELPER'
+sudo tee "$BIN_DIR/jiaoleaf-host-install-manifest" > /dev/null <<'HELPER'
 #!/usr/bin/env bash
 set -euo pipefail
 
 EXTENSION_ID="${1:-}"
 if [[ -z "$EXTENSION_ID" ]]; then
-  echo "Usage: ageaf-host-install-manifest <extension-id>" >&2
+  echo "Usage: jiaoleaf-host-install-manifest <extension-id>" >&2
   echo "Find the extension ID in chrome://extensions (Developer mode)." >&2
   exit 2
 fi
 
 MANIFEST_DIR="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts"
-MANIFEST_PATH="$MANIFEST_DIR/com.ageaf.host.json"
+MANIFEST_PATH="$MANIFEST_DIR/com.jiaoleaf.host.json"
 
 mkdir -p "$MANIFEST_DIR"
 
@@ -271,29 +271,29 @@ if [[ -z "$NODE_BIN" ]]; then
   exit 127
 fi
 
-"$NODE_BIN" "/usr/local/share/ageaf-host/dist/build-native-manifest.mjs" \
+"$NODE_BIN" "/usr/local/share/jiaoleaf-host/dist/build-native-manifest.mjs" \
   "$EXTENSION_ID" \
-  "/usr/local/bin/ageaf-host" \
+  "/usr/local/bin/jiaoleaf-host" \
   "$MANIFEST_PATH"
 
 echo "Wrote native messaging manifest to: $MANIFEST_PATH"
 HELPER
-sudo chmod 0755 "$BIN_DIR/ageaf-host-install-manifest"
+sudo chmod 0755 "$BIN_DIR/jiaoleaf-host-install-manifest"
 
 if command -v xattr >/dev/null 2>&1; then
   sudo xattr -dr com.apple.quarantine "$INSTALL_ROOT" 2>/dev/null || true
-  sudo xattr -d com.apple.quarantine "$BIN_DIR/ageaf-host" 2>/dev/null || true
-  sudo xattr -d com.apple.quarantine "$BIN_DIR/ageaf-host-install-manifest" 2>/dev/null || true
+  sudo xattr -d com.apple.quarantine "$BIN_DIR/jiaoleaf-host" 2>/dev/null || true
+  sudo xattr -d com.apple.quarantine "$BIN_DIR/jiaoleaf-host-install-manifest" 2>/dev/null || true
 fi
 
 echo "Installed. Next:"
 echo "  1) Find your extension ID in chrome://extensions"
-echo "  2) Run: ageaf-host-install-manifest <EXTENSION_ID>"
+echo "  2) Run: jiaoleaf-host-install-manifest <EXTENSION_ID>"
 
 if [[ -n "$EXTENSION_ID" ]]; then
   echo ""
   echo "Registering manifest for extension ID: $EXTENSION_ID"
-  "$BIN_DIR/ageaf-host-install-manifest" "$EXTENSION_ID"
+  "$BIN_DIR/jiaoleaf-host-install-manifest" "$EXTENSION_ID"
 fi
 EOF
 chmod 0755 "$BUNDLE_DIR/install.sh"
@@ -309,7 +309,7 @@ echo "✓ SHA256: $SHA256"
 echo ""
 
 if [[ "$PREPARE_DIST_REPO" == true ]]; then
-  DIST_REPO_DIR="$OUT_DIR/ageaf-host-dist"
+  DIST_REPO_DIR="$OUT_DIR/jiaoleaf-host-dist"
   rm -rf "$DIST_REPO_DIR"
   mkdir -p "$DIST_REPO_DIR"
   
@@ -318,9 +318,9 @@ if [[ "$PREPARE_DIST_REPO" == true ]]; then
   
   # Create a README for the distribution repo
   cat > "$DIST_REPO_DIR/README.md" <<EOF
-# Ageaf Host Distribution
+# JiaoLeaf Host Distribution
 
-This repository contains pre-built bundles for the Ageaf host.
+This repository contains pre-built bundles for the JiaoLeaf host.
 
 ## Installation
 
@@ -331,7 +331,7 @@ Extract this archive and run \`./install.sh\` from the extracted directory.
 This repository is structured for use with Homebrew formulas that reference GitHub archive URLs:
 
 \`\`\`
-url "https://github.com/OWNER/ageaf-host/archive/refs/tags/v${VERSION}.tar.gz"
+url "https://github.com/OWNER/jiaoleaf-host/archive/refs/tags/v${VERSION}.tar.gz"
 \`\`\`
 
 Note: The archive will contain this directory structure, so adjust the Homebrew formula's
@@ -354,7 +354,7 @@ EOF
   echo "  8. git push origin v${VERSION}"
   echo ""
   echo "Then use this URL in your Homebrew formula:"
-  echo "  https://github.com/OWNER/ageaf-host/archive/refs/tags/v${VERSION}.tar.gz"
+  echo "  https://github.com/OWNER/jiaoleaf-host/archive/refs/tags/v${VERSION}.tar.gz"
   echo ""
 else
   echo "Distribution options:"
@@ -362,7 +362,7 @@ else
   echo "1. GitHub Releases (recommended):"
   echo "   - Create a release on GitHub"
   echo "   - Upload: $ARCHIVE_PATH"
-  echo "   - Use URL: https://github.com/OWNER/REPO/releases/download/vVERSION/ageaf-host-macos-node-bundle.tar.gz"
+  echo "   - Use URL: https://github.com/OWNER/REPO/releases/download/vVERSION/jiaoleaf-host-macos-node-bundle.tar.gz"
   echo ""
   echo "2. Distribution repository:"
   echo "   - Run: $0 --prepare-dist-repo --version VERSION"

@@ -92,7 +92,7 @@ test('system prompt includes tool guidance', async () => {
     });
 
     assert.ok(
-      prompt.includes('mcp__ageaf-mermaid__render_mermaid'),
+      prompt.includes('mcp__jiaoleaf-mermaid__render_mermaid'),
       'prompt should mention render_mermaid tool',
     );
     assert.ok(

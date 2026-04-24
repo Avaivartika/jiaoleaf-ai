@@ -127,7 +127,7 @@ function fuzzyMatchSkills(skills: SkillEntry[], query: string): ScoredSkill[] {
 async function fetchWithByteCap(url: string): Promise<string> {
   const response = await fetch(url, {
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-    headers: { 'User-Agent': 'Ageaf-SkillDiscovery/1.0' },
+    headers: { 'User-Agent': 'JiaoLeaf-SkillDiscovery/1.0' },
   });
 
   if (!response.ok) {

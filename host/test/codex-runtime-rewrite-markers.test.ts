@@ -32,7 +32,7 @@ test('Codex rewrite emits patch from rewrite markers', async () => {
       .join('');
 
     assert.match(deltaText, /Change notes/i);
-    assert.doesNotMatch(deltaText, /AGEAF_REWRITE/);
+    assert.doesNotMatch(deltaText, /JIAOLEAF_REWRITE/);
     assert.doesNotMatch(deltaText, /NEW LINE 1/);
 
     const patchEvent = events.find((event) => event.event === 'patch');

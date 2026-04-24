@@ -81,7 +81,7 @@
     - `onNotationConsistencyPass`
     - `onDraftNotationFixes`
   - Added toolbar buttons and icons.
-- Added new icon components in `ageaf-icons.tsx`:
+- Added new icon components in `jiaoleaf-icons.tsx`:
   - `NotationCheckIcon`
   - `NotationDraftIcon`
 
@@ -94,7 +94,7 @@
 - `host/src/routes/jobs.ts`
 - `host/src/runtimes/codex/run.ts`
 - `src/iso/panel/Panel.tsx`
-- `src/iso/panel/ageaf-icons.tsx`
+- `src/iso/panel/jiaoleaf-icons.tsx`
 
 ### Phase 4: Testing & Verification
 **Status:** complete

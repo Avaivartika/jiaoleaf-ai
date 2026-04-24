@@ -4,7 +4,7 @@ import test from 'node:test';
 import { buildServer } from '../src/server.js';
 
 test('POST /v1/jobs with provider=pi creates a job and returns jobId', async () => {
-  process.env.AGEAF_PI_MOCK = 'true';
+  process.env.JIAOLEAF_PI_MOCK = 'true';
   const server = buildServer();
 
   try {
@@ -55,7 +55,7 @@ function parseSSEEvents(body: string): Array<{ event: string; data: unknown }> {
 }
 
 test('GET /v1/jobs/:id/events returns SSE stream with plan, delta, and done events for pi job', async () => {
-  process.env.AGEAF_PI_MOCK = 'true';
+  process.env.JIAOLEAF_PI_MOCK = 'true';
   const server = buildServer();
 
   try {

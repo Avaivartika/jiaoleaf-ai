@@ -1,7 +1,7 @@
 # Findings
 
 ## Requirements
-- Add a **Notation & Terminology Consistency Pass** feature in Ageaf.
+- Add a **Notation & Terminology Consistency Pass** feature in JiaoLeaf.
 - Detect and report:
   - Symbol reuse conflicts
   - Term drift
@@ -51,7 +51,7 @@
 - Verify with unit tests (extension + host), integration tests (job/SSE/UI), and manual E2E over multi-file projects.
 
 ## Research Findings
-- Existing Ageaf panel already supports:
+- Existing JiaoLeaf panel already supports:
   - Action buttons and chat job dispatch
   - Structured SSE event handling
   - Patch-review accept/reject pipeline
@@ -81,7 +81,7 @@
   - Host `JobEvent` type in `host/src/types.ts` already supports generic event payloads and `patch`, so notation analysis findings can be streamed via existing `delta/done` and/or included in final assistant text without introducing a new transport primitive for v1.
 - Toolbar insertion and icon plumbing:
   - Action toolbar markup in `src/iso/panel/Panel.tsx` already composes small icon buttons with tooltip labels, so adding notation actions is low-risk.
-  - `src/iso/panel/ageaf-icons.tsx` has dedicated toolbar icon exports and a single export map section, so adding a notation icon is straightforward.
+  - `src/iso/panel/jiaoleaf-icons.tsx` has dedicated toolbar icon exports and a single export map section, so adding a notation icon is straightforward.
 - Message dispatch wiring:
   - `sendMessage(...)` already passes `action` and attachment content through shared payload context to host.
   - This supports full-project notation scans by attaching gathered file content as normal file attachments.

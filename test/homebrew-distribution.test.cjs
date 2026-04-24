@@ -10,13 +10,13 @@ test('Homebrew formula exists for macOS companion host', () => {
     'host',
     'scripts',
     'homebrew',
-    'ageaf-host.rb'
+    'jiaoleaf-host.rb'
   );
   const contents = fs.readFileSync(formulaPath, 'utf8');
 
-  assert.match(contents, /class\s+AgeafHost\s+<\s+Formula/);
-  assert.match(contents, /com\.ageaf\.host/);
-  assert.match(contents, /ageaf-host-install-manifest/);
+  assert.match(contents, /class\s+JiaoLeafHost\s+<\s+Formula/);
+  assert.match(contents, /com\.jiaoleaf\.host/);
+  assert.match(contents, /jiaoleaf-host-install-manifest/);
   assert.match(contents, /NativeMessagingHosts/);
 });
 

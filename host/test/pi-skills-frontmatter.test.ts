@@ -22,9 +22,9 @@ test('parseSkillFrontmatter extracts allowed-tools from mermaid skill', () => {
   const fm = parseSkillFrontmatter(raw);
   assert.ok(fm, 'should parse frontmatter');
   assert.ok(fm!.allowedTools, 'should have allowedTools');
-  assert.ok(fm!.allowedTools!.includes('mcp__ageaf-mermaid__render_mermaid'),
+  assert.ok(fm!.allowedTools!.includes('mcp__jiaoleaf-mermaid__render_mermaid'),
     'should include render_mermaid tool');
-  assert.ok(fm!.allowedTools!.includes('mcp__ageaf-mermaid__list_mermaid_themes'),
+  assert.ok(fm!.allowedTools!.includes('mcp__jiaoleaf-mermaid__list_mermaid_themes'),
     'should include list_mermaid_themes tool');
 });
 

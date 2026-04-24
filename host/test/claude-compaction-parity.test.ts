@@ -23,21 +23,21 @@ function asStream(messages: QueryMessage[]): AsyncIterable<QueryMessage> {
 function setClaudeEnvForTests() {
   const previous = {
     apiKey: process.env.ANTHROPIC_API_KEY,
-    mock: process.env.AGEAF_CLAUDE_MOCK,
-    disableDetect: process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT,
+    mock: process.env.JIAOLEAF_CLAUDE_MOCK,
+    disableDetect: process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT,
   };
 
   process.env.ANTHROPIC_API_KEY = 'test-key';
-  delete process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
+  delete process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
 
   return () => {
     if (previous.apiKey === undefined) delete process.env.ANTHROPIC_API_KEY;
     else process.env.ANTHROPIC_API_KEY = previous.apiKey;
-    if (previous.mock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previous.mock;
-    if (previous.disableDetect === undefined) delete process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT;
-    else process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = previous.disableDetect;
+    if (previous.mock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previous.mock;
+    if (previous.disableDetect === undefined) delete process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT;
+    else process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = previous.disableDetect;
   };
 }
 

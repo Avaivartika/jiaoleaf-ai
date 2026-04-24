@@ -8,6 +8,6 @@ test('panel native host retry checks native messaging directly', () => {
   const contents = fs.readFileSync(panelPath, 'utf8');
 
   assert.match(contents, /Native host status/);
-  assert.match(contents, /ageaf:native-request/);
+  assert.match(contents, /jiaoleaf:native-request/);
   assert.match(contents, /path:\s*['"]\/v1\/health['"]/);
 });

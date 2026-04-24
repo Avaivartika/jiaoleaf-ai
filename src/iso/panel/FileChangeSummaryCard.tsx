@@ -42,35 +42,35 @@ export function FileChangeSummaryCard({
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div class="ageaf-file-summary">
+    <div class="jiaoleaf-file-summary">
       {expanded ? (
-        <div class="ageaf-file-summary__list">
+        <div class="jiaoleaf-file-summary__list">
           {files.map((file) => (
             <button
               key={file.filePath}
-              class="ageaf-file-summary__row"
+              class="jiaoleaf-file-summary__row"
               type="button"
               onClick={() => onNavigateToFile(file.filePath)}
             >
               <span
-                class={`ageaf-file-summary__status-dot ${getStatusClassName(file)}`}
+                class={`jiaoleaf-file-summary__status-dot ${getStatusClassName(file)}`}
                 aria-hidden="true"
               />
-              <span class="ageaf-file-summary__added">+{file.linesAdded}</span>
-              <span class="ageaf-file-summary__removed">-{file.linesRemoved}</span>
-              <span class="ageaf-file-summary__basename">{file.displayName}</span>
-              <span class="ageaf-file-summary__path">{file.filePath}</span>
+              <span class="jiaoleaf-file-summary__added">+{file.linesAdded}</span>
+              <span class="jiaoleaf-file-summary__removed">-{file.linesRemoved}</span>
+              <span class="jiaoleaf-file-summary__basename">{file.displayName}</span>
+              <span class="jiaoleaf-file-summary__path">{file.filePath}</span>
             </button>
           ))}
         </div>
       ) : null}
-      <div class="ageaf-file-summary__footer">
-        <span class="ageaf-file-summary__count">
+      <div class="jiaoleaf-file-summary__footer">
+        <span class="jiaoleaf-file-summary__count">
           {files.length} file{files.length === 1 ? '' : 's'} with changes
         </span>
-        <div class="ageaf-file-summary__actions">
+        <div class="jiaoleaf-file-summary__actions">
           <button
-            class="ageaf-panel__apply is-secondary"
+            class="jiaoleaf-panel__apply is-secondary"
             type="button"
             disabled={bulkBusy || totalPending === 0}
             onClick={onRejectAll}
@@ -78,7 +78,7 @@ export function FileChangeSummaryCard({
             Reject all
           </button>
           <button
-            class="ageaf-panel__apply"
+            class="jiaoleaf-panel__apply"
             type="button"
             disabled={bulkBusy || totalPending === 0}
             onClick={onAcceptAll}
@@ -86,7 +86,7 @@ export function FileChangeSummaryCard({
             {bulkBusy ? 'Applying...' : 'Accept all'}
           </button>
           <button
-            class={`ageaf-file-summary__chevron ${!expanded ? 'is-collapsed' : ''}`}
+            class={`jiaoleaf-file-summary__chevron ${!expanded ? 'is-collapsed' : ''}`}
             type="button"
             aria-label={expanded ? 'Collapse file list' : 'Expand file list'}
             aria-expanded={expanded}

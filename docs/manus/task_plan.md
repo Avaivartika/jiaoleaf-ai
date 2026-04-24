@@ -1,6 +1,6 @@
 # Claude Compaction Parity vs CodePilot
 
-**Goal:** Produce an evidence-based comparison of CodePilot vs Ageaf Claude compaction logic and define a prioritized plan to close the highest-impact gaps.
+**Goal:** Produce an evidence-based comparison of CodePilot vs JiaoLeaf Claude compaction logic and define a prioritized plan to close the highest-impact gaps.
 
 **Current Phase:** 5 - Delivery
 
@@ -8,7 +8,7 @@
 
 ### Phase 1: Requirements & Discovery
 - [x] Confirm CodePilot compaction ingress, session handling, and status signaling
-- [x] Confirm current Ageaf Claude compaction ingress, runtime behavior, and retry/error handling
+- [x] Confirm current JiaoLeaf Claude compaction ingress, runtime behavior, and retry/error handling
 - [x] Record parity gaps and severity
 
 **Status:** complete

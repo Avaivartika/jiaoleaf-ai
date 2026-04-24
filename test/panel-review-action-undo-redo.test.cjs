@@ -19,8 +19,8 @@ test('Panel defines review action undo/redo stacks and executors', () => {
   assert.match(contents, /reviewRedoStackRef/);
   assert.match(contents, /executeReviewUndo/);
   assert.match(contents, /executeReviewRedo/);
-  assert.match(contents, /ageafBridge\?\.undoEditor/);
-  assert.match(contents, /ageafBridge\?\.redoEditor/);
+  assert.match(contents, /jiaoleafBridge\?\.undoEditor/);
+  assert.match(contents, /jiaoleafBridge\?\.redoEditor/);
 });
 
 test('Panel records history for bulk and file-level review actions', () => {
@@ -117,9 +117,9 @@ test('Editor bridge handles undo/redo history requests', () => {
   );
   const contents = fs.readFileSync(bridgePath, 'utf8');
 
-  assert.match(contents, /const HISTORY_REQUEST_EVENT = 'ageaf:editor:history:request';/);
-  assert.match(contents, /const HISTORY_RESPONSE_EVENT = 'ageaf:editor:history:response';/);
-  assert.match(contents, /const HISTORY_STATE_EVENT = 'ageaf:editor:history:state';/);
+  assert.match(contents, /const HISTORY_REQUEST_EVENT = 'jiaoleaf:editor:history:request';/);
+  assert.match(contents, /const HISTORY_RESPONSE_EVENT = 'jiaoleaf:editor:history:response';/);
+  assert.match(contents, /const HISTORY_STATE_EVENT = 'jiaoleaf:editor:history:state';/);
   assert.match(contents, /interface HistoryRequest/);
   assert.match(contents, /function onHistoryRequest\(event: Event\)/);
   assert.match(contents, /v\.startsWith\('undo'\)/);

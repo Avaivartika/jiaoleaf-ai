@@ -19,7 +19,7 @@ const notationActions = ['notation_check', 'notation_draft_fixes'] as const;
 
 for (const action of notationActions) {
   test(`POST /v1/jobs supports provider=codex action=${action}`, async () => {
-    process.env.AGEAF_START_SERVER = 'false';
+    process.env.JIAOLEAF_START_SERVER = 'false';
     const { buildServer } = await import('../src/server.js');
 
     const server = buildServer();

@@ -9,13 +9,13 @@ test('Divider uses resize cursor except on toggle icon', () => {
 
   assert.match(
     contents,
-    /\.ageaf-panel__divider\s*{[\s\S]*cursor:\s*col-resize/,
+    /\.jiaoleaf-panel__divider\s*{[\s\S]*cursor:\s*col-resize/,
     'divider should show a horizontal resize cursor'
   );
 
   assert.match(
     contents,
-    /\.ageaf-panel__divider-toggle\s*{[\s\S]*cursor:\s*pointer/,
+    /\.jiaoleaf-panel__divider-toggle\s*{[\s\S]*cursor:\s*pointer/,
     'toggle icon should show pointer cursor'
   );
 });

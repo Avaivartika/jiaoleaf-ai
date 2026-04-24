@@ -163,7 +163,7 @@ export class CodexAppServer {
       );
       this.child = child;
 
-      if (process.env.AGEAF_DEBUG_CLI === 'true') {
+      if (process.env.JIAOLEAF_DEBUG_CLI === 'true') {
         console.log('[CODEX DEBUG] spawning app-server', {
           command,
           cwd: this.config.cwd,
@@ -264,7 +264,7 @@ export class CodexAppServer {
             listener(trimmed);
           }
 
-          if (process.env.AGEAF_DEBUG_CLI === 'true') {
+          if (process.env.JIAOLEAF_DEBUG_CLI === 'true') {
             // Keep this short; stderr can be noisy and may include user content.
             console.log('[CODEX STDERR]', trimmed.slice(0, 300));
           }
@@ -292,7 +292,7 @@ export class CodexAppServer {
 
     this.initializing = (async () => {
       const response = await this.request('initialize', {
-        clientInfo: { name: 'ageaf', title: 'Ageaf', version: '0.0.0' },
+        clientInfo: { name: 'jiaoleaf', title: 'JiaoLeaf', version: '0.0.0' },
       });
       if ((response as any).error) {
         const message = String((response as any).error?.message ?? 'initialize failed');
@@ -373,7 +373,7 @@ export class CodexAppServer {
     this.initialized = false;
     this.initializing = null;
     if (child) {
-      if (process.env.AGEAF_DEBUG_CLI === 'true') {
+      if (process.env.JIAOLEAF_DEBUG_CLI === 'true') {
         console.log('[CODEX DEBUG] stopping app-server', {
           pid: child.pid ?? null,
           cwd: this.config.cwd,
@@ -403,7 +403,7 @@ export async function getCodexAppServer(config: CodexAppServerConfig) {
   const existing = cachedServers.get(key);
   if (existing) {
     await existing.ensureInitialized();
-    if (process.env.AGEAF_DEBUG_CLI === 'true') {
+    if (process.env.JIAOLEAF_DEBUG_CLI === 'true') {
       console.log('[CODEX DEBUG] reusing app-server', {
         pid: existing.getPid(),
         cwd: existing.getCwd(),

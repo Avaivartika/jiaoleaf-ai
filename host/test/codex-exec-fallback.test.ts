@@ -16,15 +16,15 @@ function withTimeout(ms: number): TimeoutSignal {
 }
 
 test('Codex falls back to exec mode when app-server stalls before first output', async () => {
-  const previousStartServer = process.env.AGEAF_START_SERVER;
-  const previousTurnTimeout = process.env.AGEAF_CODEX_TURN_TIMEOUT_MS;
-  const previousFallbackStall = process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS;
+  const previousStartServer = process.env.JIAOLEAF_START_SERVER;
+  const previousTurnTimeout = process.env.JIAOLEAF_CODEX_TURN_TIMEOUT_MS;
+  const previousFallbackStall = process.env.JIAOLEAF_CODEX_EXEC_FALLBACK_STALL_MS;
   const previousFixtureHang = process.env.CODEX_TEST_HANG;
   const previousExecText = process.env.CODEX_TEST_EXEC_TEXT;
 
-  process.env.AGEAF_START_SERVER = 'false';
-  process.env.AGEAF_CODEX_TURN_TIMEOUT_MS = '5000';
-  process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS = '100';
+  process.env.JIAOLEAF_START_SERVER = 'false';
+  process.env.JIAOLEAF_CODEX_TURN_TIMEOUT_MS = '5000';
+  process.env.JIAOLEAF_CODEX_EXEC_FALLBACK_STALL_MS = '100';
   process.env.CODEX_TEST_HANG = 'true';
   process.env.CODEX_TEST_EXEC_TEXT = 'Hello from exec fallback';
 
@@ -77,12 +77,12 @@ test('Codex falls back to exec mode when app-server stalls before first output',
       timeout.cleanup();
     }
   } finally {
-    if (previousStartServer === undefined) delete process.env.AGEAF_START_SERVER;
-    else process.env.AGEAF_START_SERVER = previousStartServer;
-    if (previousTurnTimeout === undefined) delete process.env.AGEAF_CODEX_TURN_TIMEOUT_MS;
-    else process.env.AGEAF_CODEX_TURN_TIMEOUT_MS = previousTurnTimeout;
-    if (previousFallbackStall === undefined) delete process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS;
-    else process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS = previousFallbackStall;
+    if (previousStartServer === undefined) delete process.env.JIAOLEAF_START_SERVER;
+    else process.env.JIAOLEAF_START_SERVER = previousStartServer;
+    if (previousTurnTimeout === undefined) delete process.env.JIAOLEAF_CODEX_TURN_TIMEOUT_MS;
+    else process.env.JIAOLEAF_CODEX_TURN_TIMEOUT_MS = previousTurnTimeout;
+    if (previousFallbackStall === undefined) delete process.env.JIAOLEAF_CODEX_EXEC_FALLBACK_STALL_MS;
+    else process.env.JIAOLEAF_CODEX_EXEC_FALLBACK_STALL_MS = previousFallbackStall;
     if (previousFixtureHang === undefined) delete process.env.CODEX_TEST_HANG;
     else process.env.CODEX_TEST_HANG = previousFixtureHang;
     if (previousExecText === undefined) delete process.env.CODEX_TEST_EXEC_TEXT;

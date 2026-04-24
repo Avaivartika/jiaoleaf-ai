@@ -9,19 +9,19 @@ test('Panel divider handle supports drag-to-resize without toggling', () => {
 
   assert.match(
     contents,
-    /ageaf-panel__divider[\s\S]*onMouseDown={onResizeStart}/,
+    /jiaoleaf-panel__divider[\s\S]*onMouseDown={onResizeStart}/,
     'divider should wire an onMouseDown resize handler'
   );
 
   assert.match(
     contents,
-    /ageaf-panel__divider-toggle[\s\S]*onClick={onTogglePanel}/,
+    /jiaoleaf-panel__divider-toggle[\s\S]*onClick={onTogglePanel}/,
     'toggle icon should click to collapse/expand'
   );
 
   assert.match(
     contents,
-    /ageaf-panel__divider-toggle[\s\S]*stopPropagation/,
+    /jiaoleaf-panel__divider-toggle[\s\S]*stopPropagation/,
     'toggle icon should not start resize drag'
   );
 });

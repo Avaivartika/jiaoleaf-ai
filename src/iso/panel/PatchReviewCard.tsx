@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 import { StoredPatchReview } from './chatStore';
 import { copyToClipboard } from './clipboard';
-import { CloseIcon } from './ageaf-icons';
+import { CloseIcon } from './jiaoleaf-icons';
 import { DiffReview } from './DiffReview';
 
 export type Message = {
@@ -13,7 +13,7 @@ export type Message = {
 
 export const CopyIcon = () => (
   <svg
-    class="ageaf-message__copy-icon"
+    class="jiaoleaf-message__copy-icon"
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
@@ -43,7 +43,7 @@ export const CopyIcon = () => (
 
 export const CheckIcon = () => (
   <svg
-    class="ageaf-message__copy-check"
+    class="jiaoleaf-message__copy-check"
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
@@ -61,7 +61,7 @@ export const CheckIcon = () => (
 
 const ExpandIcon = () => (
   <svg
-    class="ageaf-patch-review__expand-icon"
+    class="jiaoleaf-patch-review__expand-icon"
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
@@ -162,15 +162,15 @@ export function PatchReviewCard({
       : undefined;
 
   return (
-    <div class="ageaf-patch-review">
-      <div class="ageaf-patch-review__header">
-        <div class="ageaf-patch-review__title">
+    <div class="jiaoleaf-patch-review">
+      <div class="jiaoleaf-patch-review__header">
+        <div class="jiaoleaf-patch-review__title">
           {title}
           {fileLabel ? <span> · {fileLabel}</span> : null}
         </div>
-        <div class="ageaf-patch-review__actions">
+        <div class="jiaoleaf-patch-review__actions">
           <button
-            class="ageaf-patch-review__expand-btn"
+            class="jiaoleaf-patch-review__expand-btn"
             type="button"
             onClick={() => setShowModal(true)}
             title="Expand diff"
@@ -179,7 +179,7 @@ export function PatchReviewCard({
             <ExpandIcon />
           </button>
           <button
-            class="ageaf-patch-review__expand-btn"
+            class="jiaoleaf-patch-review__expand-btn"
             type="button"
             onClick={() => {
               void (async () => {
@@ -205,7 +205,7 @@ export function PatchReviewCard({
           {status === 'pending' ? (
             <>
               <button
-                class="ageaf-panel__apply"
+                class="jiaoleaf-panel__apply"
                 type="button"
                 disabled={!canAct || Boolean(error)}
                 onClick={onAccept}
@@ -215,7 +215,7 @@ export function PatchReviewCard({
                 ✓
               </button>
               <button
-                class="ageaf-panel__apply is-secondary"
+                class="jiaoleaf-panel__apply is-secondary"
                 type="button"
                 disabled={busy}
                 onClick={onReject}
@@ -225,7 +225,7 @@ export function PatchReviewCard({
                 ✕
               </button>
               <button
-                class="ageaf-panel__apply is-secondary"
+                class="jiaoleaf-panel__apply is-secondary"
                 type="button"
                 disabled={busy}
                 onClick={onFeedback}
@@ -239,10 +239,10 @@ export function PatchReviewCard({
       </div>
 
       {error ? (
-        <div class="ageaf-patch-review__warning">
+        <div class="jiaoleaf-patch-review__warning">
           <span>{error}</span>
           <button
-            class="ageaf-panel__apply is-secondary"
+            class="jiaoleaf-panel__apply is-secondary"
             type="button"
             onClick={onCopy}
           >
@@ -252,7 +252,7 @@ export function PatchReviewCard({
         </div>
       ) : null}
 
-      <div class={`ageaf-patch-review__diff-wrap${collapsed ? ' is-collapsed' : ''}`}>
+      <div class={`jiaoleaf-patch-review__diff-wrap${collapsed ? ' is-collapsed' : ''}`}>
         {patchReview.kind === 'replaceRangeInFile' ? (
           <DiffReview
             oldText={patchReview.expectedOldText}
@@ -274,7 +274,7 @@ export function PatchReviewCard({
         ) : null}
         {collapsed ? (
           <button
-            class="ageaf-patch-review__toggle"
+            class="jiaoleaf-patch-review__toggle"
             type="button"
             onClick={() => setCollapsed(false)}
           >
@@ -284,7 +284,7 @@ export function PatchReviewCard({
       </div>
       {!collapsed ? (
         <button
-          class="ageaf-patch-review__toggle"
+          class="jiaoleaf-patch-review__toggle"
           type="button"
           onClick={() => setCollapsed(true)}
         >
@@ -293,21 +293,21 @@ export function PatchReviewCard({
       ) : null}
 
       {showModal ? createPortal(
-        <div class="ageaf-diff-modal__backdrop">
+        <div class="jiaoleaf-diff-modal__backdrop">
           <div
-            class="ageaf-diff-modal"
+            class="jiaoleaf-diff-modal"
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              class="ageaf-diff-modal__header"
+              class="jiaoleaf-diff-modal__header"
             >
-              <div class="ageaf-diff-modal__title">
+              <div class="jiaoleaf-diff-modal__title">
                 {title}
                 {fileLabel ? <span> · {fileLabel}</span> : null}
-                <span class="ageaf-diff-modal__shortcut-hint">ESC to close</span>
+                <span class="jiaoleaf-diff-modal__shortcut-hint">ESC to close</span>
               </div>
               <button
-                class="ageaf-diff-modal__close"
+                class="jiaoleaf-diff-modal__close"
                 type="button"
                 onClick={() => setShowModal(false)}
                 title="Close (ESC)"
@@ -316,7 +316,7 @@ export function PatchReviewCard({
                 <CloseIcon />
               </button>
             </div>
-            <div class="ageaf-diff-modal__content">
+            <div class="jiaoleaf-diff-modal__content">
               {patchReview.kind === 'replaceRangeInFile' ? (
                 <DiffReview
                   oldText={patchReview.expectedOldText}

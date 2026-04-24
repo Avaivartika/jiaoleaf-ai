@@ -7,11 +7,11 @@ import { resetCodexAppServerForTests } from '../src/runtimes/codex/appServer.js'
 import { runCodexJob } from '../src/runtimes/codex/run.js';
 
 test('Codex direct exec mode bypasses stalled app-server path', async () => {
-  const previousExecMode = process.env.AGEAF_CODEX_EXEC_MODE;
+  const previousExecMode = process.env.JIAOLEAF_CODEX_EXEC_MODE;
   const previousFixtureHang = process.env.CODEX_TEST_HANG;
   const previousExecText = process.env.CODEX_TEST_EXEC_TEXT;
 
-  process.env.AGEAF_CODEX_EXEC_MODE = 'exec';
+  process.env.JIAOLEAF_CODEX_EXEC_MODE = 'exec';
   process.env.CODEX_TEST_HANG = 'true';
   process.env.CODEX_TEST_EXEC_TEXT = 'Hello from direct exec mode';
 
@@ -50,8 +50,8 @@ test('Codex direct exec mode bypasses stalled app-server path', async () => {
     assert.doesNotMatch(planText, /switching to direct CLI mode/i);
     assert.equal((done?.data as any)?.status, 'ok');
   } finally {
-    if (previousExecMode === undefined) delete process.env.AGEAF_CODEX_EXEC_MODE;
-    else process.env.AGEAF_CODEX_EXEC_MODE = previousExecMode;
+    if (previousExecMode === undefined) delete process.env.JIAOLEAF_CODEX_EXEC_MODE;
+    else process.env.JIAOLEAF_CODEX_EXEC_MODE = previousExecMode;
     if (previousFixtureHang === undefined) delete process.env.CODEX_TEST_HANG;
     else process.env.CODEX_TEST_HANG = previousFixtureHang;
     if (previousExecText === undefined) delete process.env.CODEX_TEST_EXEC_TEXT;

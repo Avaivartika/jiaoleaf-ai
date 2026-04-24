@@ -1,5 +1,5 @@
 import type { JobEvent } from '../../types.js';
-import { extractAllAgeafPatchFences } from '../../patch/ageafPatchFence.js';
+import { extractAllJiaoLeafPatchFences } from '../../patch/jiaoleafPatchFence.js';
 import {
   computePerHunkReplacements,
   extractOverleafFilesFromMessage,
@@ -27,10 +27,10 @@ export class PiStreamBuffer {
   private readonly HOLD_BACK_CHARS = 32;
   private readonly MAX_DIAGRAM_CHARS = 350_000;
   private readonly payloadStartRe =
-    /```(?:ageaf[-_]?patch)|<<<\s*AGEAF_REWRITE\s*>>>|<<<\s*AGEAF_FILE_UPDATE\b/i;
+    /```(?:jiaoleaf[-_]?patch)|<<<\s*JIAOLEAF_REWRITE\s*>>>|<<<\s*JIAOLEAF_FILE_UPDATE\b/i;
   private readonly fileUpdateOpenRe =
-    /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
-  private readonly diagramOpenRe = /```ageaf-diagram[^\n]*\n/i;
+    /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
+  private readonly diagramOpenRe = /```jiaoleaf-diagram[^\n]*\n/i;
 
   constructor(emitEvent: EmitEvent, overleafFiles: ExtractedOverleafFile[]) {
     this.emitEvent = emitEvent;
@@ -163,7 +163,7 @@ export class PiStreamBuffer {
     }
 
     const blockRe =
-      /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*AGEAF_FILE_UPDATE_END\s*>>>/gi;
+      /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*JIAOLEAF_FILE_UPDATE_END\s*>>>/gi;
     let match: RegExpExecArray | null;
     let lastMatchEnd = 0;
 
@@ -222,7 +222,7 @@ export class PiStreamBuffer {
       });
       return;
     }
-    const fence = '```ageaf-diagram\n' + content + '\n```\n';
+    const fence = '```jiaoleaf-diagram\n' + content + '\n```\n';
     this.emitEvent({ event: 'delta', data: { text: fence } });
   }
 }

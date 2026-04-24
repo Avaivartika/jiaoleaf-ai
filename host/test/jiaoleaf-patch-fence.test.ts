@@ -1,21 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { extractAgeafPatchFence, extractAllAgeafPatchFences } from '../src/patch/ageafPatchFence.js';
+import { extractJiaoLeafPatchFence, extractAllJiaoLeafPatchFences } from '../src/patch/jiaoleafPatchFence.js';
 import { validatePatch } from '../src/validate.js';
 
-test('extractAgeafPatchFence finds ageaf-patch fenced JSON', () => {
+test('extractJiaoLeafPatchFence finds jiaoleaf-patch fenced JSON', () => {
   const output = [
     'Proposed change:',
     '',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     '{"kind":"replaceRangeInFile","filePath":"main.tex","expectedOldText":"old","text":"new"}',
     '```',
     '',
     'Notes: updated wording.',
   ].join('\n');
 
-  const fence = extractAgeafPatchFence(output);
+  const fence = extractJiaoLeafPatchFence(output);
   assert.equal(
     fence,
     '{"kind":"replaceRangeInFile","filePath":"main.tex","expectedOldText":"old","text":"new"}'
@@ -28,28 +28,28 @@ test('extractAgeafPatchFence finds ageaf-patch fenced JSON', () => {
   });
 });
 
-test('extractAllAgeafPatchFences returns all patch blocks', () => {
+test('extractAllJiaoLeafPatchFences returns all patch blocks', () => {
   const output = [
     'Patch 1/3:',
     '',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     '{"kind":"replaceRangeInFile","filePath":"refs.bib","expectedOldText":"old1","text":"new1"}',
     '```',
     '',
     'Patch 2/3:',
     '',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     '{"kind":"replaceRangeInFile","filePath":"refs.bib","expectedOldText":"old2","text":"new2"}',
     '```',
     '',
     'Patch 3/3:',
     '',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     '{"kind":"replaceRangeInFile","filePath":"main.tex","expectedOldText":"old3","text":"new3"}',
     '```',
   ].join('\n');
 
-  const fences = extractAllAgeafPatchFences(output);
+  const fences = extractAllJiaoLeafPatchFences(output);
   assert.equal(fences.length, 3);
   assert.deepEqual(validatePatch(JSON.parse(fences[0])), {
     kind: 'replaceRangeInFile',
@@ -65,13 +65,13 @@ test('extractAllAgeafPatchFences returns all patch blocks', () => {
   });
 });
 
-test('extractAllAgeafPatchFences returns empty array when no patches', () => {
-  assert.deepEqual(extractAllAgeafPatchFences('no patches here'), []);
+test('extractAllJiaoLeafPatchFences returns empty array when no patches', () => {
+  assert.deepEqual(extractAllJiaoLeafPatchFences('no patches here'), []);
 });
 
-test('extractAllAgeafPatchFences returns single-element array for one patch', () => {
-  const output = '```ageaf-patch\n{"kind":"replaceSelection","text":"hello"}\n```';
-  const fences = extractAllAgeafPatchFences(output);
+test('extractAllJiaoLeafPatchFences returns single-element array for one patch', () => {
+  const output = '```jiaoleaf-patch\n{"kind":"replaceSelection","text":"hello"}\n```';
+  const fences = extractAllJiaoLeafPatchFences(output);
   assert.equal(fences.length, 1);
 });
 

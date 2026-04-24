@@ -2,13 +2,13 @@
 
 import type { NativeHostRequest, NativeHostResponse } from './iso/messaging/nativeProtocol';
 
-const NATIVE_HOST_NAME = 'com.ageaf.host';
+const NATIVE_HOST_NAME = 'com.jiaoleaf.host';
 let nativePort: chrome.runtime.Port | null = null;
 const pending = new Map<string, (response: NativeHostResponse) => void>();
 const streamPorts = new Map<string, chrome.runtime.Port>();
 
 type OpenAIResponseRequest = {
-  type: 'ageaf:openai-response';
+  type: 'jiaoleaf:openai-response';
   apiKey: string;
   baseUrl?: string;
   model: string;
@@ -121,7 +121,7 @@ function ensureNativePort(): chrome.runtime.Port | null {
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (message?.type === 'ageaf:openai-response') {
+  if (message?.type === 'jiaoleaf:openai-response') {
     void requestOpenAIResponse(message as OpenAIResponseRequest)
       .then((response) => sendResponse({ ok: true, response }))
       .catch((error) =>
@@ -132,7 +132,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       );
     return true;
   }
-  if (message?.type === 'ageaf:native-request') {
+  if (message?.type === 'jiaoleaf:native-request') {
     const request = message.request as NativeHostRequest;
     const port = ensureNativePort();
     if (!port) {
@@ -149,7 +149,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     }
     return true;
   }
-  if (message?.type === 'ageaf:native-cancel') {
+  if (message?.type === 'jiaoleaf:native-cancel') {
     const requestId = message.requestId as string;
     pending.delete(requestId);
     return undefined;
@@ -158,7 +158,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 });
 
 chrome.runtime.onConnect.addListener((port) => {
-  if (port.name !== 'ageaf:native-stream') return;
+  if (port.name !== 'jiaoleaf:native-stream') return;
   const native = ensureNativePort();
   if (!native) {
     port.onMessage.addListener((message: NativeHostRequest) => {
@@ -204,7 +204,7 @@ chrome.action.onClicked.addListener(() => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     const tabId = tabs[0]?.id;
     if (!tabId) return;
-    chrome.tabs.sendMessage(tabId, { type: 'ageaf:open-settings' }, () => {
+    chrome.tabs.sendMessage(tabId, { type: 'jiaoleaf:open-settings' }, () => {
       // It's expected that most tabs won't have our content script injected.
       // Avoid unhandled promise rejections like:
       // "Could not establish connection. Receiving end does not exist."

@@ -6,13 +6,13 @@ import type { AgentTool } from '@mariozechner/pi-agent-core';
  * builder to generate tool guidance.
  */
 export interface ToolCatalogEntry {
-  /** Full tool name as seen by the LLM, e.g. "mcp__ageaf-mermaid__render_mermaid" or "web_search" */
+  /** Full tool name as seen by the LLM, e.g. "mcp__jiaoleaf-mermaid__render_mermaid" or "web_search" */
   name: string;
   /** Human-readable label */
   label: string;
   /** One-line description for system prompt guidance */
   description: string;
-  /** Backend source, e.g. "mcp:ageaf-mermaid" or "builtin" */
+  /** Backend source, e.g. "mcp:jiaoleaf-mermaid" or "builtin" */
   source: string;
 }
 

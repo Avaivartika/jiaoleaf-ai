@@ -19,8 +19,8 @@ type CodexUserSavedConfig = {
   modelReasoningEffort: string | null;
 };
 
-function ensureAgeafWorkspaceCwd(): string {
-  const workspace = path.join(os.homedir(), '.ageaf');
+function ensureJiaoLeafWorkspaceCwd(): string {
+  const workspace = path.join(os.homedir(), '.jiaoleaf');
   try {
     fs.mkdirSync(workspace, { recursive: true });
   } catch {
@@ -31,9 +31,9 @@ function ensureAgeafWorkspaceCwd(): string {
 
 function getCodexSessionCwd(threadId?: string): string {
   if (!threadId || !threadId.trim()) {
-    return ensureAgeafWorkspaceCwd();
+    return ensureJiaoLeafWorkspaceCwd();
   }
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'codex', 'sessions', threadId.trim());
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'codex', 'sessions', threadId.trim());
   try {
     fs.mkdirSync(sessionDir, { recursive: true });
   } catch {
@@ -122,7 +122,7 @@ async function readCodexUserSavedConfig(config: { cliPath?: string; envVars?: st
 }
 
 export async function getCodexRuntimeMetadata(config: { cliPath?: string; envVars?: string }) {
-  const cwd = ensureAgeafWorkspaceCwd();
+  const cwd = ensureJiaoLeafWorkspaceCwd();
   const appServerConfig = { ...config, cwd };
 
   const [models, saved] = await Promise.all([

@@ -2,19 +2,19 @@ import { getContentAfterCursor, getContentBeforeCursor, getCmView } from '../hel
 import { applyReplacementAtRange, onReplaceContent } from '../eventHandlers';
 import { MAX_LENGTH_AFTER_CURSOR, MAX_LENGTH_BEFORE_CURSOR } from '../../constants';
 
-const REQUEST_EVENT = 'ageaf:editor:request';
-const RESPONSE_EVENT = 'ageaf:editor:response';
-const REPLACE_EVENT = 'ageaf:editor:replace';
-const INSERT_EVENT = 'ageaf:editor:insert';
-const APPLY_REQUEST_EVENT = 'ageaf:editor:apply:request';
-const APPLY_RESPONSE_EVENT = 'ageaf:editor:apply:response';
-const FILE_REQUEST_EVENT = 'ageaf:editor:file-content:request';
-const FILE_RESPONSE_EVENT = 'ageaf:editor:file-content:response';
-const FILE_NAVIGATE_REQUEST_EVENT = 'ageaf:editor:file-navigate:request';
-const FILE_NAVIGATE_RESPONSE_EVENT = 'ageaf:editor:file-navigate:response';
-const HISTORY_REQUEST_EVENT = 'ageaf:editor:history:request';
-const HISTORY_RESPONSE_EVENT = 'ageaf:editor:history:response';
-const HISTORY_STATE_EVENT = 'ageaf:editor:history:state';
+const REQUEST_EVENT = 'jiaoleaf:editor:request';
+const RESPONSE_EVENT = 'jiaoleaf:editor:response';
+const REPLACE_EVENT = 'jiaoleaf:editor:replace';
+const INSERT_EVENT = 'jiaoleaf:editor:insert';
+const APPLY_REQUEST_EVENT = 'jiaoleaf:editor:apply:request';
+const APPLY_RESPONSE_EVENT = 'jiaoleaf:editor:apply:response';
+const FILE_REQUEST_EVENT = 'jiaoleaf:editor:file-content:request';
+const FILE_RESPONSE_EVENT = 'jiaoleaf:editor:file-content:response';
+const FILE_NAVIGATE_REQUEST_EVENT = 'jiaoleaf:editor:file-navigate:request';
+const FILE_NAVIGATE_RESPONSE_EVENT = 'jiaoleaf:editor:file-navigate:response';
+const HISTORY_REQUEST_EVENT = 'jiaoleaf:editor:history:request';
+const HISTORY_RESPONSE_EVENT = 'jiaoleaf:editor:history:response';
+const HISTORY_STATE_EVENT = 'jiaoleaf:editor:history:state';
 
 interface SelectionRequest {
   requestId: string;
@@ -267,7 +267,7 @@ function findClickableByName(name: string): HTMLElement | null {
   const targetLower = name.trim().toLowerCase();
   for (const node of candidates) {
     if (!(node instanceof HTMLElement)) continue;
-    if (node.closest('#ageaf-panel-root')) continue;
+    if (node.closest('#jiaoleaf-panel-root')) continue;
     const text = (node.getAttribute('aria-label') ?? node.getAttribute('title') ?? node.textContent ?? '')
       .trim()
       .toLowerCase();
@@ -439,7 +439,7 @@ async function onApplyRequest(event: Event) {
     let view = getTrackedCmView();
 
     const withProtectedEditBypass = (fn: () => void) => {
-      const key = '__ageafAllowProtectedEdits';
+      const key = '__jiaoleafAllowProtectedEdits';
       const prev = (window as any)[key];
       (window as any)[key] = true;
       try {

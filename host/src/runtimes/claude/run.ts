@@ -363,24 +363,24 @@ If asked about the model/runtime, use this note and do not guess.`;
 
   const patchGuidanceNoFiles = [
     'Patch proposals (Review Change Cards):',
-    '- Use an `ageaf-patch` block when the user wants to modify existing Overleaf content (rewrite/edit selection, fix LaTeX errors, etc).',
-    '- If the user is asking for general info or standalone writing (e.g. an abstract draft, explanation, ideas), do NOT emit `ageaf-patch` — put the full answer directly in the visible response.',
+    '- Use an `jiaoleaf-patch` block when the user wants to modify existing Overleaf content (rewrite/edit selection, fix LaTeX errors, etc).',
+    '- If the user is asking for general info or standalone writing (e.g. an abstract draft, explanation, ideas), do NOT emit `jiaoleaf-patch` — put the full answer directly in the visible response.',
     '- If you are writing NEW content (not editing existing), prefer a normal fenced code block (e.g. ```tex).',
-    '- If you DO want the user to apply edits to existing Overleaf content, include exactly one fenced code block labeled `ageaf-patch` containing ONLY a JSON object matching one of:',
+    '- If you DO want the user to apply edits to existing Overleaf content, include exactly one fenced code block labeled `jiaoleaf-patch` containing ONLY a JSON object matching one of:',
     '  - { "kind":"replaceSelection", "text":"..." } — Use when editing selected text',
     '  - { "kind":"replaceRangeInFile", "filePath":"main.tex", "expectedOldText":"...", "text":"...", "from":123, "to":456 } — Use for file-level edits',
     '  - { "kind":"insertAtCursor", "text":"..." } — Use ONLY when explicitly asked to insert at cursor',
-    '- Put all explanation/change notes outside the `ageaf-patch` code block.',
+    '- Put all explanation/change notes outside the `jiaoleaf-patch` code block.',
     '- The /humanizer skill should be used when editing text to ensure natural, human-sounding writing (removing AI patterns).',
     '- Exception: Only skip the review change card if user explicitly says "no review card", "without patch", or "just show me the code".',
   ].join('\n');
 
   const patchGuidanceWithFiles = [
     'Patch proposals (Review Change Cards):',
-    '- CRITICAL: When `[Overleaf file: <path>]` blocks are present, ALWAYS use `AGEAF_FILE_UPDATE` markers (see "Overleaf file edits" below) for ALL edits to those files.',
-    '- Do NOT use `ageaf-patch` with `replaceRangeInFile` when file blocks are present — always use `AGEAF_FILE_UPDATE` instead.',
-    '- You MAY use `ageaf-patch` with { "kind":"replaceSelection", "text":"..." } ONLY when editing cursor-selected text (`Context.selection`).',
-    '- You MAY use `ageaf-patch` with { "kind":"insertAtCursor", "text":"..." } ONLY when explicitly asked to insert at cursor.',
+    '- CRITICAL: When `[Overleaf file: <path>]` blocks are present, ALWAYS use `JIAOLEAF_FILE_UPDATE` markers (see "Overleaf file edits" below) for ALL edits to those files.',
+    '- Do NOT use `jiaoleaf-patch` with `replaceRangeInFile` when file blocks are present — always use `JIAOLEAF_FILE_UPDATE` instead.',
+    '- You MAY use `jiaoleaf-patch` with { "kind":"replaceSelection", "text":"..." } ONLY when editing cursor-selected text (`Context.selection`).',
+    '- You MAY use `jiaoleaf-patch` with { "kind":"insertAtCursor", "text":"..." } ONLY when explicitly asked to insert at cursor.',
     '- If the user is asking for general info or standalone writing, do NOT emit patches — put the full answer directly in the visible response.',
     '- Put all explanation/change notes outside any code blocks.',
     '- The /humanizer skill should be used when editing text to ensure natural, human-sounding writing (removing AI patterns).',
@@ -394,8 +394,8 @@ If asked about the model/runtime, use this note and do not guess.`;
     selectionPatchGuidance = [
       '\nSelection edits:',
       '- `Context.selection` contains the user\'s cursor-selected text.',
-      '- If the user wants to edit ONLY the selected text, use `ageaf-patch` with { "kind":"replaceSelection", "text":"..." }.',
-      '- If the user wants to edit the ENTIRE FILE (proofread, review, rewrite the whole document), use `AGEAF_FILE_UPDATE` markers instead.',
+      '- If the user wants to edit ONLY the selected text, use `jiaoleaf-patch` with { "kind":"replaceSelection", "text":"..." }.',
+      '- If the user wants to edit the ENTIRE FILE (proofread, review, rewrite the whole document), use `JIAOLEAF_FILE_UPDATE` markers instead.',
       '- The /humanizer skill should be used to ensure natural, human-sounding writing (removing AI patterns).',
       '- Keep the visible response short (change notes only, NOT the full rewritten text).',
     ].join('\n');
@@ -403,9 +403,9 @@ If asked about the model/runtime, use this note and do not guess.`;
     selectionPatchGuidance = [
       '\nSelection edits (CRITICAL - Review Change Card):',
       '- If `Context.selection` is present AND the user uses words like "proofread", "paraphrase", "rewrite", "rephrase", "refine", or "improve",',
-      '  you MUST emit an `ageaf-patch` review change card with { "kind":"replaceSelection", "text":"..." }.',
+      '  you MUST emit an `jiaoleaf-patch` review change card with { "kind":"replaceSelection", "text":"..." }.',
       '- This applies whether the user clicked "Rewrite Selection" button OR manually typed a message with these keywords while having text selected.',
-      '- Do NOT just output a normal fenced code block (e.g., ```tex) when editing selected content — use the ageaf-patch review change card instead.',
+      '- Do NOT just output a normal fenced code block (e.g., ```tex) when editing selected content — use the jiaoleaf-patch review change card instead.',
       '- The review change card allows users to accept/reject the changes before applying them to Overleaf.',
       '- EXCEPTION: Only use a normal code block if the user explicitly says "no review card", "without patch", or "just show me the code".',
       '- The /humanizer skill should be used to ensure natural, human-sounding writing (removing AI patterns).',
@@ -415,12 +415,12 @@ If asked about the model/runtime, use this note and do not guess.`;
   const fileUpdateGuidance = [
     'Overleaf file edits:',
     '- The user may include `[Overleaf file: <path>]` blocks showing the current file contents.',
-    '- The user may also include `[Overleaf reference: <path>]` blocks showing content of \\input-referenced files. These are READ-ONLY context — do NOT emit AGEAF_FILE_UPDATE markers for reference blocks.',
+    '- The user may also include `[Overleaf reference: <path>]` blocks showing content of \\input-referenced files. These are READ-ONLY context — do NOT emit JIAOLEAF_FILE_UPDATE markers for reference blocks.',
     '- If the user asks you to edit/proofread/rewrite a file, append the UPDATED FULL FILE CONTENTS inside these markers at the VERY END of your message:',
-    '<<<AGEAF_FILE_UPDATE path="main.tex">>>',
+    '<<<JIAOLEAF_FILE_UPDATE path="main.tex">>>',
     '... full updated file contents here ...',
-    '<<<AGEAF_FILE_UPDATE_END>>>',
-    '- Only emit AGEAF_FILE_UPDATE for files that appeared in `[Overleaf file:]` blocks (NOT `[Overleaf reference:]` blocks).',
+    '<<<JIAOLEAF_FILE_UPDATE_END>>>',
+    '- Only emit JIAOLEAF_FILE_UPDATE for files that appeared in `[Overleaf file:]` blocks (NOT `[Overleaf reference:]` blocks).',
     '- Do not wrap these markers in Markdown fences.',
     '- Do not output anything after the end marker.',
     '- Put change notes in normal Markdown BEFORE the markers.',
@@ -436,7 +436,7 @@ If asked about the model/runtime, use this note and do not guess.`;
 
   const skillsGuidance = [
     'Available Skills (CRITICAL):',
-    '- Ageaf supports built-in skill directives (e.g. /humanizer).',
+    '- JiaoLeaf supports built-in skill directives (e.g. /humanizer).',
     '- Available skills include:',
     '  • /humanizer - Remove AI writing patterns (inflated symbolism, promotional language, AI vocabulary)',
     '  • /paper-reviewer - Structured peer reviews following top-tier venue standards',
@@ -446,7 +446,7 @@ If asked about the model/runtime, use this note and do not guess.`;
     '  • /mermaid - Render Mermaid diagrams (flowcharts, sequence, state, class, ER) via built-in MCP tool',
     '- If the user includes a /skillName directive, you MUST follow that skill for this request.',
     '- Skill text (instructions) may be injected under "Additional instructions" for the request; do NOT try to locate skills on disk.',
-    '- These skills are part of the Ageaf system and do NOT require external installation.',
+    '- These skills are part of the JiaoLeaf system and do NOT require external installation.',
     '- Do not announce skill-loading or mention internal skill frameworks; just apply the skill.',
   ].join('\n');
 
@@ -467,7 +467,7 @@ If asked about the model/runtime, use this note and do not guess.`;
     : '';
 
   const baseParts = [
-    'You are Ageaf, a concise Overleaf assistant.',
+    'You are JiaoLeaf, a concise Overleaf assistant.',
     responseGuidance,
     patchGuidance,
     selectionPatchGuidance,

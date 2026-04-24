@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 test('Pi runtime mock mode emits delta + done events', async () => {
-  process.env.AGEAF_PI_MOCK = 'true';
+  process.env.JIAOLEAF_PI_MOCK = 'true';
 
   // Dynamic import so env var is active
   const { runPiJob } = await import('../src/runtimes/pi/run.js');
@@ -29,11 +29,11 @@ test('Pi runtime mock mode emits delta + done events', async () => {
   assert.equal(doneEvents.length, 1, 'should emit exactly one done event');
   assert.equal((doneEvents[0]!.data as any).status, 'ok', 'done status should be ok');
 
-  delete process.env.AGEAF_PI_MOCK;
+  delete process.env.JIAOLEAF_PI_MOCK;
 });
 
 test('Pi runtime rewrite action in mock mode emits replaceSelection', async () => {
-  process.env.AGEAF_PI_MOCK = 'true';
+  process.env.JIAOLEAF_PI_MOCK = 'true';
 
   const { runPiJob } = await import('../src/runtimes/pi/run.js');
 
@@ -64,5 +64,5 @@ test('Pi runtime rewrite action in mock mode emits replaceSelection', async () =
   assert.ok(patchEvents.length > 0, 'should emit a patch event');
   assert.equal((patchEvents[0]!.data as any).kind, 'replaceSelection');
 
-  delete process.env.AGEAF_PI_MOCK;
+  delete process.env.JIAOLEAF_PI_MOCK;
 });

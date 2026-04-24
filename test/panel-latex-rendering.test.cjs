@@ -21,9 +21,9 @@ test('LaTeX rendering is implemented with KaTeX', () => {
 
   // Check LaTeX delimiters are handled (inline and display)
   assert.match(markdownContents, /data-latex/);
-  assert.match(markdownContents, /ageaf-latex/);
+  assert.match(markdownContents, /jiaoleaf-latex/);
   assert.match(markdownContents, /displayMode \? ['"]display['"] : ['"]inline['"]/);
-  assert.match(markdownContents, /ageaf-latex--\$\{mode\}/);
+  assert.match(markdownContents, /jiaoleaf-latex--\$\{mode\}/);
 
   // Check inline and block LaTeX rules are registered
   assert.match(markdownContents, /function latexInline/);
@@ -41,14 +41,14 @@ test('LaTeX rendering is implemented with KaTeX', () => {
   // Check copy-to-source behavior is implemented
   assert.match(panelContents, /extractCopyTextFromQuoteHtml/);
   assert.match(panelContents, /getAttribute\(['"]data-latex['"]\)/);
-  assert.match(panelContents, /ageaf-latex/);
+  assert.match(panelContents, /jiaoleaf-latex/);
 
   // Check LaTeX CSS styles exist
-  assert.match(cssContents, /\.ageaf-latex/);
-  assert.match(cssContents, /\.ageaf-latex--inline/);
-  assert.match(cssContents, /\.ageaf-latex--display/);
-  assert.match(cssContents, /\.ageaf-latex-error/);
+  assert.match(cssContents, /\.jiaoleaf-latex/);
+  assert.match(cssContents, /\.jiaoleaf-latex--inline/);
+  assert.match(cssContents, /\.jiaoleaf-latex--display/);
+  assert.match(cssContents, /\.jiaoleaf-latex-error/);
 
   // Check display LaTeX can overflow/scroll
-  assert.match(cssContents, /\.ageaf-latex--display[\s\S]*?overflow-x:\s*auto/);
+  assert.match(cssContents, /\.jiaoleaf-latex--display[\s\S]*?overflow-x:\s*auto/);
 });

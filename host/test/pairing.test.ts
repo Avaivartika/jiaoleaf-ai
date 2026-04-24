@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 test('POST /v1/pair is not available', async () => {
-  process.env.AGEAF_START_SERVER = 'false';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -24,8 +24,8 @@ test('POST /v1/pair is not available', async () => {
 });
 
 test('POST /v1/jobs without auth returns job id', async () => {
-  process.env.AGEAF_START_SERVER = 'false';
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();

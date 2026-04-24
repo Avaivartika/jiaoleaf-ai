@@ -21,7 +21,7 @@ import { buildServer } from '../src/server.js';
 const ENV_KEYS_TO_SAVE = [
   'DEEPSEEK_API_KEY', 'DASHSCOPE_API_KEY', 'OPENAI_API_KEY',
   'ANTHROPIC_API_KEY', 'GEMINI_API_KEY', 'GROQ_API_KEY',
-  'MISTRAL_API_KEY', 'AGEAF_PI_PROVIDER', 'AGEAF_PI_MODEL',
+  'MISTRAL_API_KEY', 'JIAOLEAF_PI_PROVIDER', 'JIAOLEAF_PI_MODEL',
 ];
 
 let savedEnv: Record<string, string | undefined>;
@@ -275,9 +275,9 @@ describe('resolveModel: env var overrides are ignored (regression guard)', () =>
   beforeEach(saveEnv);
   afterEach(restoreEnv);
 
-  test('AGEAF_PI_PROVIDER/MODEL env vars have no effect on auto-detect', () => {
-    process.env.AGEAF_PI_PROVIDER = 'deepseek';
-    process.env.AGEAF_PI_MODEL = 'deepseek-reasoner';
+  test('JIAOLEAF_PI_PROVIDER/MODEL env vars have no effect on auto-detect', () => {
+    process.env.JIAOLEAF_PI_PROVIDER = 'deepseek';
+    process.env.JIAOLEAF_PI_MODEL = 'deepseek-reasoner';
     process.env.OPENAI_API_KEY = 'test';
     // No DEEPSEEK_API_KEY — if env vars were read, it would try deepseek and fail
     // Instead, auto-detect should pick OpenAI
@@ -286,8 +286,8 @@ describe('resolveModel: env var overrides are ignored (regression guard)', () =>
     assert.notEqual(result.model?.provider, 'deepseek', 'should not pick deepseek from env');
   });
 
-  test('AGEAF_PI_PROVIDER env var does not override config.provider', () => {
-    process.env.AGEAF_PI_PROVIDER = 'deepseek';
+  test('JIAOLEAF_PI_PROVIDER env var does not override config.provider', () => {
+    process.env.JIAOLEAF_PI_PROVIDER = 'deepseek';
     process.env.DEEPSEEK_API_KEY = 'test';
     process.env.OPENAI_API_KEY = 'test';
     const result = resolveModel({ provider: 'openai' });
@@ -368,9 +368,9 @@ describe('getPiRuntimeStatus: custom providers', () => {
     assert.equal(status.configured, true);
   });
 
-  test('AGEAF_PI_PROVIDER/MODEL env vars have no effect on status', () => {
-    process.env.AGEAF_PI_PROVIDER = 'override-provider';
-    process.env.AGEAF_PI_MODEL = 'override-model';
+  test('JIAOLEAF_PI_PROVIDER/MODEL env vars have no effect on status', () => {
+    process.env.JIAOLEAF_PI_PROVIDER = 'override-provider';
+    process.env.JIAOLEAF_PI_MODEL = 'override-model';
     process.env.OPENAI_API_KEY = 'test';
     const status = getPiRuntimeStatus();
     assert.notEqual(status.activeProvider, 'override-provider', 'env override should be ignored');

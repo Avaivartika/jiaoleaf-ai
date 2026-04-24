@@ -1,6 +1,6 @@
 # Codex Compaction Parity Plan
 
-**Goal:** Align Ageaf's Codex compaction/retry behavior with CodexMonitor's event-driven flow so context-window compaction is visible and non-terminal.
+**Goal:** Align JiaoLeaf's Codex compaction/retry behavior with CodexMonitor's event-driven flow so context-window compaction is visible and non-terminal.
 
 **Current Phase:** 5 - Delivery
 
@@ -8,14 +8,14 @@
 
 ### Phase 1: Requirements & Discovery
 - [x] Understand user requirements
-- [x] Explore Ageaf compaction/error paths
+- [x] Explore JiaoLeaf compaction/error paths
 - [x] Explore CodexMonitor compaction/retry logic
 - [x] Document findings and parity gaps
 
 **Status:** complete
 
 ### Phase 2: Planning & Structure
-- [x] Decide parity scope for Ageaf host + panel
+- [x] Decide parity scope for JiaoLeaf host + panel
 - [x] Document key decisions and tradeoffs
 - [x] Break into actionable implementation tasks
 
@@ -45,7 +45,7 @@
 **Status:** complete
 
 ## Key Questions
-- Should Ageaf expose compaction in the panel as tool lifecycle items, status-line plan events, or both?
+- Should JiaoLeaf expose compaction in the panel as tool lifecycle items, status-line plan events, or both?
 - Should manual `/compact` command support be in scope now, or deferred after auto-compaction parity is stable?
 - Should overflow-text fallback remain enabled if `willRetry` is absent, and behind a feature flag?
 
@@ -55,7 +55,7 @@
 |----------|-----------|------|
 | Start manus plan as a new task and archive prior manus files | Existing task was complete (`.active` missing), as required by manus workflow | 2026-02-23 |
 | Mirror CodexMonitor's core contract: retryable turn errors are non-terminal | Prevents premature termination during compaction/retry cycles | 2026-02-23 |
-| Keep legacy compaction signal compatibility while prioritizing `contextCompaction` lifecycle | Ageaf currently consumes legacy variants; safer rollout than hard cutover | 2026-02-23 |
+| Keep legacy compaction signal compatibility while prioritizing `contextCompaction` lifecycle | JiaoLeaf currently consumes legacy variants; safer rollout than hard cutover | 2026-02-23 |
 | Track compaction lifecycle with stable item IDs and status transitions | Avoids duplicate/incoherent UI rows and improves streaming continuity | 2026-02-23 |
 | Preserve compaction item IDs from source lifecycle events when available | Enables deterministic lifecycle pairing from start to completion and testability | 2026-02-23 |
 | Treat `thread/compacted` as legacy completion with lifecycle fallback | Maintains backward compatibility while closing active compaction indicators coherently | 2026-02-23 |
@@ -73,5 +73,5 @@
 
 ## Notes
 - Re-read this plan before implementation edits.
-- Keep parity analysis explicit (CodexMonitor behavior vs Ageaf behavior).
+- Keep parity analysis explicit (CodexMonitor behavior vs JiaoLeaf behavior).
 - Persist findings frequently to survive context reset/compaction.

@@ -12,7 +12,7 @@ test('Panel has diff review hook', () => {
   const chatStoreContents = fs.readFileSync(chatStorePath, 'utf8');
 
   assert.match(contents, /DiffReview/);
-  assert.match(diffContents, /ageaf-diff-review/);
+  assert.match(diffContents, /jiaoleaf-diff-review/);
   assert.match(diffContents, /Diff unavailable/);
   assert.match(diffContents, /catch/);
   assert.match(contents, /SelectionSnapshot/);

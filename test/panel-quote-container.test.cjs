@@ -7,7 +7,7 @@ test('Messages render quoted/attachment content inside a collapsible quote conta
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-message__quote/);
+  assert.match(contents, /jiaoleaf-message__quote/);
   assert.match(contents, /Attachment:/);
   assert.match(contents, /blockquote|BLOCKQUOTE/);
   assert.doesNotMatch(contents, /Show quote/);

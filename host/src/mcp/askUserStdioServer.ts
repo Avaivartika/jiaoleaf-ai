@@ -18,7 +18,7 @@ import {
   askUserSchema,
 } from './askUserToolDefs.js';
 
-const HOST_PORT = process.env.AGEAF_HOST_PORT || '3210';
+const HOST_PORT = process.env.JIAOLEAF_HOST_PORT || '3210';
 
 const server = new McpServer({
   name: ASK_USER_SERVER_NAME,

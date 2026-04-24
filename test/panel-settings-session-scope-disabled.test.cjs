@@ -8,6 +8,6 @@ test('Settings UI does not expose Claude session scope control', () => {
   const contents = fs.readFileSync(panelPath, 'utf8');
 
   assert.doesNotMatch(contents, /Claude session scope/);
-  assert.doesNotMatch(contents, /ageaf-claude-session-scope/);
+  assert.doesNotMatch(contents, /jiaoleaf-claude-session-scope/);
 });
 

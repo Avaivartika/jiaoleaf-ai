@@ -38,16 +38,16 @@ test('Code blocks have syntax highlighting and language labels', () => {
   assert.match(panelContents, /languageLabel\?:/);
 
   // Check language label is rendered
-  assert.match(panelContents, /ageaf-message__quote-lang/);
+  assert.match(panelContents, /jiaoleaf-message__quote-lang/);
   assert.match(panelContents, /quote\.languageLabel/);
 
   // Check CSS for language label exists
-  assert.match(cssContents, /\.ageaf-message__quote-lang/);
+  assert.match(cssContents, /\.jiaoleaf-message__quote-lang/);
   assert.match(cssContents, /position:\s*absolute/);
   assert.match(cssContents, /text-transform:\s*uppercase/);
 
   // Check Prism syntax highlighting styles exist
-  assert.match(cssContents, /\.ageaf-code-block/);
+  assert.match(cssContents, /\.jiaoleaf-code-block/);
   assert.match(cssContents, /\.token\.comment/);
   assert.match(cssContents, /\.token\.keyword/);
   assert.match(cssContents, /\.token\.string/);

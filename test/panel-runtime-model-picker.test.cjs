@@ -14,7 +14,7 @@ test('Model picker button does not include a "Model" label', () => {
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.doesNotMatch(contents, /ageaf-runtime__label\">Model/);
+  assert.doesNotMatch(contents, /jiaoleaf-runtime__label\">Model/);
 });
 
 test('Model picker menu uses fixed non-version labels and descriptions', () => {

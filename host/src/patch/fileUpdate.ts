@@ -31,7 +31,7 @@ export function extractFileUpdateMarkers(output: string) {
   const normalized = normalizeNewlines(output);
   const updates: Array<{ filePath: string; content: string }> = [];
   const re =
-    /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*AGEAF_FILE_UPDATE_END\s*>>>/gi;
+    /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*JIAOLEAF_FILE_UPDATE_END\s*>>>/gi;
   let match: RegExpExecArray | null;
   while ((match = re.exec(normalized))) {
     const filePath = String(match[1] ?? '').trim();

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "JiaoLeaf AI",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "AI assistant for SJTU Overleaf and Overleaf-compatible LaTeX projects",
   "icons": {
     "16": "icons/icon_16.png",

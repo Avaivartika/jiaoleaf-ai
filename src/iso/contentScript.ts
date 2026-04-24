@@ -2,26 +2,26 @@
 
 import './webpackPublicPath';
 import { mountPanel, unmountPanel } from './panel/Panel';
-const LAYOUT_ID = 'ageaf-layout';
-const LAYOUT_MAIN_CLASS = 'ageaf-layout__main';
-const LAYOUT_OVERLAY_CLASS = 'ageaf-layout--overlay';
-const LAYOUT_SIDECAR_CLASS = 'ageaf-layout--sidecar';
-const SIDECAR_HOST_CLASS = 'ageaf-sidecar-host';
-const SIDECAR_WIDTH_VAR = '--ageaf-sidecar-width';
-const EDITOR_REQUEST_EVENT = 'ageaf:editor:request';
-const EDITOR_RESPONSE_EVENT = 'ageaf:editor:response';
-const EDITOR_REPLACE_EVENT = 'ageaf:editor:replace';
-const EDITOR_INSERT_EVENT = 'ageaf:editor:insert';
-const EDITOR_APPLY_REQUEST_EVENT = 'ageaf:editor:apply:request';
-const EDITOR_APPLY_RESPONSE_EVENT = 'ageaf:editor:apply:response';
-const EDITOR_FILE_REQUEST_EVENT = 'ageaf:editor:file-content:request';
-const EDITOR_FILE_RESPONSE_EVENT = 'ageaf:editor:file-content:response';
-const EDITOR_FILE_NAVIGATE_REQUEST_EVENT = 'ageaf:editor:file-navigate:request';
-const EDITOR_FILE_NAVIGATE_RESPONSE_EVENT = 'ageaf:editor:file-navigate:response';
-const EDITOR_HISTORY_REQUEST_EVENT = 'ageaf:editor:history:request';
-const EDITOR_HISTORY_RESPONSE_EVENT = 'ageaf:editor:history:response';
-const EDITOR_HISTORY_STATE_EVENT = 'ageaf:editor:history:state';
-const PANEL_INSERT_SELECTION_EVENT = 'ageaf:panel:insert-selection';
+const LAYOUT_ID = 'jiaoleaf-layout';
+const LAYOUT_MAIN_CLASS = 'jiaoleaf-layout__main';
+const LAYOUT_OVERLAY_CLASS = 'jiaoleaf-layout--overlay';
+const LAYOUT_SIDECAR_CLASS = 'jiaoleaf-layout--sidecar';
+const SIDECAR_HOST_CLASS = 'jiaoleaf-sidecar-host';
+const SIDECAR_WIDTH_VAR = '--jiaoleaf-sidecar-width';
+const EDITOR_REQUEST_EVENT = 'jiaoleaf:editor:request';
+const EDITOR_RESPONSE_EVENT = 'jiaoleaf:editor:response';
+const EDITOR_REPLACE_EVENT = 'jiaoleaf:editor:replace';
+const EDITOR_INSERT_EVENT = 'jiaoleaf:editor:insert';
+const EDITOR_APPLY_REQUEST_EVENT = 'jiaoleaf:editor:apply:request';
+const EDITOR_APPLY_RESPONSE_EVENT = 'jiaoleaf:editor:apply:response';
+const EDITOR_FILE_REQUEST_EVENT = 'jiaoleaf:editor:file-content:request';
+const EDITOR_FILE_RESPONSE_EVENT = 'jiaoleaf:editor:file-content:response';
+const EDITOR_FILE_NAVIGATE_REQUEST_EVENT = 'jiaoleaf:editor:file-navigate:request';
+const EDITOR_FILE_NAVIGATE_RESPONSE_EVENT = 'jiaoleaf:editor:file-navigate:response';
+const EDITOR_HISTORY_REQUEST_EVENT = 'jiaoleaf:editor:history:request';
+const EDITOR_HISTORY_RESPONSE_EVENT = 'jiaoleaf:editor:history:response';
+const EDITOR_HISTORY_STATE_EVENT = 'jiaoleaf:editor:history:state';
+const PANEL_INSERT_SELECTION_EVENT = 'jiaoleaf:panel:insert-selection';
 const APPLY_REQUEST_TIMEOUT_MS = 12000;
 const selectionRequests = new Map<string, (payload: any) => void>();
 const fileRequests = new Map<string, (payload: any) => void>();
@@ -63,7 +63,7 @@ type HistoryResponse = {
 
 declare global {
   interface Window {
-    ageafBridge?: {
+    jiaoleafBridge?: {
       requestSelection: () => Promise<any>;
       requestFileContent: (name: string) => Promise<any>;
       replaceSelection: (text: string) => void;
@@ -266,7 +266,7 @@ function redoEditor() {
 }
 
 function ensureKatexFontFaces() {
-  const STYLE_ID = 'ageaf-katex-fonts';
+  const STYLE_ID = 'jiaoleaf-katex-fonts';
   if (document.getElementById(STYLE_ID)) return;
   if (!('chrome' in globalThis) || !chrome?.runtime?.getURL) return;
 
@@ -329,7 +329,7 @@ function findLayoutHost(): HTMLElement | null {
   for (const selector of selectors) {
     const candidate = document.querySelector(selector);
     if (!(candidate instanceof HTMLElement)) continue;
-    if (candidate.id === LAYOUT_ID || candidate.id === 'ageaf-panel-root') continue;
+    if (candidate.id === LAYOUT_ID || candidate.id === 'jiaoleaf-panel-root') continue;
     return candidate;
   }
 
@@ -359,7 +359,7 @@ function mountLayout(): HTMLElement {
       sidecarHost = host;
       sidecarHost.classList.add(SIDECAR_HOST_CLASS);
       const updateSidecarWidth = () => {
-        const panel = layout.querySelector('#ageaf-panel-root .ageaf-panel');
+        const panel = layout.querySelector('#jiaoleaf-panel-root .jiaoleaf-panel');
         const width = panel instanceof HTMLElement ? panel.getBoundingClientRect().width : 0;
         sidecarHost?.style.setProperty(SIDECAR_WIDTH_VAR, `${Math.max(0, Math.ceil(width))}px`);
       };
@@ -432,7 +432,7 @@ window.addEventListener(EDITOR_APPLY_RESPONSE_EVENT, onApplyResponse as EventLis
 window.addEventListener(EDITOR_FILE_NAVIGATE_RESPONSE_EVENT, onFileNavigateResponse as EventListener);
 window.addEventListener(EDITOR_HISTORY_RESPONSE_EVENT, onHistoryResponse as EventListener);
 window.addEventListener(EDITOR_HISTORY_STATE_EVENT, onHistoryStateUpdate as EventListener);
-window.ageafBridge = {
+window.jiaoleafBridge = {
   requestSelection,
   requestFileContent,
   replaceSelection,
@@ -447,7 +447,7 @@ window.ageafBridge = {
 
 function isPanelTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
-  return Boolean(target.closest('#ageaf-panel-root'));
+  return Boolean(target.closest('#jiaoleaf-panel-root'));
 }
 
 function isEditorTarget(target: EventTarget | null) {
@@ -480,8 +480,8 @@ window.addEventListener(
 
 try {
   chrome.runtime.onMessage.addListener((request) => {
-    if (request?.type === 'ageaf:open-settings') {
-      window.dispatchEvent(new CustomEvent('ageaf:settings:open'));
+    if (request?.type === 'jiaoleaf:open-settings') {
+      window.dispatchEvent(new CustomEvent('jiaoleaf:settings:open'));
     }
   });
 } catch (error) {

@@ -11,7 +11,7 @@
 - Detected completed prior manus task and archived old manuscript files.
 - Initialized fresh manus files for Claude compaction parity task.
 - Re-validated CodePilot command/session/status flow in `MessageInput.tsx`, `app/api/chat/route.ts`, `lib/claude-client.ts`, and `hooks/useSSEStream.ts`.
-- Re-validated Ageaf Claude runtime/panel flow in `host/src/runtimes/claude/{run.ts,agent.ts,cwd.ts}`, `host/src/routes/jobs.ts`, `host/src/compaction/sendCompact.ts`, and `src/iso/panel/Panel.tsx`.
+- Re-validated JiaoLeaf Claude runtime/panel flow in `host/src/runtimes/claude/{run.ts,agent.ts,cwd.ts}`, `host/src/routes/jobs.ts`, `host/src/compaction/sendCompact.ts`, and `src/iso/panel/Panel.tsx`.
 - Confirmed `sendCompactCommand` is not wired in active job route flow and that Claude compaction lifecycle parity is not implemented end-to-end.
 
 **Files Modified:**
@@ -113,7 +113,7 @@
 **Started:** 2026-02-24T00:40:00Z
 
 **Actions:**
-- Added a concise `How to Update Ageaf` section to `README.md`.
+- Added a concise `How to Update JiaoLeaf` section to `README.md`.
 - Documented both update paths:
   - source workflow (`git pull`, dependency refresh, rebuild/watch, host restart),
   - Homebrew upgrade path for native host users.

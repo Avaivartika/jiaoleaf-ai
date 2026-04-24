@@ -1,8 +1,8 @@
 # Findings
 
 ## Requirements
-- Compare CodePilot's Claude compaction logic with current Ageaf Claude compaction behavior.
-- Judge weakness/gaps in Ageaf implementation and provide practical improvement plan.
+- Compare CodePilot's Claude compaction logic with current JiaoLeaf Claude compaction behavior.
+- Judge weakness/gaps in JiaoLeaf implementation and provide practical improvement plan.
 - Use manus persistent planning workflow.
 
 ## Design Document
@@ -12,31 +12,31 @@
 - Follow-up user report (2026-02-24): patch-review cards render per-file before `Accept all`, then split into per-hunk after accept completes.
 - Root cause in `src/iso/panel/Panel.tsx`: `fileGroupMap` construction filters `replaceRangeInFile` hunks to `status === 'pending'`; after acceptance status transitions to `accepted`, grouped card mapping disappears and each message falls back to individual `PatchReviewCard`.
 - Initial prior-session observation: CodePilot appears to support native `/compact` command passthrough and visible status streaming.
-- Initial prior-session observation: Ageaf has a Claude-specific `sendCompact.ts` helper that may not be wired into active request flow.
-- Initial prior-session observation: Ageaf Codex runtime has stronger compaction lifecycle/retry handling than Claude runtime.
+- Initial prior-session observation: JiaoLeaf has a Claude-specific `sendCompact.ts` helper that may not be wired into active request flow.
+- Initial prior-session observation: JiaoLeaf Codex runtime has stronger compaction lifecycle/retry handling than Claude runtime.
 - Fresh scan confirms CodePilot stores and reuses `sdk_session_id` (`src/lib/db.ts`, `src/app/api/chat/route.ts`, `src/lib/claude-client.ts`), indicating explicit SDK session continuation semantics.
 - Fresh scan confirms CodePilot marks `/compact` as SDK-native built-in command (`src/components/chat/MessageInput.tsx`), with streaming `status` SSE handling in both API collector and UI stream hook (`src/app/api/chat/route.ts`, `src/hooks/useSSEStream.ts`).
-- Fresh scan confirms Ageaf has Claude compaction helper logic in `host/src/compaction/sendCompact.ts`, but codebase-level usage appears centered on Codex compaction lifecycle handling in `host/src/runtimes/codex/run.ts`; Claude runtime/search hits do not yet show equivalent lifecycle plumbing.
+- Fresh scan confirms JiaoLeaf has Claude compaction helper logic in `host/src/compaction/sendCompact.ts`, but codebase-level usage appears centered on Codex compaction lifecycle handling in `host/src/runtimes/codex/run.ts`; Claude runtime/search hits do not yet show equivalent lifecycle plumbing.
 - CodePilot command ingress detail: `/compact` is a built-in command and intended to be sent as native SDK command; however, when user adds extra context to command badge, fallback expansion can drop `/compact` and send only user context (`src/components/chat/MessageInput.tsx`).
 - CodePilot streaming/session detail: `/api/chat` passes `sdk_session_id` to SDK query options and collector persists updated `session_id` from status/result events, enabling resumable continuity (`src/app/api/chat/route.ts`, `src/lib/claude-client.ts`).
-- Ageaf jobs route currently dispatches Claude requests only through `runClaudeJob` and does not route to `sendCompactCommand` (`host/src/routes/jobs.ts` vs `host/src/compaction/sendCompact.ts`).
-- Ageaf Claude runtime currently wraps user input in a broad system/context envelope and always uses `continue: true` with per-conversation cwd, but no explicit SDK session-id persistence path analogous to CodePilot was found (`host/src/runtimes/claude/run.ts`, `host/src/runtimes/claude/agent.ts`, `host/src/runtimes/claude/cwd.ts`).
-- Ageaf Claude runtime emits generic `plan` events for tool starts (`phase: tool_start`) but has no dedicated compaction lifecycle (`compaction_complete`/overflow-retry) handling; non-success result subtype exits as error (`host/src/runtimes/claude/agent.ts`).
-- Ageaf panel supports compaction-related plan phases (`tool_complete`, `compaction_complete`, `tool_error`) if emitted, but Claude runtime currently does not emit those compaction completion/error phases (`src/iso/panel/Panel.tsx`, `host/src/runtimes/claude/agent.ts`).
-- Ageaf panel slash handling is skill-manifest based (`loadSkillsManifest`, `processSkillDirectives`), not built-in command dispatch; recognized `/name` tokens are transformed into skill instructions appended via `customSystemPrompt`, and unresolved directives remain plain message text (`src/iso/panel/Panel.tsx`, `src/iso/panel/skills/skillsRegistry.ts`).
-- Ageaf chat payload sends `context.message` into Claude runtime prompt envelope (JSON context + system guidance), so `/compact` is not sent as a direct SDK-native command in chat flow (`src/iso/panel/Panel.tsx`, `host/src/runtimes/claude/run.ts`).
+- JiaoLeaf jobs route currently dispatches Claude requests only through `runClaudeJob` and does not route to `sendCompactCommand` (`host/src/routes/jobs.ts` vs `host/src/compaction/sendCompact.ts`).
+- JiaoLeaf Claude runtime currently wraps user input in a broad system/context envelope and always uses `continue: true` with per-conversation cwd, but no explicit SDK session-id persistence path analogous to CodePilot was found (`host/src/runtimes/claude/run.ts`, `host/src/runtimes/claude/agent.ts`, `host/src/runtimes/claude/cwd.ts`).
+- JiaoLeaf Claude runtime emits generic `plan` events for tool starts (`phase: tool_start`) but has no dedicated compaction lifecycle (`compaction_complete`/overflow-retry) handling; non-success result subtype exits as error (`host/src/runtimes/claude/agent.ts`).
+- JiaoLeaf panel supports compaction-related plan phases (`tool_complete`, `compaction_complete`, `tool_error`) if emitted, but Claude runtime currently does not emit those compaction completion/error phases (`src/iso/panel/Panel.tsx`, `host/src/runtimes/claude/agent.ts`).
+- JiaoLeaf panel slash handling is skill-manifest based (`loadSkillsManifest`, `processSkillDirectives`), not built-in command dispatch; recognized `/name` tokens are transformed into skill instructions appended via `customSystemPrompt`, and unresolved directives remain plain message text (`src/iso/panel/Panel.tsx`, `src/iso/panel/skills/skillsRegistry.ts`).
+- JiaoLeaf chat payload sends `context.message` into Claude runtime prompt envelope (JSON context + system guidance), so `/compact` is not sent as a direct SDK-native command in chat flow (`src/iso/panel/Panel.tsx`, `host/src/runtimes/claude/run.ts`).
 - CodePilot caveat remains: `/compact` command badge can degrade when user adds extra text because final prompt becomes expanded prompt + user context, and `/compact` has no expansion template (`src/components/chat/MessageInput.tsx`).
-- Ageaf test coverage around compaction is largely Codex-focused; Claude compaction tests cover helper-level lock behavior but not integrated job-route/runtime compaction lifecycle (`host/test/codex-compact-timeout.test.ts`, `host/test/codex-runtime-compaction-retry.test.ts`).
-- Evidence of stronger Codex path in Ageaf: runtime has retry-flag detection, compaction lifecycle event emitter, legacy signal handling, and retryable-overflow waiting logic (`host/src/runtimes/codex/run.ts`).
+- JiaoLeaf test coverage around compaction is largely Codex-focused; Claude compaction tests cover helper-level lock behavior but not integrated job-route/runtime compaction lifecycle (`host/test/codex-compact-timeout.test.ts`, `host/test/codex-runtime-compaction-retry.test.ts`).
+- Evidence of stronger Codex path in JiaoLeaf: runtime has retry-flag detection, compaction lifecycle event emitter, legacy signal handling, and retryable-overflow waiting logic (`host/src/runtimes/codex/run.ts`).
 - Jobs route import list and dispatch path include `runClaudeJob`/`runCodexJob` but no `sendCompactCommand`, reinforcing that compaction helper is currently not part of chat execution path (`host/src/routes/jobs.ts`).
-- Host tests currently rely heavily on `AGEAF_CLAUDE_MOCK` for Claude job route/SSE smoke checks (`host/test/jobs-sse.test.ts`, `host/test/claude-runtime.test.ts`), so new Claude compaction behavior tests should include unit-style runtime tests that do not require real CLI availability.
+- Host tests currently rely heavily on `JIAOLEAF_CLAUDE_MOCK` for Claude job route/SSE smoke checks (`host/test/jobs-sse.test.ts`, `host/test/claude-runtime.test.ts`), so new Claude compaction behavior tests should include unit-style runtime tests that do not require real CLI availability.
 - Existing compaction/retry coverage pattern in repo uses focused runtime tests with deterministic fixture-like inputs (`host/test/codex-runtime-compaction-retry.test.ts`), which can be mirrored for Claude parity tests.
 - Repo also uses lightweight structural smoke tests to lock important event/type contracts (`host/test/file-started-events.test.ts`); this pattern can guard newly introduced Claude compaction/session-resume hooks.
-- CodePilot extracts token usage from `result.usage` in-stream (`src/lib/claude-client.ts`), while Ageaf Claude host previously only read `result.modelUsage`; this mismatch can drop usage updates when SDK emits usage-only shape.
+- CodePilot extracts token usage from `result.usage` in-stream (`src/lib/claude-client.ts`), while JiaoLeaf Claude host previously only read `result.modelUsage`; this mismatch can drop usage updates when SDK emits usage-only shape.
 - Panel context refresh previously dropped forced refresh requests when `contextRefreshInFlightRef` was true, which explains stale ring state after `/compact` completion if a refresh race occurs.
 
 ## Implementation Findings
-- Added a short `How to Update Ageaf` section in `README.md` with simple source and Homebrew update steps.
+- Added a short `How to Update JiaoLeaf` section in `README.md` with simple source and Homebrew update steps.
 - Fixed `replaceRangeInFile` group-map behavior in `src/iso/panel/Panel.tsx` to include all statuses (not pending-only), with `firstPendingId` as visibility anchor to keep current pending cards visible while preserving grouped per-file rendering after accept/reject transitions.
 - Updated `test/panel-file-summary.test.cjs` to assert grouping survives status transitions and does not depend on `status !== 'pending'` filtering inside the grouped-card memoization block.
 - Updated `test/panel-feedback-action-order.test.cjs` to assert action ordering from `PatchReviewCard.tsx` (source of truth) instead of brittle slicing from `Panel.tsx`.
@@ -53,7 +53,7 @@
 
 ## Parity Gap Matrix
 
-| Area | CodePilot | Ageaf (Claude path) | Gap Severity |
+| Area | CodePilot | JiaoLeaf (Claude path) | Gap Severity |
 |------|-----------|----------------------|--------------|
 | Manual `/compact` command ingress | Built-in command intended as SDK-native passthrough | No dedicated built-in command dispatch path in panel/host; `/compact` is handled through generic message/skill flow | High |
 | Command transport shape | Chat API sends prompt text directly to SDK query call | Chat flow embeds message inside system+JSON context envelope | High |

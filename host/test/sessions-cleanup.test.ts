@@ -9,7 +9,7 @@ import { buildServer } from '../src/server.js';
 test('DELETE /v1/sessions/:provider/:sessionId deletes Claude session directory', async () => {
   const server = buildServer();
   const sessionId = `test-claude-${Date.now()}`;
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'claude', 'sessions', sessionId);
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'claude', 'sessions', sessionId);
 
   try {
     // Create a test session directory
@@ -43,7 +43,7 @@ test('DELETE /v1/sessions/:provider/:sessionId deletes Claude session directory'
 test('DELETE /v1/sessions/:provider/:sessionId deletes Codex session directory', async () => {
   const server = buildServer();
   const sessionId = `test-codex-${Date.now()}`;
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'codex', 'sessions', sessionId);
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'codex', 'sessions', sessionId);
 
   try {
     // Create a test session directory

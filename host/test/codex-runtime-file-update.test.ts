@@ -43,7 +43,7 @@ test('Codex chat emits replaceRangeInFile patch from file update markers', async
       .join('');
 
     assert.match(deltaText, /Change notes/i);
-    assert.doesNotMatch(deltaText, /AGEAF_FILE_UPDATE/i);
+    assert.doesNotMatch(deltaText, /JIAOLEAF_FILE_UPDATE/i);
     assert.doesNotMatch(deltaText, /Hello there/);
 
     const patchIndex = events.findIndex((event) => event.event === 'patch');

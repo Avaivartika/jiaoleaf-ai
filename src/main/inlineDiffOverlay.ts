@@ -1,11 +1,11 @@
 import { getCmView } from './helpers';
 import { LOCAL_STORAGE_KEY_INLINE_OVERLAY } from '../constants';
 
-const OVERLAY_SHOW_EVENT = 'ageaf:editor:overlay:show';
-const OVERLAY_CLEAR_EVENT = 'ageaf:editor:overlay:clear';
-const OVERLAY_READY_EVENT = 'ageaf:editor:overlay:ready';
-const PANEL_ACTION_EVENT = 'ageaf:panel:patch-review-action';
-const STYLE_ID = 'ageaf-inline-diff-overlay-style';
+const OVERLAY_SHOW_EVENT = 'jiaoleaf:editor:overlay:show';
+const OVERLAY_CLEAR_EVENT = 'jiaoleaf:editor:overlay:clear';
+const OVERLAY_READY_EVENT = 'jiaoleaf:editor:overlay:ready';
+const PANEL_ACTION_EVENT = 'jiaoleaf:panel:patch-review-action';
+const STYLE_ID = 'jiaoleaf-inline-diff-overlay-style';
 
 type OverlayKind = 'replaceSelection' | 'replaceRangeInFile' | 'insertAtCursor';
 
@@ -98,7 +98,7 @@ let lastSelectionClearVersion = -1;
 
 function isDebugEnabled() {
   try {
-    return window.localStorage.getItem('ageaf_debug_overlay') === '1';
+    return window.localStorage.getItem('jiaoleaf_debug_overlay') === '1';
   } catch {
     return false;
   }
@@ -111,7 +111,7 @@ function logOnce(key: string, ...args: any[]) {
   lastLogKey = key;
   lastLogAt = now;
   // eslint-disable-next-line no-console
-  console.log('[Ageaf Overlay]', ...args);
+  console.log('[JiaoLeaf Overlay]', ...args);
 }
 
 function safeGetCmView(): ReturnType<typeof getCmView> | null {
@@ -142,7 +142,7 @@ function ensureInlineDiffStyles() {
   style.id = STYLE_ID;
   style.setAttribute('data-v', STYLE_VERSION);
   style.textContent = `
-    .ageaf-inline-diff-overlay {
+    .jiaoleaf-inline-diff-overlay {
       position: absolute;
       top: 0;
       left: 0;
@@ -152,13 +152,13 @@ function ensureInlineDiffStyles() {
       z-index: 20;
     }
 
-    .ageaf-inline-diff-old {
+    .jiaoleaf-inline-diff-old {
       position: absolute;
       background: rgba(239, 68, 68, 0.16);
       border-radius: 3px;
     }
 
-    .ageaf-inline-diff-new {
+    .jiaoleaf-inline-diff-new {
       position: absolute;
       background: rgba(57, 185, 138, 0.18);
       border-radius: 4px;
@@ -171,7 +171,7 @@ function ensureInlineDiffStyles() {
       pointer-events: none;
     }
 
-    .ageaf-inline-diff-actions {
+    .jiaoleaf-inline-diff-actions {
       position: absolute;
       display: inline-flex;
       gap: 6px;
@@ -179,7 +179,7 @@ function ensureInlineDiffStyles() {
       z-index: 30;
     }
 
-    .ageaf-inline-diff-btn {
+    .jiaoleaf-inline-diff-btn {
       all: unset;
       cursor: pointer;
       font-family: 'Work Sans', -apple-system, sans-serif;
@@ -196,45 +196,45 @@ function ensureInlineDiffStyles() {
       white-space: nowrap;
     }
 
-    .ageaf-inline-diff-btn:hover {
+    .jiaoleaf-inline-diff-btn:hover {
       background: rgba(57, 185, 138, 0.3);
       border-color: rgba(57, 185, 138, 0.6);
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(57, 185, 138, 0.2);
     }
 
-    .ageaf-inline-diff-btn:active {
+    .jiaoleaf-inline-diff-btn:active {
       transform: translateY(0);
     }
 
-    .ageaf-inline-diff-btn:focus-visible {
+    .jiaoleaf-inline-diff-btn:focus-visible {
       outline: 2px solid #39b98a;
       outline-offset: 2px;
     }
 
-    .ageaf-inline-diff-btn.is-reject {
+    .jiaoleaf-inline-diff-btn.is-reject {
       background: rgba(255, 107, 107, 0.2);
       color: #3d0a0a;
       border: 1px solid rgba(255, 107, 107, 0.4);
     }
 
-    .ageaf-inline-diff-btn.is-reject:hover {
+    .jiaoleaf-inline-diff-btn.is-reject:hover {
       background: rgba(255, 107, 107, 0.3);
       border-color: rgba(255, 107, 107, 0.6);
     }
 
-    .ageaf-inline-diff-btn.is-feedback {
+    .jiaoleaf-inline-diff-btn.is-feedback {
       background: rgba(77, 184, 232, 0.16);
       color: #0a1e2d;
       border: 1px solid rgba(77, 184, 232, 0.35);
     }
 
-    .ageaf-inline-diff-btn.is-feedback:hover {
+    .jiaoleaf-inline-diff-btn.is-feedback:hover {
       background: rgba(77, 184, 232, 0.25);
       border-color: rgba(77, 184, 232, 0.5);
     }
 
-    .ageaf-inline-diff-addition {
+    .jiaoleaf-inline-diff-addition {
       position: relative;
       display: block;
       width: auto;
@@ -247,7 +247,7 @@ function ensureInlineDiffStyles() {
       overflow: visible;
     }
 
-    .ageaf-inline-diff-addition__text {
+    .jiaoleaf-inline-diff-addition__text {
       padding: 6px 8px;
       font-family: inherit;
       font-size: inherit;
@@ -264,7 +264,7 @@ function ensureInlineDiffStyles() {
       -webkit-user-select: text;
     }
 
-    textarea.ageaf-inline-diff-addition__text {
+    textarea.jiaoleaf-inline-diff-addition__text {
       border: 1px dashed rgba(57, 185, 138, 0.25);
       border-radius: 4px;
       outline: none;
@@ -276,17 +276,17 @@ function ensureInlineDiffStyles() {
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    textarea.ageaf-inline-diff-addition__text:hover {
+    textarea.jiaoleaf-inline-diff-addition__text:hover {
       border-color: rgba(57, 185, 138, 0.4);
     }
 
-    textarea.ageaf-inline-diff-addition__text:focus {
+    textarea.jiaoleaf-inline-diff-addition__text:focus {
       border-style: solid;
       border-color: rgba(57, 185, 138, 0.6);
       box-shadow: 0 0 0 2px rgba(57, 185, 138, 0.15);
     }
 
-    .ageaf-inline-diff-addition__actions {
+    .jiaoleaf-inline-diff-addition__actions {
       position: absolute;
       right: 4px;
       bottom: 0;
@@ -304,7 +304,7 @@ function ensureInlineDiffStyles() {
       pointer-events: auto;
     }
 
-    .ageaf-inline-diff-widget {
+    .jiaoleaf-inline-diff-widget {
       display: block;
       width: 100%;
       margin: 6px 0;
@@ -317,7 +317,7 @@ function ensureInlineDiffStyles() {
       overflow: visible;
     }
 
-    .ageaf-inline-diff-widget__old {
+    .jiaoleaf-inline-diff-widget__old {
       position: relative;
       background: rgba(239, 68, 68, 0.14);
       text-decoration: line-through;
@@ -336,14 +336,14 @@ function ensureInlineDiffStyles() {
 
     /* CM6 mark decoration for old (deleted) text — text stays in the document
        so it remains natively selectable/copyable. */
-    .ageaf-inline-diff-mark-old {
+    .jiaoleaf-inline-diff-mark-old {
       background-color: rgba(239, 68, 68, 0.14);
       text-decoration: line-through;
       user-select: text !important;
       -webkit-user-select: text !important;
     }
 
-    .ageaf-inline-diff-widget__text {
+    .jiaoleaf-inline-diff-widget__text {
       padding: 6px 8px;
       font-family: inherit;
       font-size: inherit;
@@ -361,7 +361,7 @@ function ensureInlineDiffStyles() {
     }
 
     /* Make the proposed text editable with visual affordance */
-    textarea.ageaf-inline-diff-widget__text {
+    textarea.jiaoleaf-inline-diff-widget__text {
       border: 1px dashed rgba(57, 185, 138, 0.25);
       border-radius: 4px;
       outline: none;
@@ -373,17 +373,17 @@ function ensureInlineDiffStyles() {
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    textarea.ageaf-inline-diff-widget__text:hover {
+    textarea.jiaoleaf-inline-diff-widget__text:hover {
       border-color: rgba(57, 185, 138, 0.4);
     }
 
-    textarea.ageaf-inline-diff-widget__text:focus {
+    textarea.jiaoleaf-inline-diff-widget__text:focus {
       border-style: solid;
       border-color: rgba(57, 185, 138, 0.6);
       box-shadow: 0 0 0 2px rgba(57, 185, 138, 0.15);
     }
 
-    .ageaf-inline-diff-widget__actions {
+    .jiaoleaf-inline-diff-widget__actions {
       position: absolute;
       right: 4px;
       bottom: 0;
@@ -401,7 +401,7 @@ function ensureInlineDiffStyles() {
       pointer-events: auto;
     }
 
-    .ageaf-review-bar {
+    .jiaoleaf-review-bar {
       position: fixed;
       left: 50%;
       bottom: 18px;
@@ -420,21 +420,21 @@ function ensureInlineDiffStyles() {
       font-size: 13px;
       pointer-events: auto;
       user-select: none;
-      animation: ageaf-review-bar-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: jiaoleaf-review-bar-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .ageaf-review-bar__count {
+    .jiaoleaf-review-bar__count {
       white-space: nowrap;
       opacity: 0.95;
     }
 
-    .ageaf-review-bar__nav {
+    .jiaoleaf-review-bar__nav {
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
 
-    .ageaf-review-bar__btn {
+    .jiaoleaf-review-bar__btn {
       all: unset;
       cursor: pointer;
       padding: 8px 12px;
@@ -453,47 +453,47 @@ function ensureInlineDiffStyles() {
       transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .ageaf-review-bar__btn:hover {
+    .jiaoleaf-review-bar__btn:hover {
       background: rgba(255, 255, 255, 0.12);
     }
 
-    .ageaf-review-bar__btn:active {
+    .jiaoleaf-review-bar__btn:active {
       transform: translateY(1px);
     }
 
-    .ageaf-review-bar__btn:focus-visible {
+    .jiaoleaf-review-bar__btn:focus-visible {
       outline: 2px solid #39b98a;
       outline-offset: 2px;
     }
 
-    .ageaf-review-bar__btn.is-primary {
+    .jiaoleaf-review-bar__btn.is-primary {
       background: rgba(57, 185, 138, 0.22);
       border-color: rgba(57, 185, 138, 0.45);
       color: #f7fbf9;
     }
 
-    .ageaf-review-bar__btn.is-primary:hover {
+    .jiaoleaf-review-bar__btn.is-primary:hover {
       background: rgba(57, 185, 138, 0.32);
     }
 
-    .ageaf-review-bar__btn.is-danger {
+    .jiaoleaf-review-bar__btn.is-danger {
       background: rgba(255, 107, 107, 0.22);
       border-color: rgba(255, 107, 107, 0.45);
       color: #f7fbf9;
     }
 
-    .ageaf-review-bar__btn.is-danger:hover {
+    .jiaoleaf-review-bar__btn.is-danger:hover {
       background: rgba(255, 107, 107, 0.32);
     }
 
-    @keyframes ageaf-review-bar-enter {
+    @keyframes jiaoleaf-review-bar-enter {
       from { opacity: 0; transform: translateX(-50%) translateY(12px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .ageaf-review-bar,
-      .ageaf-inline-diff-btn {
+      .jiaoleaf-review-bar,
+      .jiaoleaf-inline-diff-btn {
         animation: none !important;
         transition: none !important;
       }
@@ -505,24 +505,24 @@ function ensureInlineDiffStyles() {
 function ensureReviewBar() {
   if (reviewBarEl) return reviewBarEl;
   const bar = document.createElement('div');
-  bar.className = 'ageaf-review-bar';
+  bar.className = 'jiaoleaf-review-bar';
   bar.style.display = 'none';
 
   const count = document.createElement('div');
-  count.className = 'ageaf-review-bar__count';
+  count.className = 'jiaoleaf-review-bar__count';
   count.textContent = '0 of 0 review change hunks';
 
   const nav = document.createElement('div');
-  nav.className = 'ageaf-review-bar__nav';
+  nav.className = 'jiaoleaf-review-bar__nav';
 
   const prev = document.createElement('button');
-  prev.className = 'ageaf-review-bar__btn';
+  prev.className = 'jiaoleaf-review-bar__btn';
   prev.textContent = '<';
   prev.title = 'Previous hunk';
   prev.setAttribute('aria-label', 'Previous review hunk');
 
   const next = document.createElement('button');
-  next.className = 'ageaf-review-bar__btn';
+  next.className = 'jiaoleaf-review-bar__btn';
   next.textContent = '>';
   next.title = 'Next hunk';
   next.setAttribute('aria-label', 'Next review hunk');
@@ -531,13 +531,13 @@ function ensureReviewBar() {
   nav.appendChild(next);
 
   const undoAll = document.createElement('button');
-  undoAll.className = 'ageaf-review-bar__btn is-danger';
+  undoAll.className = 'jiaoleaf-review-bar__btn is-danger';
   undoAll.textContent = 'Undo File';
   undoAll.title = 'Reject all hunks in this file';
   undoAll.setAttribute('aria-label', 'Reject all review hunks in this file');
 
   const acceptAll = document.createElement('button');
-  acceptAll.className = 'ageaf-review-bar__btn is-primary';
+  acceptAll.className = 'jiaoleaf-review-bar__btn is-primary';
   acceptAll.textContent = 'Accept File';
   acceptAll.title = 'Accept all hunks in this file';
   acceptAll.setAttribute('aria-label', 'Accept all review hunks in this file');
@@ -606,7 +606,7 @@ function ensureReviewBar() {
           ? (CSS as any).escape(messageId)
           : messageId;
       const editor = document.querySelector(
-        `.ageaf-inline-diff-widget[data-message-id="${esc}"] textarea[data-ageaf-proposed-editor="1"], .ageaf-inline-diff-addition[data-message-id="${esc}"] textarea[data-ageaf-proposed-editor="1"]`
+        `.jiaoleaf-inline-diff-widget[data-message-id="${esc}"] textarea[data-jiaoleaf-proposed-editor="1"], .jiaoleaf-inline-diff-addition[data-message-id="${esc}"] textarea[data-jiaoleaf-proposed-editor="1"]`
       ) as HTMLTextAreaElement | null;
       if (editor) detail.text = editor.value;
     }
@@ -665,7 +665,7 @@ function ensureReviewBar() {
     void runBulk('accept');
   };
 
-  (bar as any).__ageafUpdateCount = updateCount;
+  (bar as any).__jiaoleafUpdateCount = updateCount;
   return bar;
 }
 
@@ -692,7 +692,7 @@ function updateReviewBar(
     0,
     items.findIndex((x) => x.messageId === focusId)
   );
-  (bar as any).__ageafUpdateCount?.(
+  (bar as any).__jiaoleafUpdateCount?.(
     `${idx + 1} of ${items.length} review change hunks`
   );
   bar.style.display = 'flex';
@@ -887,7 +887,7 @@ function ensureOverlayRoot(view: ReturnType<typeof getCmView>) {
   if (overlayRoot && overlayScrollDom === scrollDOM) return;
   overlayRoot?.remove();
   overlayRoot = document.createElement('div');
-  overlayRoot.className = 'ageaf-inline-diff-overlay';
+  overlayRoot.className = 'jiaoleaf-inline-diff-overlay';
   overlayScrollDom = scrollDOM;
   const computed = window.getComputedStyle(scrollDOM);
   if (computed.position === 'static') {
@@ -913,7 +913,7 @@ function clearGap() {
 function ensureGapSpacerAfter(targetEl: HTMLElement) {
   if (!gapSpacerEl) {
     gapSpacerEl = document.createElement('div');
-    gapSpacerEl.setAttribute('data-ageaf-overlay-gap', '1');
+    gapSpacerEl.setAttribute('data-jiaoleaf-overlay-gap', '1');
     gapSpacerEl.style.display = 'block';
     gapSpacerEl.style.width = '100%';
     gapSpacerEl.style.height = '0px';
@@ -1152,7 +1152,7 @@ function initializeCm6Overlay(cm6: Cm6Exports) {
                 // appears as a block widget right after the marked range.
                 items.push(
                   Decoration.mark({
-                    class: 'ageaf-inline-diff-mark-old',
+                    class: 'jiaoleaf-inline-diff-mark-old',
                   }).range(rf, rt)
                 );
                 items.push(
@@ -1189,13 +1189,13 @@ function initializeCm6Overlay(cm6: Cm6Exports) {
   });
 
   // Optional: transaction filter to prevent edits inside "red" (old) ranges.
-  // Allow our own apply transactions by setting window.__ageafAllowProtectedEdits = true.
+  // Allow our own apply transactions by setting window.__jiaoleafAllowProtectedEdits = true.
   overlayGuardExtension = null;
   try {
     const tf = EditorState?.transactionFilter;
     if (tf?.of) {
       overlayGuardExtension = tf.of((tr: any) => {
-        if ((window as any).__ageafAllowProtectedEdits) return tr;
+        if ((window as any).__jiaoleafAllowProtectedEdits) return tr;
         if (!tr?.docChanged) return tr;
         const fieldVal = tr?.startState?.field?.(overlayField, false);
         const ranges: Array<[number, number]> = fieldVal?.ranges ?? [];
@@ -1290,7 +1290,7 @@ function ensureCm6FieldInstalled(view: any) {
 
 function createWidgetDOM(oldText: string, text: string, messageId: string): HTMLElement {
   const wrap = document.createElement('div');
-  wrap.className = 'ageaf-inline-diff-widget';
+  wrap.className = 'jiaoleaf-inline-diff-widget';
   wrap.setAttribute('data-message-id', messageId);
 
   // Prevent CM6 from capturing mouse events so the textarea inside the
@@ -1301,8 +1301,8 @@ function createWidgetDOM(oldText: string, text: string, messageId: string): HTML
 
   if (oldText) {
     const oldTextEl = document.createElement('div');
-    oldTextEl.className = 'ageaf-inline-diff-widget__old';
-    oldTextEl.setAttribute('data-ageaf-old-readonly', '1');
+    oldTextEl.className = 'jiaoleaf-inline-diff-widget__old';
+    oldTextEl.setAttribute('data-jiaoleaf-old-readonly', '1');
     oldTextEl.setAttribute('contenteditable', 'false');
     oldTextEl.setAttribute('aria-readonly', 'true');
     oldTextEl.textContent = oldText;
@@ -1310,14 +1310,14 @@ function createWidgetDOM(oldText: string, text: string, messageId: string): HTML
   }
 
   const textEl = document.createElement('textarea');
-  textEl.className = 'ageaf-inline-diff-widget__text';
+  textEl.className = 'jiaoleaf-inline-diff-widget__text';
   (textEl as HTMLTextAreaElement).value = text;
   textEl.spellcheck = false;
   textEl.setAttribute('aria-label', 'Edit proposed text');
   textEl.setAttribute('placeholder', 'Edit the proposed text before accepting...');
   // Allow editing proposed text like Cursor does.
   (textEl as HTMLTextAreaElement).setAttribute(
-    'data-ageaf-proposed-editor',
+    'data-jiaoleaf-proposed-editor',
     '1'
   );
   const autosize = () => {
@@ -1337,10 +1337,10 @@ function createWidgetDOM(oldText: string, text: string, messageId: string): HTML
   requestAnimationFrame(() => autosize());
 
   const actions = document.createElement('div');
-  actions.className = 'ageaf-inline-diff-widget__actions';
+  actions.className = 'jiaoleaf-inline-diff-widget__actions';
 
   const acceptBtn = document.createElement('button');
-  acceptBtn.className = 'ageaf-inline-diff-btn';
+  acceptBtn.className = 'jiaoleaf-inline-diff-btn';
   acceptBtn.textContent = '✓ Accept';
   acceptBtn.setAttribute('aria-label', 'Accept proposed change');
   acceptBtn.onclick = (e) => {
@@ -1356,7 +1356,7 @@ function createWidgetDOM(oldText: string, text: string, messageId: string): HTML
   actions.appendChild(acceptBtn);
 
   const rejectBtn = document.createElement('button');
-  rejectBtn.className = 'ageaf-inline-diff-btn is-reject';
+  rejectBtn.className = 'jiaoleaf-inline-diff-btn is-reject';
   rejectBtn.textContent = '✕ Reject';
   rejectBtn.setAttribute('aria-label', 'Reject proposed change');
   rejectBtn.onclick = (e) => {
@@ -1367,7 +1367,7 @@ function createWidgetDOM(oldText: string, text: string, messageId: string): HTML
   actions.appendChild(rejectBtn);
 
   const feedbackBtn = document.createElement('button');
-  feedbackBtn.className = 'ageaf-inline-diff-btn is-feedback';
+  feedbackBtn.className = 'jiaoleaf-inline-diff-btn is-feedback';
   feedbackBtn.textContent = 'Feedback';
   feedbackBtn.setAttribute('aria-label', 'Give feedback on proposed change');
   feedbackBtn.onclick = (e) => {
@@ -1628,7 +1628,7 @@ function renderOverlay() {
         : Math.max(12, scrollDOM.clientWidth - relLine.left - 16);
 
       const block = document.createElement('div');
-      block.className = 'ageaf-inline-diff-old';
+      block.className = 'jiaoleaf-inline-diff-old';
       block.style.left = `${relLine.left}px`;
       block.style.top = `${relLine.top}px`;
       block.style.width = `${width}px`;
@@ -1660,7 +1660,7 @@ function renderOverlay() {
     const rel = { left: relLine.left, top: relLine.bottom + 8 };
 
     const added = document.createElement('div');
-    added.className = 'ageaf-inline-diff-addition';
+    added.className = 'jiaoleaf-inline-diff-addition';
     added.setAttribute('data-message-id', overlayState.messageId);
     added.style.left = `${rel.left}px`;
     added.style.top = `${rel.top}px`;
@@ -1669,11 +1669,11 @@ function renderOverlay() {
     added.style.maxWidth = `${availableWidth}px`;
 
     const text = document.createElement('textarea');
-    text.className = 'ageaf-inline-diff-addition__text';
+    text.className = 'jiaoleaf-inline-diff-addition__text';
     (text as HTMLTextAreaElement).value = range.newText;
     text.spellcheck = false;
     text.setAttribute('aria-label', 'Edit proposed text');
-    text.setAttribute('data-ageaf-proposed-editor', '1');
+    text.setAttribute('data-jiaoleaf-proposed-editor', '1');
     const autosize = () => {
       try {
         (text as HTMLTextAreaElement).style.height = 'auto';
@@ -1690,10 +1690,10 @@ function renderOverlay() {
     text.style.lineHeight = contentStyle.lineHeight;
 
     const actions = document.createElement('div');
-    actions.className = 'ageaf-inline-diff-addition__actions';
+    actions.className = 'jiaoleaf-inline-diff-addition__actions';
 
     const accept = document.createElement('button');
-    accept.className = 'ageaf-inline-diff-btn';
+    accept.className = 'jiaoleaf-inline-diff-btn';
     accept.textContent = '✓ Accept';
     accept.type = 'button';
     accept.addEventListener('click', (event) => {
@@ -1707,7 +1707,7 @@ function renderOverlay() {
     });
 
     const feedback = document.createElement('button');
-    feedback.className = 'ageaf-inline-diff-btn is-feedback';
+    feedback.className = 'jiaoleaf-inline-diff-btn is-feedback';
     feedback.textContent = 'Feedback';
     feedback.type = 'button';
     feedback.addEventListener('click', (event) => {
@@ -1721,7 +1721,7 @@ function renderOverlay() {
     });
 
     const reject = document.createElement('button');
-    reject.className = 'ageaf-inline-diff-btn is-reject';
+    reject.className = 'jiaoleaf-inline-diff-btn is-reject';
     reject.textContent = '✕ Reject';
     reject.type = 'button';
     reject.addEventListener('click', (event) => {
@@ -1915,12 +1915,12 @@ export function registerInlineDiffOverlay() {
       Compartment,
     };
 
-    // Expose resolved CM6 exports for other Ageaf features that may register
+    // Expose resolved CM6 exports for other JiaoLeaf features that may register
     // their event listeners after Overleaf fires UNSTABLE_editor:extensions.
     try {
-      (window as any).__ageafCm6Exports = cm6Exports;
+      (window as any).__jiaoleafCm6Exports = cm6Exports;
       window.dispatchEvent(
-        new CustomEvent('ageaf:cm6:resolved', { detail: { cm6Exports } })
+        new CustomEvent('jiaoleaf:cm6:resolved', { detail: { cm6Exports } })
       );
     } catch {
       // ignore
@@ -1944,7 +1944,7 @@ export function registerInlineDiffOverlay() {
   }) as EventListener);
 
   // Flag for consumers (panel) that may mount after the ready event has fired.
-  (window as any).__ageafOverlayReady = true;
+  (window as any).__jiaoleafOverlayReady = true;
   window.dispatchEvent(new CustomEvent(OVERLAY_READY_EVENT));
 
   // Rehydrate last overlay after refresh (best-effort).

@@ -9,7 +9,7 @@ import { buildServer } from '../src/server.js';
 test('DELETE /v1/sessions/pi/:sessionId deletes Pi session directory', async () => {
   const server = buildServer();
   const sessionId = `test-pi-${Date.now()}`;
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'pi', 'sessions', sessionId);
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'pi', 'sessions', sessionId);
 
   try {
     // Create a test session directory

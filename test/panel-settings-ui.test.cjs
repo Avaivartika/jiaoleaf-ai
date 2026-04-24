@@ -14,7 +14,7 @@ test('Panel includes settings button and tabs', () => {
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-panel__settings/);
+  assert.match(contents, /jiaoleaf-panel__settings/);
   assert.match(contents, /Connection/);
   assert.match(contents, /Skills/);
   assert.match(contents, /enabledSkillIds/);
@@ -34,8 +34,8 @@ test('Panel includes empty state landing page', () => {
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-landing/);
-  assert.match(contents, /ageaf-landing__card/);
+  assert.match(contents, /jiaoleaf-landing/);
+  assert.match(contents, /jiaoleaf-landing__card/);
   assert.match(contents, /How-to Guides/);
 });
 
@@ -66,7 +66,7 @@ test('Panel header includes help button', () => {
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-panel__help/);
+  assert.match(contents, /jiaoleaf-panel__help/);
 });
 
 test('Manifest exposes landing logo asset', () => {
@@ -90,7 +90,7 @@ test('Landing page background is transparent', () => {
 
   assert.match(
     contents,
-    /\.ageaf-landing\s*\{[\s\S]*background:\s*transparent;/
+    /\.jiaoleaf-landing\s*\{[\s\S]*background:\s*transparent;/
   );
 });
 
@@ -114,10 +114,10 @@ test('Landing page centers main content block', () => {
   const panelContents = fs.readFileSync(panelPath, 'utf8');
   const cssContents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.match(panelContents, /ageaf-landing__content/);
+  assert.match(panelContents, /jiaoleaf-landing__content/);
   assert.match(
     cssContents,
-    /\.ageaf-landing__content\s*\{[\s\S]*justify-content:\s*center;/
+    /\.jiaoleaf-landing__content\s*\{[\s\S]*justify-content:\s*center;/
   );
 });
 
@@ -134,6 +134,6 @@ test('Landing page body spans full panel height', () => {
 
   assert.match(
     contents,
-    /\.ageaf-panel__body:has\(.ageaf-landing\)\s*\{[\s\S]*grid-row:\s*1\s*\/\s*-1;/
+    /\.jiaoleaf-panel__body:has\(.jiaoleaf-landing\)\s*\{[\s\S]*grid-row:\s*1\s*\/\s*-1;/
   );
 });

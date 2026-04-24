@@ -11,8 +11,8 @@ test('browser-direct OpenAI mode remains available as an explicit API fallback',
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'public', 'manifest.json'), 'utf8'));
 
   assert.match(panel, /Use OpenAI API directly instead of local Codex CLI/);
-  assert.match(panel, /ageaf-openai-api-key/);
-  assert.match(panel, /ageaf-openai-base-url/);
+  assert.match(panel, /jiaoleaf-openai-api-key/);
+  assert.match(panel, /jiaoleaf-openai-base-url/);
   assert.match(transport, /browserOpenAITransport/);
   assert.ok(fs.existsSync(browserTransportPath));
   assert.deepEqual(manifest.host_permissions, ['https://api.openai.com/*']);

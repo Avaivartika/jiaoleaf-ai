@@ -1,0 +1,2103 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ * SJTU OVERLEAF AI PANEL - COMPLETE REDESIGN
+ * ═══════════════════════════════════════════════════════════════════════════
+ *
+ * Design Concept: "Emerald Studio" - Editorial meets Technical Excellence
+ *
+ * Core Aesthetic:
+ * - Signature emerald green (#39b98a) as primary accent
+ * - Layered depth with refined shadows
+ * - Editorial typography (Newsreader italic + Work Sans)
+ * - Semi-transparent overlays for context preservation
+ * - Custom iconography throughout
+ * - Professional tool-like refinement
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+/* Orbitron font provided by user */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/orbitron/v35/yMJRMIlzdpvBhQQL_Qq7dy1biN15.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/orbitron/v35/yMJRMIlzdpvBhQQL_Qq7dy1biN15.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Brand Colors - Emerald Green Theme */
+  --jiaoleaf-emerald: #39b98a;
+  --jiaoleaf-emerald-light: #4dd4a4;
+  --jiaoleaf-emerald-dark: #2a9970;
+  --jiaoleaf-emerald-soft: rgba(57, 185, 138, 0.12);
+  --jiaoleaf-emerald-glow: rgba(57, 185, 138, 0.25);
+
+  /* Neutrals - Deep Greens */
+  --jiaoleaf-black: #0a0e0c;
+  --jiaoleaf-charcoal: #0f1411;
+  --jiaoleaf-slate: #141b17;
+  --jiaoleaf-surface: #1a2420;
+  --jiaoleaf-border: #27322a;
+
+  /* Text Colors */
+  --jiaoleaf-text-primary: #f7fbf9;
+  --jiaoleaf-text-secondary: #dbe6e0;
+  --jiaoleaf-text-muted: #a8bfb3;
+  --jiaoleaf-text-dim: #7f9389;
+
+  /* Semantic Colors */
+  --jiaoleaf-success: #39b98a;
+  --jiaoleaf-warning: #ffb357;
+  --jiaoleaf-error: #ff6b6b;
+  --jiaoleaf-info: #4db8e8;
+
+  /* Typography */
+  --jiaoleaf-font-display: 'Orbitron', 'Space Grotesk', sans-serif;
+  --jiaoleaf-font-body: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --jiaoleaf-font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+  /* Spacing Scale */
+  --jiaoleaf-space-xs: 4px;
+  --jiaoleaf-space-sm: 8px;
+  --jiaoleaf-space-md: 12px;
+  --jiaoleaf-space-lg: 16px;
+  --jiaoleaf-space-xl: 24px;
+  --jiaoleaf-space-2xl: 32px;
+  --jiaoleaf-space-3xl: 48px;
+
+  /* Elevation System */
+  --jiaoleaf-shadow-sm:
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  --jiaoleaf-shadow-md:
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.2);
+  --jiaoleaf-shadow-lg:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 16px 48px rgba(0, 0, 0, 0.25);
+  --jiaoleaf-shadow-xl:
+    0 8px 16px rgba(0, 0, 0, 0.45),
+    0 24px 64px rgba(0, 0, 0, 0.3);
+
+  /* Border Radius */
+  --jiaoleaf-radius-sm: 4px;
+  --jiaoleaf-radius-md: 8px;
+  --jiaoleaf-radius-lg: 12px;
+  --jiaoleaf-radius-xl: 16px;
+  --jiaoleaf-radius-full: 9999px;
+
+  /* Transitions */
+  --jiaoleaf-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --jiaoleaf-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --jiaoleaf-transition-fast: 150ms var(--jiaoleaf-ease-in-out);
+  --jiaoleaf-transition-base: 250ms var(--jiaoleaf-ease-out);
+  --jiaoleaf-transition-slow: 400ms var(--jiaoleaf-ease-out);
+
+  /* Citation Indicator Colors (Emerald Studio palette) */
+  --jiaoleaf-cite-used: #39b98a;
+  --jiaoleaf-cite-used-bg: rgba(57, 185, 138, 0.14);
+  --jiaoleaf-cite-used-border: rgba(57, 185, 138, 0.4);
+  --jiaoleaf-cite-unused: #7f9389;
+  --jiaoleaf-cite-unused-bg: rgba(107, 125, 115, 0.12);
+  --jiaoleaf-cite-unused-border: rgba(107, 125, 115, 0.3);
+  --jiaoleaf-cite-dup: #ffb357;
+  --jiaoleaf-cite-dup-bg: rgba(255, 179, 87, 0.14);
+  --jiaoleaf-cite-dup-border: rgba(255, 179, 87, 0.4);
+
+  /* Citation Dark Mode */
+  --jiaoleaf-cite-used-dark: #4dd4a4;
+  --jiaoleaf-cite-used-bg-dark: rgba(57, 185, 138, 0.10);
+  --jiaoleaf-cite-used-border-dark: rgba(57, 185, 138, 0.3);
+  --jiaoleaf-cite-unused-dark: #a8bfb3;
+  --jiaoleaf-cite-unused-bg-dark: rgba(107, 125, 115, 0.08);
+  --jiaoleaf-cite-unused-border-dark: rgba(107, 125, 115, 0.2);
+  --jiaoleaf-cite-dup-dark: #ffb357;
+  --jiaoleaf-cite-dup-bg-dark: rgba(255, 179, 87, 0.10);
+  --jiaoleaf-cite-dup-border-dark: rgba(255, 179, 87, 0.3);
+
+  /* Popup / Floating UI */
+  --jiaoleaf-popup-bg: rgba(15, 20, 17, 0.94);
+  --jiaoleaf-popup-border: rgba(57, 185, 138, 0.18);
+  --jiaoleaf-popup-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(57, 185, 138, 0.08);
+
+  /* Inline Diff */
+  --jiaoleaf-diff-old-bg: rgba(255, 107, 107, 0.14);
+  --jiaoleaf-diff-new-bg: rgba(57, 185, 138, 0.14);
+  --jiaoleaf-diff-btn-accept-bg: rgba(57, 185, 138, 0.2);
+  --jiaoleaf-diff-btn-accept-border: rgba(57, 185, 138, 0.4);
+  --jiaoleaf-diff-btn-reject-bg: rgba(255, 107, 107, 0.2);
+  --jiaoleaf-diff-btn-reject-border: rgba(255, 107, 107, 0.4);
+  --jiaoleaf-diff-btn-feedback-bg: rgba(77, 184, 232, 0.16);
+  --jiaoleaf-diff-btn-feedback-border: rgba(77, 184, 232, 0.35);
+}
+
+/* Light Mode Overrides */
+.jiaoleaf-panel.light,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-diff-modal__backdrop {
+  --jiaoleaf-black: #ffffff;
+  --jiaoleaf-charcoal: #f8fafc;
+  --jiaoleaf-slate: #f1f5f9;
+  --jiaoleaf-surface: #ffffff;
+  --jiaoleaf-border: #e2e8f0;
+
+  --jiaoleaf-text-primary: #0f172a;
+  --jiaoleaf-text-secondary: #334155;
+  --jiaoleaf-text-muted: #64748b;
+  --jiaoleaf-text-dim: #94a3b8;
+
+  --jiaoleaf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --jiaoleaf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --jiaoleaf-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --jiaoleaf-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --jiaoleaf-cite-unused-bg: rgba(107, 125, 115, 0.08);
+
+  /* Deeply nested Overrides to fix the dark backgrounds shown in the screenshot */
+  /* Modal backdrop needs to switch to a bright overlay so dark colors pop out */
+  --jiaoleaf-modal-backdrop: rgba(255, 255, 255, 0.75);
+
+  /* Explicitly reset the chat/system message bubbles if needed, though they inherit natively */
+}
+
+/* Modal backdrops when in Light Mode */
+body[data-jiaoleaf-theme="light"] .jiaoleaf-diff-modal__backdrop,
+.jiaoleaf-panel.light .jiaoleaf-settings__backdrop {
+  background: var(--jiaoleaf-modal-backdrop);
+}
+
+/* CoT in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-message__cot-header {
+  color: var(--jiaoleaf-text-secondary);
+}
+
+/* Tool indicator backgrounds in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-tool-indicator {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-tool-indicator__input {
+  background: var(--jiaoleaf-charcoal);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-toolcall__detail {
+  background: var(--jiaoleaf-charcoal);
+  border-color: var(--jiaoleaf-border);
+}
+
+/* Code block backgrounds in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-message__content pre {
+  background: var(--jiaoleaf-charcoal);
+  border-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-message__content code {
+  background: rgba(57, 185, 138, 0.1);
+  border-color: rgba(57, 185, 138, 0.2);
+  color: var(--jiaoleaf-emerald-dark);
+}
+
+/* Quote blocks in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-message__content blockquote {
+  background: var(--jiaoleaf-slate);
+  color: var(--jiaoleaf-text-primary);
+  border-left-color: var(--jiaoleaf-emerald-dark);
+}
+
+/* Quotation/Code blocks in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-message__quote {
+  background: var(--jiaoleaf-slate);
+  border-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-message__quote-block {
+  background: var(--jiaoleaf-charcoal);
+  border-color: var(--jiaoleaf-border);
+  color: var(--jiaoleaf-text-primary);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-latex-fence {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
+  color: var(--jiaoleaf-text-primary);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-message__copy {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
+  color: var(--jiaoleaf-text-secondary);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-message__copy:hover:not(.is-disabled) {
+  background: var(--jiaoleaf-slate);
+  border-color: var(--jiaoleaf-emerald-dark);
+  color: var(--jiaoleaf-emerald-dark);
+}
+
+/* Prism Syntax Highlighting - Light Theme Overrides */
+.jiaoleaf-panel.light .jiaoleaf-code-block code {
+  color: var(--jiaoleaf-text-secondary);
+}
+
+.jiaoleaf-panel.light .token.comment,
+.jiaoleaf-panel.light .token.prolog,
+.jiaoleaf-panel.light .token.doctype,
+.jiaoleaf-panel.light .token.cdata {
+  color: #64748b;
+}
+
+.jiaoleaf-panel.light .token.punctuation {
+  color: #475569;
+}
+
+.jiaoleaf-panel.light .token.property,
+.jiaoleaf-panel.light .token.tag,
+.jiaoleaf-panel.light .token.boolean,
+.jiaoleaf-panel.light .token.number,
+.jiaoleaf-panel.light .token.constant,
+.jiaoleaf-panel.light .token.symbol,
+.jiaoleaf-panel.light .token.deleted {
+  color: #b91c1c;
+}
+
+.jiaoleaf-panel.light .token.selector,
+.jiaoleaf-panel.light .token.attr-name,
+.jiaoleaf-panel.light .token.string,
+.jiaoleaf-panel.light .token.char,
+.jiaoleaf-panel.light .token.builtin,
+.jiaoleaf-panel.light .token.inserted {
+  color: #15803d;
+}
+
+.jiaoleaf-panel.light .token.operator,
+.jiaoleaf-panel.light .token.entity,
+.jiaoleaf-panel.light .token.url,
+.jiaoleaf-panel.light .language-css .token.string,
+.jiaoleaf-panel.light .style .token.string {
+  color: #0369a1;
+}
+
+.jiaoleaf-panel.light .token.atrule,
+.jiaoleaf-panel.light .token.attr-value,
+.jiaoleaf-panel.light .token.keyword {
+  color: #be185d;
+}
+
+.jiaoleaf-panel.light .token.function,
+.jiaoleaf-panel.light .token.class-name {
+  color: #1d4ed8;
+}
+
+.jiaoleaf-panel.light .token.regex,
+.jiaoleaf-panel.light .token.important,
+.jiaoleaf-panel.light .token.variable {
+  color: #b45309;
+}
+
+/* Provider Badge in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-provider {
+  background: transparent;
+  border-color: var(--jiaoleaf-border);
+}
+
+/* Runtime menu horizontal divider in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-runtime {
+  border-top-color: var(--jiaoleaf-border);
+}
+
+/* Chat Input Placeholder in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-panel__editor.is-empty::before {
+  color: var(--jiaoleaf-text-dim);
+}
+
+/* Logo and panel text in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-panel__name {
+  color: var(--jiaoleaf-text-primary);
+}
+
+/* Patch Review card backgrounds in Light Mode */
+.jiaoleaf-panel.light .jiaoleaf-patch-review {
+  background: transparent;
+  border-color: var(--jiaoleaf-border);
+}
+
+/* Modal is portaled to document.body, so use the global theme attribute */
+body[data-jiaoleaf-theme="light"] .jiaoleaf-diff-modal {
+  background: var(--jiaoleaf-surface);
+  /* Fully opaque */
+}
+
+.jiaoleaf-panel.light .jiaoleaf-patch-review__header {
+  background: transparent;
+  border-bottom-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-patch-review__title {
+  color: var(--jiaoleaf-text-primary);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-patch-review__diff-wrap {
+  background: transparent;
+  border-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-grouped-patch__separator::before,
+.jiaoleaf-panel.light .jiaoleaf-grouped-patch__separator::after,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-grouped-patch__separator::before,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-grouped-patch__separator::after {
+  background: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-diff-review,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-diff-review {
+  border-color: var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel.light .jiaoleaf-grouped-patch__hunk-status,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-grouped-patch__hunk-status,
+.jiaoleaf-panel.light .jiaoleaf-grouped-patch__separator,
+body[data-jiaoleaf-theme="light"] .jiaoleaf-grouped-patch__separator {
+  color: var(--jiaoleaf-text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAIN PANEL STRUCTURE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-panel {
+  --jiaoleaf-panel-width: 360px;
+
+  pointer-events: auto;
+  height: 100vh;
+  width: var(--jiaoleaf-panel-width);
+  flex: 0 0 var(--jiaoleaf-panel-width);
+  position: relative;
+
+  /* Refined gradient background */
+  background: linear-gradient(168deg,
+      var(--jiaoleaf-charcoal) 0%,
+      var(--jiaoleaf-slate) 45%,
+      var(--jiaoleaf-charcoal) 100%);
+
+  box-shadow: var(--jiaoleaf-shadow-xl);
+  color: var(--jiaoleaf-text-primary);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+
+  animation: jiaoleaf-panel-slide-in var(--jiaoleaf-transition-slow);
+  overflow: visible;
+  transition:
+    width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    flex-basis 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.jiaoleaf-panel.jiaoleaf-panel--collapsed {
+  width: 0 !important;
+  flex-basis: 0 !important;
+  box-shadow: none;
+  overflow: visible !important;
+}
+
+.jiaoleaf-panel.jiaoleaf-panel--collapsed .jiaoleaf-panel__inner,
+.jiaoleaf-panel.jiaoleaf-panel--collapsed .jiaoleaf-panel__header,
+.jiaoleaf-panel.jiaoleaf-panel--collapsed .jiaoleaf-panel__body {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Atmospheric texture overlay */
+.jiaoleaf-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 25% 20%,
+      var(--jiaoleaf-emerald-soft) 0%,
+      transparent 45%),
+    radial-gradient(circle at 75% 80%,
+      rgba(57, 185, 138, 0.08) 0%,
+      transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+@keyframes jiaoleaf-panel-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.jiaoleaf-panel__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HEADER & TOOLBAR
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-panel__header {
+  background: var(--jiaoleaf-black);
+  border-bottom: 1px solid var(--jiaoleaf-border);
+  padding: var(--jiaoleaf-space-lg);
+  box-shadow: 0 1px 0 rgba(57, 185, 138, 0.08);
+}
+
+.jiaoleaf-panel__logo {
+  width: 28px;
+  height: 28px;
+  margin-right: var(--jiaoleaf-space-md);
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+
+/* Custom product mark */
+.jiaoleaf-panel__logo svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 6px rgba(57, 185, 138, 0.3));
+}
+
+.jiaoleaf-panel__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.jiaoleaf-panel__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jiaoleaf-panel__help,
+.jiaoleaf-panel__theme-toggle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--jiaoleaf-radius-sm);
+  background: transparent;
+  border: 1px solid var(--jiaoleaf-border);
+  color: var(--jiaoleaf-text-muted);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all var(--jiaoleaf-transition-fast);
+  cursor: pointer;
+  padding: 0;
+}
+
+.jiaoleaf-panel__help:hover,
+.jiaoleaf-panel__theme-toggle:hover {
+  background: var(--jiaoleaf-emerald-soft);
+  color: var(--jiaoleaf-emerald-dark);
+  border-color: var(--jiaoleaf-emerald);
+}
+
+.jiaoleaf-panel__name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.jiaoleaf-panel__intro {
+  font-size: 11px;
+  color: var(--jiaoleaf-emerald);
+  margin-top: 2px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* Provider Badge */
+.jiaoleaf-provider__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--jiaoleaf-emerald);
+  box-shadow: 0 0 8px var(--jiaoleaf-emerald-glow);
+  animation: jiaoleaf-provider-pulse 2s ease-in-out infinite;
+}
+
+@keyframes jiaoleaf-provider-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--jiaoleaf-emerald-glow);
+  }
+
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 12px var(--jiaoleaf-emerald-glow);
+  }
+}
+
+.jiaoleaf-provider__label {
+  font-size: 12px;
+  color: var(--jiaoleaf-text-secondary);
+  font-weight: 500;
+}
+
+/* Toolbar Buttons */
+.jiaoleaf-toolbar-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--jiaoleaf-space-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-text-secondary);
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-fast);
+  /* Tooltips are rendered via ::after (panel.css). Don't clip them. */
+  overflow: visible;
+}
+
+.jiaoleaf-toolbar-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--jiaoleaf-emerald);
+  opacity: 0;
+  transition: opacity var(--jiaoleaf-transition-fast);
+  border-radius: inherit;
+}
+
+.jiaoleaf-toolbar-button:hover::before {
+  opacity: 0.08;
+}
+
+.jiaoleaf-toolbar-button:hover {
+  border-color: var(--jiaoleaf-emerald-soft);
+  color: var(--jiaoleaf-emerald-light);
+  transform: translateY(-1px);
+}
+
+.jiaoleaf-toolbar-button:active {
+  transform: translateY(0);
+}
+
+.jiaoleaf-toolbar-button.is-active {
+  background: var(--jiaoleaf-emerald-soft);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald-light);
+}
+
+/* Custom SVG Icons */
+.jiaoleaf-toolbar-icon {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHAT AREA & MESSAGES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-panel__body {
+  position: relative;
+  /* Allow dropdown menus/tooltips (positioned absolutely) to escape their parents. */
+  overflow: visible;
+  background: transparent;
+}
+
+.jiaoleaf-panel__chat {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 4px 4px 6px;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--jiaoleaf-emerald-soft) transparent;
+}
+
+.jiaoleaf-panel__chat::-webkit-scrollbar {
+  width: 8px;
+}
+
+.jiaoleaf-panel__chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.jiaoleaf-panel__chat::-webkit-scrollbar-thumb {
+  background: var(--jiaoleaf-emerald-soft);
+  border-radius: var(--jiaoleaf-radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-panel__chat::-webkit-scrollbar-thumb:hover {
+  background: var(--jiaoleaf-emerald-glow);
+  background-clip: padding-box;
+}
+
+/* Message Bubbles */
+.jiaoleaf-message {
+  margin-bottom: var(--jiaoleaf-space-xl);
+  animation: jiaoleaf-message-fade-in 0.4s var(--jiaoleaf-ease-out) backwards;
+  animation-delay: var(--stagger-delay, 0ms);
+}
+
+@keyframes jiaoleaf-message-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+.jiaoleaf-message--system {
+  opacity: 0.85;
+}
+
+.jiaoleaf-message__content {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--jiaoleaf-text-primary);
+  letter-spacing: 0.01em;
+  padding-top: 0;
+  /* Ensure no top padding */
+}
+
+/* User message specific compactness */
+.jiaoleaf-message--user .jiaoleaf-message__content p:first-child {
+  margin-top: 0;
+  /* Remove top margin from first paragraph */
+}
+
+
+
+/* Typography within messages */
+.jiaoleaf-message__content h1,
+.jiaoleaf-message__content h2,
+.jiaoleaf-message__content h3,
+.jiaoleaf-message__content h4 {
+  font-family: var(--jiaoleaf-font-body);
+  font-style: normal;
+  letter-spacing: 0;
+  color: var(--jiaoleaf-text-primary);
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+}
+
+.jiaoleaf-message__content h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.jiaoleaf-message__content h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.jiaoleaf-message__content h3 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.jiaoleaf-message__content h4 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.jiaoleaf-message__content p {
+  margin: 0.8em 0;
+}
+
+.jiaoleaf-message__content a {
+  color: var(--jiaoleaf-emerald-light);
+  text-decoration: none;
+  border-bottom: 1px solid var(--jiaoleaf-emerald-soft);
+  transition: all var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-message__content a:hover {
+  border-bottom-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald);
+}
+
+/* Inline code */
+.jiaoleaf-message__content code {
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 0.9em;
+  background: var(--jiaoleaf-emerald-soft);
+  border: 1px solid rgba(57, 185, 138, 0.2);
+  padding: 2px 6px;
+  border-radius: var(--jiaoleaf-radius-sm);
+  color: var(--jiaoleaf-emerald-light);
+}
+
+/* Code blocks */
+.jiaoleaf-message__content pre {
+  margin: var(--jiaoleaf-space-lg) 0;
+  border-radius: var(--jiaoleaf-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--jiaoleaf-shadow-md);
+  background: var(--jiaoleaf-black);
+  border: 1px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-message__content pre code {
+  display: block;
+  padding: var(--jiaoleaf-space-lg);
+  overflow-x: auto;
+  line-height: 1.6;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: var(--jiaoleaf-text-primary);
+}
+
+/* Lists */
+.jiaoleaf-message__content ul,
+.jiaoleaf-message__content ol {
+  margin: 0.8em 0;
+  padding-left: 1.5em;
+}
+
+.jiaoleaf-message__content li {
+  margin: 0.4em 0;
+}
+
+.jiaoleaf-message__content ul li::marker {
+  color: var(--jiaoleaf-emerald);
+}
+
+/* Blockquotes */
+.jiaoleaf-message__content blockquote {
+  margin: var(--jiaoleaf-space-lg) 0;
+  padding-left: var(--jiaoleaf-space-lg);
+  border-left: 3px solid var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-text-secondary);
+  font-style: italic;
+}
+
+/* Message Actions */
+.jiaoleaf-message__response-actions {
+  display: flex;
+  gap: var(--jiaoleaf-space-sm);
+  margin-top: var(--jiaoleaf-space-md);
+  opacity: 0;
+  transition: opacity var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-message:hover .jiaoleaf-message__response-actions {
+  opacity: 1;
+}
+
+.jiaoleaf-message__copy-response {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-message__copy-response:hover {
+  background: var(--jiaoleaf-emerald-soft);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald-light);
+}
+
+.jiaoleaf-message__copy-response.is-copied {
+  background: rgba(57, 185, 138, 0.15);
+  border-color: rgba(57, 185, 138, 0.4);
+  color: var(--jiaoleaf-emerald);
+  animation: jiaoleaf-copy-flash 0.3s ease;
+}
+
+@keyframes jiaoleaf-copy-flash {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.jiaoleaf-message__copy-icon,
+.jiaoleaf-message__copy-check {
+  width: 14px;
+  height: 14px;
+}
+
+/* Status Line */
+.jiaoleaf-message__status {
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 12px;
+  color: var(--jiaoleaf-emerald);
+  background: var(--jiaoleaf-emerald-soft);
+  border: 1px solid rgba(57, 185, 138, 0.25);
+  border-radius: var(--jiaoleaf-radius-md);
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-md);
+  margin-bottom: var(--jiaoleaf-space-md);
+  box-shadow: var(--jiaoleaf-shadow-sm);
+  animation: jiaoleaf-status-fade-in var(--jiaoleaf-transition-base);
+}
+
+.jiaoleaf-message__status--toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-sm);
+  cursor: pointer;
+  text-align: left;
+}
+
+.jiaoleaf-message__status--toggle:hover {
+  border-color: var(--jiaoleaf-emerald);
+  box-shadow: 0 0 0 2px var(--jiaoleaf-emerald-soft);
+}
+
+.jiaoleaf-message__status--toggle:focus-visible {
+  outline: 2px solid var(--jiaoleaf-emerald);
+  outline-offset: 2px;
+}
+
+.jiaoleaf-message__status-toggle-arrow {
+  width: 14px;
+  flex: 0 0 14px;
+  opacity: 0.9;
+}
+
+.jiaoleaf-message__status-toggle-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+@keyframes jiaoleaf-status-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jiaoleaf-message__status.is-active {
+  animation: jiaoleaf-status-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes jiaoleaf-status-pulse {
+
+  0%,
+  100% {
+    box-shadow: var(--jiaoleaf-shadow-sm);
+    border-color: rgba(57, 185, 138, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 2px var(--jiaoleaf-emerald-glow);
+    border-color: var(--jiaoleaf-emerald);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THINKING BLOCKS & TOOL INDICATORS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Chain of Thought Display — flat timeline style */
+.jiaoleaf-message__cot-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--jiaoleaf-transition-fast);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--jiaoleaf-text-secondary);
+  text-align: left;
+  width: 100%;
+  opacity: 0.7;
+}
+
+.jiaoleaf-message__cot-header:hover {
+  opacity: 1;
+}
+
+.jiaoleaf-cot-arrow {
+  font-size: 9px;
+  opacity: 0.6;
+  transition: transform var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-cot-label {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+
+.jiaoleaf-cot-duration {
+  font-size: 10px;
+  font-family: var(--jiaoleaf-font-mono, 'SF Mono', Monaco, monospace);
+  opacity: 0.5;
+}
+
+.jiaoleaf-message__cot-body {
+  padding: 2px 0;
+  margin-left: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.jiaoleaf-cot-thinking {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border-radius: var(--jiaoleaf-radius-sm);
+}
+
+.jiaoleaf-cot-thinking-icon {
+  font-size: 11px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.jiaoleaf-cot-thinking-content {
+  flex: 1;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--jiaoleaf-text-secondary);
+  opacity: 0.8;
+}
+
+/* Tool Indicators */
+.jiaoleaf-tool-indicators {
+  margin: var(--jiaoleaf-space-md) 0;
+}
+
+.jiaoleaf-tool-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-sm);
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-md);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: var(--jiaoleaf-space-sm) 0;
+  border-radius: var(--jiaoleaf-radius-md);
+  background: var(--jiaoleaf-surface);
+  border: 1px solid var(--jiaoleaf-border);
+  transition: all var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-tool-indicator--started {
+  border-left: 3px solid var(--jiaoleaf-emerald);
+  animation: jiaoleaf-tool-pulse 1.5s ease-in-out infinite;
+}
+
+.jiaoleaf-tool-indicator--completed {
+  opacity: 0.7;
+  border-left: 3px solid var(--jiaoleaf-success);
+}
+
+.jiaoleaf-tool-indicator--failed {
+  border-left: 3px solid var(--jiaoleaf-error);
+}
+
+@keyframes jiaoleaf-tool-pulse {
+
+  0%,
+  100% {
+    background: var(--jiaoleaf-surface);
+  }
+
+  50% {
+    background: var(--jiaoleaf-emerald-soft);
+  }
+}
+
+.jiaoleaf-tool-indicator__icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.jiaoleaf-tool-indicator__name {
+  font-weight: 600;
+  color: var(--jiaoleaf-text-primary);
+}
+
+.jiaoleaf-tool-indicator__input {
+  flex: 1;
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 11px;
+  color: var(--jiaoleaf-text-muted);
+  background: var(--jiaoleaf-black);
+  padding: 2px 6px;
+  border-radius: var(--jiaoleaf-radius-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jiaoleaf-tool-indicator__spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--jiaoleaf-emerald-soft);
+  border-top-color: var(--jiaoleaf-emerald);
+  border-radius: 50%;
+  animation: jiaoleaf-spinner-rotate 0.8s linear infinite;
+}
+
+@keyframes jiaoleaf-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INPUT AREA
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-panel__input {
+  background: var(--jiaoleaf-black);
+  border-top: 1px solid var(--jiaoleaf-border);
+  padding: var(--jiaoleaf-space-lg);
+  box-shadow: 0 -1px 0 rgba(57, 185, 138, 0.08);
+}
+
+.jiaoleaf-panel__input textarea {
+  width: 100%;
+  min-height: 80px;
+  max-height: 200px;
+  padding: var(--jiaoleaf-space-md) var(--jiaoleaf-space-lg);
+  background: var(--jiaoleaf-slate);
+  border: 1.5px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-lg);
+  color: var(--jiaoleaf-text-primary);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: all var(--jiaoleaf-transition-base);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.jiaoleaf-panel__input textarea::placeholder {
+  color: var(--jiaoleaf-text-dim);
+  font-style: italic;
+}
+
+.jiaoleaf-panel__input textarea:focus {
+  outline: none;
+  border-color: var(--jiaoleaf-emerald);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 0 3px var(--jiaoleaf-emerald-glow);
+  background: var(--jiaoleaf-surface);
+}
+
+/* Send Button */
+.jiaoleaf-panel__send {
+  margin-top: var(--jiaoleaf-space-md);
+  width: 100%;
+  padding: var(--jiaoleaf-space-md) var(--jiaoleaf-space-lg);
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border: none;
+  border-radius: var(--jiaoleaf-radius-lg);
+  color: var(--jiaoleaf-black);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-base);
+  box-shadow:
+    var(--jiaoleaf-shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.jiaoleaf-panel__send::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.jiaoleaf-panel__send:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--jiaoleaf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.jiaoleaf-panel__send:active::before {
+  opacity: 1;
+  transition: none;
+}
+
+.jiaoleaf-panel__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RUNTIME SELECTOR
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-runtime {
+  display: flex;
+  gap: var(--jiaoleaf-space-sm);
+  margin-bottom: 0px;
+  /* Reduced to minimum as requested */
+}
+
+.jiaoleaf-runtime__picker {
+  flex: 0 0 auto;
+  width: 110px;
+  position: relative;
+}
+
+.jiaoleaf-runtime__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-sm);
+  padding: 4px 8px;
+  /* Compact padding */
+  background: var(--jiaoleaf-surface);
+  border: 1px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-text-secondary);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-runtime__button:hover {
+  border-color: var(--jiaoleaf-emerald-soft);
+  background: var(--jiaoleaf-slate);
+}
+
+.jiaoleaf-runtime__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--jiaoleaf-text-dim);
+  font-weight: 600;
+}
+
+.jiaoleaf-runtime__value {
+  flex: 1;
+  text-align: left;
+  font-weight: 500;
+  color: var(--jiaoleaf-text-primary);
+}
+
+.jiaoleaf-runtime__value--accent {
+  color: var(--jiaoleaf-emerald);
+}
+
+.jiaoleaf-runtime__menu {
+  position: absolute;
+  /* Keep consistent with panel.css hover-bridge (::before) behavior. */
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: fit-content;
+  width: max-content;
+  background: var(--jiaoleaf-charcoal);
+  border: 1px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-lg);
+  box-shadow: var(--jiaoleaf-shadow-lg);
+  /* Allow the hover-bridge pseudo-element from panel.css to extend below the menu. */
+  overflow: visible;
+  z-index: 100;
+}
+
+.jiaoleaf-runtime__option:first-child {
+  border-top-left-radius: var(--jiaoleaf-radius-lg);
+  border-top-right-radius: var(--jiaoleaf-radius-lg);
+}
+
+.jiaoleaf-runtime__option:last-child {
+  border-bottom-left-radius: var(--jiaoleaf-radius-lg);
+  border-bottom-right-radius: var(--jiaoleaf-radius-lg);
+}
+
+.jiaoleaf-runtime__option {
+  padding: 6px 10px;
+  /* Compact option padding */
+  cursor: pointer;
+  transition: background var(--jiaoleaf-transition-fast);
+  border-bottom: 1px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-runtime__option:last-child {
+  border-bottom: none;
+}
+
+.jiaoleaf-runtime__option:hover {
+  background: var(--jiaoleaf-emerald-soft);
+}
+
+.jiaoleaf-runtime__option-title {
+  font-weight: 600;
+  color: var(--jiaoleaf-text-primary);
+  margin-bottom: 4px;
+}
+
+.jiaoleaf-runtime__option-description {
+  font-size: 11px;
+  color: var(--jiaoleaf-text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SETTINGS MODAL - SEMI-TRANSPARENT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-settings {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: grid;
+  place-items: center;
+  padding: var(--jiaoleaf-space-xl);
+  animation: jiaoleaf-settings-fade-in 0.3s var(--jiaoleaf-ease-out);
+}
+
+@keyframes jiaoleaf-settings-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* CRITICAL: Semi-transparent backdrop - Users can see Overleaf through it */
+.jiaoleaf-settings__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 12, 0.75);
+  backdrop-filter: blur(6px) saturate(0.8);
+  -webkit-backdrop-filter: blur(6px) saturate(0.8);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DIFF REVIEW MODAL - MATCH SETTINGS OVERLAY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* The diff modal is a separate full-screen overlay; match settings' backdrop. */
+.jiaoleaf-diff-modal__backdrop {
+  background: rgba(10, 14, 12, 0.75);
+  backdrop-filter: blur(6px) saturate(0.8);
+  -webkit-backdrop-filter: blur(6px) saturate(0.8);
+}
+
+/* Bring the modal chrome in line with the redesign tokens. */
+.jiaoleaf-diff-modal {
+  background: var(--jiaoleaf-charcoal);
+  border-color: var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-lg);
+  box-shadow: var(--jiaoleaf-shadow-xl);
+  position: relative;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: jiaoleaf-modal-enter 0.3s var(--jiaoleaf-ease-out);
+}
+
+.jiaoleaf-diff-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 25%,
+      var(--jiaoleaf-emerald-soft) 0%,
+      transparent 50%),
+    radial-gradient(circle at 70% 75%,
+      rgba(57, 185, 138, 0.08) 0%,
+      transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  border-radius: inherit;
+}
+
+.jiaoleaf-diff-modal__header {
+  background: var(--jiaoleaf-black);
+  border-bottom-color: var(--jiaoleaf-border);
+  position: relative;
+  z-index: 1;
+}
+
+.jiaoleaf-diff-modal__title {
+  color: var(--jiaoleaf-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-sm);
+}
+
+.jiaoleaf-diff-modal__shortcut-hint {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--jiaoleaf-text-dim);
+  margin-left: var(--jiaoleaf-space-md);
+  opacity: 0.7;
+  font-family: var(--jiaoleaf-font-mono);
+}
+
+.jiaoleaf-diff-modal__close {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-text-secondary);
+  transition: all var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-diff-modal__close:hover {
+  background: rgba(255, 107, 107, 0.12);
+  color: var(--jiaoleaf-error);
+}
+
+.jiaoleaf-diff-modal__close:focus-visible {
+  outline: 2px solid var(--jiaoleaf-emerald);
+  outline-offset: 2px;
+}
+
+.jiaoleaf-diff-modal__content {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes jiaoleaf-modal-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.jiaoleaf-settings__panel {
+  position: relative;
+  width: min(900px, 95vw);
+  height: min(680px, 90vh);
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  background: var(--jiaoleaf-charcoal);
+  border-radius: var(--jiaoleaf-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--jiaoleaf-shadow-xl);
+  z-index: 1;
+  border: 1px solid var(--jiaoleaf-border);
+  animation: jiaoleaf-settings-slide-in 0.4s var(--jiaoleaf-ease-out);
+}
+
+@keyframes jiaoleaf-settings-slide-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Atmospheric overlay */
+.jiaoleaf-settings__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 30% 25%,
+      var(--jiaoleaf-emerald-soft) 0%,
+      transparent 50%),
+    radial-gradient(circle at 70% 75%,
+      rgba(57, 185, 138, 0.08) 0%,
+      transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Settings Sidebar */
+.jiaoleaf-settings__sidebar {
+  background: var(--jiaoleaf-black);
+  padding: var(--jiaoleaf-space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--jiaoleaf-space-xs);
+  position: relative;
+  z-index: 1;
+  border-right: 1px solid var(--jiaoleaf-border);
+  box-shadow: inset -1px 0 0 rgba(57, 185, 138, 0.08);
+}
+
+.jiaoleaf-settings__sidebar-header {
+  margin-bottom: var(--jiaoleaf-space-lg);
+  padding-bottom: var(--jiaoleaf-space-lg);
+  border-bottom: 1px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-settings__title {
+  font-family: var(--jiaoleaf-font-display);
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--jiaoleaf-text-primary);
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.jiaoleaf-settings__subtitle {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--jiaoleaf-emerald);
+  margin-top: var(--jiaoleaf-space-sm);
+  opacity: 0.9;
+}
+
+.jiaoleaf-settings__tab {
+  position: relative;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--jiaoleaf-text-secondary);
+  padding: var(--jiaoleaf-space-md) var(--jiaoleaf-space-lg);
+  cursor: pointer;
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--jiaoleaf-radius-md);
+  transition: all var(--jiaoleaf-transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-md);
+  opacity: 0.7;
+}
+
+.jiaoleaf-settings__tab::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--jiaoleaf-emerald);
+  opacity: 0;
+  transition: opacity var(--jiaoleaf-transition-fast);
+  flex-shrink: 0;
+}
+
+.jiaoleaf-settings__tab:hover {
+  background: rgba(57, 185, 138, 0.05);
+  opacity: 1;
+}
+
+.jiaoleaf-settings__tab:hover::before {
+  opacity: 0.4;
+}
+
+.jiaoleaf-settings__tab.is-active {
+  background: var(--jiaoleaf-emerald-soft);
+  color: var(--jiaoleaf-emerald-light);
+  opacity: 1;
+  box-shadow: var(--jiaoleaf-shadow-sm);
+}
+
+.jiaoleaf-settings__tab.is-active::before {
+  opacity: 1;
+}
+
+/* Settings Content */
+.jiaoleaf-settings__content {
+  background: var(--jiaoleaf-charcoal);
+  padding: var(--jiaoleaf-space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--jiaoleaf-space-xl);
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--jiaoleaf-emerald-soft) transparent;
+}
+
+.jiaoleaf-settings__content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.jiaoleaf-settings__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.jiaoleaf-settings__content::-webkit-scrollbar-thumb {
+  background: var(--jiaoleaf-emerald-soft);
+  border-radius: var(--jiaoleaf-radius-full);
+  transition: background var(--jiaoleaf-transition-fast);
+}
+
+.jiaoleaf-settings__content::-webkit-scrollbar-thumb:hover {
+  background: var(--jiaoleaf-emerald-glow);
+}
+
+.jiaoleaf-settings__section {
+  background: var(--jiaoleaf-black);
+  border-radius: var(--jiaoleaf-radius-lg);
+  padding: var(--jiaoleaf-space-xl);
+  box-shadow: var(--jiaoleaf-shadow-md);
+  border: 1px solid var(--jiaoleaf-border);
+  position: relative;
+  animation: jiaoleaf-section-fade-in 0.4s var(--jiaoleaf-ease-out) backwards;
+}
+
+.jiaoleaf-settings__section:nth-child(1) {
+  animation-delay: 50ms;
+}
+
+.jiaoleaf-settings__section:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.jiaoleaf-settings__section:nth-child(3) {
+  animation-delay: 150ms;
+}
+
+.jiaoleaf-settings__section:nth-child(4) {
+  animation-delay: 200ms;
+}
+
+.jiaoleaf-settings__section:nth-child(5) {
+  animation-delay: 250ms;
+}
+
+.jiaoleaf-settings__section:nth-child(n+6) {
+  animation-delay: 300ms;
+}
+
+@keyframes jiaoleaf-section-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jiaoleaf-settings__section h3 {
+  font-family: var(--jiaoleaf-font-display);
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--jiaoleaf-text-primary);
+  margin: 0 0 var(--jiaoleaf-space-md) 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.jiaoleaf-settings__subhead {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--jiaoleaf-emerald);
+  margin: var(--jiaoleaf-space-xl) 0 var(--jiaoleaf-space-md) 0;
+  padding-bottom: var(--jiaoleaf-space-sm);
+  border-bottom: 1px solid rgba(57, 185, 138, 0.2);
+}
+
+.jiaoleaf-settings__section h3+.jiaoleaf-settings__subhead {
+  margin-top: var(--jiaoleaf-space-lg);
+}
+
+/* Form Elements */
+.jiaoleaf-settings__label {
+  display: block;
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--jiaoleaf-text-secondary);
+  margin-top: var(--jiaoleaf-space-lg);
+  margin-bottom: var(--jiaoleaf-space-sm);
+  letter-spacing: 0.01em;
+}
+
+.jiaoleaf-settings__input,
+.jiaoleaf-settings__textarea,
+select.jiaoleaf-settings__input {
+  width: 100%;
+  background: var(--jiaoleaf-slate);
+  border: 1.5px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-text-primary);
+  padding: var(--jiaoleaf-space-md) var(--jiaoleaf-space-lg);
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 13px;
+  transition: all var(--jiaoleaf-transition-base);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.jiaoleaf-settings__input:focus,
+.jiaoleaf-settings__textarea:focus,
+select.jiaoleaf-settings__input:focus {
+  outline: none;
+  border-color: var(--jiaoleaf-emerald);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 0 3px var(--jiaoleaf-emerald-glow);
+  background: var(--jiaoleaf-surface);
+}
+
+.jiaoleaf-settings__input::placeholder,
+.jiaoleaf-settings__textarea::placeholder {
+  color: var(--jiaoleaf-text-dim);
+  font-style: italic;
+}
+
+.jiaoleaf-settings__textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: var(--jiaoleaf-font-mono);
+  line-height: 1.6;
+}
+
+.jiaoleaf-settings__hint {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--jiaoleaf-text-muted);
+  margin-top: var(--jiaoleaf-space-sm);
+  margin-bottom: var(--jiaoleaf-space-md);
+  font-style: italic;
+}
+
+/* Checkbox Styling */
+.jiaoleaf-settings__checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--jiaoleaf-space-md);
+  padding: var(--jiaoleaf-space-md);
+  margin-top: var(--jiaoleaf-space-md);
+  background: rgba(57, 185, 138, 0.03);
+  border-radius: var(--jiaoleaf-radius-md);
+  cursor: pointer;
+  transition: background var(--jiaoleaf-transition-base);
+  border: 1px solid transparent;
+}
+
+.jiaoleaf-settings__checkbox:hover {
+  background: rgba(57, 185, 138, 0.06);
+  border-color: var(--jiaoleaf-emerald-soft);
+}
+
+.jiaoleaf-settings__checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--jiaoleaf-slate);
+  border: 2px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-sm);
+  position: relative;
+  transition: all var(--jiaoleaf-transition-base);
+  flex-shrink: 0;
+}
+
+.jiaoleaf-settings__checkbox input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border-color: var(--jiaoleaf-emerald);
+}
+
+.jiaoleaf-settings__checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--jiaoleaf-black);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.jiaoleaf-settings__checkbox input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--jiaoleaf-emerald-glow);
+}
+
+.jiaoleaf-settings__checkbox span {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  color: var(--jiaoleaf-text-secondary);
+  line-height: 1.4;
+}
+
+/* Select Dropdown */
+select.jiaoleaf-settings__input {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2339b98a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+/* Action Buttons */
+.jiaoleaf-settings__actions {
+  display: flex;
+  gap: var(--jiaoleaf-space-md);
+  align-items: center;
+  padding: var(--jiaoleaf-space-xl);
+  background: var(--jiaoleaf-black);
+  border-top: 1px solid var(--jiaoleaf-border);
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}
+
+.jiaoleaf-settings__button {
+  padding: var(--jiaoleaf-space-md) var(--jiaoleaf-space-xl);
+  border-radius: var(--jiaoleaf-radius-lg);
+  border: none;
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-base);
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+.jiaoleaf-settings__button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.jiaoleaf-settings__button:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.jiaoleaf-settings__button:not(.is-secondary) {
+  background: linear-gradient(135deg,
+      var(--jiaoleaf-emerald) 0%,
+      var(--jiaoleaf-emerald-dark) 100%);
+  color: var(--jiaoleaf-black);
+  box-shadow:
+    var(--jiaoleaf-shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.jiaoleaf-settings__button:not(.is-secondary):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--jiaoleaf-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.jiaoleaf-settings__button.is-secondary {
+  background: transparent;
+  color: var(--jiaoleaf-text-secondary);
+  border: 1.5px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-settings__button.is-secondary:hover {
+  background: var(--jiaoleaf-emerald-soft);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald-light);
+}
+
+.jiaoleaf-settings__status {
+  margin-left: auto;
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 12px;
+  color: var(--jiaoleaf-emerald);
+  font-weight: 500;
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-md);
+  background: var(--jiaoleaf-emerald-soft);
+  border-radius: var(--jiaoleaf-radius-md);
+  border: 1px solid rgba(57, 185, 138, 0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOOL CALL APPROVAL
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-toolcall {
+  background: var(--jiaoleaf-surface);
+  border: 1px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-lg);
+  padding: var(--jiaoleaf-space-lg);
+  margin: var(--jiaoleaf-space-md) 0;
+  box-shadow: var(--jiaoleaf-shadow-sm);
+}
+
+.jiaoleaf-toolcall__title {
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--jiaoleaf-emerald);
+  margin-bottom: var(--jiaoleaf-space-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.jiaoleaf-toolcall__detail {
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 13px;
+  color: var(--jiaoleaf-text-secondary);
+  background: var(--jiaoleaf-black);
+  padding: var(--jiaoleaf-space-md);
+  border-radius: var(--jiaoleaf-radius-md);
+  margin: var(--jiaoleaf-space-md) 0;
+  overflow-x: auto;
+  border: 1px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-toolcall__actions {
+  display: flex;
+  gap: var(--jiaoleaf-space-sm);
+  margin-top: var(--jiaoleaf-space-md);
+}
+
+.jiaoleaf-panel__apply {
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-lg);
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border: none;
+  border-radius: var(--jiaoleaf-radius-md);
+  color: var(--jiaoleaf-black);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--jiaoleaf-transition-base);
+  box-shadow: var(--jiaoleaf-shadow-sm);
+}
+
+.jiaoleaf-panel__apply:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--jiaoleaf-shadow-md);
+}
+
+.jiaoleaf-panel__apply.is-secondary {
+  background: transparent;
+  color: var(--jiaoleaf-text-secondary);
+  border: 1.5px solid var(--jiaoleaf-border);
+}
+
+.jiaoleaf-panel__apply.is-secondary:hover {
+  background: var(--jiaoleaf-emerald-soft);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald-light);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCROLL TO BOTTOM BUTTON
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.jiaoleaf-panel__scroll {
+  position: absolute;
+  bottom: 110px;
+  /* Moved up to avoid blocking toolbar */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  background: var(--jiaoleaf-charcoal);
+  border: 1px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-full);
+  color: var(--jiaoleaf-text-secondary);
+  font-family: var(--jiaoleaf-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--jiaoleaf-shadow-lg);
+  transition: all var(--jiaoleaf-transition-base);
+  z-index: 10;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.jiaoleaf-panel__scroll:hover {
+  transform: translateX(-50%) translateY(-2px) scale(1.05);
+  box-shadow:
+    var(--jiaoleaf-shadow-xl),
+    0 0 20px var(--jiaoleaf-emerald-glow);
+}
+
+.jiaoleaf-panel__scroll:active {
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.jiaoleaf-panel__scroll-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-black);
+  font-family: var(--jiaoleaf-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--jiaoleaf-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--jiaoleaf-charcoal);
+  animation: jiaoleaf-badge-pop 0.3s var(--jiaoleaf-ease-out);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .jiaoleaf-settings__panel {
+    grid-template-columns: 1fr;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .jiaoleaf-settings__sidebar {
+    display: none;
+  }
+
+  .jiaoleaf-settings__content {
+    padding: var(--jiaoleaf-space-xl);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--jiaoleaf-emerald);
+  outline-offset: 2px;
+}
+
+/* Re-apply focus-visible for buttons that use all:unset (which resets outline) */
+.jiaoleaf-patch-review__expand-btn:focus-visible,
+.jiaoleaf-panel__apply:focus-visible,
+.jiaoleaf-message__copy-response:focus-visible,
+.jiaoleaf-session-tab:focus-visible,
+.jiaoleaf-toolbar-action:focus-visible,
+.jiaoleaf-selector:focus-visible,
+.jiaoleaf-yolo-toggle__switch:focus-visible {
+  outline: 2px solid var(--jiaoleaf-emerald);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   END OF STYLESHEET
+   ═══════════════════════════════════════════════════════════════════════════ */

@@ -24,7 +24,7 @@ type BibIndex = {
   projectId: string | null;
 };
 
-const STYLE_ID = 'ageaf-citation-key-popup-style';
+const STYLE_ID = 'jiaoleaf-citation-key-popup-style';
 
 let cm6: Cm6ExportsLite | null = null;
 let installedViews: WeakSet<any> | null = null;
@@ -78,7 +78,7 @@ function ensureStyles() {
   style.id = STYLE_ID;
   style.textContent = `
     /* DEFAULT STATE: Dark Mode (Emerald Studio Theme) */
-    .ageaf-cite-popup {
+    .jiaoleaf-cite-popup {
       position: fixed;
       z-index: 2147483647;
       max-width: 460px;
@@ -89,10 +89,10 @@ function ensureStyles() {
       padding: 12px 12px;
       font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       color: rgba(255, 255, 255, 0.92);
-      animation: ageaf-popup-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: jiaoleaf-popup-enter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .ageaf-cite-popup::after {
+    .jiaoleaf-cite-popup::after {
       content: '';
       position: absolute;
       top: -6px;
@@ -106,27 +106,27 @@ function ensureStyles() {
       pointer-events: none;
     }
 
-    .ageaf-cite-popup.is-below::after {
+    .jiaoleaf-cite-popup.is-below::after {
       top: auto;
       bottom: -6px;
       transform: rotate(225deg);
     }
 
-    .ageaf-cite-popup__title {
+    .jiaoleaf-cite-popup__title {
       font-size: 14px;
       font-weight: 700;
       margin: 0 0 2px 0;
       line-height: 1.25;
     }
 
-    .ageaf-cite-popup__meta {
+    .jiaoleaf-cite-popup__meta {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.68);
       margin: 0 0 8px 0;
       line-height: 1.35;
     }
 
-    .ageaf-cite-popup__badge {
+    .jiaoleaf-cite-popup__badge {
       display: inline-block;
       font-size: 11px;
       font-weight: 700;
@@ -138,7 +138,7 @@ function ensureStyles() {
       margin-right: 6px;
     }
 
-    .ageaf-cite-popup__cite {
+    .jiaoleaf-cite-popup__cite {
       margin-top: 6px;
       font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
       font-size: 12px;
@@ -151,41 +151,41 @@ function ensureStyles() {
       overflow-wrap: anywhere;
     }
 
-    /* LIGHT MODE OVERRIDES: Applied when Ageaf panel is in light mode */
-    body[data-ageaf-theme="light"] .ageaf-cite-popup {
+    /* LIGHT MODE OVERRIDES: Applied when JiaoLeaf panel is in light mode */
+    body[data-jiaoleaf-theme="light"] .jiaoleaf-cite-popup {
       background: rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(15, 23, 42, 0.12);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
       color: rgba(15, 23, 42, 0.92);
     }
 
-    body[data-ageaf-theme="light"] .ageaf-cite-popup::after {
+    body[data-jiaoleaf-theme="light"] .jiaoleaf-cite-popup::after {
       background: rgba(255, 255, 255, 0.96);
       border-left: 1px solid rgba(15, 23, 42, 0.12);
       border-top: 1px solid rgba(15, 23, 42, 0.12);
     }
 
-    body[data-ageaf-theme="light"] .ageaf-cite-popup .ageaf-cite-popup__meta {
+    body[data-jiaoleaf-theme="light"] .jiaoleaf-cite-popup .jiaoleaf-cite-popup__meta {
       color: rgba(71, 85, 105, 0.86);
     }
 
-    body[data-ageaf-theme="light"] .ageaf-cite-popup .ageaf-cite-popup__badge {
+    body[data-jiaoleaf-theme="light"] .jiaoleaf-cite-popup .jiaoleaf-cite-popup__badge {
       color: #39b98a;
     }
 
-    body[data-ageaf-theme="light"] .ageaf-cite-popup .ageaf-cite-popup__cite {
+    body[data-jiaoleaf-theme="light"] .jiaoleaf-cite-popup .jiaoleaf-cite-popup__cite {
       color: rgba(15, 23, 42, 0.86);
       background: rgba(15, 23, 42, 0.04);
       border: 1px solid rgba(15, 23, 42, 0.08);
     }
 
-    @keyframes ageaf-popup-enter {
+    @keyframes jiaoleaf-popup-enter {
       from { opacity: 0; transform: translateY(4px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .ageaf-cite-popup { animation: none; }
+      .jiaoleaf-cite-popup { animation: none; }
     }
   `;
   document.head.appendChild(style);
@@ -202,7 +202,7 @@ function closePopup() {
 function ensurePopup() {
   if (popupEl) return popupEl;
   const el = document.createElement('div');
-  el.className = 'ageaf-cite-popup';
+  el.className = 'jiaoleaf-cite-popup';
   el.addEventListener('click', (e) => {
     // keep clicks inside popup from closing it
     e.stopPropagation();
@@ -228,12 +228,12 @@ function renderPopup(meta: BibEntryMeta | null, key: string, citeText: string, c
   if (meta?.publisher) parts.push(meta.publisher);
   const metaLine = parts.filter(Boolean).join(' · ');
   const badges = [];
-  if (meta?.year) badges.push(`<span class="ageaf-cite-popup__badge">${escapeText(meta.year)}</span>`);
-  if (meta?.fileName) badges.push(`<span class="ageaf-cite-popup__badge">${escapeText(meta.fileName)}</span>`);
+  if (meta?.year) badges.push(`<span class="jiaoleaf-cite-popup__badge">${escapeText(meta.year)}</span>`);
+  if (meta?.fileName) badges.push(`<span class="jiaoleaf-cite-popup__badge">${escapeText(meta.fileName)}</span>`);
   el.innerHTML = `
-    <div class="ageaf-cite-popup__title">${escapeText(title)}</div>
-    <div class="ageaf-cite-popup__meta">${badges.join('')}${escapeText(metaLine || meta?.filePath || '')}</div>
-    <div class="ageaf-cite-popup__cite">${escapeText(citeText)}</div>
+    <div class="jiaoleaf-cite-popup__title">${escapeText(title)}</div>
+    <div class="jiaoleaf-cite-popup__meta">${badges.join('')}${escapeText(metaLine || meta?.filePath || '')}</div>
+    <div class="jiaoleaf-cite-popup__cite">${escapeText(citeText)}</div>
   `;
   // Position — determine if popup should appear above or below
   const margin = 10;
@@ -442,7 +442,7 @@ function resolveCm6FromOverleafEvent(e: OverleafExtensionsEvent) {
 
 function tryAdoptGlobalCm6() {
   try {
-    const global = (window as any).__ageafCm6Exports as Cm6ExportsLite | undefined;
+    const global = (window as any).__jiaoleafCm6Exports as Cm6ExportsLite | undefined;
     if (!global) return false;
     cm6 = global;
     return true;
@@ -528,7 +528,7 @@ export function registerCitationKeyPopup() {
       // ignore
     }
   });
-  window.addEventListener('ageaf:cm6:resolved', () => {
+  window.addEventListener('jiaoleaf:cm6:resolved', () => {
     tryAdoptGlobalCm6();
   });
 
@@ -551,7 +551,7 @@ export function registerCitationKeyPopup() {
         };
         dom.addEventListener('click', handler, true);
         // Store the handler so GC can release with the view; best-effort.
-        (dom as any).__ageafCiteClickHandler = handler;
+        (dom as any).__jiaoleafCiteClickHandler = handler;
         installedViews!.add(view);
       } catch {
         // ignore

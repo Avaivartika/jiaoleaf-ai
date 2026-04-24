@@ -16,7 +16,7 @@ function withTimeout(ms: number): TimeoutSignal {
 }
 
 test('POST /v1/jobs supports provider=codex action=rewrite', async () => {
-  process.env.AGEAF_START_SERVER = 'false';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();

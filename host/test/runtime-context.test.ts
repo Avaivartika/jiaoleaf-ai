@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 test('GET /v1/runtime/claude/context returns context usage', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -30,16 +30,16 @@ test('GET /v1/runtime/claude/context returns context usage', async () => {
     assert.equal(body.contextWindow, 200000);
     assert.equal(body.percentage, 1);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('POST /v1/runtime/codex/context returns context usage', async () => {
-  const previousMock = process.env.AGEAF_CODEX_MOCK;
-  process.env.AGEAF_CODEX_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CODEX_MOCK;
+  process.env.JIAOLEAF_CODEX_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -69,8 +69,8 @@ test('POST /v1/runtime/codex/context returns context usage', async () => {
     assert.equal(body.contextWindow, 200000);
     assert.equal(body.percentage, 1);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CODEX_MOCK;
-    else process.env.AGEAF_CODEX_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CODEX_MOCK;
+    else process.env.JIAOLEAF_CODEX_MOCK = previousMock;
     await server.close();
   }
 });

@@ -231,7 +231,7 @@ export function evictPiSession(conversationId: string): void {
 
 export async function runPiText(input: PiTextRunInput): Promise<PiRunResult> {
   // Mock mode
-  if (process.env.AGEAF_PI_MOCK === 'true') {
+  if (process.env.JIAOLEAF_PI_MOCK === 'true') {
     input.emitEvent({ event: 'delta', data: { text: 'Mock response.' } });
     input.emitEvent({
       event: 'usage',
@@ -281,7 +281,7 @@ export async function runPiText(input: PiTextRunInput): Promise<PiRunResult> {
   let resultText = '';
   let doneEmitted = false;
 
-  const timeoutMs = Number(process.env.AGEAF_PI_TURN_TIMEOUT_MS) || DEFAULT_TURN_TIMEOUT_MS;
+  const timeoutMs = Number(process.env.JIAOLEAF_PI_TURN_TIMEOUT_MS) || DEFAULT_TURN_TIMEOUT_MS;
   const timeoutHandle = setTimeout(() => {
     agent.abort();
   }, timeoutMs);

@@ -118,7 +118,7 @@ rl.on("line", (line) => {
       if (typeof textItem?.text === "string") promptText = textItem.text;
     }
 
-    const hasGuidance = promptText.includes("AGEAF_FILE_UPDATE");
+    const hasGuidance = promptText.includes("JIAOLEAF_FILE_UPDATE");
     write({ id: msg.id, result: { ok: true } });
     write({ method: "turn/started", params: { threadId, turn: { id: "turn-1" } } });
     write({

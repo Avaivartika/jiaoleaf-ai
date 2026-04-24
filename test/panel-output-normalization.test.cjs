@@ -12,7 +12,7 @@ test('Markdown normalizes done fences and patch JSON output', () => {
   assert.match(contents, /replaceSelection/);
   assert.match(contents, /insertAtCursor/);
   assert.match(contents, /replaceRangeInFile/);
-  assert.ok(contents.includes('ageaf[-_]?patch'));
+  assert.ok(contents.includes('jiaoleaf[-_]?patch'));
   assert.match(contents, /JSON\.parse/);
   assert.match(contents, /normalizeTaskLists\(normalizeAssistantOutput/);
   assert.ok(!contents.includes('extractedPatchText'));

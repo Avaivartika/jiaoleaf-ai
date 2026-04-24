@@ -104,14 +104,14 @@ function renderLatex(latex: string, displayMode: boolean): string {
     const mode = displayMode ? 'display' : 'inline';
     // For display math, include a small "copy source" button inline after the equation.
     const copyButton = displayMode
-      ? `<button class="ageaf-latex__copy" type="button" data-latex-copy="true" aria-label="Copy LaTeX" title="Copy LaTeX">⧉</button>`
+      ? `<button class="jiaoleaf-latex__copy" type="button" data-latex-copy="true" aria-label="Copy LaTeX" title="Copy LaTeX">⧉</button>`
       : '';
-    return `<span class="ageaf-latex ageaf-latex--${mode}" data-latex="${escapeHtml(
+    return `<span class="jiaoleaf-latex jiaoleaf-latex--${mode}" data-latex="${escapeHtml(
       latex
     )}">${html}${copyButton}</span>`;
   } catch (e) {
     // If rendering fails, return escaped LaTeX
-    return `<code class="ageaf-latex-error">${escapeHtml(latex)}</code>`;
+    return `<code class="jiaoleaf-latex-error">${escapeHtml(latex)}</code>`;
   }
 }
 
@@ -341,7 +341,7 @@ renderer.renderer.rules.fence = (tokens, idx) => {
       const rendered = renderLatex(forRendering, true);
       // IMPORTANT: Do NOT use <pre> here — Panel extracts <pre> into the "quote" UI.
       // Render as a normal block so math stays in the main message flow.
-      return `<div class="ageaf-latex-fence" data-latex="${escapeHtml(normalized)}">${rendered}</div>\n`;
+      return `<div class="jiaoleaf-latex-fence" data-latex="${escapeHtml(normalized)}">${rendered}</div>\n`;
     }
     // If it's LaTeX but not math, fall through to render as raw code block
   }
@@ -349,7 +349,7 @@ renderer.renderer.rules.fence = (tokens, idx) => {
   // Rendered diagram output from the MCP render_mermaid tool.
   // The SVG is from a trusted source (beautiful-mermaid), so we render it inline.
   // IMPORTANT: Do NOT use <pre> here — Panel extracts <pre> into the "quote" UI.
-  if (rawLang.toLowerCase() === 'ageaf-diagram') {
+  if (rawLang.toLowerCase() === 'jiaoleaf-diagram') {
     const svg = content.trim();
     if (svg.startsWith('<svg')) {
       // Strip <script> tags and event handlers as a safety measure
@@ -357,11 +357,11 @@ renderer.renderer.rules.fence = (tokens, idx) => {
         .replace(/<script[\s\S]*?<\/script>/gi, '')
         .replace(/\bon\w+\s*=\s*["'][^"']*["']/gi, '');
       const downloadBtn =
-        `<button class="ageaf-diagram__download" type="button" data-diagram-download="true" aria-label="Download SVG" title="Download SVG">` +
+        `<button class="jiaoleaf-diagram__download" type="button" data-diagram-download="true" aria-label="Download SVG" title="Download SVG">` +
         `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">` +
         `<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>` +
         `</svg> Download SVG</button>`;
-      return `<div class="ageaf-diagram"><div class="ageaf-diagram__svg">${sanitized}</div><div class="ageaf-diagram__actions">${downloadBtn}</div></div>\n`;
+      return `<div class="jiaoleaf-diagram"><div class="jiaoleaf-diagram__svg">${sanitized}</div><div class="jiaoleaf-diagram__actions">${downloadBtn}</div></div>\n`;
     }
     // If it doesn't look like SVG, fall through to render as a code block
   }
@@ -387,7 +387,7 @@ renderer.renderer.rules.fence = (tokens, idx) => {
   const displayName = lang ? getLanguageDisplayName(lang) : 'text';
 
   // Return HTML with language label and highlighted code
-  return `<pre class="ageaf-code-block" data-language="${escapeHtml(lang)}" data-language-label="${escapeHtml(displayName)}"><code class="language-${escapeHtml(prismLang)}">${highlightedCode}</code></pre>\n`;
+  return `<pre class="jiaoleaf-code-block" data-language="${escapeHtml(lang)}" data-language-label="${escapeHtml(displayName)}"><code class="language-${escapeHtml(prismLang)}">${highlightedCode}</code></pre>\n`;
 };
 
 // Add inline LaTeX rule for \(...\) and $...$
@@ -559,10 +559,10 @@ function normalizeAssistantOutput(content: string) {
 
   next = next.replace(/```\s*done\.?[^\n]*\n([\s\S]*?)```/gi, '$1');
 
-  next = next.replace(/```(?:ageaf[-_]?patch)[^\n]*\n[\s\S]*?```/gi, '');
+  next = next.replace(/```(?:jiaoleaf[-_]?patch)[^\n]*\n[\s\S]*?```/gi, '');
 
   // Strip diagram-loading placeholder when followed by the complete fence
-  next = next.replace(/\n?\*Rendering diagram\u2026\*\n(?=```ageaf-diagram)/g, '');
+  next = next.replace(/\n?\*Rendering diagram\u2026\*\n(?=```jiaoleaf-diagram)/g, '');
 
   next = next.replace(/```(?:json)?\s*\n([\s\S]*?)```/gi, (match, body) => {
     const patchText = extractPatchText(body);

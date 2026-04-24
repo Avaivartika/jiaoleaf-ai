@@ -4,7 +4,7 @@ import test from 'node:test';
 const ORIGIN = 'https://www.overleaf.com';
 
 test('OPTIONS /v1/jobs returns CORS headers', async () => {
-  process.env.AGEAF_START_SERVER = 'false';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -41,9 +41,9 @@ test('OPTIONS /v1/jobs returns CORS headers', async () => {
 });
 
 test('GET /v1/jobs/:id/events includes CORS headers', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -72,8 +72,8 @@ test('GET /v1/jobs/:id/events includes CORS headers', async () => {
     assert.equal(response.status, 200);
     assert.equal(response.headers.get('access-control-allow-origin'), ORIGIN);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });

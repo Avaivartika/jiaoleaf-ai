@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { executeAskUser, type AskUserQuestion } from '../interactive/askUserCore.js';
 
-export const ASK_USER_SERVER_NAME = 'ageaf-interactive';
+export const ASK_USER_SERVER_NAME = 'jiaoleaf-interactive';
 export const ASK_USER_SERVER_VERSION = '1.0.0';
 
 export const ASK_USER_TOOL_NAME = 'ask_user';

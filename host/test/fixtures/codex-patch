@@ -156,7 +156,7 @@ rl.on("line", (line) => {
     });
     write({
       method: "item/agentMessage/delta",
-      params: { threadId, itemId: "item-1", delta: "```ageaf-patch\n" },
+      params: { threadId, itemId: "item-1", delta: "```jiaoleaf-patch\n" },
     });
     write({
       method: "item/agentMessage/delta",

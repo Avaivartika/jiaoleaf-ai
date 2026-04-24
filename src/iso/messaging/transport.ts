@@ -87,7 +87,9 @@ function isMissingNativeHostError(error: unknown): boolean {
     normalized.includes('native messaging host not found') ||
     normalized.includes('specified native messaging host not found') ||
     normalized.includes('native host not found') ||
-    normalized.includes('could not establish connection')
+    normalized.includes('could not establish connection') ||
+    normalized.includes('native_unavailable') ||
+    normalized.includes('native request timed out')
   );
 }
 

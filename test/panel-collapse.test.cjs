@@ -14,8 +14,8 @@ test('Collapsed panel keeps a visible divider toggle', () => {
   );
   const contents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.match(contents, /ageaf-panel__divider/);
+  assert.match(contents, /jiaoleaf-panel__divider/);
   assert.match(contents, /height:\s*100vh/);
-  assert.match(contents, /ageaf-panel--collapsed .*ageaf-panel__divider[\s\S]*left:\s*calc\(-1 \* var\(--ageaf-divider-hit\)\)/);
-  assert.match(contents, /ageaf-panel--collapsed .*ageaf-panel__inner[\s\S]*display:\s*none/);
+  assert.match(contents, /jiaoleaf-panel--collapsed .*jiaoleaf-panel__divider[\s\S]*left:\s*calc\(-1 \* var\(--jiaoleaf-divider-hit\)\)/);
+  assert.match(contents, /jiaoleaf-panel--collapsed .*jiaoleaf-panel__inner[\s\S]*display:\s*none/);
 });

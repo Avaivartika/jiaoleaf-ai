@@ -5,9 +5,9 @@ import type { JobEvent, Patch } from '../src/types.js';
 
 test('Claude runtime mock emits patch event', async () => {
   const previousRuntime = process.env.CLAUDE_CODE_AVAILABLE;
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
   process.env.CLAUDE_CODE_AVAILABLE = 'true';
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
 
   try {
     const { runClaudeStructuredPatch } = await import('../src/runtimes/claude/agent.js');
@@ -26,7 +26,7 @@ test('Claude runtime mock emits patch event', async () => {
   } finally {
     if (previousRuntime === undefined) delete process.env.CLAUDE_CODE_AVAILABLE;
     else process.env.CLAUDE_CODE_AVAILABLE = previousRuntime;
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
   }
 });

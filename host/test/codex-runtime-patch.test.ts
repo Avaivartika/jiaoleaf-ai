@@ -6,7 +6,7 @@ import type { JobEvent } from '../src/types.js';
 import { resetCodexAppServerForTests } from '../src/runtimes/codex/appServer.js';
 import { runCodexJob } from '../src/runtimes/codex/run.js';
 
-test('Codex runtime emits patch events from ageaf-patch fences', async () => {
+test('Codex runtime emits patch events from jiaoleaf-patch fences', async () => {
   const cliPath = path.join(process.cwd(), 'test', 'fixtures', 'codex-patch');
   const events: JobEvent[] = [];
 
@@ -32,7 +32,7 @@ test('Codex runtime emits patch events from ageaf-patch fences', async () => {
       .join('');
 
     assert.match(deltaText, /Proposed change/i);
-    assert.ok(!/ageaf[-_]?patch/i.test(deltaText), 'should not stream patch fences');
+    assert.ok(!/jiaoleaf[-_]?patch/i.test(deltaText), 'should not stream patch fences');
 
     const patchEvent = events.find((event) => event.event === 'patch');
     assert.ok(patchEvent, 'expected patch event');

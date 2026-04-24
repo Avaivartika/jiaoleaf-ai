@@ -12,7 +12,7 @@ let lastBibUpdateAt = 0;
 let lastBibHash: string | null = null;
 let lastBibActive = false;
 
-const STYLE_ID = 'ageaf-citation-indicator-style';
+const STYLE_ID = 'jiaoleaf-citation-indicator-style';
 
 type OverleafExtensionsEvent = CustomEvent<{
   CodeMirror?: any;
@@ -23,7 +23,7 @@ let decorations: CitationDecorations | null = null;
 
 function tryAdoptGlobalCm6() {
   try {
-    const global = (window as any).__ageafCm6Exports as Cm6ExportsLite | undefined;
+    const global = (window as any).__jiaoleafCm6Exports as Cm6ExportsLite | undefined;
     if (!global) return false;
     cm6 = global;
     if (!decorations) decorations = initCitationDecorations(cm6);
@@ -35,7 +35,7 @@ function tryAdoptGlobalCm6() {
 
 function isDebugEnabled() {
   try {
-    return window.localStorage.getItem('ageaf_debug_citations') === '1';
+    return window.localStorage.getItem('jiaoleaf_debug_citations') === '1';
   } catch {
     return false;
   }
@@ -44,7 +44,7 @@ function isDebugEnabled() {
 function logDebug(...args: any[]) {
   if (!isDebugEnabled()) return;
   // eslint-disable-next-line no-console
-  console.log('[Ageaf Citations]', ...args);
+  console.log('[JiaoLeaf Citations]', ...args);
 }
 
 function looksLikeBibContent(text: string): boolean {
@@ -84,7 +84,7 @@ function ensureCitationStyles() {
   style.id = STYLE_ID;
   style.textContent = `
     /* Citation usage indicators (editor widgets) — Emerald Studio palette */
-    .ageaf-citation-indicator {
+    .jiaoleaf-citation-indicator {
       display: inline-block;
       margin-left: 8px;
       padding: 3px 8px;
@@ -95,47 +95,47 @@ function ensureCitationStyles() {
       cursor: default;
       user-select: none;
       transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
-      animation: ageaf-cite-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation: jiaoleaf-cite-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
 
-    .ageaf-citation-used {
+    .jiaoleaf-citation-used {
       color: #39b98a;
       background-color: rgba(57, 185, 138, 0.14);
       border: 1px solid rgba(57, 185, 138, 0.4);
     }
 
-    .ageaf-citation-used:hover {
+    .jiaoleaf-citation-used:hover {
       background-color: rgba(57, 185, 138, 0.22);
       border-color: rgba(57, 185, 138, 0.5);
     }
 
-    .ageaf-citation-unused {
+    .jiaoleaf-citation-unused {
       color: #7f9389;
       background-color: rgba(107, 125, 115, 0.12);
       border: 1px solid rgba(107, 125, 115, 0.3);
       opacity: 0.65;
     }
 
-    .ageaf-citation-unused:hover {
+    .jiaoleaf-citation-unused:hover {
       opacity: 0.85;
       background-color: rgba(107, 125, 115, 0.18);
     }
 
     /* Dark mode support (Overleaf uses body.dark in some themes; keep both) */
-    .dark .ageaf-citation-used, body.dark .ageaf-citation-used {
+    .dark .jiaoleaf-citation-used, body.dark .jiaoleaf-citation-used {
       color: #4dd4a4;
       background-color: rgba(57, 185, 138, 0.10);
       border-color: rgba(57, 185, 138, 0.3);
     }
 
-    .dark .ageaf-citation-unused, body.dark .ageaf-citation-unused {
+    .dark .jiaoleaf-citation-unused, body.dark .jiaoleaf-citation-unused {
       color: #a8bfb3;
       background-color: rgba(107, 125, 115, 0.08);
       border-color: rgba(107, 125, 115, 0.2);
     }
 
     /* Duplicate title indicator */
-    .ageaf-citation-dup {
+    .jiaoleaf-citation-dup {
       display: inline-block;
       margin-left: 6px;
       padding: 3px 8px;
@@ -149,28 +149,28 @@ function ensureCitationStyles() {
       background-color: rgba(255, 179, 87, 0.14);
       border: 1px solid rgba(255, 179, 87, 0.4);
       transition: background-color 0.15s ease, border-color 0.15s ease;
-      animation: ageaf-cite-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      animation: jiaoleaf-cite-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) backwards;
     }
 
-    .ageaf-citation-dup:hover {
+    .jiaoleaf-citation-dup:hover {
       background-color: rgba(255, 179, 87, 0.22);
       border-color: rgba(255, 179, 87, 0.5);
     }
 
-    .dark .ageaf-citation-dup, body.dark .ageaf-citation-dup {
+    .dark .jiaoleaf-citation-dup, body.dark .jiaoleaf-citation-dup {
       color: #ffb357;
       background-color: rgba(255, 179, 87, 0.10);
       border-color: rgba(255, 179, 87, 0.3);
     }
 
-    @keyframes ageaf-cite-fade-in {
+    @keyframes jiaoleaf-cite-fade-in {
       from { opacity: 0; transform: translateY(-2px) scale(0.95); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .ageaf-citation-indicator,
-      .ageaf-citation-dup {
+      .jiaoleaf-citation-indicator,
+      .jiaoleaf-citation-dup {
         animation: none;
         transition: none;
       }
@@ -294,8 +294,8 @@ export function registerCitationIndicator() {
     }
   });
 
-  // Fallback: Ageaf overlay will broadcast resolved CM6 exports.
-  window.addEventListener('ageaf:cm6:resolved', () => {
+  // Fallback: JiaoLeaf overlay will broadcast resolved CM6 exports.
+  window.addEventListener('jiaoleaf:cm6:resolved', () => {
     tryAdoptGlobalCm6();
   });
 

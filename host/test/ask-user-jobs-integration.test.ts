@@ -107,9 +107,9 @@ test('pre-aborted signal: resolves immediately without emitting', async () => {
 // ── HTTP-level integration tests ──
 
 test('/respond Pi routing: resolves pending request via HTTP', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -148,16 +148,16 @@ test('/respond Pi routing: resolves pending request via HTTP', async () => {
 
     unregisterJobEmitter(jobId);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/respond Codex fallthrough: returns 400 unsupported', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -176,16 +176,16 @@ test('/respond Codex fallthrough: returns 400 unsupported', async () => {
     assert.equal(response.statusCode, 400);
     assert.deepEqual(JSON.parse(response.body), { error: 'unsupported' });
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/respond wrong jobId: returns 404 no_pending_request', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -223,16 +223,16 @@ test('/respond wrong jobId: returns 404 no_pending_request', async () => {
     await resultPromise;
     unregisterJobEmitter(job1);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/respond invalid requestId type: returns 400', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -251,8 +251,8 @@ test('/respond invalid requestId type: returns 400', async () => {
     assert.equal(response.statusCode, 400);
     assert.deepEqual(JSON.parse(response.body), { error: 'invalid_requestId' });
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
@@ -282,9 +282,9 @@ test('active Codex job tracking: PID-based register / resolve / unregister', () 
 // ── Codex /respond: resolves ask_user before native handler ──
 
 test('/respond Codex ask_user: resolves via resolveAskUserRequest', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -324,8 +324,8 @@ test('/respond Codex ask_user: resolves via resolveAskUserRequest', async () => 
 
     unregisterJobEmitter(jobId);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
@@ -333,9 +333,9 @@ test('/respond Codex ask_user: resolves via resolveAskUserRequest', async () => 
 // ── Internal /v1/internal/ask-user endpoint tests ──
 
 test('/internal/ask-user: resolves via PID-correlated active Codex job', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -381,16 +381,16 @@ test('/internal/ask-user: resolves via PID-correlated active Codex job', async (
     unregisterActiveCodexJob(fakePid, jobId);
     unregisterJobEmitter(jobId);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/internal/ask-user: unknown ppid with no active job returns 503', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const server = buildServer();
@@ -406,16 +406,16 @@ test('/internal/ask-user: unknown ppid with no active job returns 503', async ()
     assert.equal(response.statusCode, 503);
     assert.deepEqual(JSON.parse(response.body), { error: 'no_active_codex_job' });
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/internal/ask-user: unknown ppid falls back to active job', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const { createJobForTest } = await import('../src/routes/jobs.js');
@@ -457,16 +457,16 @@ test('/internal/ask-user: unknown ppid falls back to active job', async () => {
     unregisterActiveCodexJob(realPid, jobId);
     unregisterJobEmitter(jobId);
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
 
 test('/internal/ask-user: returns 503 when no active Codex job', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const server = buildServer();
@@ -481,8 +481,8 @@ test('/internal/ask-user: returns 503 when no active Codex job', async () => {
     assert.equal(response.statusCode, 503);
     assert.deepEqual(JSON.parse(response.body), { error: 'no_active_codex_job' });
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });
@@ -557,9 +557,9 @@ test('same-PID serialized: register/unregister in sequence keeps stack depth ≤
 });
 
 test('/internal/ask-user: returns 400 for invalid questions', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
 
   const { buildServer } = await import('../src/server.js');
   const server = buildServer();
@@ -574,8 +574,8 @@ test('/internal/ask-user: returns 400 for invalid questions', async () => {
     assert.equal(response.statusCode, 400);
     assert.deepEqual(JSON.parse(response.body), { error: 'invalid_questions' });
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });

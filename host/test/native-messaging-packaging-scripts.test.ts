@@ -19,7 +19,7 @@ test('macOS installer pkg script installs Chrome system-wide native host manifes
 
   assert.match(contents, /NativeMessagingHosts/);
   assert.match(contents, /\/Library\/Google\/Chrome\/NativeMessagingHosts/);
-  assert.match(contents, /com\.ageaf\.host\.json/);
+  assert.match(contents, /com\.jiaoleaf\.host\.json/);
   assert.match(contents, /build-native-manifest\.mjs/);
   assert.match(contents, /--extension-id/);
   assert.match(contents, /postinstall/);
@@ -38,4 +38,20 @@ test('macOS packaging scripts locate Node outside GUI PATH', () => {
   assert.match(bundleContents, /\/opt\/homebrew\/bin\/node/);
   assert.match(bundleContents, /\/usr\/local\/bin\/node/);
   assert.match(bundleContents, /\.nvm\/versions\/node/);
+});
+
+test('Windows native host installer registers Chrome native messaging host', () => {
+  const repoRoot = path.join(__dirname, '..', '..');
+  const installerPath = path.join(repoRoot, 'install-native-host.cmd');
+  const launcherPath = path.join(repoRoot, 'native-host.cmd');
+  const installer = fs.readFileSync(installerPath, 'utf8');
+  const launcher = fs.readFileSync(launcherPath, 'utf8');
+
+  assert.match(installer, /com\.jiaoleaf\.host/);
+  assert.match(installer, /NativeMessagingHosts/);
+  assert.match(installer, /reg add "HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com\.jiaoleaf\.host"/);
+  assert.match(installer, /build-native-manifest\.mjs/);
+  assert.doesNotMatch(installer, /npm run build/);
+  assert.match(launcher, /dist\\src\\native\.js/);
+  assert.match(launcher, /tsx\\dist\\cli\.mjs/);
 });

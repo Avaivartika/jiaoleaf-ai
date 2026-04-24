@@ -17,8 +17,8 @@ type FixCompilePayload = {
   };
 };
 
-const FIX_START = '<<<AGEAF_FIX>>>';
-const FIX_END = '<<<AGEAF_FIX_END>>>';
+const FIX_START = '<<<JIAOLEAF_FIX>>>';
+const FIX_END = '<<<JIAOLEAF_FIX_END>>>';
 
 const FIX_PROMPT = `Fix the LaTeX compile error using the selection and log.
 Preserve citations, labels, refs, and math.
@@ -96,7 +96,7 @@ export async function runFixCompileError(
   }
 
   const fixed = extractFixedText(resultText);
-  if (!fixed && process.env.AGEAF_CLAUDE_MOCK !== 'true') {
+  if (!fixed && process.env.JIAOLEAF_CLAUDE_MOCK !== 'true') {
     emitEvent({
       event: 'done',
       data: { status: 'error', message: 'Fix output missing markers' },

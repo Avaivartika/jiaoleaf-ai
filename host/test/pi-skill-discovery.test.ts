@@ -16,9 +16,9 @@ function restoreEnv(key: string, original: string | undefined) {
 // ─── skills.ts unit tests ───
 
 test('loadSkillsManifest dedupes discovered entries by name', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origSkillsDir = process.env.AGEAF_SKILLS_DIR;
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origSkillsDir = process.env.JIAOLEAF_SKILLS_DIR;
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
     const skillsDir = path.join(tmpDir, 'static');
@@ -27,7 +27,7 @@ test('loadSkillsManifest dedupes discovered entries by name', async () => {
       path.join(skillsDir, 'manifest.json'),
       JSON.stringify({ version: 1, skills: [{ id: 'my-skill', name: 'my-skill', description: 'Native skill', tags: [], path: 'my-skill/SKILL.md' }] }),
     );
-    process.env.AGEAF_SKILLS_DIR = skillsDir;
+    process.env.JIAOLEAF_SKILLS_DIR = skillsDir;
 
     const discoveredDir = path.join(tmpDir, 'discovered');
     fs.mkdirSync(discoveredDir, { recursive: true });
@@ -42,7 +42,7 @@ test('loadSkillsManifest dedupes discovered entries by name', async () => {
         ],
       }),
     );
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
 
     const { loadSkillsManifest } = await import('../src/runtimes/pi/skills.js');
     const manifest = loadSkillsManifest();
@@ -57,16 +57,16 @@ test('loadSkillsManifest dedupes discovered entries by name', async () => {
     const staticEntries = manifest.skills.filter((s: any) => s.name === 'my-skill');
     assert.equal(staticEntries.length, 1, 'static skill should be present');
   } finally {
-    restoreEnv('AGEAF_SKILLS_DIR', origSkillsDir);
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_SKILLS_DIR', origSkillsDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
 
 test('loadSkillsManifest static skills take precedence over discovered with same name', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origSkillsDir = process.env.AGEAF_SKILLS_DIR;
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origSkillsDir = process.env.JIAOLEAF_SKILLS_DIR;
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
     const skillsDir = path.join(tmpDir, 'static');
@@ -75,7 +75,7 @@ test('loadSkillsManifest static skills take precedence over discovered with same
       path.join(skillsDir, 'manifest.json'),
       JSON.stringify({ version: 1, skills: [{ id: 'mermaid', name: 'mermaid', description: 'Native mermaid', tags: [], path: 'mermaid/SKILL.md' }] }),
     );
-    process.env.AGEAF_SKILLS_DIR = skillsDir;
+    process.env.JIAOLEAF_SKILLS_DIR = skillsDir;
 
     const discoveredDir = path.join(tmpDir, 'discovered');
     fs.mkdirSync(discoveredDir, { recursive: true });
@@ -88,7 +88,7 @@ test('loadSkillsManifest static skills take precedence over discovered with same
         ],
       }),
     );
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
 
     const { loadSkillsManifest } = await import('../src/runtimes/pi/skills.js');
     const manifest = loadSkillsManifest();
@@ -97,8 +97,8 @@ test('loadSkillsManifest static skills take precedence over discovered with same
     assert.equal(mermaidEntries.length, 1, 'only one mermaid');
     assert.equal(mermaidEntries[0].id, 'mermaid', 'static wins over discovered');
   } finally {
-    restoreEnv('AGEAF_SKILLS_DIR', origSkillsDir);
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_SKILLS_DIR', origSkillsDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
@@ -106,11 +106,11 @@ test('loadSkillsManifest static skills take precedence over discovered with same
 // ─── addDiscoveredSkill tests ───
 
 test('addDiscoveredSkill writes SKILL.md and updates manifest', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
 
     const { addDiscoveredSkill, loadDiscoveredManifest } = await import('../src/runtimes/pi/skills.js');
 
@@ -136,17 +136,17 @@ test('addDiscoveredSkill writes SKILL.md and updates manifest', async () => {
     assert.equal(manifest.skills.length, 1);
     assert.equal(manifest.skills[0]!.id, 'discovered/vercel-labs/test-skill');
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
 
 test('addDiscoveredSkill rejects names with path separators', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
     const { addDiscoveredSkill } = await import('../src/runtimes/pi/skills.js');
 
     await assert.rejects(
@@ -167,17 +167,17 @@ test('addDiscoveredSkill rejects names with path separators', async () => {
       'should reject dots in name',
     );
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
 
 test('addDiscoveredSkill concurrent writes do not corrupt manifest', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
     const { addDiscoveredSkill, loadDiscoveredManifest } = await import('../src/runtimes/pi/skills.js');
 
     const content = '---\nname: skill-placeholder\ndescription: test\n---\n\nBody';
@@ -202,7 +202,7 @@ test('addDiscoveredSkill concurrent writes do not corrupt manifest', async () =>
       'discovered/local/skill-e',
     ]);
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
@@ -333,11 +333,11 @@ test('find_skill returns empty query error', async () => {
 });
 
 test('create_skill validates and saves skill', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
 
     const { createSkillDiscoveryBackend } = await import('../src/runtimes/pi/toolBackends/skillDiscovery.js');
     const backend = createSkillDiscoveryBackend();
@@ -364,7 +364,7 @@ test('create_skill validates and saves skill', async () => {
       await backend.shutdown();
     }
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
@@ -413,11 +413,11 @@ test('create_skill rejects invalid content (missing description)', async () => {
 });
 
 test('create_skill uses frontmatter name as canonical when valid', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
 
     const { createSkillDiscoveryBackend } = await import('../src/runtimes/pi/toolBackends/skillDiscovery.js');
     const backend = createSkillDiscoveryBackend();
@@ -444,17 +444,17 @@ test('create_skill uses frontmatter name as canonical when valid', async () => {
       await backend.shutdown();
     }
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
 
 test('create_skill falls back to parameter name when frontmatter name is invalid', async () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = tmpDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = tmpDir;
 
     const { createSkillDiscoveryBackend } = await import('../src/runtimes/pi/toolBackends/skillDiscovery.js');
     const backend = createSkillDiscoveryBackend();
@@ -480,7 +480,7 @@ test('create_skill falls back to parameter name when frontmatter name is invalid
       await backend.shutdown();
     }
   } finally {
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
@@ -493,9 +493,9 @@ test('find_skill Tier-2 returns content directly when discovered name conflicts 
   // Query "gantt" → Tier 1 miss (no gantt in static) → Tier 2 hit on discovered "chart-maker".
   // But "chart-maker" name conflicts with static → should return content directly, not suggest /chart-maker.
 
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-test-'));
-  const origSkillsDir = process.env.AGEAF_SKILLS_DIR;
-  const origDiscoveredDir = process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-test-'));
+  const origSkillsDir = process.env.JIAOLEAF_SKILLS_DIR;
+  const origDiscoveredDir = process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
 
   try {
     const skillsDir = path.join(tmpDir, 'static');
@@ -507,7 +507,7 @@ test('find_skill Tier-2 returns content directly when discovered name conflicts 
         skills: [{ id: 'chart-maker', name: 'chart-maker', description: 'Makes charts', tags: [], path: 'chart-maker/SKILL.md' }],
       }),
     );
-    process.env.AGEAF_SKILLS_DIR = skillsDir;
+    process.env.JIAOLEAF_SKILLS_DIR = skillsDir;
 
     const discoveredDir = path.join(tmpDir, 'discovered');
     const discSkillDir = path.join(discoveredDir, 'vercel', 'chart-maker');
@@ -529,7 +529,7 @@ test('find_skill Tier-2 returns content directly when discovered name conflicts 
         }],
       }),
     );
-    process.env.AGEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
+    process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR = discoveredDir;
 
     const { createSkillDiscoveryBackend } = await import('../src/runtimes/pi/toolBackends/skillDiscovery.js');
     const backend = createSkillDiscoveryBackend();
@@ -556,8 +556,8 @@ test('find_skill Tier-2 returns content directly when discovered name conflicts 
       await backend.shutdown();
     }
   } finally {
-    restoreEnv('AGEAF_SKILLS_DIR', origSkillsDir);
-    restoreEnv('AGEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
+    restoreEnv('JIAOLEAF_SKILLS_DIR', origSkillsDir);
+    restoreEnv('JIAOLEAF_DISCOVERED_SKILLS_DIR', origDiscoveredDir);
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });

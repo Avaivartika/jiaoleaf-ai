@@ -14,5 +14,5 @@ test('Collapsed panel yields no layout width', () => {
   );
   const contents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.match(contents, /ageaf-panel--collapsed[\s\S]*width:\s*0/);
+  assert.match(contents, /jiaoleaf-panel--collapsed[\s\S]*width:\s*0/);
 });

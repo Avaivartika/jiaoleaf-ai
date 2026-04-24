@@ -276,7 +276,7 @@ export async function runPiJob(
       return;
     }
 
-    if (process.env.AGEAF_PI_MOCK === 'true') {
+    if (process.env.JIAOLEAF_PI_MOCK === 'true') {
       const selection = (payload.context as any)?.selection ?? '';
       emitEvent({ event: 'patch', data: { kind: 'replaceSelection', text: selection } });
       emitEvent(doneEvent);
@@ -313,9 +313,9 @@ export async function runPiJob(
     const fixPrompt = [
       'Fix the LaTeX compile error shown below.',
       'Output the corrected code between these markers:',
-      '<<<AGEAF_FIX>>>',
+      '<<<JIAOLEAF_FIX>>>',
       '... corrected code ...',
-      '<<<AGEAF_FIX_END>>>',
+      '<<<JIAOLEAF_FIX_END>>>',
       '',
       'Compile log:',
       compileLog,
@@ -360,10 +360,10 @@ export async function runPiJob(
 
     // Extract fix between markers
     if (typeof resultText === 'string' && resultText) {
-      const fixStart = resultText.indexOf('<<<AGEAF_FIX>>>');
-      const fixEnd = resultText.indexOf('<<<AGEAF_FIX_END>>>');
+      const fixStart = resultText.indexOf('<<<JIAOLEAF_FIX>>>');
+      const fixEnd = resultText.indexOf('<<<JIAOLEAF_FIX_END>>>');
       if (fixStart >= 0 && fixEnd > fixStart) {
-        const fixed = resultText.slice(fixStart + '<<<AGEAF_FIX>>>'.length, fixEnd).trim();
+        const fixed = resultText.slice(fixStart + '<<<JIAOLEAF_FIX>>>'.length, fixEnd).trim();
         if (fixed) {
           emitEvent({
             event: 'patch',
@@ -419,7 +419,7 @@ export async function runPiJob(
     return;
   }
 
-  // Post-process: extract remaining AGEAF_FILE_UPDATE blocks
+  // Post-process: extract remaining JIAOLEAF_FILE_UPDATE blocks
   if (hasOverleafFileBlocks && typeof resultText === 'string' && resultText) {
     const patches = buildReplaceRangePatchesFromFileUpdates({
       output: resultText,

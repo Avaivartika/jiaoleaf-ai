@@ -15,8 +15,8 @@ test('initToolRuntime + getToolCatalog returns expected tools', async () => {
     assert.ok(catalog.length >= 4, `expected at least 4 tools, got ${catalog.length}`);
 
     const names = catalog.map((t) => t.name);
-    assert.ok(names.includes('mcp__ageaf-mermaid__render_mermaid'), 'should have render_mermaid');
-    assert.ok(names.includes('mcp__ageaf-mermaid__list_mermaid_themes'), 'should have list_mermaid_themes');
+    assert.ok(names.includes('mcp__jiaoleaf-mermaid__render_mermaid'), 'should have render_mermaid');
+    assert.ok(names.includes('mcp__jiaoleaf-mermaid__list_mermaid_themes'), 'should have list_mermaid_themes');
     assert.ok(names.includes('web_search'), 'should have web_search');
     assert.ok(names.includes('web_fetch'), 'should have web_fetch');
   } finally {

@@ -55,13 +55,13 @@ Both now contain one unified package:
 6. If Codex CLI is not logged in yet, run the login helper once:
    - Windows: double-click `login-codex.cmd`
    - macOS/Linux: run `./login-codex.command`
-7. Start the local JiaoLeaf host:
-   - Windows: double-click `start-jiaoleaf-host.cmd`
-   - macOS/Linux: run `./start-jiaoleaf-host.command`
+7. Install the background native host so Chrome can start it without a separate terminal:
+   - Windows: double-click `install-native-host.cmd`, paste the extension ID from `chrome://extensions`, then restart Chrome.
+   - macOS/Linux: use the Native Messaging instructions below, or use the manual host command during development.
 8. Open an Overleaf project on SJTU Overleaf or official Overleaf.
 9. Select **OpenAI** in JiaoLeaf AI. Leave **Use OpenAI API directly** off unless you intentionally want API-key mode.
 
-Why the host exists: Chrome extensions cannot directly launch local CLI programs. The host is the local bridge that lets the browser panel talk to your already logged-in Codex CLI.
+Why the host exists: Chrome extensions cannot directly launch local CLI programs. Chrome Native Messaging is the browser-approved bridge that lets the panel talk to your already logged-in Codex CLI. If native messaging is not installed, the extension can still use the manual HTTP host fallback.
 
 ## Build From Source
 
@@ -127,15 +127,28 @@ git push origin v0.1.0
 
 You only need one provider to start.
 
-## Native Messaging And Homebrew
+## Native Messaging
+
+Native Messaging is the recommended production path because Chrome launches the local host on demand and no host terminal window has to stay open.
+
+### Windows
+
+1. Load the unpacked extension first.
+2. Copy the extension ID from `chrome://extensions`.
+3. Double-click `install-native-host.cmd`.
+4. Paste the extension ID when prompted.
+5. Restart Chrome.
+6. In **Settings -> Connection**, use **Native Messaging**.
+
+### macOS
 
 For production-style local usage on macOS, the companion host can be installed through Homebrew when a tap/cask release is available:
 
 ```bash
-brew install --cask ageaf-host
+brew install --cask jiaoleaf-host
 ```
 
-The native messaging identifier is currently kept as `com.ageaf.host` for compatibility with existing installed hosts.
+The native messaging identifier is `com.jiaoleaf.host`.
 
 If macOS blocks the host because the installer is unsigned, open:
 
@@ -200,6 +213,7 @@ Static extension assets are also exposed to the corresponding site origins.
 | `npm run repack` | Build and then zip |
 | `npm test` | Run extension tests |
 | `./login-codex.command` / `login-codex.cmd` | Log in to Codex CLI with a ChatGPT/Codex account |
+| `install-native-host.cmd` | Install Windows Chrome Native Messaging host so no separate host terminal is needed |
 | `./start-jiaoleaf-host.command` / `start-jiaoleaf-host.cmd` | Start the local host bridge |
 | `cd host && npm install` | Install host dependencies |
 | `cd host && npm run dev` | Start the host in development mode |

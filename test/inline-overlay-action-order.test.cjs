@@ -31,7 +31,7 @@ test('Inline diff overlay action buttons are ordered accept, reject, feedback', 
   );
 
   const additionStart = contents.indexOf(
-    "actions.className = 'ageaf-inline-diff-addition__actions';"
+    "actions.className = 'jiaoleaf-inline-diff-addition__actions';"
   );
   assert.ok(additionStart >= 0, 'expected addition overlay actions');
   const additionEnd = contents.indexOf('added.appendChild(actions);', additionStart);

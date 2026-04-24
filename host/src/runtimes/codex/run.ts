@@ -13,7 +13,7 @@ import {
   buildDocumentAttachmentBlock,
   type DocumentAttachmentEntry,
 } from '../../attachments/documentAttachments.js';
-import { extractAllAgeafPatchFences } from '../../patch/ageafPatchFence.js';
+import { extractAllJiaoLeafPatchFences } from '../../patch/jiaoleafPatchFence.js';
 import { buildReplaceRangePatchesFromFileUpdates, canonicalizePatchFilePath, computePerHunkReplacements, extractOverleafFilesFromMessage, findOverleafFileContent } from '../../patch/fileUpdate.js';
 import { validatePatch } from '../../validate.js';
 import { getCodexAppServer } from './appServer.js';
@@ -51,12 +51,13 @@ function acquirePidTurnLock(pid: number): { acquired: Promise<void>; release: ()
   };
 }
 
-// Debug logging to console (enabled via AGEAF_DEBUG_CLI=true)
-const debugToConsole = process.env.AGEAF_DEBUG_CLI === 'true';
-const traceAllCodexEvents = process.env.AGEAF_CODEX_TRACE_ALL_EVENTS === 'true';
-const DEFAULT_CODEX_TURN_TIMEOUT_MS = 120 * 1000;
+// Debug logging to console (enabled via JIAOLEAF_DEBUG_CLI=true)
+const debugToConsole = process.env.JIAOLEAF_DEBUG_CLI === 'true';
+const traceAllCodexEvents = process.env.JIAOLEAF_CODEX_TRACE_ALL_EVENTS === 'true';
+const DEFAULT_CODEX_TURN_TIMEOUT_MS = 300 * 1000;
 const DEFAULT_CODEX_COMPLETION_GRACE_MS = 60 * 60 * 1000;
-const DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS = 20 * 1000;
+const DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS = 8 * 1000;
+const MCP_SERVER_NAMES = ['jiaoleaf-mermaid', 'jiaoleaf-interactive'] as const;
 type CodexExecutionMode = 'app-server' | 'exec';
 function debugLog(message: string, data?: Record<string, unknown>) {
   if (!debugToConsole) return;
@@ -249,8 +250,8 @@ function writeProjectFilesToDisk(
   }
 }
 
-function ensureAgeafWorkspaceCwd(): string {
-  const workspace = path.join(os.homedir(), '.ageaf');
+function ensureJiaoLeafWorkspaceCwd(): string {
+  const workspace = path.join(os.homedir(), '.jiaoleaf');
   try {
     fs.mkdirSync(workspace, { recursive: true });
   } catch {
@@ -262,11 +263,11 @@ function ensureAgeafWorkspaceCwd(): string {
 function getCodexSessionCwd(threadId?: string): string {
   // If no threadId, use shared workspace
   if (!threadId || !threadId.trim()) {
-    return ensureAgeafWorkspaceCwd();
+    return ensureJiaoLeafWorkspaceCwd();
   }
 
-  // Per-thread session isolation under ~/.ageaf/codex/sessions/{threadId}
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'codex', 'sessions', threadId.trim());
+  // Per-thread session isolation under ~/.jiaoleaf/codex/sessions/{threadId}
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'codex', 'sessions', threadId.trim());
   try {
     fs.mkdirSync(sessionDir, { recursive: true });
   } catch {
@@ -470,7 +471,7 @@ function extractAssistantTextFromItem(value: any): string | null {
 }
 
 function getCodexExecFallbackStallMs(): number {
-  const raw = process.env.AGEAF_CODEX_EXEC_FALLBACK_STALL_MS;
+  const raw = process.env.JIAOLEAF_CODEX_EXEC_FALLBACK_STALL_MS;
   if (raw === undefined) return DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS;
   const parsed = Number(raw);
   if (!Number.isFinite(parsed)) return DEFAULT_CODEX_EXEC_FALLBACK_STALL_MS;
@@ -677,7 +678,7 @@ function shouldAwaitRetryableError(params: unknown, message: string) {
 }
 
 function getCodexTurnTimeoutMs() {
-  const raw = process.env.AGEAF_CODEX_TURN_TIMEOUT_MS;
+  const raw = process.env.JIAOLEAF_CODEX_TURN_TIMEOUT_MS;
   if (raw === undefined) return DEFAULT_CODEX_TURN_TIMEOUT_MS;
   const parsed = Number(raw);
   if (!Number.isFinite(parsed)) return DEFAULT_CODEX_TURN_TIMEOUT_MS;
@@ -685,7 +686,7 @@ function getCodexTurnTimeoutMs() {
 }
 
 function getCodexCompletionGraceMs() {
-  const raw = process.env.AGEAF_CODEX_COMPLETION_GRACE_MS;
+  const raw = process.env.JIAOLEAF_CODEX_COMPLETION_GRACE_MS;
   if (raw === undefined) return DEFAULT_CODEX_COMPLETION_GRACE_MS;
   const parsed = Number(raw);
   if (!Number.isFinite(parsed) || parsed < 0) return DEFAULT_CODEX_COMPLETION_GRACE_MS;
@@ -693,7 +694,7 @@ function getCodexCompletionGraceMs() {
 }
 
 function getCodexExecutionMode(): CodexExecutionMode {
-  const raw = String(process.env.AGEAF_CODEX_EXEC_MODE ?? '').trim().toLowerCase();
+  const raw = String(process.env.JIAOLEAF_CODEX_EXEC_MODE ?? '').trim().toLowerCase();
   if (raw === 'exec') return 'exec';
   if (raw === 'app-server' || raw === 'appserver') return 'app-server';
   return process.platform === 'win32' ? 'exec' : 'app-server';
@@ -733,9 +734,9 @@ function buildPrompt(
     '',
     'Machine-readable output (REQUIRED):',
     '- Append ONLY the rewritten selection between these markers at the VERY END of your message:',
-    '<<<AGEAF_REWRITE>>>',
+    '<<<JIAOLEAF_REWRITE>>>',
     '... rewritten selection here ...',
-    '<<<AGEAF_REWRITE_END>>>',
+    '<<<JIAOLEAF_REWRITE_END>>>',
     '- The markers MUST be the last thing you output (no text after).',
     '- Do NOT wrap the markers in Markdown code fences.',
   ].join('\n');
@@ -761,23 +762,23 @@ function buildPrompt(
 
   const patchGuidanceNoFiles = [
     'Patch proposals (Review Change Cards):',
-    '- Use an `ageaf-patch` block when the user wants to modify existing Overleaf content (rewrite/edit selection, fix LaTeX errors, etc).',
-    '- If the user is asking for general info or standalone writing (e.g. an abstract draft, explanation, ideas), do NOT emit `ageaf-patch` — put the full answer directly in the visible response.',
+    '- Use an `jiaoleaf-patch` block when the user wants to modify existing Overleaf content (rewrite/edit selection, fix LaTeX errors, etc).',
+    '- If the user is asking for general info or standalone writing (e.g. an abstract draft, explanation, ideas), do NOT emit `jiaoleaf-patch` — put the full answer directly in the visible response.',
     '- If you are writing NEW content (not editing existing), prefer a normal fenced code block (e.g. ```tex).',
-    '- If you DO want the user to apply edits to existing Overleaf content, include exactly one fenced code block labeled `ageaf-patch` containing ONLY a JSON object matching one of:',
+    '- If you DO want the user to apply edits to existing Overleaf content, include exactly one fenced code block labeled `jiaoleaf-patch` containing ONLY a JSON object matching one of:',
     '  - { "kind":"replaceSelection", "text":"..." } — Use when editing selected text',
     '  - { "kind":"replaceRangeInFile", "filePath":"main.tex", "expectedOldText":"...", "text":"...", "from":123, "to":456 } — Use for file-level edits',
     '  - { "kind":"insertAtCursor", "text":"..." } — Use ONLY when explicitly asked to insert at cursor',
-    '- Put all explanation/change notes outside the `ageaf-patch` code block.',
+    '- Put all explanation/change notes outside the `jiaoleaf-patch` code block.',
     '- Exception: Only skip the review change card if user explicitly says "no review card", "without patch", or "just show me the code".',
   ].join('\n');
 
   const patchGuidanceWithFiles = [
     'Patch proposals (Review Change Cards):',
-    '- CRITICAL: When `[Overleaf file: <path>]` blocks are present, ALWAYS use `AGEAF_FILE_UPDATE` markers (see "Overleaf file edits" below) for ALL edits to those files.',
-    '- Do NOT use `ageaf-patch` with `replaceRangeInFile` when file blocks are present — always use `AGEAF_FILE_UPDATE` instead.',
-    '- You MAY use `ageaf-patch` with { "kind":"replaceSelection", "text":"..." } ONLY when editing cursor-selected text (`Context.selection`).',
-    '- You MAY use `ageaf-patch` with { "kind":"insertAtCursor", "text":"..." } ONLY when explicitly asked to insert at cursor.',
+    '- CRITICAL: When `[Overleaf file: <path>]` blocks are present, ALWAYS use `JIAOLEAF_FILE_UPDATE` markers (see "Overleaf file edits" below) for ALL edits to those files.',
+    '- Do NOT use `jiaoleaf-patch` with `replaceRangeInFile` when file blocks are present — always use `JIAOLEAF_FILE_UPDATE` instead.',
+    '- You MAY use `jiaoleaf-patch` with { "kind":"replaceSelection", "text":"..." } ONLY when editing cursor-selected text (`Context.selection`).',
+    '- You MAY use `jiaoleaf-patch` with { "kind":"insertAtCursor", "text":"..." } ONLY when explicitly asked to insert at cursor.',
     '- If the user is asking for general info or standalone writing, do NOT emit patches — put the full answer directly in the visible response.',
     '- Put all explanation/change notes outside any code blocks.',
     '- Exception: Only skip the review change card if user explicitly says "no review card", "without patch", or "just show me the code".',
@@ -790,8 +791,8 @@ function buildPrompt(
     selectionPatchGuidance = [
       'Selection edits:',
       '- `Context.selection` contains the user\'s cursor-selected text.',
-      '- If the user wants to edit ONLY the selected text, use `ageaf-patch` with { "kind":"replaceSelection", "text":"..." }.',
-      '- If the user wants to edit the ENTIRE FILE (proofread, review, rewrite the whole document), use `AGEAF_FILE_UPDATE` markers instead.',
+      '- If the user wants to edit ONLY the selected text, use `jiaoleaf-patch` with { "kind":"replaceSelection", "text":"..." }.',
+      '- If the user wants to edit the ENTIRE FILE (proofread, review, rewrite the whole document), use `JIAOLEAF_FILE_UPDATE` markers instead.',
       '- The /humanizer skill should be used to ensure natural, human-sounding writing (removing AI patterns).',
       '- Keep the visible response short (change notes only, NOT the full rewritten text).',
     ].join('\n');
@@ -799,9 +800,9 @@ function buildPrompt(
     selectionPatchGuidance = [
       'Selection edits (CRITICAL - Review Change Card):',
       '- If `Context.selection` is present AND the user uses words like "proofread", "paraphrase", "rewrite", "rephrase", "refine", or "improve",',
-      '  you MUST emit an `ageaf-patch` review change card with { "kind":"replaceSelection", "text":"..." }.',
+      '  you MUST emit an `jiaoleaf-patch` review change card with { "kind":"replaceSelection", "text":"..." }.',
       '- This applies whether the user clicked "Rewrite Selection" button OR manually typed a message with these keywords while having text selected.',
-      '- Do NOT just output a normal fenced code block (e.g., ```tex) when editing selected content — use the ageaf-patch review change card instead.',
+      '- Do NOT just output a normal fenced code block (e.g., ```tex) when editing selected content — use the jiaoleaf-patch review change card instead.',
       '- The review change card allows users to accept/reject the changes before applying them to Overleaf.',
       '- EXCEPTION: Only use a normal code block if the user explicitly says "no review card", "without patch", or "just show me the code".',
       '- The /humanizer skill should be used to ensure natural, human-sounding writing (removing AI patterns).',
@@ -812,12 +813,12 @@ function buildPrompt(
   const fileUpdateInstructions = [
     'Overleaf file edits:',
     '- The user may include `[Overleaf file: <path>]` blocks showing the current file contents.',
-    '- The user may also include `[Overleaf reference: <path>]` blocks showing content of \\input-referenced files. These are READ-ONLY context — do NOT emit AGEAF_FILE_UPDATE markers for reference blocks.',
+    '- The user may also include `[Overleaf reference: <path>]` blocks showing content of \\input-referenced files. These are READ-ONLY context — do NOT emit JIAOLEAF_FILE_UPDATE markers for reference blocks.',
     '- If the user asks you to edit/proofread/rewrite a file, append the UPDATED FULL FILE CONTENTS inside these markers at the VERY END of your message:',
-    '<<<AGEAF_FILE_UPDATE path="main.tex">>>',
+    '<<<JIAOLEAF_FILE_UPDATE path="main.tex">>>',
     '... full updated file contents here ...',
-    '<<<AGEAF_FILE_UPDATE_END>>>',
-    '- Only emit AGEAF_FILE_UPDATE for files that appeared in `[Overleaf file:]` blocks (NOT `[Overleaf reference:]` blocks).',
+    '<<<JIAOLEAF_FILE_UPDATE_END>>>',
+    '- Only emit JIAOLEAF_FILE_UPDATE for files that appeared in `[Overleaf file:]` blocks (NOT `[Overleaf reference:]` blocks).',
     '- Do not wrap these markers in Markdown fences.',
     '- Do not output anything after the end marker.',
     '- Put change notes in normal Markdown BEFORE the markers.',
@@ -826,7 +827,7 @@ function buildPrompt(
 
   const skillsGuidance = [
     'Available Skills (CRITICAL):',
-    '- Ageaf supports built-in skill directives (e.g. /humanizer).',
+    '- JiaoLeaf supports built-in skill directives (e.g. /humanizer).',
     '- Available skills include:',
     '  • /humanizer - Remove AI writing patterns (inflated symbolism, promotional language, AI vocabulary)',
     '  • /paper-reviewer - Structured peer reviews following top-tier venue standards',
@@ -834,10 +835,10 @@ function buildPrompt(
     '  • /ml-paper-writing - Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM',
     '  • /doc-coauthoring - Structured workflow for co-authoring documentation and technical specs',
     '  • /mermaid - Render Mermaid diagrams (flowcharts, sequence, state, class, ER) via built-in MCP tool',
-    '  • /venue-compliance - Check LaTeX manuscript compliance with venue submission requirements (uses mcp__ageaf-interactive__ask_user for interactive Q&A)',
+    '  • /venue-compliance - Check LaTeX manuscript compliance with venue submission requirements (uses mcp__jiaoleaf-interactive__ask_user for interactive Q&A)',
     '- If the user includes a /skillName directive, you MUST follow that skill for this request.',
     '- Skill text (instructions) may be injected under "Additional instructions" for the request; do NOT try to locate skills on disk.',
-    '- These skills are part of the Ageaf system and do NOT require external installation.',
+    '- These skills are part of the JiaoLeaf system and do NOT require external installation.',
     '- Do not announce skill-loading or mention internal skill frameworks; just apply the skill.',
   ].join('\n');
 
@@ -913,7 +914,7 @@ function buildPrompt(
     : '';
 
   const baseParts = [
-    'You are Ageaf, a concise Overleaf assistant.',
+    'You are JiaoLeaf, a concise Overleaf assistant.',
     'Respond in Markdown, keep it concise.',
     action === 'chat' || action === 'notation_draft_fixes'
       ? patchGuidance
@@ -958,9 +959,23 @@ function resolveStdioServerCommand(filename: string): StdioServerCommand {
       }
 
       const srcPath = path.join(dir, 'src', 'mcp', filename.replace(/\.js$/, '.ts'));
-      const tsxPath = path.join(dir, 'node_modules', '.bin', 'tsx');
+      const tsxCliPath = path.join(dir, 'node_modules', 'tsx', 'dist', 'cli.mjs');
+      if (fs.existsSync(srcPath) && fs.existsSync(tsxCliPath)) {
+        return {
+          command: 'node',
+          args: [tsxCliPath, srcPath],
+          displayPath: srcPath,
+        };
+      }
+
+      const tsxBinName = process.platform === 'win32' ? 'tsx.cmd' : 'tsx';
+      const tsxPath = path.join(dir, 'node_modules', '.bin', tsxBinName);
       if (fs.existsSync(srcPath) && fs.existsSync(tsxPath)) {
-        return { command: tsxPath, args: [srcPath], displayPath: srcPath };
+        return {
+          command: tsxPath,
+          args: [srcPath],
+          displayPath: srcPath,
+        };
       }
 
       return { command: 'node', args: [distPath], displayPath: distPath };
@@ -1217,9 +1232,18 @@ async function ensureMcpServersRegistered(
     PATH: getEnhancedPath(customEnv.PATH, resolvedCliPath),
   };
 
+  const legacyPrefix = ['a', 'ge', 'af'].join('');
+  const legacyMcpNames = [`${legacyPrefix}-mermaid`, `${legacyPrefix}-interactive`];
+  for (const name of legacyMcpNames) {
+    await execCodexWithFallback(commandCandidates, ['mcp', 'remove', name], {
+      timeout: 15000,
+      env,
+    }).catch(() => {});
+  }
+
   const servers = [
-    { name: 'ageaf-mermaid', ...mermaidStdioServer },
-    { name: 'ageaf-interactive', ...askUserStdioServer },
+    { name: MCP_SERVER_NAMES[0], ...mermaidStdioServer },
+    { name: MCP_SERVER_NAMES[1], ...askUserStdioServer },
   ];
 
   let allSucceeded = true;
@@ -1260,7 +1284,7 @@ export async function runCodexJob(
   emitEvent: EmitEvent,
   options?: { jobId?: string }
 ) {
-  if (process.env.AGEAF_CODEX_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CODEX_MOCK === 'true') {
     emitEvent({ event: 'delta', data: { text: 'Mock response.' } });
     emitEvent({
       event: 'usage',
@@ -1526,21 +1550,21 @@ export async function runCodexJob(
   let done = false;
   const action = payload.action ?? 'chat';
   const shouldHidePatchPayload = true;
-  const REWRITE_START = '<<<AGEAF_REWRITE>>>';
-  const REWRITE_END = '<<<AGEAF_REWRITE_END>>>';
-  const rewriteStartRe = /<<<\s*AGEAF_REWRITE\s*>>>/i;
-  const rewriteEndRe = /<<<\s*AGEAF_REWRITE_END\s*>>>/i;
+  const REWRITE_START = '<<<JIAOLEAF_REWRITE>>>';
+  const REWRITE_END = '<<<JIAOLEAF_REWRITE_END>>>';
+  const rewriteStartRe = /<<<\s*JIAOLEAF_REWRITE\s*>>>/i;
+  const rewriteEndRe = /<<<\s*JIAOLEAF_REWRITE_END\s*>>>/i;
   let fullText = '';
   let visibleBuffer = '';
   let patchPayloadStarted = false;
   let patchEmitted = false;
   const patchPayloadStartRe =
-    /```(?:ageaf[-_]?patch)|<<<\s*AGEAF_REWRITE\s*>>>|<<<\s*AGEAF_FILE_UPDATE\b/i;
+    /```(?:jiaoleaf[-_]?patch)|<<<\s*JIAOLEAF_REWRITE\s*>>>|<<<\s*JIAOLEAF_FILE_UPDATE\b/i;
   const HOLD_BACK_CHARS = 32;
   let payloadBuffer = '';
   const emittedPatchFiles = new Set<string>();
   const emittedFileStarted = new Set<string>();
-  const fileUpdateOpenRe = /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
+  const fileUpdateOpenRe = /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
   const hasOverleafFileBlocks = messageWithAttachments.includes('[Overleaf file:');
   const overleafFiles = hasOverleafFileBlocks
     ? extractOverleafFilesFromMessage(messageWithAttachments)
@@ -1549,7 +1573,7 @@ export async function runCodexJob(
   // --- Diagram fence buffering (mirrors Claude agent.ts) ---
   let insideDiagramFence = false;
   let diagramBuffer = '';
-  const diagramOpenRe = /```ageaf-diagram[^\n]*\n/i;
+  const diagramOpenRe = /```jiaoleaf-diagram[^\n]*\n/i;
 
   const extractAndEmitCompletedBlocks = () => {
     if (overleafFiles.length === 0) return;
@@ -1569,7 +1593,7 @@ export async function runCodexJob(
     }
 
     const blockRe =
-      /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*AGEAF_FILE_UPDATE_END\s*>>>/gi;
+      /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*JIAOLEAF_FILE_UPDATE_END\s*>>>/gi;
     let match: RegExpExecArray | null;
     let lastMatchEnd = 0;
 
@@ -1620,7 +1644,7 @@ export async function runCodexJob(
           const nlPos = restAfterClose.indexOf('\n');
           const closingLineLen = nlPos >= 0 ? nlPos + 1 : restAfterClose.length;
           const fenceContent = diagramBuffer.slice(0, closeIdx);
-          const completeFence = '```ageaf-diagram\n' + fenceContent + '\n```\n';
+          const completeFence = '```jiaoleaf-diagram\n' + fenceContent + '\n```\n';
           emitEvent({ event: 'delta', data: { text: completeFence } });
           insideDiagramFence = false;
           const remaining = diagramBuffer.slice(afterBackticks + closingLineLen);
@@ -1675,7 +1699,7 @@ export async function runCodexJob(
 
   const flushVisibleBuffer = () => {
     if (insideDiagramFence) {
-      const partialFence = '```ageaf-diagram\n' + diagramBuffer + '\n```\n';
+      const partialFence = '```jiaoleaf-diagram\n' + diagramBuffer + '\n```\n';
       emitEvent({ event: 'delta', data: { text: partialFence } });
       insideDiagramFence = false;
       diagramBuffer = '';
@@ -1828,11 +1852,11 @@ export async function runCodexJob(
   };
 
   const emitPatchesFromCompletedText = () => {
-    // Process ageaf-patch fences with per-file dedup — skip any replaceRangeInFile
+    // Process jiaoleaf-patch fences with per-file dedup — skip any replaceRangeInFile
     // whose canonical filePath was already emitted via FILE_UPDATE streaming.
     // No blanket patchEmitted gate: fences for other files must still be processed.
     {
-      const fences = extractAllAgeafPatchFences(fullText);
+      const fences = extractAllJiaoLeafPatchFences(fullText);
       for (const fence of fences) {
         try {
           const patch = validatePatch(JSON.parse(fence));

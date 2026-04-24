@@ -39,8 +39,8 @@ const VALID_SKILL_NAME_REGEX = /^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$/;
 function resolveRepoRoot(): string {
   // Walk up from this file's directory until we find a directory containing package.json (host root),
   // then go one level up to reach the repo root.
-  if (process.env.AGEAF_SKILLS_DIR) {
-    return path.dirname(process.env.AGEAF_SKILLS_DIR);
+  if (process.env.JIAOLEAF_SKILLS_DIR) {
+    return path.dirname(process.env.JIAOLEAF_SKILLS_DIR);
   }
 
   const __filename = fileURLToPath(import.meta.url);
@@ -59,29 +59,29 @@ function resolveRepoRoot(): string {
 }
 
 function resolveManifestPath(): string {
-  if (process.env.AGEAF_SKILLS_DIR) {
-    return path.join(process.env.AGEAF_SKILLS_DIR, 'manifest.json');
+  if (process.env.JIAOLEAF_SKILLS_DIR) {
+    return path.join(process.env.JIAOLEAF_SKILLS_DIR, 'manifest.json');
   }
   return path.join(resolveRepoRoot(), 'public', 'skills', 'manifest.json');
 }
 
 function resolveSkillPath(skill: SkillEntry): string {
-  // Discovered skills are stored under ~/.ageaf/pi/skills/
+  // Discovered skills are stored under ~/.jiaoleaf/pi/skills/
   if (skill.id.startsWith('discovered/')) {
     return path.join(resolveDiscoveredDir(), skill.path);
   }
-  return process.env.AGEAF_SKILLS_DIR
-    ? path.join(process.env.AGEAF_SKILLS_DIR, skill.path.replace(/^skills\//, ''))
+  return process.env.JIAOLEAF_SKILLS_DIR
+    ? path.join(process.env.JIAOLEAF_SKILLS_DIR, skill.path.replace(/^skills\//, ''))
     : path.join(resolveRepoRoot(), 'public', skill.path);
 }
 
 // --- Discovered skills infrastructure ---
 
 export function resolveDiscoveredDir(): string {
-  if (process.env.AGEAF_DISCOVERED_SKILLS_DIR) {
-    return process.env.AGEAF_DISCOVERED_SKILLS_DIR;
+  if (process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR) {
+    return process.env.JIAOLEAF_DISCOVERED_SKILLS_DIR;
   }
-  return path.join(os.homedir(), '.ageaf', 'pi', 'skills');
+  return path.join(os.homedir(), '.jiaoleaf', 'pi', 'skills');
 }
 
 function resolveDiscoveredManifestPath(): string {
@@ -107,7 +107,7 @@ export function loadStaticManifest(): SkillsManifest {
 }
 
 /**
- * Load the discovered skills manifest from ~/.ageaf/pi/skills/discovered-manifest.json.
+ * Load the discovered skills manifest from ~/.jiaoleaf/pi/skills/discovered-manifest.json.
  * Returns an empty manifest if the file doesn't exist or is invalid.
  */
 export function loadDiscoveredManifest(): DiscoveredManifest {
@@ -160,7 +160,7 @@ let manifestWriteChain: Promise<void> = Promise.resolve();
 
 /**
  * Add a discovered skill to the local cache directory.
- * Writes SKILL.md to ~/.ageaf/pi/skills/{source}/{name}/SKILL.md
+ * Writes SKILL.md to ~/.jiaoleaf/pi/skills/{source}/{name}/SKILL.md
  * and updates discovered-manifest.json.
  */
 export async function addDiscoveredSkill(
@@ -348,7 +348,7 @@ export function buildSkillsGuidance(
 
   const lines = [
     'Available Skills (CRITICAL):',
-    '- Ageaf supports skill directives.',
+    '- JiaoLeaf supports skill directives.',
     '- Available skills include:',
   ];
 
@@ -387,7 +387,7 @@ export function buildSkillsGuidance(
     );
   } else {
     lines.push(
-      '- These skills are part of the Ageaf system and do NOT require external installation.',
+      '- These skills are part of the JiaoLeaf system and do NOT require external installation.',
     );
   }
 

@@ -7,8 +7,8 @@
  * Icons are intentionally line-based to sit quietly beside Overleaf controls.
  *
  * Usage:
- *   import { SettingsIcon, SendIcon } from './ageaf-icons';
- *   <SettingsIcon class="ageaf-toolbar-icon" />
+ *   import { SettingsIcon, SendIcon } from './jiaoleaf-icons';
+ *   <SettingsIcon class="jiaoleaf-toolbar-icon" />
  *
  * ═══════════════════════════════════════════════════════════════════════════
  */
@@ -34,7 +34,7 @@ export const ProductMarkIcon = ({ class: className, style }: IconProps) => (
   >
     {/* Compact academic assistant mark. */}
     <defs>
-      <linearGradient id="ageaf-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <linearGradient id="jiaoleaf-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#4dd4a4" />
         <stop offset="100%" stop-color="#39b98a" />
       </linearGradient>
@@ -43,7 +43,7 @@ export const ProductMarkIcon = ({ class: className, style }: IconProps) => (
     {/* Main triangle */}
     <path
       d="M16 4L28 28H4L16 4Z"
-      fill="url(#ageaf-logo-gradient)"
+      fill="url(#jiaoleaf-logo-gradient)"
       stroke="#2a9970"
       stroke-width="1.5"
       stroke-linejoin="round"

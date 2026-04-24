@@ -167,7 +167,7 @@ const WebFetchParams = Type.Object({
 });
 
 /**
- * Search via Brave Search API (requires AGEAF_PI_WEB_SEARCH_API_KEY).
+ * Search via Brave Search API (requires JIAOLEAF_PI_WEB_SEARCH_API_KEY).
  */
 async function searchViaBrave(
   query: string,
@@ -215,7 +215,7 @@ async function searchViaDuckDuckGo(
   const response = await fetch(ddgUrl.toString(), {
     method: 'POST',
     headers: {
-      'User-Agent': 'Ageaf-WebSearch/1.0',
+      'User-Agent': 'JiaoLeaf-WebSearch/1.0',
       'Accept': 'text/html',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
@@ -271,7 +271,7 @@ export function createWebSearchTool(): AgentTool<typeof WebSearchParams> {
     description: 'Search the web for information. Returns titles, URLs, and snippets.',
     parameters: WebSearchParams,
     async execute(_toolCallId, params) {
-      const apiKey = process.env.AGEAF_PI_WEB_SEARCH_API_KEY?.trim();
+      const apiKey = process.env.JIAOLEAF_PI_WEB_SEARCH_API_KEY?.trim();
       const count = Math.min(Math.max(params.count ?? 5, 1), 20);
 
       let results: { title: string; url: string; snippet: string }[];
@@ -312,7 +312,7 @@ export function createWebFetchTool(): AgentTool<typeof WebFetchParams> {
     description: 'Fetch a web page URL and extract its text content. Supports http/https only. Blocks access to private/internal networks.',
     parameters: WebFetchParams,
     async execute(_toolCallId, params) {
-      const allowPrivate = process.env.AGEAF_PI_WEB_FETCH_ALLOW_PRIVATE === 'true';
+      const allowPrivate = process.env.JIAOLEAF_PI_WEB_FETCH_ALLOW_PRIVATE === 'true';
       const maxLength = params.maxLength ?? 100_000;
       let currentUrl = params.url;
 
@@ -326,7 +326,7 @@ export function createWebFetchTool(): AgentTool<typeof WebFetchParams> {
           redirect: 'manual',
           signal: AbortSignal.timeout(10_000),
           headers: {
-            'User-Agent': 'Ageaf-WebFetch/1.0',
+            'User-Agent': 'JiaoLeaf-WebFetch/1.0',
             'Accept': 'text/html,application/xhtml+xml,text/plain,*/*;q=0.8',
           },
         });

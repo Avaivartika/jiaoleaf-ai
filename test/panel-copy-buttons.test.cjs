@@ -7,10 +7,10 @@ test('Assistant responses include copy buttons for quotes and full response', ()
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-message__copy/);
-  assert.match(contents, /ageaf-message__copy-response/);
+  assert.match(contents, /jiaoleaf-message__copy/);
+  assert.match(contents, /jiaoleaf-message__copy-response/);
   assert.match(contents, /Copy response/);
-  assert.match(contents, /ageaf-message__copy-check/);
+  assert.match(contents, /jiaoleaf-message__copy-check/);
 });
 
 test('Quote copy extraction uses markdown parsing and attachment label detection', () => {
@@ -26,7 +26,7 @@ test('Copy response action is left-aligned', () => {
   const cssPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'panel.css');
   const contents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.match(contents, /ageaf-message__response-actions/);
+  assert.match(contents, /jiaoleaf-message__response-actions/);
   assert.match(contents, /justify-content:\s*flex-start/);
 });
 

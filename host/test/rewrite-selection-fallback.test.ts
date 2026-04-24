@@ -6,9 +6,9 @@ import { extractRewriteTextWithFallback } from '../src/workflows/rewriteSelectio
 test('extractRewriteTextWithFallback: prefers markers when present', () => {
   const input = [
     'notes',
-    '<<<AGEAF_REWRITE>>>',
+    '<<<JIAOLEAF_REWRITE>>>',
     'Hello \\cite{a}.',
-    '<<<AGEAF_REWRITE_END>>>',
+    '<<<JIAOLEAF_REWRITE_END>>>',
     'should be ignored',
   ].join('\n');
   const out = extractRewriteTextWithFallback(input);

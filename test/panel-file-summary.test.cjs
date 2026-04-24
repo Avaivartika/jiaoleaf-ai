@@ -59,15 +59,15 @@ test('Panel anchors summary card between chat and runtime and only when pending 
   assert.match(contents, /const showSummaryCard = totalPending > 0;/);
   assert.match(
     contents,
-    /<\/div>\s*\{showSummaryCard \? \(\s*<FileChangeSummaryCard[\s\S]*?\) : null\}\s*<div class="ageaf-runtime">/
+    /<\/div>\s*\{showSummaryCard \? \(\s*<FileChangeSummaryCard[\s\S]*?\) : null\}\s*<div class="jiaoleaf-runtime">/
   );
 });
 
 test('contentScript exposes navigateToFile bridge call', () => {
   const contents = read('src/iso/contentScript.ts');
 
-  assert.match(contents, /const EDITOR_FILE_NAVIGATE_REQUEST_EVENT = 'ageaf:editor:file-navigate:request';/);
-  assert.match(contents, /const EDITOR_FILE_NAVIGATE_RESPONSE_EVENT = 'ageaf:editor:file-navigate:response';/);
+  assert.match(contents, /const EDITOR_FILE_NAVIGATE_REQUEST_EVENT = 'jiaoleaf:editor:file-navigate:request';/);
+  assert.match(contents, /const EDITOR_FILE_NAVIGATE_RESPONSE_EVENT = 'jiaoleaf:editor:file-navigate:response';/);
   assert.match(contents, /function navigateToFile\(name: string\)/);
   assert.match(contents, /window\.addEventListener\(EDITOR_FILE_NAVIGATE_RESPONSE_EVENT,\s*onFileNavigateResponse as EventListener\)/);
   assert.match(contents, /navigateToFile,/);
@@ -76,8 +76,8 @@ test('contentScript exposes navigateToFile bridge call', () => {
 test('editor bridge listens for file navigation requests', () => {
   const contents = read('src/main/editorBridge/bridge.ts');
 
-  assert.match(contents, /const FILE_NAVIGATE_REQUEST_EVENT = 'ageaf:editor:file-navigate:request';/);
-  assert.match(contents, /const FILE_NAVIGATE_RESPONSE_EVENT = 'ageaf:editor:file-navigate:response';/);
+  assert.match(contents, /const FILE_NAVIGATE_REQUEST_EVENT = 'jiaoleaf:editor:file-navigate:request';/);
+  assert.match(contents, /const FILE_NAVIGATE_RESPONSE_EVENT = 'jiaoleaf:editor:file-navigate:response';/);
   assert.match(contents, /async function onFileNavigateRequest\(event: Event\)/);
   assert.match(contents, /window\.addEventListener\(FILE_NAVIGATE_REQUEST_EVENT,\s*onFileNavigateRequest as EventListener\)/);
 });
@@ -86,7 +86,7 @@ test('summary card component and CSS class exist', () => {
   const panelCss = read('src/iso/panel/panel.css');
   const summaryCard = read('src/iso/panel/FileChangeSummaryCard.tsx');
 
-  assert.match(panelCss, /\.ageaf-file-summary\b/);
+  assert.match(panelCss, /\.jiaoleaf-file-summary\b/);
   assert.match(summaryCard, /export function FileChangeSummaryCard/);
 });
 
@@ -102,7 +102,7 @@ test('GroupedPatchReviewCard component exists', () => {
   const contents = read('src/iso/panel/GroupedPatchReviewCard.tsx');
 
   assert.match(contents, /export function GroupedPatchReviewCard/);
-  assert.match(contents, /ageaf-grouped-patch__separator/);
+  assert.match(contents, /jiaoleaf-grouped-patch__separator/);
 });
 
 test('Panel memoizes grouped patch maps from messages', () => {
@@ -132,7 +132,7 @@ test('GroupedPatchReviewCard derives status counts in a single pass and guards e
 test('GroupedPatchReviewCard keeps a header expand control for full diff modal', () => {
   const contents = read('src/iso/panel/GroupedPatchReviewCard.tsx');
 
-  assert.match(contents, /class=\"ageaf-patch-review__expand-btn\"/);
+  assert.match(contents, /class=\"jiaoleaf-patch-review__expand-btn\"/);
   assert.match(contents, /aria-label=\"Expand diff to full screen\"/);
   assert.match(contents, /const \[showModal,\s*setShowModal\] = useState\(false\);/);
 });
@@ -140,9 +140,9 @@ test('GroupedPatchReviewCard keeps a header expand control for full diff modal',
 test('expand control styles use visible foreground and chrome token', () => {
   const panelCss = read('src/iso/panel/panel.css');
 
-  assert.match(panelCss, /\.ageaf-patch-review__expand-btn \{[^}]*color:\s*var\(--ageaf-panel-text\);/);
-  assert.match(panelCss, /\.ageaf-patch-review__expand-btn \{[^}]*border:\s*1px solid /);
-  assert.match(panelCss, /\.ageaf-patch-review__expand-icon \{[^}]*color:\s*var\(--ageaf-panel-text\);/);
+  assert.match(panelCss, /\.jiaoleaf-patch-review__expand-btn \{[^}]*color:\s*var\(--jiaoleaf-panel-text\);/);
+  assert.match(panelCss, /\.jiaoleaf-patch-review__expand-btn \{[^}]*border:\s*1px solid /);
+  assert.match(panelCss, /\.jiaoleaf-patch-review__expand-icon \{[^}]*color:\s*var\(--jiaoleaf-panel-text\);/);
 });
 
 test('Panel keeps replaceRangeInFile groups across status transitions', () => {

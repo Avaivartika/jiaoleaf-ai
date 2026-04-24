@@ -11,7 +11,7 @@ const host = process.env.HOST ?? '127.0.0.1';
 server
   .listen({ port, host })
   .then((address) => {
-    console.log(`Ageaf host listening on ${address}`);
+    console.log(`JiaoLeaf host listening on ${address}`);
   })
   .catch((error) => {
     console.error(error);

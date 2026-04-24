@@ -74,8 +74,8 @@ type JobRequestPayload = {
 };
 
 
-function ensureAgeafWorkspaceCwd(): string {
-  const workspace = path.join(os.homedir(), '.ageaf');
+function ensureJiaoLeafWorkspaceCwd(): string {
+  const workspace = path.join(os.homedir(), '.jiaoleaf');
   try {
     fs.mkdirSync(workspace, { recursive: true });
   } catch {
@@ -125,8 +125,8 @@ export function registerJobs(server: FastifyInstance) {
     if (provider === 'codex') {
       const threadId = payload.runtime?.codex?.threadId;
       const sessionCwd = threadId
-        ? path.join(os.homedir(), '.ageaf', 'codex', 'sessions', threadId.trim())
-        : ensureAgeafWorkspaceCwd();
+        ? path.join(os.homedir(), '.jiaoleaf', 'codex', 'sessions', threadId.trim())
+        : ensureJiaoLeafWorkspaceCwd();
       try {
         fs.mkdirSync(sessionCwd, { recursive: true });
       } catch {

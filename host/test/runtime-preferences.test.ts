@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 test('POST /v1/runtime/claude/preferences updates model and thinking mode', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -33,8 +33,8 @@ test('POST /v1/runtime/claude/preferences updates model and thinking mode', asyn
     assert.equal(body.currentModel, 'claude-sonnet-4-5');
     assert.equal(body.currentThinkingMode, 'high');
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await server.close();
   }
 });

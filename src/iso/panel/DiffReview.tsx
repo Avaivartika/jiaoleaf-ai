@@ -25,7 +25,7 @@ if (!ResolvedThemes.has('github-light')) {
   ResolvedThemes.set('github-light', githubLight as any);
 }
 
-const SHADOW_OVERRIDES_STYLE_ID = 'ageaf-diff-shadow-overrides';
+const SHADOW_OVERRIDES_STYLE_ID = 'jiaoleaf-diff-shadow-overrides';
 
 function formatElapsed(seconds: number) {
   const s = Math.max(0, Math.floor(seconds));
@@ -108,7 +108,7 @@ function injectShadowOverrides(shadowRoot: ShadowRoot, options: { wrap: boolean 
     }
 
     /* Tiny copy button in added regions (superscript-ish). */
-    .ageaf-diff-copy-btn {
+    .jiaoleaf-diff-copy-btn {
       all: unset;
       display: inline-flex;
       align-items: center;
@@ -122,16 +122,16 @@ function injectShadowOverrides(shadowRoot: ShadowRoot, options: { wrap: boolean 
       z-index: 10;
     }
 
-    [data-line-type="change-addition"]:hover .ageaf-diff-copy-btn,
-    [data-line-type="addition"]:hover .ageaf-diff-copy-btn { opacity: 0.7; }
-    .ageaf-diff-copy-btn:hover { opacity: 1 !important; background: rgba(255, 255, 255, 0.15); }
+    [data-line-type="change-addition"]:hover .jiaoleaf-diff-copy-btn,
+    [data-line-type="addition"]:hover .jiaoleaf-diff-copy-btn { opacity: 0.7; }
+    .jiaoleaf-diff-copy-btn:hover { opacity: 1 !important; background: rgba(255, 255, 255, 0.15); }
 
-    .ageaf-diff-copy-btn.is-copied { opacity: 1; background: rgba(46, 160, 67, 0.20); }
-    .ageaf-diff-copy-btn.is-failed { opacity: 1; background: rgba(220, 38, 38, 0.20); }
+    .jiaoleaf-diff-copy-btn.is-copied { opacity: 1; background: rgba(46, 160, 67, 0.20); }
+    .jiaoleaf-diff-copy-btn.is-failed { opacity: 1; background: rgba(220, 38, 38, 0.20); }
 
-    .ageaf-diff-copy-btn .ageaf-diff-copy-btn__icon-check { display: none; }
-    .ageaf-diff-copy-btn.is-copied .ageaf-diff-copy-btn__icon-copy { display: none; }
-    .ageaf-diff-copy-btn.is-copied .ageaf-diff-copy-btn__icon-check { display: inline; }
+    .jiaoleaf-diff-copy-btn .jiaoleaf-diff-copy-btn__icon-check { display: none; }
+    .jiaoleaf-diff-copy-btn.is-copied .jiaoleaf-diff-copy-btn__icon-copy { display: none; }
+    .jiaoleaf-diff-copy-btn.is-copied .jiaoleaf-diff-copy-btn__icon-check { display: inline; }
 
     /* Optional word-wrap (used in the expand modal). */
   `;
@@ -253,7 +253,7 @@ function injectCopyButtons(shadowRoot: ShadowRoot) {
     const firstLine = segment[0];
     if (!firstLine) continue;
     const host = getColumnNumber(firstLine) ?? getColumnContent(firstLine) ?? firstLine;
-    if (host.querySelector('.ageaf-diff-copy-btn')) continue;
+    if (host.querySelector('.jiaoleaf-diff-copy-btn')) continue;
 
     const text = segment
       .map((line) => getLineContent(line))
@@ -262,14 +262,14 @@ function injectCopyButtons(shadowRoot: ShadowRoot) {
     if (!text.trim()) continue;
 
     const button = document.createElement('button');
-    button.className = 'ageaf-diff-copy-btn';
+    button.className = 'jiaoleaf-diff-copy-btn';
     button.type = 'button';
     button.innerHTML = `
-      <svg class="ageaf-diff-copy-btn__icon-copy" viewBox="0 0 16 16" width="12" height="12">
+      <svg class="jiaoleaf-diff-copy-btn__icon-copy" viewBox="0 0 16 16" width="12" height="12">
         <path fill="currentColor" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/>
         <path fill="currentColor" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/>
       </svg>
-      <svg class="ageaf-diff-copy-btn__icon-check" viewBox="0 0 16 16" width="12" height="12">
+      <svg class="jiaoleaf-diff-copy-btn__icon-check" viewBox="0 0 16 16" width="12" height="12">
         <path fill="currentColor" d="M6.5 11.2 3.8 8.5l-1 1 3.7 3.7L14.2 5.5l-1-1z"/>
       </svg>
     `;
@@ -308,28 +308,28 @@ function renderFallback(
   wrapper.innerHTML = '';
 
   const container = document.createElement('div');
-  container.className = 'ageaf-diff-review__fallback';
+  container.className = 'jiaoleaf-diff-review__fallback';
 
   const title = document.createElement('div');
-  title.className = 'ageaf-diff-review__fallback-title';
+  title.className = 'jiaoleaf-diff-review__fallback-title';
   title.textContent = input.title;
   container.appendChild(title);
 
   const diffLabel = document.createElement('div');
-  diffLabel.className = 'ageaf-diff-review__fallback-label';
+  diffLabel.className = 'jiaoleaf-diff-review__fallback-label';
   diffLabel.textContent = 'Diff (fallback)';
   container.appendChild(diffLabel);
 
   const diffBox = document.createElement('div');
-  diffBox.className = 'ageaf-diff-review__fallback-diff';
+  diffBox.className = 'jiaoleaf-diff-review__fallback-diff';
 
   for (const change of diffLines(input.oldText, input.newText)) {
     const prefix = change.added ? '+' : change.removed ? '-' : ' ';
     const className = change.added
-      ? 'ageaf-diff-review__fallback-diff-line is-added'
+      ? 'jiaoleaf-diff-review__fallback-diff-line is-added'
       : change.removed
-        ? 'ageaf-diff-review__fallback-diff-line is-removed'
-        : 'ageaf-diff-review__fallback-diff-line';
+        ? 'jiaoleaf-diff-review__fallback-diff-line is-removed'
+        : 'jiaoleaf-diff-review__fallback-diff-line';
     const rawLines = change.value.split('\n');
     for (let i = 0; i < rawLines.length; i++) {
       const line = rawLines[i];
@@ -344,22 +344,22 @@ function renderFallback(
   container.appendChild(diffBox);
 
   const oldLabel = document.createElement('div');
-  oldLabel.className = 'ageaf-diff-review__fallback-label';
+  oldLabel.className = 'jiaoleaf-diff-review__fallback-label';
   oldLabel.textContent = 'Current text';
   container.appendChild(oldLabel);
 
   const oldPre = document.createElement('pre');
-  oldPre.className = 'ageaf-diff-review__fallback-code';
+  oldPre.className = 'jiaoleaf-diff-review__fallback-code';
   oldPre.textContent = input.oldText;
   container.appendChild(oldPre);
 
   const newLabel = document.createElement('div');
-  newLabel.className = 'ageaf-diff-review__fallback-label';
+  newLabel.className = 'jiaoleaf-diff-review__fallback-label';
   newLabel.textContent = 'Proposed text';
   container.appendChild(newLabel);
 
   const newPre = document.createElement('pre');
-  newPre.className = 'ageaf-diff-review__fallback-code';
+  newPre.className = 'jiaoleaf-diff-review__fallback-code';
   newPre.textContent = input.newText;
   container.appendChild(newPre);
 
@@ -394,12 +394,12 @@ export function DiffReview({
       // Show a lightweight progress line immediately so the UI doesn't feel stuck.
       wrapper.innerHTML = '';
       const statusEl = document.createElement('div');
-      statusEl.className = 'ageaf-diff-review__status';
+      statusEl.className = 'jiaoleaf-diff-review__status';
       statusEl.textContent = `Rendering diff · ${formatElapsed(0)}`;
       wrapper.appendChild(statusEl);
 
       const host = document.createElement('div');
-      host.className = 'ageaf-diff-review__host';
+      host.className = 'jiaoleaf-diff-review__host';
       wrapper.appendChild(host);
 
       const tickId = window.setInterval(() => {
@@ -495,5 +495,5 @@ export function DiffReview({
     };
   }, [oldText, newText, fileName, startLineNumber, animate, wrap, isLightMode]);
 
-  return <div class="ageaf-diff-review" ref={wrapperRef} />;
+  return <div class="jiaoleaf-diff-review" ref={wrapperRef} />;
 }

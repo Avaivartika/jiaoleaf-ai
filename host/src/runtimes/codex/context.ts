@@ -13,8 +13,8 @@ export type CodexContextUsage = {
   percentage: number | null;
 };
 
-function ensureAgeafWorkspaceCwd(): string {
-  const workspace = path.join(os.homedir(), '.ageaf');
+function ensureJiaoLeafWorkspaceCwd(): string {
+  const workspace = path.join(os.homedir(), '.jiaoleaf');
   try {
     fs.mkdirSync(workspace, { recursive: true });
   } catch {
@@ -25,9 +25,9 @@ function ensureAgeafWorkspaceCwd(): string {
 
 function getCodexSessionCwd(threadId?: string): string {
   if (!threadId || !threadId.trim()) {
-    return ensureAgeafWorkspaceCwd();
+    return ensureJiaoLeafWorkspaceCwd();
   }
-  const sessionDir = path.join(os.homedir(), '.ageaf', 'codex', 'sessions', threadId.trim());
+  const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'codex', 'sessions', threadId.trim());
   try {
     fs.mkdirSync(sessionDir, { recursive: true });
   } catch {
@@ -47,7 +47,7 @@ export async function getCodexContextUsage(config: {
   threadId?: string;
 }): Promise<CodexContextUsage> {
   // Deterministic response for tests/dev without requiring Codex CLI.
-  if (process.env.AGEAF_CODEX_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CODEX_MOCK === 'true') {
     return {
       configured: true,
       model: null,

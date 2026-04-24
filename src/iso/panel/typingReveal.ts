@@ -42,7 +42,7 @@ export function startTypingReveal(root: ParentNode, options: TypingRevealOptions
         if (tag === 'STYLE' || tag === 'SCRIPT' || tag === 'NOSCRIPT') {
           return NodeFilter.FILTER_REJECT;
         }
-        if (parent.closest('[data-ageaf-no-typing]')) {
+        if (parent.closest('[data-jiaoleaf-no-typing]')) {
           return NodeFilter.FILTER_REJECT;
         }
         return NodeFilter.FILTER_ACCEPT;

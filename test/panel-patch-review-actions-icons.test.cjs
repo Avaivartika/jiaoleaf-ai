@@ -14,10 +14,10 @@ test('Patch review card uses icon-only accept/reject buttons in panel header', (
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  // Match the patch review header action buttons specifically (class ageaf-panel__apply).
-  assert.match(contents, /class=\"ageaf-panel__apply\"[\s\S]*>[\s\S]*✓/);
+  // Match the patch review header action buttons specifically (class jiaoleaf-panel__apply).
+  assert.match(contents, /class=\"jiaoleaf-panel__apply\"[\s\S]*>[\s\S]*✓/);
   assert.match(
     contents,
-    /class=\"ageaf-panel__apply is-secondary\"[\s\S]*>[\s\S]*✕/
+    /class=\"jiaoleaf-panel__apply is-secondary\"[\s\S]*>[\s\S]*✕/
   );
 });

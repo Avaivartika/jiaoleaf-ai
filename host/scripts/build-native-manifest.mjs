@@ -17,7 +17,7 @@ const templatePath = path.join(
 );
 const template = fs.readFileSync(templatePath, 'utf8');
 const output = template
-  .replace(/__AGEAF_EXTENSION_ID__/g, extensionId)
-  .replace(/__AGEAF_HOST_PATH__/g, hostPath.replace(/\\/g, '\\\\'));
+  .replace(/__JIAOLEAF_EXTENSION_ID__/g, extensionId)
+  .replace(/__JIAOLEAF_HOST_PATH__/g, hostPath.replace(/\\/g, '\\\\'));
 
 fs.writeFileSync(outPath, output);

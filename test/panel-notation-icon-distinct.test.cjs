@@ -18,7 +18,7 @@ test('Notation check icon uses a distinct magnifier motif', () => {
     'src',
     'iso',
     'panel',
-    'ageaf-icons.tsx'
+    'jiaoleaf-icons.tsx'
   );
   const contents = fs.readFileSync(iconPath, 'utf8');
 

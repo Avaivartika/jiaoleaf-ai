@@ -77,6 +77,9 @@ const common = {
         {
           from: '**/*',
           context: 'public',
+          globOptions: {
+            ignore: ['**/CLAUDE.md'],
+          },
         },
       ],
     }),

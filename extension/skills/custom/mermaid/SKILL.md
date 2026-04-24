@@ -7,8 +7,8 @@ description: |
   and ER diagrams. Use when the user asks for any visual diagram, flowchart,
   or architecture visualization. Produces SVG or ASCII output with theming.
 allowed-tools:
-  - mcp__ageaf-mermaid__render_mermaid
-  - mcp__ageaf-mermaid__list_mermaid_themes
+  - mcp__jiaoleaf-mermaid__render_mermaid
+  - mcp__jiaoleaf-mermaid__list_mermaid_themes
 ---
 
 # Mermaid Diagram Rendering
@@ -38,7 +38,7 @@ Always structure your response like this:
 ````
 Here's the diagram:
 
-```ageaf-diagram
+```jiaoleaf-diagram
 <svg ...>...</svg>
 ```
 
@@ -48,10 +48,10 @@ graph TD
 ```
 ````
 
-- First include the rendered SVG output from the tool in an ` ```ageaf-diagram ` fence. The Ageaf extension will render this as a visual diagram with a download button.
+- First include the rendered SVG output from the tool in an ` ```jiaoleaf-diagram ` fence. The JiaoLeaf extension will render this as a visual diagram with a download button.
 - Then include the Mermaid source in a ` ```mermaid ` fence (for the user to copy/reference).
 - Do NOT escape or modify the SVG output from the tool — paste it exactly as returned.
-- If the tool returns an error, skip the `ageaf-diagram` fence and explain the error instead.
+- If the tool returns an error, skip the `jiaoleaf-diagram` fence and explain the error instead.
 
 ### Tool Parameters
 
@@ -122,7 +122,7 @@ erDiagram
 ## Fallback
 
 **If the `render_mermaid` tool is NOT available**, just output the Mermaid code
-in a ```mermaid fence. The Ageaf host will render it automatically.
+in a ```mermaid fence. The JiaoLeaf host will render it automatically.
 
 ## Tips
 

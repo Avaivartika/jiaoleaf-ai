@@ -23,7 +23,7 @@ if (typeof chrome !== 'undefined' && chrome.storage?.onChanged) {
   });
 }
 
-const DEFAULT_TRANSPORT: Options['transport'] = __AGEAF_DEFAULT_TRANSPORT__;
+const DEFAULT_TRANSPORT: Options['transport'] = __JIAOLEAF_DEFAULT_TRANSPORT__;
 
 // Legacy auth fields that now live in host .env — strip from extension storage.
 const LEGACY_AUTH_KEYS = [

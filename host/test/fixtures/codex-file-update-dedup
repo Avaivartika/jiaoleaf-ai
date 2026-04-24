@@ -150,7 +150,7 @@ rl.on("line", (line) => {
     write({ id: msg.id, result: { ok: true } });
     write({ method: "turn/started", params: { threadId, turn: { id: turnId } } });
 
-    // Emit BOTH ageaf-patch fence AND FILE_UPDATE block for the same change.
+    // Emit BOTH jiaoleaf-patch fence AND FILE_UPDATE block for the same change.
     // The runtime must NOT produce duplicate patches.
     const patchJson = JSON.stringify({
       kind: "replaceRangeInFile",
@@ -164,7 +164,7 @@ rl.on("line", (line) => {
       params: {
         threadId,
         itemId: "item-1",
-        delta: "I updated the year.\n\n```ageaf-patch\n" + patchJson + "\n```\n\n",
+        delta: "I updated the year.\n\n```jiaoleaf-patch\n" + patchJson + "\n```\n\n",
       },
     });
     write({
@@ -172,7 +172,7 @@ rl.on("line", (line) => {
       params: {
         threadId,
         itemId: "item-1",
-        delta: '<<<AGEAF_FILE_UPDATE path="references.bib">>>\n',
+        delta: '<<<JIAOLEAF_FILE_UPDATE path="references.bib">>>\n',
       },
     });
     write({
@@ -185,7 +185,7 @@ rl.on("line", (line) => {
     });
     write({
       method: "item/agentMessage/delta",
-      params: { threadId, itemId: "item-1", delta: "<<<AGEAF_FILE_UPDATE_END>>>\n" },
+      params: { threadId, itemId: "item-1", delta: "<<<JIAOLEAF_FILE_UPDATE_END>>>\n" },
     });
 
     write({ method: "turn/completed", params: { threadId, turn: { id: turnId } } });

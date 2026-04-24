@@ -39,14 +39,14 @@ export function initCitationDecorations(cm6: Cm6ExportsLite): CitationDecoration
       const wrap = document.createElement('span');
 
       const usageEl = document.createElement('span');
-      usageEl.className = 'ageaf-citation-indicator';
+      usageEl.className = 'jiaoleaf-citation-indicator';
 
       if (this.usage.isUsed) {
-        usageEl.className += ' ageaf-citation-used';
+        usageEl.className += ' jiaoleaf-citation-used';
         usageEl.textContent = ` \u2713 ${this.usage.totalUsages}`;
         usageEl.title = this.buildUsageTooltip();
       } else {
-        usageEl.className += ' ageaf-citation-unused';
+        usageEl.className += ' jiaoleaf-citation-unused';
         usageEl.textContent = ' \u25CB';
         usageEl.title = 'Not cited in any .tex file';
       }
@@ -54,7 +54,7 @@ export function initCitationDecorations(cm6: Cm6ExportsLite): CitationDecoration
 
       if (this.dup && this.dup.duplicateKeys.length > 0) {
         const dupEl = document.createElement('span');
-        dupEl.className = 'ageaf-citation-dup';
+        dupEl.className = 'jiaoleaf-citation-dup';
         dupEl.textContent = `dup ${this.dup.duplicateKeys.length + 1}`;
         dupEl.title = `Duplicate title with: ${this.dup.duplicateKeys.join(', ')}`;
         wrap.appendChild(dupEl);

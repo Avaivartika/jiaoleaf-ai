@@ -79,9 +79,9 @@ import {
 import './panel.css';
 import 'katex/dist/katex.min.css';
 
-import './ageaf-complete-redesign.css';
+import './jiaoleaf-complete-redesign.css';
 
-import './ageaf-toolbar-components.css';
+import './jiaoleaf-toolbar-components.css';
 import {
   GITHUB_COMMITS_API_URL,
   GITHUB_REPO_URL,
@@ -102,7 +102,7 @@ import {
   ClearChatIcon,
   SunIcon,
   MoonIcon,
-} from './ageaf-icons';
+} from './jiaoleaf-icons';
 
 const DEFAULT_WIDTH = 360;
 const MIN_WIDTH = 280;
@@ -160,10 +160,10 @@ const DEFAULT_ENABLED_SKILL_NAMES = [
   'data-visualization',
 ];
 const UPDATE_CHECK_INTERVAL_MS = 5 * 60 * 1000;
-const EDITOR_OVERLAY_SHOW_EVENT = 'ageaf:editor:overlay:show';
-const EDITOR_OVERLAY_CLEAR_EVENT = 'ageaf:editor:overlay:clear';
-const EDITOR_OVERLAY_READY_EVENT = 'ageaf:editor:overlay:ready';
-const PANEL_OVERLAY_ACTION_EVENT = 'ageaf:panel:patch-review-action';
+const EDITOR_OVERLAY_SHOW_EVENT = 'jiaoleaf:editor:overlay:show';
+const EDITOR_OVERLAY_CLEAR_EVENT = 'jiaoleaf:editor:overlay:clear';
+const EDITOR_OVERLAY_READY_EVENT = 'jiaoleaf:editor:overlay:ready';
+const PANEL_OVERLAY_ACTION_EVENT = 'jiaoleaf:panel:patch-review-action';
 
 type PanelSkill = SkillEntry & {
   customContent?: string;
@@ -604,7 +604,7 @@ const ElapsedTimer = ({ startedAt, completedAt, className }: { startedAt?: numbe
   let display: string;
   if (elapsed < 60) display = `${elapsed < 10 ? elapsed.toFixed(1) : Math.floor(elapsed)}s`;
   else display = `${Math.floor(elapsed / 60)}m ${Math.floor(elapsed % 60)}s`;
-  return <span class={className ?? 'ageaf-cot-tool__elapsed'}>{display}</span>;
+  return <span class={className ?? 'jiaoleaf-cot-tool__elapsed'}>{display}</span>;
 };
 
 /**
@@ -770,19 +770,19 @@ function getCodexThinkingModes(model: RuntimeModel | null): ThinkingMode[] {
 }
 
 export function mountPanel(container?: HTMLElement) {
-  if (document.getElementById('ageaf-panel-root')) {
+  if (document.getElementById('jiaoleaf-panel-root')) {
     return;
   }
 
   const root = document.createElement('div');
-  root.id = 'ageaf-panel-root';
+  root.id = 'jiaoleaf-panel-root';
   (container ?? document.body).appendChild(root);
 
   render(<Panel />, root);
 }
 
 export function unmountPanel() {
-  const root = document.getElementById('ageaf-panel-root');
+  const root = document.getElementById('jiaoleaf-panel-root');
   if (!root) return;
   render(null, root);
   root.remove();
@@ -1010,9 +1010,9 @@ const Panel = () => {
   // Sync theme to document body so other injected scripts (like citations) can react to it
   useEffect(() => {
     if (isLightMode) {
-      document.body.setAttribute('data-ageaf-theme', 'light');
+      document.body.setAttribute('data-jiaoleaf-theme', 'light');
     } else {
-      document.body.removeAttribute('data-ageaf-theme');
+      document.body.removeAttribute('data-jiaoleaf-theme');
     }
   }, [isLightMode]);
 
@@ -1262,7 +1262,7 @@ const Panel = () => {
       if (!(target instanceof Element)) return;
       if (
         target.closest(
-          '.ageaf-runtime__picker, .ageaf-skill-menu, .ageaf-settings__modal'
+          '.jiaoleaf-runtime__picker, .jiaoleaf-skill-menu, .jiaoleaf-settings__modal'
         )
       ) {
         return;
@@ -1581,10 +1581,10 @@ const Panel = () => {
     PROVIDER_DISPLAY[chatProvider] ?? PROVIDER_DISPLAY.claude;
   const providerIndicatorClass =
     chatProvider === 'codex'
-      ? 'ageaf-provider--openai'
+      ? 'jiaoleaf-provider--openai'
       : chatProvider === 'pi'
-        ? 'ageaf-provider--pi'
-        : 'ageaf-provider--anthropic';
+        ? 'jiaoleaf-provider--pi'
+        : 'jiaoleaf-provider--anthropic';
 
   const getConnectionHealthTooltip = () => {
     let baseMessage = '';
@@ -1708,7 +1708,7 @@ const Panel = () => {
     const onUp = () => {
       if (!isDragging.current) return;
       isDragging.current = false;
-      document.body.classList.remove('ageaf-resizing');
+      document.body.classList.remove('jiaoleaf-resizing');
     };
 
     window.addEventListener('mousemove', onMove);
@@ -1768,7 +1768,7 @@ const Panel = () => {
   useEffect(() => {
     if (!skillOpen || !skillListRef.current) return;
     const activeItem = skillListRef.current.querySelector(
-      '.ageaf-skill__option.is-active'
+      '.jiaoleaf-skill__option.is-active'
     );
     if (activeItem) {
       activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -1779,7 +1779,7 @@ const Panel = () => {
   useEffect(() => {
     if (!mentionOpen || !mentionListRef.current) return;
     const activeItem = mentionListRef.current.querySelector(
-      '.ageaf-mention__option.is-active'
+      '.jiaoleaf-mention__option.is-active'
     );
     if (activeItem) {
       activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -1895,7 +1895,7 @@ const Panel = () => {
           }, timeoutMs);
 
           chrome.runtime.sendMessage(
-            { type: 'ageaf:native-request', request },
+            { type: 'jiaoleaf:native-request', request },
             (message) => {
               clearTimeout(timeoutId);
 
@@ -2297,12 +2297,12 @@ const Panel = () => {
   useEffect(() => {
     const onOpenSettings = () => setSettingsOpen(true);
     window.addEventListener(
-      'ageaf:settings:open',
+      'jiaoleaf:settings:open',
       onOpenSettings as EventListener
     );
     return () => {
       window.removeEventListener(
-        'ageaf:settings:open',
+        'jiaoleaf:settings:open',
         onOpenSettings as EventListener
       );
     };
@@ -2370,11 +2370,11 @@ const Panel = () => {
 
         // Preserve diagram blocks with identical SVG
         if (
-          fromEl.classList.contains('ageaf-diagram') &&
-          toEl.classList.contains('ageaf-diagram')
+          fromEl.classList.contains('jiaoleaf-diagram') &&
+          toEl.classList.contains('jiaoleaf-diagram')
         ) {
-          const fromSvg = fromEl.querySelector('.ageaf-diagram__svg')?.innerHTML;
-          const toSvg = toEl.querySelector('.ageaf-diagram__svg')?.innerHTML;
+          const fromSvg = fromEl.querySelector('.jiaoleaf-diagram__svg')?.innerHTML;
+          const toSvg = toEl.querySelector('.jiaoleaf-diagram__svg')?.innerHTML;
           if (fromSvg && fromSvg === toSvg) {
             return false;
           }
@@ -2382,8 +2382,8 @@ const Panel = () => {
 
         // Preserve unchanged code blocks
         if (
-          fromEl.classList.contains('ageaf-code-block') &&
-          toEl.classList.contains('ageaf-code-block') &&
+          fromEl.classList.contains('jiaoleaf-code-block') &&
+          toEl.classList.contains('jiaoleaf-code-block') &&
           fromEl.isEqualNode(toEl)
         ) {
           return false;
@@ -2391,8 +2391,8 @@ const Panel = () => {
 
         // Preserve unchanged inline quote-block wrappers
         if (
-          fromEl.classList.contains('ageaf-message__quote-block') &&
-          toEl.classList.contains('ageaf-message__quote-block') &&
+          fromEl.classList.contains('jiaoleaf-message__quote-block') &&
+          toEl.classList.contains('jiaoleaf-message__quote-block') &&
           fromEl.isEqualNode(toEl)
         ) {
           return false;
@@ -2412,7 +2412,7 @@ const Panel = () => {
     dragStartX.current = event.clientX;
     dragStartWidth.current = width;
     pendingWidthRef.current = width;
-    document.body.classList.add('ageaf-resizing');
+    document.body.classList.add('jiaoleaf-resizing');
     event.preventDefault();
   };
 
@@ -2514,13 +2514,13 @@ const Panel = () => {
   /** Determine the left accent bar status class for a CoT item. */
   const getItemAccentClass = (item: CoTGroupedItem, isLast: boolean, active: boolean): string => {
     if (item.type === 'tool') {
-      if (item.phase === 'started') return 'ageaf-cot-item--active';
-      if (item.phase === 'failed') return 'ageaf-cot-item--failed';
-      return 'ageaf-cot-item--completed';
+      if (item.phase === 'started') return 'jiaoleaf-cot-item--active';
+      if (item.phase === 'failed') return 'jiaoleaf-cot-item--failed';
+      return 'jiaoleaf-cot-item--completed';
     }
     // Thinking / text: active pulse only on the last item while streaming
-    if (active && isLast) return 'ageaf-cot-item--active';
-    return 'ageaf-cot-item--completed';
+    if (active && isLast) return 'jiaoleaf-cot-item--active';
+    return 'jiaoleaf-cot-item--completed';
   };
 
   const renderCoTBlock = (
@@ -2566,20 +2566,20 @@ const Panel = () => {
       return (
         <div
           key={idx}
-          class={`ageaf-cot-thinking ${isThinkingExpanded ? 'is-expanded' : ''}`}
+          class={`jiaoleaf-cot-thinking ${isThinkingExpanded ? 'is-expanded' : ''}`}
           onClick={onToggleThinking}
         >
-          <span class="ageaf-cot-thinking-icon">🧠</span>
+          <span class="jiaoleaf-cot-thinking-icon">🧠</span>
           {isThinkingExpanded ? (
-            <span class="ageaf-cot-thinking-content">
+            <span class="jiaoleaf-cot-thinking-content">
               {item.content}
             </span>
           ) : (
-            <span class="ageaf-cot-thinking-preview">
+            <span class="jiaoleaf-cot-thinking-preview">
               {preview}
             </span>
           )}
-          <span class="ageaf-cot-thinking-toggle">
+          <span class="jiaoleaf-cot-thinking-toggle">
             {isThinkingExpanded ? '▼' : '▶'}
           </span>
         </div>
@@ -2587,31 +2587,31 @@ const Panel = () => {
     };
 
     return (
-      <div class={`ageaf-message__cot ${active ? 'is-active' : ''}`}>
+      <div class={`jiaoleaf-message__cot ${active ? 'is-active' : ''}`}>
         {!hideHeader ? (
           <button
-            class="ageaf-message__cot-header"
+            class="jiaoleaf-message__cot-header"
             onClick={toggle}
             type="button"
           >
-            <span class="ageaf-cot-arrow">{isExpanded ? '▼' : '▶'}</span>
-            <span class="ageaf-cot-label">
+            <span class="jiaoleaf-cot-arrow">{isExpanded ? '▼' : '▶'}</span>
+            <span class="jiaoleaf-cot-label">
               {active ? 'Thinking' : 'Thought process'}
             </span>
             {(duration.startedAt || active) && (
-              <ElapsedTimer className="ageaf-cot-duration" startedAt={duration.startedAt ?? undefined} completedAt={active ? undefined : (duration.completedAt ?? undefined)} />
+              <ElapsedTimer className="jiaoleaf-cot-duration" startedAt={duration.startedAt ?? undefined} completedAt={active ? undefined : (duration.completedAt ?? undefined)} />
             )}
           </button>
         ) : null}
         {isExpanded && (
-          <div class="ageaf-message__cot-body">
+          <div class="jiaoleaf-message__cot-body">
             {grouped.map((item, idx) => {
               const accentClass = getItemAccentClass(item, idx === grouped.length - 1, active);
 
               if (item.type === 'thinking-group') {
                 return (
-                  <div key={idx} class={`ageaf-cot-item ${accentClass}`}>
-                    <div class="ageaf-cot-thinking-group">
+                  <div key={idx} class={`jiaoleaf-cot-item ${accentClass}`}>
+                    <div class="jiaoleaf-cot-thinking-group">
                       {item.items.map((ti, tiIdx) => renderThinkingItem(ti, idx * 1000 + tiIdx))}
                     </div>
                   </div>
@@ -2620,7 +2620,7 @@ const Panel = () => {
 
               if (item.type === 'thinking') {
                 return (
-                  <div key={idx} class={`ageaf-cot-item ${accentClass}`}>
+                  <div key={idx} class={`jiaoleaf-cot-item ${accentClass}`}>
                     {renderThinkingItem(item, idx)}
                   </div>
                 );
@@ -2639,22 +2639,22 @@ const Panel = () => {
                 };
                 const textPreview = trimmed.split('\n')[0].slice(0, 100);
                 return (
-                  <div key={idx} class={`ageaf-cot-item ${accentClass}`}>
+                  <div key={idx} class={`jiaoleaf-cot-item ${accentClass}`}>
                     <div
-                      class={`ageaf-cot-text ${isTextExpanded ? 'is-expanded' : ''}`}
+                      class={`jiaoleaf-cot-text ${isTextExpanded ? 'is-expanded' : ''}`}
                       onClick={onToggleText}
                     >
-                      <span class="ageaf-cot-text-icon">💬</span>
+                      <span class="jiaoleaf-cot-text-icon">💬</span>
                       {isTextExpanded ? (
-                        <span class="ageaf-cot-text-content">
+                        <span class="jiaoleaf-cot-text-content">
                           {trimmed}
                         </span>
                       ) : (
-                        <span class="ageaf-cot-text-preview">
+                        <span class="jiaoleaf-cot-text-preview">
                           {textPreview}
                         </span>
                       )}
-                      <span class="ageaf-cot-text-toggle">
+                      <span class="jiaoleaf-cot-text-toggle">
                         {isTextExpanded ? '▼' : '▶'}
                       </span>
                     </div>
@@ -2669,12 +2669,12 @@ const Panel = () => {
               const hasExpandable = hasDetail || !!item.input;
               const context = formatToolContext(item.toolName, item.input, item.description);
               return (
-                <div key={idx} class={`ageaf-cot-item ${accentClass}`}>
+                <div key={idx} class={`jiaoleaf-cot-item ${accentClass}`}>
                   <div
-                    class={`ageaf-cot-tool ageaf-cot-tool--${item.phase}${isToolExpanded ? ' is-expanded' : ''}`}
+                    class={`jiaoleaf-cot-tool jiaoleaf-cot-tool--${item.phase}${isToolExpanded ? ' is-expanded' : ''}`}
                   >
                     <div
-                      class="ageaf-cot-tool__header"
+                      class="jiaoleaf-cot-tool__header"
                       onClick={() => {
                         if (!hasExpandable) return;
                         setExpandedToolItems((prev) => {
@@ -2684,26 +2684,26 @@ const Panel = () => {
                         });
                       }}
                     >
-                      <span class="ageaf-cot-tool__icon">
+                      <span class="jiaoleaf-cot-tool__icon">
                         {getToolIcon(item.toolName, item.phase)}
                       </span>
-                      <span class="ageaf-cot-tool__name">
+                      <span class="jiaoleaf-cot-tool__name">
                         {formatToolName(item.toolName)}
                       </span>
                       {context && (
-                        <span class="ageaf-cot-tool__context">{context}</span>
+                        <span class="jiaoleaf-cot-tool__context">{context}</span>
                       )}
-                      <span class="ageaf-cot-tool__status">
+                      <span class="jiaoleaf-cot-tool__status">
                         <ElapsedTimer startedAt={item.startedAt} completedAt={item.completedAt} />
-                        {item.phase === 'started' && <span class="ageaf-cot-tool__spinner" />}
-                        {hasExpandable && <span class="ageaf-cot-tool__chevron">▶</span>}
+                        {item.phase === 'started' && <span class="jiaoleaf-cot-tool__spinner" />}
+                        {hasExpandable && <span class="jiaoleaf-cot-tool__chevron">▶</span>}
                       </span>
                     </div>
                     {isToolExpanded && item.input && (
-                      <div class="ageaf-cot-tool__input">{item.input}</div>
+                      <div class="jiaoleaf-cot-tool__input">{item.input}</div>
                     )}
                     {isToolExpanded && hasDetail && (
-                      <div class="ageaf-cot-tool__detail">
+                      <div class="jiaoleaf-cot-tool__detail">
                         {item.description ?? item.message}
                       </div>
                     )}
@@ -2721,25 +2721,25 @@ const Panel = () => {
     if (activeTools.size === 0) return null;
 
     return (
-      <div class="ageaf-tool-indicators">
+      <div class="jiaoleaf-tool-indicators">
         {Array.from(activeTools.values()).map((tool) => {
           const context = formatToolContext(tool.toolName, tool.input, tool.description);
           return (
             <div
               key={tool.toolId}
-              class={`ageaf-tool-indicator ageaf-tool-indicator--${tool.phase}`}
+              class={`jiaoleaf-tool-indicator jiaoleaf-tool-indicator--${tool.phase}`}
             >
-              <span class="ageaf-tool-indicator__icon">
+              <span class="jiaoleaf-tool-indicator__icon">
                 {getToolIcon(tool.toolName, tool.phase)}
               </span>
-              <span class="ageaf-tool-indicator__name">
+              <span class="jiaoleaf-tool-indicator__name">
                 {formatToolName(tool.toolName)}
               </span>
               {context && (
-                <span class="ageaf-tool-indicator__input"> · {context}</span>
+                <span class="jiaoleaf-tool-indicator__input"> · {context}</span>
               )}
               {tool.phase === 'started' && (
-                <span class="ageaf-tool-indicator__spinner" />
+                <span class="jiaoleaf-tool-indicator__spinner" />
               )}
             </div>
           );
@@ -2806,7 +2806,7 @@ const Panel = () => {
 
   useEffect(() => {
     const conversationId = chatConversationIdRef.current;
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!conversationId || !bridge?.requestFileContent) return;
 
     type BackfillEntry = {
@@ -3111,12 +3111,12 @@ const Panel = () => {
       void insertChipFromSelection();
     };
     window.addEventListener(
-      'ageaf:panel:insert-selection',
+      'jiaoleaf:panel:insert-selection',
       handler as EventListener
     );
     return () => {
       window.removeEventListener(
-        'ageaf:panel:insert-selection',
+        'jiaoleaf:panel:insert-selection',
         handler as EventListener
       );
     };
@@ -3494,7 +3494,7 @@ const Panel = () => {
     );
     for (const node of tabNodes) {
       if (!(node instanceof HTMLElement)) continue;
-      if (node.closest('#ageaf-panel-root')) continue;
+      if (node.closest('#jiaoleaf-panel-root')) continue;
       const text =
         node.getAttribute('aria-label')?.trim() ||
         node.getAttribute('title')?.trim() ||
@@ -3519,7 +3519,7 @@ const Panel = () => {
     );
     for (const node of treeNodes) {
       if (!(node instanceof HTMLElement)) continue;
-      if (node.closest('#ageaf-panel-root')) continue;
+      if (node.closest('#jiaoleaf-panel-root')) continue;
       const text =
         node.getAttribute('aria-label')?.trim() ||
         node.getAttribute('title')?.trim() ||
@@ -3565,7 +3565,7 @@ const Panel = () => {
       scanned += 1;
       const parent = node.parentElement;
       if (!parent) continue;
-      if (parent.closest('#ageaf-panel-root')) continue;
+      if (parent.closest('#jiaoleaf-panel-root')) continue;
       const text = (node.textContent ?? '').trim();
       if (text.length < 4 || text.length > 200) continue;
       if (
@@ -3670,7 +3670,7 @@ const Panel = () => {
     }
 
     const chip = document.createElement('span');
-    chip.className = 'ageaf-panel__mention';
+    chip.className = 'jiaoleaf-panel__mention';
     chip.dataset.mention = entry.kind === 'folder' ? 'folder' : 'file';
     chip.dataset.path = entry.path;
     chip.setAttribute('contenteditable', 'false');
@@ -4126,21 +4126,21 @@ const Panel = () => {
 
     const iconMeta = iconMetaForFilename(filename);
     const chip = document.createElement('span');
-    chip.className = 'ageaf-panel__chip ageaf-message__attachment-chip';
+    chip.className = 'jiaoleaf-panel__chip jiaoleaf-message__attachment-chip';
     chip.setAttribute('contenteditable', 'false');
     chip.setAttribute('aria-label', `${filename} ${lineLabel || ''}`.trim());
     if (preview) chip.title = preview;
 
     const icon = document.createElement('span');
-    icon.className = `ageaf-panel__chip-icon ageaf-panel__chip-icon--${iconMeta.className}`;
+    icon.className = `jiaoleaf-panel__chip-icon jiaoleaf-panel__chip-icon--${iconMeta.className}`;
     icon.textContent = iconMeta.label;
 
     const nameSpan = document.createElement('span');
-    nameSpan.className = 'ageaf-panel__chip-name';
+    nameSpan.className = 'jiaoleaf-panel__chip-name';
     nameSpan.textContent = filename;
 
     const rangeSpan = document.createElement('span');
-    rangeSpan.className = 'ageaf-panel__chip-range';
+    rangeSpan.className = 'jiaoleaf-panel__chip-range';
     rangeSpan.textContent = lineLabel || '';
 
     chip.append(icon, nameSpan, rangeSpan);
@@ -4149,7 +4149,7 @@ const Panel = () => {
 
   const createMentionChip = (kind: 'file' | 'folder', path: string) => {
     const chip = document.createElement('span');
-    chip.className = 'ageaf-panel__mention';
+    chip.className = 'jiaoleaf-panel__mention';
     chip.setAttribute('contenteditable', 'false');
     chip.dataset.mention = kind;
     chip.dataset.path = path;
@@ -4258,30 +4258,30 @@ const Panel = () => {
   const wrapPreWithQuoteBlock = (pre: HTMLElement, copyIndex: number) => {
     const languageLabel = pre.getAttribute('data-language-label') || '';
     const wrapper = document.createElement('div');
-    wrapper.className = 'ageaf-message__quote-block';
+    wrapper.className = 'jiaoleaf-message__quote-block';
 
     if (languageLabel) {
       const pill = document.createElement('div');
-      pill.className = 'ageaf-message__quote-lang';
+      pill.className = 'jiaoleaf-message__quote-lang';
       pill.textContent = languageLabel;
       wrapper.appendChild(pill);
     }
 
     const copyBtn = document.createElement('button');
-    copyBtn.className = 'ageaf-message__copy';
+    copyBtn.className = 'jiaoleaf-message__copy';
     copyBtn.type = 'button';
     copyBtn.setAttribute('aria-label', 'Copy code');
     copyBtn.title = 'Copy code';
     copyBtn.setAttribute('data-inline-copy', String(copyIndex));
     copyBtn.innerHTML =
-      '<svg class="ageaf-message__copy-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+      '<svg class="jiaoleaf-message__copy-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
       '<rect x="6.5" y="3.5" width="10" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
       '<rect x="3.5" y="6.5" width="10" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
       '</svg>';
     wrapper.appendChild(copyBtn);
 
     const content = document.createElement('div');
-    content.className = 'ageaf-message__quote-content';
+    content.className = 'jiaoleaf-message__quote-content';
     content.appendChild(pre.cloneNode(true));
     wrapper.appendChild(content);
 
@@ -4418,11 +4418,11 @@ const Panel = () => {
           const element = node as HTMLElement;
 
           // If this is a LaTeX element, extract raw LaTeX from data attribute
-          if (element.classList.contains('ageaf-latex')) {
+          if (element.classList.contains('jiaoleaf-latex')) {
             const rawLatex = element.getAttribute('data-latex');
             if (rawLatex) {
               // Wrap with appropriate delimiters based on display mode
-              if (element.classList.contains('ageaf-latex--display')) {
+              if (element.classList.contains('jiaoleaf-latex--display')) {
                 return `\\[${rawLatex}\\]`;
               } else {
                 return `\\(${rawLatex}\\)`;
@@ -4559,7 +4559,7 @@ const Panel = () => {
     for (const selector of selectors) {
       const el = document.querySelector(selector);
       if (!el || !(el instanceof HTMLElement)) continue;
-      if (el.closest('#ageaf-panel-root')) continue;
+      if (el.closest('#jiaoleaf-panel-root')) continue;
       const idNode = el.matches?.('[data-file-id]')
         ? el
         : (el.querySelector?.('[data-file-id]') as HTMLElement | null);
@@ -4580,7 +4580,7 @@ const Panel = () => {
     for (const selector of treeSelectors) {
       const el = document.querySelector(selector);
       if (!el || !(el instanceof HTMLElement)) continue;
-      if (el.closest('#ageaf-panel-root')) continue;
+      if (el.closest('#jiaoleaf-panel-root')) continue;
       const text = (
         el.getAttribute('aria-label') ??
         el.getAttribute('title') ??
@@ -4825,7 +4825,7 @@ const Panel = () => {
     })();
 
     const chip = document.createElement('span');
-    chip.className = 'ageaf-panel__chip';
+    chip.className = 'jiaoleaf-panel__chip';
     chip.setAttribute('data-chip-id', chipId);
     chip.dataset.chipId = chipId;
     chip.dataset.filename = filename;
@@ -4884,15 +4884,15 @@ const Panel = () => {
         : '1';
 
     const icon = document.createElement('span');
-    icon.className = `ageaf-panel__chip-icon ageaf-panel__chip-icon--${iconMeta.className}`;
+    icon.className = `jiaoleaf-panel__chip-icon jiaoleaf-panel__chip-icon--${iconMeta.className}`;
     icon.textContent = iconMeta.label;
 
     const nameSpan = document.createElement('span');
-    nameSpan.className = 'ageaf-panel__chip-name';
+    nameSpan.className = 'jiaoleaf-panel__chip-name';
     nameSpan.textContent = filename;
 
     const rangeSpan = document.createElement('span');
-    rangeSpan.className = 'ageaf-panel__chip-range';
+    rangeSpan.className = 'jiaoleaf-panel__chip-range';
     rangeSpan.textContent = rangeLabel;
 
     chip.append(icon, nameSpan, rangeSpan);
@@ -4925,7 +4925,7 @@ const Panel = () => {
     if (text == null) return;
     event.preventDefault();
     if (shouldChipPaste(text)) {
-      const bridge = window.ageafBridge;
+      const bridge = window.jiaoleafBridge;
       if (bridge?.requestSelection) {
         void (async () => {
           try {
@@ -5121,7 +5121,7 @@ const Panel = () => {
   };
 
   const insertChipFromSelection = async () => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!bridge) return;
     const selection = await bridge.requestSelection();
     const text = selection?.selection ?? '';
@@ -5190,8 +5190,8 @@ const Panel = () => {
       // onClick={onAccept}
       // onClick={onReject}
       // onClick={onFeedback}
-      // class="ageaf-panel__apply">✓
-      // class="ageaf-panel__apply is-secondary">✕
+      // class="jiaoleaf-panel__apply">✓
+      // class="jiaoleaf-panel__apply is-secondary">✕
       const copyId = `${message.id}-patch-proposal`;
 
       return (
@@ -5227,17 +5227,17 @@ const Panel = () => {
 
     const fileAttachmentsBlock =
       message.attachments && message.attachments.length > 0 ? (
-        <div class="ageaf-message__file-attachments">
+        <div class="jiaoleaf-message__file-attachments">
           {message.attachments.map((attachment) => (
             <div
-              class="ageaf-message__file-chip"
+              class="jiaoleaf-message__file-chip"
               key={attachment.id}
               title={attachment.path ?? attachment.name}
             >
-              <span class="ageaf-message__file-chip-name">
+              <span class="jiaoleaf-message__file-chip-name">
                 {truncateName(attachment.name, 28)}
               </span>
-              <span class="ageaf-message__file-chip-meta">
+              <span class="jiaoleaf-message__file-chip-meta">
                 {attachment.ext.replace('.', '').toUpperCase()} ·{' '}
                 {formatLineCount(attachment.lineCount)} lines
               </span>
@@ -5248,17 +5248,17 @@ const Panel = () => {
 
     const documentAttachmentsBlock =
       message.documents && message.documents.length > 0 ? (
-        <div class="ageaf-message__file-attachments">
+        <div class="jiaoleaf-message__file-attachments">
           {message.documents.map((doc) => (
             <div
-              class="ageaf-message__file-chip"
+              class="jiaoleaf-message__file-chip"
               key={doc.id}
               title={doc.path ?? doc.name}
             >
-              <span class="ageaf-message__file-chip-name">
+              <span class="jiaoleaf-message__file-chip-name">
                 {truncateName(doc.name, 28)}
               </span>
-              <span class="ageaf-message__file-chip-meta">
+              <span class="jiaoleaf-message__file-chip-meta">
                 {(doc.name.split('.').pop() ?? '').toUpperCase()} ·{' '}
                 {formatBytes(doc.size)}
               </span>
@@ -5269,20 +5269,20 @@ const Panel = () => {
 
     const imageAttachmentsBlock =
       message.images && message.images.length > 0 ? (
-        <div class="ageaf-message__attachments">
+        <div class="jiaoleaf-message__attachments">
           {message.images.map((image) => (
-            <div class="ageaf-message__attachment" key={image.id}>
+            <div class="jiaoleaf-message__attachment" key={image.id}>
               <img
-                class="ageaf-message__attachment-thumb"
+                class="jiaoleaf-message__attachment-thumb"
                 src={getImageDataUrl(image)}
                 alt={image.name}
                 loading="lazy"
               />
-              <div class="ageaf-message__attachment-meta">
-                <div class="ageaf-message__attachment-name">
+              <div class="jiaoleaf-message__attachment-meta">
+                <div class="jiaoleaf-message__attachment-name">
                   {truncateName(image.name, 28)}
                 </div>
-                <div class="ageaf-message__attachment-size">
+                <div class="jiaoleaf-message__attachment-size">
                   {formatBytes(image.size)}
                 </div>
               </div>
@@ -5339,7 +5339,7 @@ const Panel = () => {
       if (typeof document === 'undefined') return mainHtml;
       const temp = document.createElement('div');
       temp.innerHTML = mainHtml;
-      const blocks = temp.querySelectorAll('.ageaf-message__quote-block');
+      const blocks = temp.querySelectorAll('.jiaoleaf-message__quote-block');
       blocks.forEach((block) => block.remove());
       return temp.innerHTML;
     })();
@@ -5368,7 +5368,7 @@ const Panel = () => {
         {imageAttachmentsBlock}
         {hasFinalMain ? (
           <div
-            class="ageaf-message__content"
+            class="jiaoleaf-message__content"
             dangerouslySetInnerHTML={{ __html: finalMainHtml }}
             onClick={(event) => {
               const target = event.target as HTMLElement | null;
@@ -5380,7 +5380,7 @@ const Panel = () => {
               if (inlineCopyBtn) {
                 event.preventDefault();
                 event.stopPropagation();
-                const block = inlineCopyBtn.closest('.ageaf-message__quote-block') as HTMLElement | null;
+                const block = inlineCopyBtn.closest('.jiaoleaf-message__quote-block') as HTMLElement | null;
                 const codeEl = block?.querySelector('code');
                 const copyText = codeEl?.textContent ?? '';
                 if (!copyText) return;
@@ -5394,12 +5394,12 @@ const Panel = () => {
                     window.clearTimeout(existingTimer);
                   }
                   inlineCopyBtn.innerHTML =
-                    '<svg class="ageaf-message__copy-check" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+                    '<svg class="jiaoleaf-message__copy-check" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
                     '<polyline points="4,10 9,15 16,5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
                     '</svg>';
                   const timeoutId = window.setTimeout(() => {
                     inlineCopyBtn.innerHTML =
-                      '<svg class="ageaf-message__copy-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
+                      '<svg class="jiaoleaf-message__copy-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">' +
                       '<rect x="6.5" y="3.5" width="10" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
                       '<rect x="3.5" y="6.5" width="10" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
                       '</svg>';
@@ -5418,8 +5418,8 @@ const Panel = () => {
               if (dlButton) {
                 event.preventDefault();
                 event.stopPropagation();
-                const diagram = dlButton.closest('.ageaf-diagram') as HTMLElement | null;
-                const svgEl = diagram?.querySelector('.ageaf-diagram__svg svg') as SVGElement | null;
+                const diagram = dlButton.closest('.jiaoleaf-diagram') as HTMLElement | null;
+                const svgEl = diagram?.querySelector('.jiaoleaf-diagram__svg svg') as SVGElement | null;
                 if (!svgEl) return;
                 const svgSource = new XMLSerializer().serializeToString(svgEl);
                 const blob = new Blob([svgSource], { type: 'image/svg+xml' });
@@ -5441,13 +5441,13 @@ const Panel = () => {
               event.stopPropagation();
 
               const container = button.closest(
-                '.ageaf-latex'
+                '.jiaoleaf-latex'
               ) as HTMLElement | null;
               const rawLatex = container?.getAttribute('data-latex');
               if (!rawLatex) return;
 
               const isDisplay =
-                container?.classList.contains('ageaf-latex--display') ||
+                container?.classList.contains('jiaoleaf-latex--display') ||
                 Boolean(container?.querySelector('.katex-display'));
               const wrapped = isDisplay
                 ? `\\[${rawLatex}\\]`
@@ -5475,8 +5475,8 @@ const Panel = () => {
           />
         ) : null}
         {filteredQuotes.length > 0 ? (
-          <div class="ageaf-message__quote">
-            <div class="ageaf-message__quote-body">
+          <div class="jiaoleaf-message__quote">
+            <div class="jiaoleaf-message__quote-body">
               {filteredQuotes.map((quote, index) => {
                 const copyId = `${message.id}-quote-${index}`;
                 const copyText = extractCopyTextFromQuoteHtml(quote.html);
@@ -5485,16 +5485,16 @@ const Panel = () => {
                 const hasLanguage = Boolean(quote.languageLabel);
                 return (
                   <div
-                    class="ageaf-message__quote-block"
+                    class="jiaoleaf-message__quote-block"
                     key={`${message.id}-quote-${index}`}
                   >
                     {hasLanguage && (
-                      <div class="ageaf-message__quote-lang">
+                      <div class="jiaoleaf-message__quote-lang">
                         {quote.languageLabel}
                       </div>
                     )}
                     <button
-                      class={`ageaf-message__copy ${copyDisabled ? 'is-disabled' : ''
+                      class={`jiaoleaf-message__copy ${copyDisabled ? 'is-disabled' : ''
                         }`}
                       type="button"
                       aria-label="Copy quote"
@@ -5508,7 +5508,7 @@ const Panel = () => {
                       }}
                     >
                       {isCopied ? (
-                        <span class="ageaf-message__copy-check">
+                        <span class="jiaoleaf-message__copy-check">
                           <CheckIcon />
                         </span>
                       ) : (
@@ -5516,7 +5516,7 @@ const Panel = () => {
                       )}
                     </button>
                     <div
-                      class="ageaf-message__quote-content"
+                      class="jiaoleaf-message__quote-content"
                       dangerouslySetInnerHTML={{ __html: quote.html }}
                     />
                   </div>
@@ -5526,7 +5526,7 @@ const Panel = () => {
           </div>
         ) : null}
         {interrupted ? (
-          <div class="ageaf-message__interrupt">
+          <div class="jiaoleaf-message__interrupt">
             {INTERRUPTED_BY_USER_MARKER}
           </div>
         ) : null}
@@ -6541,7 +6541,7 @@ const Panel = () => {
     patchFeedbackTarget?: PatchFeedbackTarget,
     displayContent?: string
   ) => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!bridge) return;
 
     const conversationId = chatConversationIdRef.current;
@@ -6650,7 +6650,7 @@ const Panel = () => {
         );
         for (const node of nodes) {
           if (!(node instanceof HTMLElement)) continue;
-          if (node.closest('#ageaf-panel-root')) continue;
+          if (node.closest('#jiaoleaf-panel-root')) continue;
           const treeItem = node.closest(
             '[role="treeitem"]'
           ) as HTMLElement | null;
@@ -7090,7 +7090,7 @@ const Panel = () => {
           );
           for (const node of nodes) {
             if (!(node instanceof HTMLElement)) continue;
-            if (node.closest('#ageaf-panel-root')) continue;
+            if (node.closest('#jiaoleaf-panel-root')) continue;
             const treeItem = node.closest('[role="treeitem"]') as HTMLElement | null;
             const name = (
               treeItem?.getAttribute('aria-label') ??
@@ -8020,7 +8020,7 @@ const Panel = () => {
               // Guard: discard replaceSelection patches without a valid selection
               // snapshot — they can't be applied and would produce ghost review cards.
               if (!snapshot || !(snapshot.to > snapshot.from) || !snapshot.selection?.trim()) {
-                console.trace('[ageaf] discarding replaceSelection patch: no valid selection snapshot');
+                console.trace('[jiaoleaf] discarding replaceSelection patch: no valid selection snapshot');
                 return;
               }
               storedPatchReviewMessage = {
@@ -8251,7 +8251,7 @@ const Panel = () => {
   };
 
   const onSend = () => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     const { text, hasContent } = serializeEditorContent();
     const imageList = imageAttachmentsRef.current;
     const fileList = fileAttachmentsRef.current;
@@ -8330,7 +8330,7 @@ const Panel = () => {
   };
 
   const onRewriteSelection = async () => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!bridge) return;
 
     const conversationId = chatConversationIdRef.current;
@@ -8441,7 +8441,7 @@ const Panel = () => {
   }
 
   const onCheckReferences = async () => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!bridge) return;
 
     const conversationId = chatConversationIdRef.current;
@@ -8536,7 +8536,7 @@ const Panel = () => {
       return;
     }
 
-    // Step 3: Send as [Overleaf file:] block (enables AGEAF_FILE_UPDATE path)
+    // Step 3: Send as [Overleaf file:] block (enables JIAOLEAF_FILE_UPDATE path)
     // plus attachment chip for compact display in the chat transcript.
     const lineCount = bibContent.split('\n').length;
     const bibAttachment: FileAttachment = {
@@ -8558,7 +8558,7 @@ const Panel = () => {
       + 'For each incorrect or fabricated entry, DELETE it from the file and replace it with the verified version. '
       + 'For preprint entries that have since been published, replace the preprint entry with the published version. '
       + 'Do NOT keep both a preprint and a published version of the same work; keep only the published entry. '
-      + 'Output the complete updated file using AGEAF_FILE_UPDATE markers.'
+      + 'Output the complete updated file using JIAOLEAF_FILE_UPDATE markers.'
       + fileBlock;
 
     // Show the exact prompt being sent (including /citation-management and file block)
@@ -8622,7 +8622,7 @@ const Panel = () => {
   }
 
   const collectNotationAttachments = async (
-    bridge: NonNullable<typeof window.ageafBridge>
+    bridge: NonNullable<typeof window.jiaoleafBridge>
   ) => {
     const allEntries = detectProjectFilesFromDom().filter(
       (entry) => entry.kind !== 'folder'
@@ -8845,7 +8845,7 @@ const Panel = () => {
   };
 
   const onNotationConsistencyPass = async () => {
-    const bridge = window.ageafBridge;
+    const bridge = window.jiaoleafBridge;
     if (!bridge) return;
 
     const conversationId = chatConversationIdRef.current;
@@ -9070,7 +9070,7 @@ const Panel = () => {
       editorHistoryMarker:
         typeof entry.editorHistoryMarker === 'number'
           ? entry.editorHistoryMarker
-          : window.ageafBridge?.getEditorHistoryMarker?.() ?? 0,
+          : window.jiaoleafBridge?.getEditorHistoryMarker?.() ?? 0,
     });
     reviewRedoStackRef.current = [];
   };
@@ -9088,18 +9088,18 @@ const Panel = () => {
           : '';
 
     if (patchReview.kind === 'replaceSelection') {
-      if (!window.ageafBridge?.applyReplaceRange) {
+      if (!window.jiaoleafBridge?.applyReplaceRange) {
         return { ok: false, error: 'Apply bridge unavailable' };
       }
       const result =
         direction === 'undo'
-          ? await window.ageafBridge.applyReplaceRange({
+          ? await window.jiaoleafBridge.applyReplaceRange({
             from: patchReview.from,
             to: patchReview.to,
             expectedOldText: appliedText,
             text: patchReview.selection,
           })
-          : await window.ageafBridge.applyReplaceRange({
+          : await window.jiaoleafBridge.applyReplaceRange({
             from: patchReview.from,
             to: patchReview.to,
             expectedOldText: patchReview.selection,
@@ -9118,12 +9118,12 @@ const Panel = () => {
     }
 
     if (patchReview.kind === 'replaceRangeInFile') {
-      if (!window.ageafBridge?.applyReplaceInFile) {
+      if (!window.jiaoleafBridge?.applyReplaceInFile) {
         return { ok: false, error: 'Apply bridge unavailable' };
       }
       const result =
         direction === 'undo'
-          ? await window.ageafBridge.applyReplaceInFile({
+          ? await window.jiaoleafBridge.applyReplaceInFile({
             filePath: patchReview.filePath,
             expectedOldText: appliedText,
             text: patchReview.expectedOldText,
@@ -9134,7 +9134,7 @@ const Panel = () => {
               ? { to: patchReview.to }
               : {}),
           })
-          : await window.ageafBridge.applyReplaceInFile({
+          : await window.jiaoleafBridge.applyReplaceInFile({
             filePath: patchReview.filePath,
             expectedOldText: patchReview.expectedOldText,
             text: appliedText,
@@ -9159,16 +9159,16 @@ const Panel = () => {
 
     if (patchReview.kind === 'insertAtCursor') {
       if (direction === 'undo') {
-        if (!window.ageafBridge?.undoEditor) {
+        if (!window.jiaoleafBridge?.undoEditor) {
           return { ok: false, error: 'Undo bridge unavailable' };
         }
-        return await window.ageafBridge.undoEditor();
+        return await window.jiaoleafBridge.undoEditor();
       }
-      if (window.ageafBridge?.redoEditor) {
-        return await window.ageafBridge.redoEditor();
+      if (window.jiaoleafBridge?.redoEditor) {
+        return await window.jiaoleafBridge.redoEditor();
       }
-      if (appliedText && window.ageafBridge?.insertAtCursor) {
-        window.ageafBridge.insertAtCursor(appliedText);
+      if (appliedText && window.jiaoleafBridge?.insertAtCursor) {
+        window.jiaoleafBridge.insertAtCursor(appliedText);
         return { ok: true };
       }
       return { ok: false, error: 'Redo bridge unavailable' };
@@ -9328,7 +9328,7 @@ const Panel = () => {
 
     const promptLine1 =
       'Please refine the proposed change below based on my feedback.';
-    const promptLine2 = `Respond with exactly one ageaf-patch code block with kind ${patchReview.kind} and ONLY the updated proposal.`;
+    const promptLine2 = `Respond with exactly one jiaoleaf-patch code block with kind ${patchReview.kind} and ONLY the updated proposal.`;
     const targetLine = `Target: ${fileHint}`;
     const combined = `${promptLine1}\n${promptLine2}\n${targetLine}\n\nCurrent text:\n\n${oldText}\n\nProposed text:\n\n${newText}\n\nFeedback:\n`;
     insertChipFromText(combined, fileHint, lineFrom, lineTo);
@@ -9354,7 +9354,7 @@ const Panel = () => {
 
     try {
       if (patchReview.kind === 'replaceSelection') {
-        if (!window.ageafBridge?.applyReplaceRange) {
+        if (!window.jiaoleafBridge?.applyReplaceRange) {
           setPatchActionErrors((prev) => ({
             ...prev,
             [messageId]: 'Apply bridge unavailable',
@@ -9363,7 +9363,7 @@ const Panel = () => {
         }
         const nextText =
           typeof overrideText === 'string' ? overrideText : patchReview.text;
-        const result = await window.ageafBridge.applyReplaceRange({
+        const result = await window.jiaoleafBridge.applyReplaceRange({
           from: patchReview.from,
           to: patchReview.to,
           expectedOldText: patchReview.selection,
@@ -9381,7 +9381,7 @@ const Panel = () => {
       }
 
       if (patchReview.kind === 'replaceRangeInFile') {
-        if (!window.ageafBridge?.applyReplaceInFile) {
+        if (!window.jiaoleafBridge?.applyReplaceInFile) {
           setPatchActionErrors((prev) => ({
             ...prev,
             [messageId]: 'Apply bridge unavailable',
@@ -9390,7 +9390,7 @@ const Panel = () => {
         }
         const nextText =
           typeof overrideText === 'string' ? overrideText : patchReview.text;
-        const result = await window.ageafBridge.applyReplaceInFile({
+        const result = await window.jiaoleafBridge.applyReplaceInFile({
           filePath: patchReview.filePath,
           expectedOldText: patchReview.expectedOldText,
           text: nextText,
@@ -9411,10 +9411,10 @@ const Panel = () => {
       }
 
       if (patchReview.kind === 'insertAtCursor') {
-        if (!window.ageafBridge) return false;
+        if (!window.jiaoleafBridge) return false;
         const nextText =
           typeof overrideText === 'string' ? overrideText : patchReview.text;
-        window.ageafBridge.insertAtCursor(nextText);
+        window.jiaoleafBridge.insertAtCursor(nextText);
         setPatchReviewTextAndStatus(messageId, 'accepted', nextText);
         return true;
       }
@@ -9713,7 +9713,7 @@ const Panel = () => {
 
   const onNavigateToFile = (filePath: string) => {
     if (!filePath?.trim()) return;
-    void window.ageafBridge?.navigateToFile(filePath);
+    void window.jiaoleafBridge?.navigateToFile(filePath);
   };
 
   // Stable refs for patch review handlers — avoids re-registering the event
@@ -9765,14 +9765,14 @@ const Panel = () => {
   useEffect(() => {
     const isEditorShortcutTarget = (target: EventTarget | null) => {
       if (!(target instanceof HTMLElement)) return false;
-      if (target.closest('#ageaf-panel-root')) return false;
+      if (target.closest('#jiaoleaf-panel-root')) return false;
       return Boolean(target.closest('.cm-editor, .cm-content'));
     };
 
     const isEditorFocused = () => {
       const active = document.activeElement;
       if (!(active instanceof HTMLElement)) return false;
-      if (active.closest('#ageaf-panel-root')) return false;
+      if (active.closest('#jiaoleaf-panel-root')) return false;
       return Boolean(active.closest('.cm-editor, .cm-content'));
     };
 
@@ -9810,7 +9810,7 @@ const Panel = () => {
         typeof topReviewEntry.editorHistoryMarker === 'number'
       ) {
         const currentEditorHistoryMarker =
-          window.ageafBridge?.getEditorHistoryMarker?.() ??
+          window.jiaoleafBridge?.getEditorHistoryMarker?.() ??
           topReviewEntry.editorHistoryMarker;
         if (
           currentEditorHistoryMarker !== topReviewEntry.editorHistoryMarker
@@ -9977,7 +9977,7 @@ const Panel = () => {
 
   useEffect(() => {
     // After refresh, the editor overlay may have already fired its "ready" event
-    // before the panel mounted. If so, `__ageafOverlayReady` will be set.
+    // before the panel mounted. If so, `__jiaoleafOverlayReady` will be set.
     // We retry for a short time to cover both load orders.
     const hasPending = messages.some(
       (msg) =>
@@ -9989,7 +9989,7 @@ const Panel = () => {
     let attempts = 0;
     const timer = window.setInterval(() => {
       attempts += 1;
-      const ready = Boolean((window as any).__ageafOverlayReady);
+      const ready = Boolean((window as any).__jiaoleafOverlayReady);
       if (ready) {
         overlayActiveDetailsRef.current.clear();
         emitPendingOverlay(true);
@@ -10002,7 +10002,7 @@ const Panel = () => {
     }, 250);
 
     // Try immediately too (covers fast loads).
-    if (Boolean((window as any).__ageafOverlayReady)) {
+    if (Boolean((window as any).__jiaoleafOverlayReady)) {
       overlayActiveDetailsRef.current.clear();
       emitPendingOverlay(true);
       window.clearInterval(timer);
@@ -10491,14 +10491,14 @@ const Panel = () => {
   const hasSessions = sessionIds.length > 0;
   const showSessionTabs = sessionIds.length > 1;
   const landingPage = (
-    <div class="ageaf-landing">
+    <div class="jiaoleaf-landing">
       {updateNotice ? (
-        <div class="ageaf-panel__update-banner" role="status" aria-live="polite">
-          <span class="ageaf-panel__update-text">
+        <div class="jiaoleaf-panel__update-banner" role="status" aria-live="polite">
+          <span class="jiaoleaf-panel__update-text">
             There is a new version. Please git pull and reload.
           </span>
           <a
-            class="ageaf-panel__update-link"
+            class="jiaoleaf-panel__update-link"
             href={updateNotice.commitUrl}
             target="_blank"
             rel="noreferrer noopener"
@@ -10506,7 +10506,7 @@ const Panel = () => {
             View commit
           </a>
           <button
-            class="ageaf-panel__update-close"
+            class="jiaoleaf-panel__update-close"
             type="button"
             aria-label="Dismiss update notification"
             onClick={dismissUpdateNotice}
@@ -10515,49 +10515,49 @@ const Panel = () => {
           </button>
         </div>
       ) : null}
-      <div class="ageaf-landing__content">
-        <div class="ageaf-landing__header">
+      <div class="jiaoleaf-landing__content">
+        <div class="jiaoleaf-landing__header">
           <img
             src={getIconUrl(PRODUCT_LOGO_256)}
-            class="ageaf-landing__logo"
+            class="jiaoleaf-landing__logo"
             alt={`${PRODUCT_NAME} Logo`}
           />
-          <div class="ageaf-landing__title">{PRODUCT_NAME}</div>
-          <div class="ageaf-landing__slogan">{PRODUCT_TAGLINE}</div>
+          <div class="jiaoleaf-landing__title">{PRODUCT_NAME}</div>
+          <div class="jiaoleaf-landing__slogan">{PRODUCT_TAGLINE}</div>
         </div>
-        <div class="ageaf-landing__actions">
+        <div class="jiaoleaf-landing__actions">
           <button
-            class="ageaf-landing__card"
+            class="jiaoleaf-landing__card"
             type="button"
             onClick={() => void onNewChat('claude')}
             aria-label="Start an Anthropic Claude session"
           >
-            <div class="ageaf-landing__card-title">Anthropic</div>
-            <div class="ageaf-landing__card-desc">Claude</div>
+            <div class="jiaoleaf-landing__card-title">Anthropic</div>
+            <div class="jiaoleaf-landing__card-desc">Claude</div>
           </button>
           <button
-            class="ageaf-landing__card"
+            class="jiaoleaf-landing__card"
             type="button"
             onClick={() => void onNewChat('codex')}
             aria-label="Start an OpenAI Codex session"
           >
-            <div class="ageaf-landing__card-title">OpenAI</div>
-            <div class="ageaf-landing__card-desc">Codex</div>
+            <div class="jiaoleaf-landing__card-title">OpenAI</div>
+            <div class="jiaoleaf-landing__card-desc">Codex</div>
           </button>
           <button
-            class="ageaf-landing__card"
+            class="jiaoleaf-landing__card"
             type="button"
             onClick={() => void onNewChat('pi')}
             aria-label="Start a BYOK session"
           >
-            <div class="ageaf-landing__card-title">BYOK</div>
-            <div class="ageaf-landing__card-desc">Pi</div>
+            <div class="jiaoleaf-landing__card-title">BYOK</div>
+            <div class="jiaoleaf-landing__card-desc">Pi</div>
           </button>
         </div>
       </div>
-      <div class="ageaf-landing__footer">
+      <div class="jiaoleaf-landing__footer">
         <button
-          class="ageaf-panel__theme-toggle"
+          class="jiaoleaf-panel__theme-toggle"
           type="button"
           onClick={() => {
             themeOverriddenRef.current = true;
@@ -10569,7 +10569,7 @@ const Panel = () => {
           {isLightMode ? <SunIcon /> : <MoonIcon />}
         </button>
         <a
-          class="ageaf-landing__help"
+          class="jiaoleaf-landing__help"
           href={HOW_TO_GUIDES_URL}
           target="_blank"
           rel="noreferrer noopener"
@@ -10582,16 +10582,16 @@ const Panel = () => {
 
   return (
     <aside
-      class={`ageaf-panel ${collapsed ? 'ageaf-panel--collapsed' : ''} ${isLightMode ? 'light' : ''
+      class={`jiaoleaf-panel ${collapsed ? 'jiaoleaf-panel--collapsed' : ''} ${isLightMode ? 'light' : ''
         }`}
-      style={{ '--ageaf-panel-width': `${width}px` }}
+      style={{ '--jiaoleaf-panel-width': `${width}px` }}
     >
       <div
-        class={`ageaf-panel__divider ${collapsed ? 'is-collapsed' : ''}`}
+        class={`jiaoleaf-panel__divider ${collapsed ? 'is-collapsed' : ''}`}
         onMouseDown={onResizeStart}
       >
         <button
-          class={`ageaf-panel__divider-toggle ${collapsed ? 'is-collapsed' : ''
+          class={`jiaoleaf-panel__divider-toggle ${collapsed ? 'is-collapsed' : ''
             }`}
           type="button"
           onMouseDown={(event) => {
@@ -10605,30 +10605,30 @@ const Panel = () => {
           }}
           aria-label={panelToggleLabel}
           aria-expanded={!collapsed}
-          aria-controls="ageaf-panel-inner"
+          aria-controls="jiaoleaf-panel-inner"
         >
-          <span class="ageaf-panel__divider-tooltip" aria-hidden="true">
+          <span class="jiaoleaf-panel__divider-tooltip" aria-hidden="true">
             {panelToggleTooltip}
           </span>
         </button>
       </div>
-      <div class="ageaf-panel__inner" id="ageaf-panel-inner">
+      <div class="jiaoleaf-panel__inner" id="jiaoleaf-panel-inner">
         {hasSessions ? (
-          <header class="ageaf-panel__header">
+          <header class="jiaoleaf-panel__header">
             <img
               src={getIconUrl(PRODUCT_LOGO_48)}
-              class="ageaf-panel__logo"
+              class="jiaoleaf-panel__logo"
               alt={`${PRODUCT_NAME} Logo`}
             />
-            <div class="ageaf-panel__title">
-              <div class="ageaf-panel__name">{PRODUCT_NAME}</div>
-              <div class="ageaf-panel__intro">
+            <div class="jiaoleaf-panel__title">
+              <div class="jiaoleaf-panel__name">{PRODUCT_NAME}</div>
+              <div class="jiaoleaf-panel__intro">
                 {PRODUCT_TAGLINE}
               </div>
             </div>
             {showSessionTabs ? (
               <div
-                class="ageaf-session-tabs ageaf-panel__header-sessions"
+                class="jiaoleaf-session-tabs jiaoleaf-panel__header-sessions"
                 role="tablist"
                 aria-label="Sessions"
               >
@@ -10649,7 +10649,7 @@ const Panel = () => {
 
                   return (
                     <button
-                      class={`ageaf-session-tab ${id === activeSessionId ? 'is-active' : ''
+                      class={`jiaoleaf-session-tab ${id === activeSessionId ? 'is-active' : ''
                         } ${isActive ? 'is-busy' : ''}`}
                       type="button"
                       role="tab"
@@ -10661,33 +10661,33 @@ const Panel = () => {
                     >
                       {index + 1}
                       {statusIcon && (
-                        <span class="ageaf-session__status">{statusIcon}</span>
+                        <span class="jiaoleaf-session__status">{statusIcon}</span>
                       )}
                     </button>
                   );
                 })}
               </div>
             ) : null}
-            <div class="ageaf-panel__header-actions">
+            <div class="jiaoleaf-panel__header-actions">
               <div
-                class={`ageaf-provider ${providerIndicatorClass} ${!connectionHealth.hostConnected ||
+                class={`jiaoleaf-provider ${providerIndicatorClass} ${!connectionHealth.hostConnected ||
                   !connectionHealth.runtimeWorking
-                  ? 'ageaf-provider--disconnected'
+                  ? 'jiaoleaf-provider--disconnected'
                   : ''
                   } ${!connectionHealth.hostConnected
-                    ? 'ageaf-provider--host-disconnected'
+                    ? 'jiaoleaf-provider--host-disconnected'
                     : !connectionHealth.runtimeWorking
-                      ? 'ageaf-provider--runtime-disconnected'
+                      ? 'jiaoleaf-provider--runtime-disconnected'
                       : ''
                   }`}
                 aria-label={`Provider: ${providerDisplay.label}`}
                 data-tooltip={getConnectionHealthTooltip()}
               >
-                <span class="ageaf-provider__dot" aria-hidden="true" />
-                <span class="ageaf-provider__label">{providerDisplay.label}</span>
+                <span class="jiaoleaf-provider__dot" aria-hidden="true" />
+                <span class="jiaoleaf-provider__label">{providerDisplay.label}</span>
               </div>
               <button
-                class="ageaf-panel__theme-toggle"
+                class="jiaoleaf-panel__theme-toggle"
                 type="button"
                 onClick={() => {
                   themeOverriddenRef.current = true;
@@ -10699,7 +10699,7 @@ const Panel = () => {
                 {isLightMode ? <SunIcon /> : <MoonIcon />}
               </button>
               <a
-                class="ageaf-panel__help"
+                class="jiaoleaf-panel__help"
                 href={HOW_TO_GUIDES_URL}
                 target="_blank"
                 rel="noreferrer noopener"
@@ -10710,15 +10710,15 @@ const Panel = () => {
             </div>
             {updateNotice ? (
               <div
-                class="ageaf-panel__update-banner"
+                class="jiaoleaf-panel__update-banner"
                 role="status"
                 aria-live="polite"
               >
-                <span class="ageaf-panel__update-text">
+                <span class="jiaoleaf-panel__update-text">
                   There is a new version. Please git pull and reload.
                 </span>
                 <a
-                  class="ageaf-panel__update-link"
+                  class="jiaoleaf-panel__update-link"
                   href={updateNotice.commitUrl}
                   target="_blank"
                   rel="noreferrer noopener"
@@ -10726,7 +10726,7 @@ const Panel = () => {
                   View commit
                 </a>
                 <button
-                  class="ageaf-panel__update-close"
+                  class="jiaoleaf-panel__update-close"
                   type="button"
                   aria-label="Dismiss update notification"
                   onClick={dismissUpdateNotice}
@@ -10736,7 +10736,7 @@ const Panel = () => {
               </div>
             ) : null}
             <div
-              class={`ageaf-tips ageaf-tips--${tipDirection}`}
+              class={`jiaoleaf-tips jiaoleaf-tips--${tipDirection}`}
               key={tipIndex}
               aria-live="polite"
               aria-label="Tip"
@@ -10745,10 +10745,10 @@ const Panel = () => {
             </div>
           </header>
         ) : null}
-        <div class="ageaf-panel__body">
+        <div class="jiaoleaf-panel__body">
           {hasSessions ? (
             <>
-              <div class="ageaf-panel__chat" ref={chatRef}>
+              <div class="jiaoleaf-panel__chat" ref={chatRef}>
                 {(() => {
                   // Compute once for all messages (avoids O(N^2) reverse search per message)
                   const latestPatchText = (() => {
@@ -10799,26 +10799,26 @@ const Panel = () => {
                       : false;
                     return (
                       <div
-                        class={`ageaf-message ageaf-message--${message.role}`}
+                        class={`jiaoleaf-message jiaoleaf-message--${message.role}`}
                         key={message.id}
                       >
                         {message.role === 'assistant' && message.statusLine ? (
                           isStatusCoTToggle ? (
                             <button
-                              class="ageaf-message__status ageaf-message__status--toggle"
+                              class="jiaoleaf-message__status jiaoleaf-message__status--toggle"
                               type="button"
                               aria-expanded={isStatusCoTExpanded}
                               onClick={() => toggleThinkingExpanded(message.id)}
                             >
-                              <span class="ageaf-message__status-toggle-arrow">
+                              <span class="jiaoleaf-message__status-toggle-arrow">
                                 {isStatusCoTExpanded ? '▼' : '▶'}
                               </span>
-                              <span class="ageaf-message__status-toggle-text">
+                              <span class="jiaoleaf-message__status-toggle-text">
                                 {message.statusLine}
                               </span>
                             </button>
                           ) : (
-                            <div class="ageaf-message__status">
+                            <div class="jiaoleaf-message__status">
                               {message.statusLine}
                             </div>
                           )
@@ -10835,9 +10835,9 @@ const Panel = () => {
                           : null}
                         {content}
                         {canCopyResponse ? (
-                          <div class="ageaf-message__response-actions">
+                          <div class="jiaoleaf-message__response-actions">
                             <button
-                              class="ageaf-message__copy-response"
+                              class="jiaoleaf-message__copy-response"
                               type="button"
                               aria-label="Copy response"
                               title="Copy response"
@@ -10852,7 +10852,7 @@ const Panel = () => {
                               }}
                             >
                               {copiedItems[`${message.id}-response`] ? (
-                                <span class="ageaf-message__copy-check">
+                                <span class="jiaoleaf-message__copy-check">
                                   <CheckIcon />
                                 </span>
                               ) : (
@@ -10869,7 +10869,7 @@ const Panel = () => {
                     <>
                       {messages.slice(0, preStreamCount).map(renderMessageBubble)}
                       {streamingStatus ? (
-                        <div class="ageaf-message ageaf-message--assistant ageaf-message--streaming">
+                        <div class="jiaoleaf-message jiaoleaf-message--assistant jiaoleaf-message--streaming">
                           {(() => {
                             const hasStreamingCoT = Boolean(
                               settings?.showThinkingAndTools &&
@@ -10884,7 +10884,7 @@ const Panel = () => {
                               <>
                                 {isStreamingCoTToggle ? (
                                   <button
-                                    class={`ageaf-message__status ageaf-message__status--toggle ${isStreamingActive ? 'is-active' : ''
+                                    class={`jiaoleaf-message__status jiaoleaf-message__status--toggle ${isStreamingActive ? 'is-active' : ''
                                       }`}
                                     type="button"
                                     aria-expanded={isStreamingCoTExpanded}
@@ -10892,16 +10892,16 @@ const Panel = () => {
                                       toggleThinkingExpanded('streaming-thinking')
                                     }
                                   >
-                                    <span class="ageaf-message__status-toggle-arrow">
+                                    <span class="jiaoleaf-message__status-toggle-arrow">
                                       {isStreamingCoTExpanded ? '▼' : '▶'}
                                     </span>
-                                    <span class="ageaf-message__status-toggle-text">
+                                    <span class="jiaoleaf-message__status-toggle-text">
                                       {streamingStatus}
                                     </span>
                                   </button>
                                 ) : (
                                   <div
-                                    class={`ageaf-message__status ${isStreamingActive ? 'is-active' : ''
+                                    class={`jiaoleaf-message__status ${isStreamingActive ? 'is-active' : ''
                                       }`}
                                   >
                                     {streamingStatus}
@@ -10921,7 +10921,7 @@ const Panel = () => {
                             );
                           })()}
                           <div
-                            class="ageaf-message__content"
+                            class="jiaoleaf-message__content"
                             ref={streamingContentRef}
                             style={streamingText ? undefined : { display: 'none' }}
                           />
@@ -10933,7 +10933,7 @@ const Panel = () => {
                 })()}
                 {DEBUG_DIFF ? (
                   <div
-                    class="ageaf-message ageaf-message--system"
+                    class="jiaoleaf-message jiaoleaf-message--system"
                     aria-label="Review changes"
                   >
                     <DiffReview
@@ -10943,18 +10943,18 @@ const Panel = () => {
                   </div>
                 ) : null}
                 {activeToolRequest ? (
-                  <div class="ageaf-message ageaf-message--system">
+                  <div class="jiaoleaf-message jiaoleaf-message--system">
                     {activeToolRequest.kind === 'approval' ? (
-                      <div class="ageaf-toolcall">
-                        <div class="ageaf-toolcall__title">Approval needed</div>
-                        <div class="ageaf-toolcall__detail">
+                      <div class="jiaoleaf-toolcall">
+                        <div class="jiaoleaf-toolcall__title">Approval needed</div>
+                        <div class="jiaoleaf-toolcall__detail">
                           {activeToolRequest.params?.command
                             ? String(activeToolRequest.params.command)
                             : activeToolRequest.method}
                         </div>
-                        <div class="ageaf-toolcall__actions">
+                        <div class="jiaoleaf-toolcall__actions">
                           <button
-                            class="ageaf-panel__apply is-secondary"
+                            class="jiaoleaf-panel__apply is-secondary"
                             type="button"
                             disabled={toolRequestBusy}
                             onClick={() => {
@@ -10967,7 +10967,7 @@ const Panel = () => {
                             Decline
                           </button>
                           <button
-                            class="ageaf-panel__apply"
+                            class="jiaoleaf-panel__apply"
                             type="button"
                             disabled={toolRequestBusy}
                             onClick={() => {
@@ -10983,7 +10983,7 @@ const Panel = () => {
                       </div>
                     ) : (
                       <form
-                        class="ageaf-toolcall"
+                        class="jiaoleaf-toolcall"
                         onSubmit={(event) => {
                           event.preventDefault();
                           const answers: Record<string, { answers: string[] }> = {};
@@ -10998,24 +10998,24 @@ const Panel = () => {
                           void respondToToolRequest(activeToolRequest, { answers });
                         }}
                       >
-                        <div class="ageaf-toolcall__title">Input needed</div>
+                        <div class="jiaoleaf-toolcall__title">Input needed</div>
                         {activeToolQuestions.map((question) => (
-                          <div class="ageaf-toolcall__question" key={question.id}>
+                          <div class="jiaoleaf-toolcall__question" key={question.id}>
                             {question.header ? (
-                              <div class="ageaf-toolcall__question-title">
+                              <div class="jiaoleaf-toolcall__question-title">
                                 {question.header}
                               </div>
                             ) : null}
                             {question.question ? (
-                              <div class="ageaf-toolcall__question-text">
+                              <div class="jiaoleaf-toolcall__question-text">
                                 {question.question}
                               </div>
                             ) : null}
                             {question.options ? (
-                              <div class="ageaf-toolcall__options">
+                              <div class="jiaoleaf-toolcall__options">
                                 {question.options.map((option: any) => (
                                   <button
-                                    class="ageaf-toolcall__option"
+                                    class="jiaoleaf-toolcall__option"
                                     type="button"
                                     key={option.label}
                                     onClick={() => {
@@ -11031,7 +11031,7 @@ const Panel = () => {
                               </div>
                             ) : null}
                             <textarea
-                              class="ageaf-toolcall__input"
+                              class="jiaoleaf-toolcall__input"
                               rows={2}
                               value={toolRequestInputs[question.id] ?? ''}
                               onInput={(e) => {
@@ -11047,9 +11047,9 @@ const Panel = () => {
                             />
                           </div>
                         ))}
-                        <div class="ageaf-toolcall__actions">
+                        <div class="jiaoleaf-toolcall__actions">
                           <button
-                            class="ageaf-panel__apply is-secondary"
+                            class="jiaoleaf-panel__apply is-secondary"
                             type="button"
                             disabled={toolRequestBusy}
                             onClick={() => {
@@ -11066,7 +11066,7 @@ const Panel = () => {
                             Skip
                           </button>
                           <button
-                            class="ageaf-panel__apply"
+                            class="jiaoleaf-panel__apply"
                             type="submit"
                             disabled={toolRequestBusy}
                           >
@@ -11078,18 +11078,18 @@ const Panel = () => {
                   </div>
                 ) : null}
                 {isSending ? (
-                  <div class="ageaf-generating">
-                    <span class="ageaf-generating__text">Generating</span>
-                    <span class="ageaf-generating__dots">
-                      <span class="ageaf-generating__dot">.</span>
-                      <span class="ageaf-generating__dot">.</span>
-                      <span class="ageaf-generating__dot">.</span>
+                  <div class="jiaoleaf-generating">
+                    <span class="jiaoleaf-generating__text">Generating</span>
+                    <span class="jiaoleaf-generating__dots">
+                      <span class="jiaoleaf-generating__dot">.</span>
+                      <span class="jiaoleaf-generating__dot">.</span>
+                      <span class="jiaoleaf-generating__dot">.</span>
                     </span>
                   </div>
                 ) : null}
                 {!isAtBottom ? (
                   <button
-                    class="ageaf-panel__scroll"
+                    class="jiaoleaf-panel__scroll"
                     type="button"
                     onClick={scrollToBottom}
                   >
@@ -11107,9 +11107,9 @@ const Panel = () => {
                   onNavigateToFile={onNavigateToFile}
                 />
               ) : null}
-              <div class="ageaf-runtime">
+              <div class="jiaoleaf-runtime">
                 <button
-                  class="ageaf-runtime__refresh"
+                  class="jiaoleaf-runtime__refresh"
                   type="button"
                   title="Refresh models"
                   aria-label="Refresh models"
@@ -11118,11 +11118,11 @@ const Panel = () => {
                   &#x21bb;
                 </button>
                 <div
-                  class={`ageaf-runtime__picker ${runtimeMenuOpen === 'model' ? 'is-open' : ''
+                  class={`jiaoleaf-runtime__picker ${runtimeMenuOpen === 'model' ? 'is-open' : ''
                     }`}
                 >
                   <button
-                    class="ageaf-runtime__button"
+                    class="jiaoleaf-runtime__button"
                     type="button"
                     aria-haspopup="listbox"
                     aria-expanded={runtimeMenuOpen === 'model'}
@@ -11133,22 +11133,22 @@ const Panel = () => {
                       );
                     }}
                   >
-                    <span class="ageaf-runtime__value">
+                    <span class="jiaoleaf-runtime__value">
                       {getSelectedModelLabel()}
                     </span>
                   </button>
-                  <div class={`ageaf-runtime__menu${chatProvider === 'pi' ? ' ageaf-runtime__menu--grouped' : ''}`} role="listbox">
+                  <div class={`jiaoleaf-runtime__menu${chatProvider === 'pi' ? ' jiaoleaf-runtime__menu--grouped' : ''}`} role="listbox">
                     {chatProvider === 'pi' ? (
                       getGroupedRuntimeModels().map((group) => (
-                        <div class="ageaf-runtime__group" key={group.provider}>
-                          <div class="ageaf-runtime__group-label">
+                        <div class="jiaoleaf-runtime__group" key={group.provider}>
+                          <div class="jiaoleaf-runtime__group-label">
                             {formatProviderName(group.provider)}
-                            <span class="ageaf-runtime__group-arrow">&#x203a;</span>
+                            <span class="jiaoleaf-runtime__group-arrow">&#x203a;</span>
                           </div>
-                          <div class="ageaf-runtime__group-models">
+                          <div class="jiaoleaf-runtime__group-models">
                             {group.models.map((model) => (
                               <button
-                                class={`ageaf-runtime__option ${isRuntimeModelSelected(model) ? 'is-selected' : ''}`}
+                                class={`jiaoleaf-runtime__option ${isRuntimeModelSelected(model) ? 'is-selected' : ''}`}
                                 type="button"
                                 onClick={() => {
                                   onSelectPiModel(model);
@@ -11157,7 +11157,7 @@ const Panel = () => {
                                 key={model.value}
                                 aria-selected={isRuntimeModelSelected(model)}
                               >
-                                <div class="ageaf-runtime__option-title">
+                                <div class="jiaoleaf-runtime__option-title">
                                   {getRuntimeModelLabel(model)}
                                 </div>
                               </button>
@@ -11168,7 +11168,7 @@ const Panel = () => {
                     ) : (
                       getOrderedRuntimeModels().map((model) => (
                         <button
-                          class={`ageaf-runtime__option ${isRuntimeModelSelected(model) ? 'is-selected' : ''}`}
+                          class={`jiaoleaf-runtime__option ${isRuntimeModelSelected(model) ? 'is-selected' : ''}`}
                           type="button"
                           onClick={() => {
                             onSelectModel(model.value);
@@ -11177,10 +11177,10 @@ const Panel = () => {
                           key={model.value}
                           aria-selected={isRuntimeModelSelected(model)}
                         >
-                          <div class="ageaf-runtime__option-title">
+                          <div class="jiaoleaf-runtime__option-title">
                             {getRuntimeModelLabel(model)}
                           </div>
-                          <div class="ageaf-runtime__option-description">
+                          <div class="jiaoleaf-runtime__option-description">
                             {getRuntimeModelDescription(model)}
                           </div>
                         </button>
@@ -11189,11 +11189,11 @@ const Panel = () => {
                   </div>
                 </div>
                 <div
-                  class={`ageaf-runtime__picker ${runtimeMenuOpen === 'thinking' ? 'is-open' : ''
+                  class={`jiaoleaf-runtime__picker ${runtimeMenuOpen === 'thinking' ? 'is-open' : ''
                     }`}
                 >
                   <button
-                    class="ageaf-runtime__button"
+                    class="jiaoleaf-runtime__button"
                     type="button"
                     aria-haspopup="listbox"
                     aria-expanded={runtimeMenuOpen === 'thinking'}
@@ -11204,15 +11204,15 @@ const Panel = () => {
                       );
                     }}
                   >
-                    <span class="ageaf-runtime__label">Thinking</span>
-                    <span class="ageaf-runtime__value ageaf-runtime__value--accent">
+                    <span class="jiaoleaf-runtime__label">Thinking</span>
+                    <span class="jiaoleaf-runtime__value jiaoleaf-runtime__value--accent">
                       {selectedThinkingMode.label}
                     </span>
                   </button>
-                  <div class="ageaf-runtime__menu" role="listbox">
+                  <div class="jiaoleaf-runtime__menu" role="listbox">
                     {thinkingModes.map((mode) => (
                       <button
-                        class={`ageaf-runtime__option ${mode.id === currentThinkingMode ? 'is-selected' : ''
+                        class={`jiaoleaf-runtime__option ${mode.id === currentThinkingMode ? 'is-selected' : ''
                           }`}
                         type="button"
                         onClick={() => {
@@ -11222,27 +11222,27 @@ const Panel = () => {
                         key={mode.id}
                         aria-selected={mode.id === currentThinkingMode}
                       >
-                        <div class="ageaf-runtime__option-title">{mode.label}</div>
+                        <div class="jiaoleaf-runtime__option-title">{mode.label}</div>
                       </button>
                     ))}
                   </div>
                 </div>
-                <div class="ageaf-runtime__usage" data-tooltip={usageLabel}>
+                <div class="jiaoleaf-runtime__usage" data-tooltip={usageLabel}>
                   <svg
-                    class="ageaf-runtime__ring"
+                    class="jiaoleaf-runtime__ring"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
                     <title>{usageLabel}</title>
                     <circle
-                      class="ageaf-runtime__ring-track"
+                      class="jiaoleaf-runtime__ring-track"
                       cx="12"
                       cy="12"
                       r="10"
                       strokeWidth="3"
                     />
                     <circle
-                      class="ageaf-runtime__ring-value"
+                      class="jiaoleaf-runtime__ring-value"
                       cx="12"
                       cy="12"
                       r="10"
@@ -11252,10 +11252,10 @@ const Panel = () => {
                       strokeDashoffset={RING_CIRCUMFERENCE}
                     />
                   </svg>
-                  <span class="ageaf-runtime__value">{usagePercent}%</span>
+                  <span class="jiaoleaf-runtime__value">{usagePercent}%</span>
                 </div>
                 <button
-                  class={`ageaf-runtime__yolo ${yoloMode ? 'is-on' : ''}`}
+                  class={`jiaoleaf-runtime__yolo ${yoloMode ? 'is-on' : ''}`}
                   type="button"
                   role="switch"
                   aria-checked={chatProvider === 'pi' ? true : yoloMode}
@@ -11276,11 +11276,11 @@ const Panel = () => {
                     void onToggleYoloMode();
                   }}
                 >
-                  <span class="ageaf-runtime__yolo-text">
+                  <span class="jiaoleaf-runtime__yolo-text">
                     {yoloMode ? 'Y' : 'S'}
                   </span>
-                  <span class="ageaf-runtime__yolo-switch" aria-hidden="true">
-                    <span class="ageaf-runtime__yolo-thumb" />
+                  <span class="jiaoleaf-runtime__yolo-switch" aria-hidden="true">
+                    <span class="jiaoleaf-runtime__yolo-thumb" />
                   </span>
                 </button>
               </div>
@@ -11291,21 +11291,21 @@ const Panel = () => {
         </div>
         {hasSessions ? (
           <div
-            class="ageaf-panel__input"
+            class="jiaoleaf-panel__input"
             onDragEnter={(event) => handleDragEnter(event as DragEvent)}
             onDragOver={(event) => handleDragOver(event as DragEvent)}
             onDragLeave={(event) => handleDragLeave(event as DragEvent)}
             onDrop={(event) => handleDrop(event as DragEvent)}
           >
-            <div class="ageaf-panel__toolbar">
-              <div class="ageaf-toolbar-strip">
-                <div class="ageaf-toolbar-actions">
+            <div class="jiaoleaf-panel__toolbar">
+              <div class="jiaoleaf-toolbar-strip">
+                <div class="jiaoleaf-toolbar-actions">
                   <div
-                    class={`ageaf-toolbar-menu ageaf-skill-menu ${skillMenuOpen ? 'is-open' : ''
+                    class={`jiaoleaf-toolbar-menu jiaoleaf-skill-menu ${skillMenuOpen ? 'is-open' : ''
                       }`}
                   >
                     <button
-                      class="ageaf-toolbar-button ageaf-toolbar-button--text"
+                      class="jiaoleaf-toolbar-button jiaoleaf-toolbar-button--text"
                       type="button"
                       aria-haspopup="menu"
                       aria-expanded={skillMenuOpen}
@@ -11320,14 +11320,14 @@ const Panel = () => {
                     </button>
                     {skillMenuOpen ? (
                       <div
-                        class="ageaf-toolbar-menu__list ageaf-skill-menu__list"
+                        class="jiaoleaf-toolbar-menu__list jiaoleaf-skill-menu__list"
                         role="menu"
                         aria-label="Enabled skills"
                       >
                         {enabledSkills.length > 0 ? (
                           enabledSkills.map((skill) => (
                             <button
-                              class="ageaf-toolbar-menu__option ageaf-skill-menu__option"
+                              class="jiaoleaf-toolbar-menu__option jiaoleaf-skill-menu__option"
                               type="button"
                               key={skill.id}
                               role="menuitem"
@@ -11335,15 +11335,15 @@ const Panel = () => {
                               onMouseDown={(event) => event.preventDefault()}
                               onClick={() => insertSkill(skill)}
                             >
-                              <span class="ageaf-skill-menu__name">/{skill.name}</span>
-                              <span class="ageaf-skill-menu__description">
+                              <span class="jiaoleaf-skill-menu__name">/{skill.name}</span>
+                              <span class="jiaoleaf-skill-menu__description">
                                 {skill.description}
                               </span>
                             </button>
                           ))
                         ) : (
                           <button
-                            class="ageaf-toolbar-menu__option"
+                            class="jiaoleaf-toolbar-menu__option"
                             type="button"
                             onClick={() => {
                               setSettingsTab('skills');
@@ -11355,7 +11355,7 @@ const Panel = () => {
                           </button>
                         )}
                         <button
-                          class="ageaf-toolbar-menu__option ageaf-skill-menu__manage"
+                          class="jiaoleaf-toolbar-menu__option jiaoleaf-skill-menu__manage"
                           type="button"
                           role="menuitem"
                           onClick={() => {
@@ -11370,7 +11370,7 @@ const Panel = () => {
                     ) : null}
                   </div>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={() => void onRewriteSelection()}
                     aria-label="Rewrite selection"
@@ -11379,7 +11379,7 @@ const Panel = () => {
                     <RewriteIcon />
                   </button>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={() => void onCheckReferences()}
                     aria-label="Check references"
@@ -11388,7 +11388,7 @@ const Panel = () => {
                     <CheckReferencesIcon />
                   </button>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={() => void onNotationConsistencyPass()}
                     aria-label="Notation consistency pass"
@@ -11397,7 +11397,7 @@ const Panel = () => {
                     <NotationCheckIcon />
                   </button>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={() => void onOpenFilePicker()}
                     aria-label="Attach files"
@@ -11405,9 +11405,9 @@ const Panel = () => {
                   >
                     <AttachFilesIcon />
                   </button>
-                  <div class="ageaf-toolbar-menu">
+                  <div class="jiaoleaf-toolbar-menu">
                     <button
-                      class="ageaf-toolbar-button"
+                      class="jiaoleaf-toolbar-button"
                       type="button"
                       aria-haspopup="menu"
                       aria-label="New chat"
@@ -11416,12 +11416,12 @@ const Panel = () => {
                       <NewChatIconAlt />
                     </button>
                     <div
-                      class="ageaf-toolbar-menu__list"
+                      class="jiaoleaf-toolbar-menu__list"
                       role="menu"
                       aria-label="Select provider"
                     >
                       <button
-                        class="ageaf-toolbar-menu__option"
+                        class="jiaoleaf-toolbar-menu__option"
                         type="button"
                         onClick={() => void onNewChat('claude')}
                         role="menuitem"
@@ -11429,7 +11429,7 @@ const Panel = () => {
                         Anthropic
                       </button>
                       <button
-                        class="ageaf-toolbar-menu__option"
+                        class="jiaoleaf-toolbar-menu__option"
                         type="button"
                         onClick={() => void onNewChat('codex')}
                         role="menuitem"
@@ -11437,7 +11437,7 @@ const Panel = () => {
                         OpenAI
                       </button>
                       <button
-                        class="ageaf-toolbar-menu__option"
+                        class="jiaoleaf-toolbar-menu__option"
                         type="button"
                         onClick={() => void onNewChat('pi')}
                         role="menuitem"
@@ -11447,7 +11447,7 @@ const Panel = () => {
                     </div>
                   </div>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={onClearChat}
                     aria-label="Clear chat"
@@ -11456,7 +11456,7 @@ const Panel = () => {
                     <ClearChatIcon />
                   </button>
                   <button
-                    class="ageaf-toolbar-button"
+                    class="jiaoleaf-toolbar-button"
                     type="button"
                     onClick={onCloseSession}
                     aria-label="Close session"
@@ -11465,7 +11465,7 @@ const Panel = () => {
                     <CloseSessionIcon />
                   </button>
                   <button
-                    class="ageaf-panel__settings ageaf-toolbar-button"
+                    class="jiaoleaf-panel__settings jiaoleaf-toolbar-button"
                     type="button"
                     onClick={() => setSettingsOpen(true)}
                     aria-label="Open settings"
@@ -11478,24 +11478,24 @@ const Panel = () => {
             </div>
             {fileAttachments.length > 0 ? (
               <div
-                class="ageaf-panel__file-attachments"
+                class="jiaoleaf-panel__file-attachments"
                 aria-label="Attached files"
               >
                 {fileAttachments.map((attachment) => (
                   <div
-                    class="ageaf-panel__file-chip"
+                    class="jiaoleaf-panel__file-chip"
                     key={attachment.id}
                     title={attachment.path ?? attachment.name}
                   >
-                    <span class="ageaf-panel__file-chip-name">
+                    <span class="jiaoleaf-panel__file-chip-name">
                       {truncateName(attachment.name)}
                     </span>
-                    <span class="ageaf-panel__file-chip-meta">
+                    <span class="jiaoleaf-panel__file-chip-meta">
                       {attachment.ext.replace('.', '').toUpperCase()} ·{' '}
                       {formatLineCount(attachment.lineCount)} lines
                     </span>
                     <button
-                      class="ageaf-panel__file-chip-remove"
+                      class="jiaoleaf-panel__file-chip-remove"
                       type="button"
                       aria-label={`Remove ${attachment.name}`}
                       onClick={() =>
@@ -11514,24 +11514,24 @@ const Panel = () => {
             ) : null}
             {documentAttachments.length > 0 ? (
               <div
-                class="ageaf-panel__file-attachments"
+                class="jiaoleaf-panel__file-attachments"
                 aria-label="Attached documents"
               >
                 {documentAttachments.map((doc) => (
                   <div
-                    class="ageaf-panel__file-chip"
+                    class="jiaoleaf-panel__file-chip"
                     key={doc.id}
                     title={doc.path ?? doc.name}
                   >
-                    <span class="ageaf-panel__file-chip-name">
+                    <span class="jiaoleaf-panel__file-chip-name">
                       {truncateName(doc.name)}
                     </span>
-                    <span class="ageaf-panel__file-chip-meta">
+                    <span class="jiaoleaf-panel__file-chip-meta">
                       {(doc.name.split('.').pop() ?? '').toUpperCase()} ·{' '}
                       {formatBytes(doc.size)}
                     </span>
                     <button
-                      class="ageaf-panel__file-chip-remove"
+                      class="jiaoleaf-panel__file-chip-remove"
                       type="button"
                       aria-label={`Remove ${doc.name}`}
                       onClick={() =>
@@ -11549,25 +11549,25 @@ const Panel = () => {
               </div>
             ) : null}
             {imageAttachments.length > 0 ? (
-              <div class="ageaf-panel__attachments" aria-label="Attached images">
+              <div class="jiaoleaf-panel__attachments" aria-label="Attached images">
                 {imageAttachments.map((image) => (
-                  <div class="ageaf-panel__attachment" key={image.id}>
+                  <div class="jiaoleaf-panel__attachment" key={image.id}>
                     <img
-                      class="ageaf-panel__attachment-thumb"
+                      class="jiaoleaf-panel__attachment-thumb"
                       src={getImageDataUrl(image)}
                       alt={image.name}
                       loading="lazy"
                     />
-                    <div class="ageaf-panel__attachment-meta">
-                      <div class="ageaf-panel__attachment-name">
+                    <div class="jiaoleaf-panel__attachment-meta">
+                      <div class="jiaoleaf-panel__attachment-name">
                         {truncateName(image.name)}
                       </div>
-                      <div class="ageaf-panel__attachment-size">
+                      <div class="jiaoleaf-panel__attachment-size">
                         {formatBytes(image.size)}
                       </div>
                     </div>
                     <button
-                      class="ageaf-panel__attachment-remove"
+                      class="jiaoleaf-panel__attachment-remove"
                       type="button"
                       aria-label={`Remove ${image.name}`}
                       onClick={() => removeImageAttachment(image.id)}
@@ -11579,10 +11579,10 @@ const Panel = () => {
               </div>
             ) : null}
             {attachmentError ? (
-              <div class="ageaf-panel__attachment-error">{attachmentError}</div>
+              <div class="jiaoleaf-panel__attachment-error">{attachmentError}</div>
             ) : null}
             <div
-              class={`ageaf-panel__editor ${editorEmpty ? 'is-empty' : ''}`}
+              class={`jiaoleaf-panel__editor ${editorEmpty ? 'is-empty' : ''}`}
               contentEditable="true"
               role="textbox"
               aria-multiline="true"
@@ -11607,7 +11607,7 @@ const Panel = () => {
             />
             {mentionOpen ? (
               <div
-                class="ageaf-mention"
+                class="jiaoleaf-mention"
                 ref={mentionListRef}
                 onWheel={(event) => {
                   // Ensure the dropdown itself scrolls (trackpad wheel often scrolls the chat instead).
@@ -11625,7 +11625,7 @@ const Panel = () => {
                     <button
                       key={file.path}
                       type="button"
-                      class={`ageaf-mention__option ${index === mentionIndex ? 'is-active' : ''
+                      class={`jiaoleaf-mention__option ${index === mentionIndex ? 'is-active' : ''
                         }`}
                       onMouseDown={(event) => {
                         event.preventDefault();
@@ -11633,7 +11633,7 @@ const Panel = () => {
                       }}
                       title={file.path}
                     >
-                      <span class={`ageaf-mention__icon is-${file.kind}`}>
+                      <span class={`jiaoleaf-mention__icon is-${file.kind}`}>
                         {file.kind === 'folder'
                           ? 'Dir'
                           : file.kind === 'tex'
@@ -11644,17 +11644,17 @@ const Panel = () => {
                                 ? 'Img'
                                 : 'File'}
                       </span>
-                      <span class="ageaf-mention__name">{file.name}</span>
+                      <span class="jiaoleaf-mention__name">{file.name}</span>
                     </button>
                   ))
                 ) : (
-                  <div class="ageaf-mention__empty">No project files found.</div>
+                  <div class="jiaoleaf-mention__empty">No project files found.</div>
                 )}
               </div>
             ) : null}
             {skillOpen ? (
               <div
-                class="ageaf-skill"
+                class="jiaoleaf-skill"
                 ref={skillListRef}
                 onWheel={(event) => {
                   const el = event.currentTarget as HTMLElement | null;
@@ -11670,7 +11670,7 @@ const Panel = () => {
                     <button
                       key={skill.id}
                       type="button"
-                      class={`ageaf-skill__option ${index === skillIndex ? 'is-active' : ''
+                      class={`jiaoleaf-skill__option ${index === skillIndex ? 'is-active' : ''
                         }`}
                       onMouseDown={(event) => {
                         event.preventDefault();
@@ -11678,21 +11678,21 @@ const Panel = () => {
                       }}
                       title={skill.description}
                     >
-                      <div class="ageaf-skill__name">/{skill.name}</div>
-                      <div class="ageaf-skill__description">
+                      <div class="jiaoleaf-skill__name">/{skill.name}</div>
+                      <div class="jiaoleaf-skill__description">
                         {skill.description}
                       </div>
                     </button>
                   ))
                 ) : (
-                  <div class="ageaf-skill__empty">No skills found.</div>
+                  <div class="jiaoleaf-skill__empty">No skills found.</div>
                 )}
               </div>
             ) : null}
             {isDropActive ? (
-              <div class="ageaf-panel__dropzone" aria-hidden="true">
+              <div class="jiaoleaf-panel__dropzone" aria-hidden="true">
                 <svg
-                  class="ageaf-panel__dropzone-icon"
+                  class="jiaoleaf-panel__dropzone-icon"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                   focusable="false"
@@ -11714,7 +11714,7 @@ const Panel = () => {
                     stroke-width="1.6"
                   />
                 </svg>
-                <div class="ageaf-panel__dropzone-label">
+                <div class="jiaoleaf-panel__dropzone-label">
                   Drop files to attach
                 </div>
               </div>
@@ -11723,19 +11723,19 @@ const Panel = () => {
         ) : null}
       </div>
       {settingsOpen ? (
-        <div class="ageaf-settings">
+        <div class="jiaoleaf-settings">
           <div
-            class="ageaf-settings__backdrop"
+            class="jiaoleaf-settings__backdrop"
             onClick={() => setSettingsOpen(false)}
           />
           <div
-            class="ageaf-settings__panel"
+            class="jiaoleaf-settings__panel"
             role="dialog"
             aria-label="Settings"
           >
-            <div class="ageaf-settings__sidebar">
+            <div class="jiaoleaf-settings__sidebar">
               <button
-                class={`ageaf-settings__tab ${settingsTab === 'connection' ? 'is-active' : ''
+                class={`jiaoleaf-settings__tab ${settingsTab === 'connection' ? 'is-active' : ''
                   }`}
                 type="button"
                 onClick={() => setSettingsTab('connection')}
@@ -11743,7 +11743,7 @@ const Panel = () => {
                 Connection
               </button>
               <button
-                class={`ageaf-settings__tab ${settingsTab === 'customization' ? 'is-active' : ''
+                class={`jiaoleaf-settings__tab ${settingsTab === 'customization' ? 'is-active' : ''
                   }`}
                 type="button"
                 onClick={() => setSettingsTab('customization')}
@@ -11751,7 +11751,7 @@ const Panel = () => {
                 Customization
               </button>
               <button
-                class={`ageaf-settings__tab ${settingsTab === 'tools' ? 'is-active' : ''
+                class={`jiaoleaf-settings__tab ${settingsTab === 'tools' ? 'is-active' : ''
                   }`}
                 type="button"
                 onClick={() => setSettingsTab('tools')}
@@ -11759,7 +11759,7 @@ const Panel = () => {
                 Tools
               </button>
               <button
-                class={`ageaf-settings__tab ${settingsTab === 'skills' ? 'is-active' : ''
+                class={`jiaoleaf-settings__tab ${settingsTab === 'skills' ? 'is-active' : ''
                   }`}
                 type="button"
                 onClick={() => setSettingsTab('skills')}
@@ -11767,7 +11767,7 @@ const Panel = () => {
                 Skills
               </button>
               <button
-                class={`ageaf-settings__tab ${settingsTab === 'safety' ? 'is-active' : ''
+                class={`jiaoleaf-settings__tab ${settingsTab === 'safety' ? 'is-active' : ''
                   }`}
                 type="button"
                 onClick={() => setSettingsTab('safety')}
@@ -11775,23 +11775,23 @@ const Panel = () => {
                 Safety
               </button>
             </div>
-            <div class="ageaf-settings__content">
+            <div class="jiaoleaf-settings__content">
               {!settings ? (
-                <div class="ageaf-settings__section">Loading...</div>
+                <div class="jiaoleaf-settings__section">Loading...</div>
               ) : (
                 <>
                   {settingsTab === 'connection' ? (
-                    <div class="ageaf-settings__section">
+                    <div class="jiaoleaf-settings__section">
                       <h3>Connection</h3>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-transport-mode"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-transport-mode"
                       >
                         Transport
                       </label>
                       <select
-                        id="ageaf-transport-mode"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-transport-mode"
+                        class="jiaoleaf-settings__input"
                         value={settings.transport ?? 'http'}
                         onChange={(event) =>
                           updateSettings({
@@ -11807,14 +11807,14 @@ const Panel = () => {
                       {settings.transport !== 'native' ? (
                         <>
                           <label
-                            class="ageaf-settings__label"
-                            for="ageaf-host-url"
+                            class="jiaoleaf-settings__label"
+                            for="jiaoleaf-host-url"
                           >
                             Host URL
                           </label>
                           <input
-                            id="ageaf-host-url"
-                            class="ageaf-settings__input"
+                            id="jiaoleaf-host-url"
+                            class="jiaoleaf-settings__input"
                             type="text"
                             value={settings.hostUrl ?? ''}
                             onInput={(event) =>
@@ -11828,20 +11828,20 @@ const Panel = () => {
                         </>
                       ) : (
                         <>
-                          <p class="ageaf-settings__hint">
+                          <p class="jiaoleaf-settings__hint">
                             Native messaging uses the installed companion app.
                           </p>
-                          <p class="ageaf-settings__hint">
+                          <p class="jiaoleaf-settings__hint">
                             Native host status: {nativeStatus}
                           </p>
                           {nativeStatusError ? (
-                            <p class="ageaf-settings__hint">
+                            <p class="jiaoleaf-settings__hint">
                               Native host error: {nativeStatusError}
                             </p>
                           ) : null}
                           <button
                             type="button"
-                            class="ageaf-settings__button"
+                            class="jiaoleaf-settings__button"
                             onClick={checkNativeHost}
                           >
                             Retry
@@ -11851,17 +11851,17 @@ const Panel = () => {
                     </div>
                   ) : null}
                   {settingsTab === 'customization' ? (
-                    <div class="ageaf-settings__section">
+                    <div class="jiaoleaf-settings__section">
                       <h3>Customization</h3>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-display-name"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-display-name"
                       >
                         What should this assistant call you?
                       </label>
                       <input
-                        id="ageaf-display-name"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-display-name"
+                        class="jiaoleaf-settings__input"
                         type="text"
                         value={settings.displayName ?? ''}
                         onInput={(event) =>
@@ -11872,19 +11872,19 @@ const Panel = () => {
                         }
                         placeholder="Leave blank for generic greetings"
                       />
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Used for personalized greetings. Leave blank for generic
                         greetings.
                       </p>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-custom-prompt"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-custom-prompt"
                       >
                         Custom system prompt
                       </label>
                       <textarea
-                        id="ageaf-custom-prompt"
-                        class="ageaf-settings__textarea"
+                        id="jiaoleaf-custom-prompt"
+                        class="jiaoleaf-settings__textarea"
                         rows={8}
                         value={settings.customSystemPrompt ?? ''}
                         onInput={(event) =>
@@ -11896,24 +11896,24 @@ const Panel = () => {
                         }
                         placeholder="Additional instructions appended to the default system prompt..."
                       />
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Additional instructions appended to the default system
                         prompt.
                       </p>
                     </div>
                   ) : null}
                   {settingsTab === 'tools' ? (
-                    <div class="ageaf-settings__section">
+                    <div class="jiaoleaf-settings__section">
                       <h3>Tools</h3>
-                      <h4 class="ageaf-settings__subhead">
+                      <h4 class="jiaoleaf-settings__subhead">
                         OpenAI / Codex
                       </h4>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Default mode uses the local Codex CLI through the
                         JiaoLeaf host. This reuses your local ChatGPT/Codex
                         login and does not require an OpenAI API key.
                       </p>
-                      <label class="ageaf-settings__checkbox">
+                      <label class="jiaoleaf-settings__checkbox">
                         <input
                           type="checkbox"
                           checked={settings.openaiBrowserMode ?? false}
@@ -11927,19 +11927,19 @@ const Panel = () => {
                         />
                         <span>Use OpenAI API directly instead of local Codex CLI</span>
                       </label>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Optional fallback for users who prefer API keys. Leave
                         this off to use your local Codex CLI login.
                       </p>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-openai-api-key"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-openai-api-key"
                       >
                         OpenAI API key (API mode only)
                       </label>
                       <input
-                        id="ageaf-openai-api-key"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-openai-api-key"
+                        class="jiaoleaf-settings__input"
                         type="password"
                         autocomplete="off"
                         value={settings.openaiApiKey ?? ''}
@@ -11952,14 +11952,14 @@ const Panel = () => {
                         placeholder="sk-..."
                       />
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-openai-base-url"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-openai-base-url"
                       >
                         OpenAI Base URL
                       </label>
                       <input
-                        id="ageaf-openai-base-url"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-openai-base-url"
+                        class="jiaoleaf-settings__input"
                         type="text"
                         value={
                           settings.openaiBaseUrl ?? 'https://api.openai.com/v1'
@@ -11973,14 +11973,14 @@ const Panel = () => {
                         placeholder="https://api.openai.com/v1"
                       />
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-openai-model"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-openai-model"
                       >
                         Model
                       </label>
                       <input
-                        id="ageaf-openai-model"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-openai-model"
+                        class="jiaoleaf-settings__input"
                         type="text"
                         value={settings.codexModel ?? CODEX_DEFAULT_MODEL_VALUE}
                         onInput={(event) =>
@@ -11992,14 +11992,14 @@ const Panel = () => {
                         placeholder={CODEX_DEFAULT_MODEL_VALUE}
                       />
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-openai-approval-policy"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-openai-approval-policy"
                       >
                         Approval policy
                       </label>
                       <select
-                        id="ageaf-openai-approval-policy"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-openai-approval-policy"
+                        class="jiaoleaf-settings__input"
                         value={settings.openaiApprovalPolicy ?? 'never'}
                         onChange={(event) =>
                           updateSettings({
@@ -12014,22 +12014,22 @@ const Panel = () => {
                         <option value="on-failure">on-failure</option>
                         <option value="never">never</option>
                       </select>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Controls Codex CLI command approvals (approvalPolicy).
                         Use "never" only if you trust the agent to run commands
                         without prompting.
                       </p>
 
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-surrounding-context-limit"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-surrounding-context-limit"
                       >
                         Surrounding context limit (chars)
                       </label>
                       <input
                         type="number"
-                        id="ageaf-surrounding-context-limit"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-surrounding-context-limit"
+                        class="jiaoleaf-settings__input"
                         value={settings.surroundingContextLimit ?? 5000}
                         min="0"
                         step="100"
@@ -12042,14 +12042,14 @@ const Panel = () => {
                           })
                         }
                       />
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Max characters of surrounding context (before/after
                         selection) to send with chat messages. Set to 0 to
                         disable (e.g. for CLI agents that read files directly).
                       </p>
 
-                      <h4 class="ageaf-settings__subhead">Display</h4>
-                      <label class="ageaf-settings__checkbox">
+                      <h4 class="jiaoleaf-settings__subhead">Display</h4>
+                      <label class="jiaoleaf-settings__checkbox">
                         <input
                           type="checkbox"
                           checked={settings.showThinkingAndTools ?? false}
@@ -12061,13 +12061,13 @@ const Panel = () => {
                         />
                         Show thinking and tool activity
                       </label>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         When enabled, shows thinking blocks and tool activity
                         during responses.
                       </p>
 
-                      <h4 class="ageaf-settings__subhead">Debugging</h4>
-                      <label class="ageaf-settings__checkbox">
+                      <h4 class="jiaoleaf-settings__subhead">Debugging</h4>
+                      <label class="jiaoleaf-settings__checkbox">
                         <input
                           type="checkbox"
                           checked={settings.debugCliEvents ?? false}
@@ -12079,28 +12079,28 @@ const Panel = () => {
                         />
                         Debug CLI events
                       </label>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         When enabled, streams low-level runtime trace events into
                         chat (useful for debugging).
                       </p>
                     </div>
                   ) : null}
                   {settingsTab === 'skills' ? (
-                    <div class="ageaf-settings__section">
+                    <div class="jiaoleaf-settings__section">
                       <h3>Skills</h3>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Enabled skills appear under the Skills button in the composer and
                         are also available through / commands.
                       </p>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-skill-trust-mode"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-skill-trust-mode"
                       >
                         Skill Discovery Trust Mode
                       </label>
                       <select
-                        id="ageaf-skill-trust-mode"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-skill-trust-mode"
+                        class="jiaoleaf-settings__input"
                         value={settings.skillTrustMode ?? 'verified'}
                         onChange={(event) =>
                           updateSettings({
@@ -12111,32 +12111,32 @@ const Panel = () => {
                         <option value="verified">Verified only (recommended)</option>
                         <option value="open">Open ecosystem (any source)</option>
                       </select>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Controls which skill sources are allowed when discovering
                         new remote skills. Built-in and custom local skills remain available.
                       </p>
-                      <div class="ageaf-settings__skill-actions">
+                      <div class="jiaoleaf-settings__skill-actions">
                         <button
-                          class="ageaf-settings__button is-secondary"
+                          class="jiaoleaf-settings__button is-secondary"
                           type="button"
                           onClick={resetDefaultSkills}
                         >
                           Recommended
                         </button>
                         <button
-                          class="ageaf-settings__button is-secondary"
+                          class="jiaoleaf-settings__button is-secondary"
                           type="button"
                           onClick={enableAllSkills}
                         >
                           Enable all
                         </button>
                       </div>
-                      <div class="ageaf-settings__skill-list" aria-label="Available skills">
+                      <div class="jiaoleaf-settings__skill-list" aria-label="Available skills">
                         {allSkills.map((skill) => {
                           const isEnabled = getEffectiveEnabledSkillIds().includes(skill.id);
                           return (
-                            <div class="ageaf-settings__skill-row" key={skill.id}>
-                              <label class="ageaf-settings__checkbox ageaf-settings__skill-check">
+                            <div class="jiaoleaf-settings__skill-row" key={skill.id}>
+                              <label class="jiaoleaf-settings__checkbox jiaoleaf-settings__skill-check">
                                 <input
                                   type="checkbox"
                                   checked={isEnabled}
@@ -12152,12 +12152,12 @@ const Panel = () => {
                                   <small>{skill.description}</small>
                                 </span>
                               </label>
-                              <span class="ageaf-settings__skill-source">
+                              <span class="jiaoleaf-settings__skill-source">
                                 {skill.source === 'custom-user' ? 'custom' : skill.source}
                               </span>
                               {skill.source === 'custom-user' ? (
                                 <button
-                                  class="ageaf-settings__skill-remove"
+                                  class="jiaoleaf-settings__skill-remove"
                                   type="button"
                                   onClick={() => removeCustomSkill(skill.id)}
                                 >
@@ -12169,13 +12169,13 @@ const Panel = () => {
                         })}
                       </div>
 
-                      <h4 class="ageaf-settings__subhead">Custom skill</h4>
-                      <label class="ageaf-settings__label" for="ageaf-custom-skill-name">
+                      <h4 class="jiaoleaf-settings__subhead">Custom skill</h4>
+                      <label class="jiaoleaf-settings__label" for="jiaoleaf-custom-skill-name">
                         Name
                       </label>
                       <input
-                        id="ageaf-custom-skill-name"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-custom-skill-name"
+                        class="jiaoleaf-settings__input"
                         type="text"
                         value={customSkillDraft.name}
                         onInput={(event) =>
@@ -12186,14 +12186,14 @@ const Panel = () => {
                         placeholder="e.g. sjtu-thesis-style"
                       />
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-custom-skill-description"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-custom-skill-description"
                       >
                         Description
                       </label>
                       <input
-                        id="ageaf-custom-skill-description"
-                        class="ageaf-settings__input"
+                        id="jiaoleaf-custom-skill-description"
+                        class="jiaoleaf-settings__input"
                         type="text"
                         value={customSkillDraft.description}
                         onInput={(event) =>
@@ -12203,11 +12203,11 @@ const Panel = () => {
                         }
                         placeholder="What this skill helps with"
                       />
-                      <div class="ageaf-settings__skill-fields">
+                      <div class="jiaoleaf-settings__skill-fields">
                         <label>
-                          <span class="ageaf-settings__label">Tags</span>
+                          <span class="jiaoleaf-settings__label">Tags</span>
                           <input
-                            class="ageaf-settings__input"
+                            class="jiaoleaf-settings__input"
                             type="text"
                             value={customSkillDraft.tags}
                             onInput={(event) =>
@@ -12219,9 +12219,9 @@ const Panel = () => {
                           />
                         </label>
                         <label>
-                          <span class="ageaf-settings__label">Auto context</span>
+                          <span class="jiaoleaf-settings__label">Auto context</span>
                           <input
-                            class="ageaf-settings__input"
+                            class="jiaoleaf-settings__input"
                             type="text"
                             value={customSkillDraft.autoContext}
                             onInput={(event) =>
@@ -12234,14 +12234,14 @@ const Panel = () => {
                         </label>
                       </div>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-custom-skill-content"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-custom-skill-content"
                       >
                         Instructions
                       </label>
                       <textarea
-                        id="ageaf-custom-skill-content"
-                        class="ageaf-settings__textarea"
+                        id="jiaoleaf-custom-skill-content"
+                        class="jiaoleaf-settings__textarea"
                         rows={7}
                         value={customSkillDraft.content}
                         onInput={(event) =>
@@ -12252,7 +12252,7 @@ const Panel = () => {
                         placeholder="Write the workflow, constraints, and output format this skill should apply."
                       />
                       <button
-                        class="ageaf-settings__button"
+                        class="jiaoleaf-settings__button"
                         type="button"
                         onClick={addCustomSkill}
                       >
@@ -12261,9 +12261,9 @@ const Panel = () => {
                     </div>
                   ) : null}
                   {settingsTab === 'safety' ? (
-                    <div class="ageaf-settings__section">
+                    <div class="jiaoleaf-settings__section">
                       <h3>Safety</h3>
-                      <label class="ageaf-settings__checkbox">
+                      <label class="jiaoleaf-settings__checkbox">
                         <input
                           type="checkbox"
                           checked={settings.enableCommandBlocklist ?? false}
@@ -12276,19 +12276,19 @@ const Panel = () => {
                         />
                         Enable command blocklist
                       </label>
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Blocks potentially dangerous bash commands before
                         execution.
                       </p>
                       <label
-                        class="ageaf-settings__label"
-                        for="ageaf-blocked-commands"
+                        class="jiaoleaf-settings__label"
+                        for="jiaoleaf-blocked-commands"
                       >
                         Blocked commands (Unix)
                       </label>
                       <textarea
-                        id="ageaf-blocked-commands"
-                        class="ageaf-settings__textarea"
+                        id="jiaoleaf-blocked-commands"
+                        class="jiaoleaf-settings__textarea"
                         rows={6}
                         value={settings.blockedCommandsUnix ?? ''}
                         onInput={(event) =>
@@ -12300,16 +12300,16 @@ const Panel = () => {
                         }
                         placeholder="rm -rf&#10;chmod 777&#10;chmod -R 777"
                       />
-                      <p class="ageaf-settings__hint">
+                      <p class="jiaoleaf-settings__hint">
                         Patterns to block on Unix, one per line. Supports regex.
                       </p>
                     </div>
                   ) : null}
                 </>
               )}
-              <div class="ageaf-settings__actions">
+              <div class="jiaoleaf-settings__actions">
                 <button
-                  class="ageaf-settings__button"
+                  class="jiaoleaf-settings__button"
                   type="button"
                   onClick={onSaveSettings}
                   disabled={!settings}
@@ -12317,14 +12317,14 @@ const Panel = () => {
                   Save
                 </button>
                 <button
-                  class="ageaf-settings__button is-secondary"
+                  class="jiaoleaf-settings__button is-secondary"
                   type="button"
                   onClick={() => setSettingsOpen(false)}
                 >
                   Close
                 </button>
                 {settingsMessage ? (
-                  <span class="ageaf-settings__status">{settingsMessage}</span>
+                  <span class="jiaoleaf-settings__status">{settingsMessage}</span>
                 ) : null}
               </div>
             </div>
@@ -12456,7 +12456,7 @@ export const detectProjectFilesFromDom = (): OverleafEntry[] => {
 
   for (const node of nodes) {
     if (!(node instanceof HTMLElement)) continue;
-    if (node.closest('#ageaf-panel-root')) continue;
+    if (node.closest('#jiaoleaf-panel-root')) continue;
     // Skip folder nodes in the tree
     if (node.getAttribute('role') === 'treeitem' && isFolderLike(node))
       continue;

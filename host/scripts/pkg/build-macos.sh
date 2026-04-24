@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 OUT_DIR="$ROOT_DIR/dist-native"
-HOST_OUT="$OUT_DIR/ageaf-host"
+HOST_OUT="$OUT_DIR/jiaoleaf-host"
 
 mkdir -p "$OUT_DIR"
 

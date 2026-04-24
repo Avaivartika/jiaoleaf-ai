@@ -83,8 +83,8 @@ test('POST /v1/runtime/pi/preferences ignores invalid thinking level', async () 
   }
 });
 
-test('AGEAF_PI_MOCK=true makes pi report as configured with mock provider', async () => {
-  process.env.AGEAF_PI_MOCK = 'true';
+test('JIAOLEAF_PI_MOCK=true makes pi report as configured with mock provider', async () => {
+  process.env.JIAOLEAF_PI_MOCK = 'true';
   const server = buildServer();
 
   try {
@@ -110,7 +110,7 @@ test('AGEAF_PI_MOCK=true makes pi report as configured with mock provider', asyn
     const meta = JSON.parse(metaRes.body);
     assert.ok(Array.isArray(meta.thinkingLevels), 'mock mode should still have thinkingLevels');
   } finally {
-    delete process.env.AGEAF_PI_MOCK;
+    delete process.env.JIAOLEAF_PI_MOCK;
     await server.close();
   }
 });

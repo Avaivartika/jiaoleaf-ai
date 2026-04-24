@@ -395,7 +395,7 @@ export function resolveClaudeCliPath(cliPath?: string, extraPath?: string): stri
     }
   }
 
-  if (process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT === 'true') {
+  if (process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT === 'true') {
     return null;
   }
 

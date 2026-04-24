@@ -21,70 +21,70 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    LIGHT MODE OVERRIDES
    ═══════════════════════════════════════════════════════════════════════════ */
-.ageaf-panel.light .ageaf-bottom-controls {
-  background: var(--ageaf-charcoal);
-  border-top-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-bottom-controls {
+  background: var(--jiaoleaf-charcoal);
+  border-top-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-control-bar {
-  border-bottom-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-control-bar {
+  border-bottom-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-selector {
-  background: var(--ageaf-surface);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-selector {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-selector:hover {
-  background: var(--ageaf-slate);
+.jiaoleaf-panel.light .jiaoleaf-selector:hover {
+  background: var(--jiaoleaf-slate);
 }
 
-.ageaf-panel.light .ageaf-context-ring__bg {
-  stroke: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-context-ring__bg {
+  stroke: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-yolo-toggle__switch {
-  background: var(--ageaf-slate);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-yolo-toggle__switch {
+  background: var(--jiaoleaf-slate);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-yolo-toggle__switch::before {
-  background: var(--ageaf-text-secondary);
+.jiaoleaf-panel.light .jiaoleaf-yolo-toggle__switch::before {
+  background: var(--jiaoleaf-text-secondary);
 }
 
-.ageaf-panel.light .ageaf-session-tab {
-  background: var(--ageaf-surface);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-session-tab {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-session-tab.is-active {
-  color: var(--ageaf-text-primary);
+.jiaoleaf-panel.light .jiaoleaf-session-tab.is-active {
+  color: var(--jiaoleaf-text-primary);
 }
 
-.ageaf-panel.light .ageaf-toolbar-action {
-  background: var(--ageaf-surface);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-toolbar-action {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-toolbar-action__tooltip {
-  background: var(--ageaf-slate);
-  color: var(--ageaf-text-primary);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-toolbar-action__tooltip {
+  background: var(--jiaoleaf-slate);
+  color: var(--jiaoleaf-text-primary);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-toolbar-action__tooltip::after {
-  border-top-color: var(--ageaf-slate);
+.jiaoleaf-panel.light .jiaoleaf-toolbar-action__tooltip::after {
+  border-top-color: var(--jiaoleaf-slate);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    BOTTOM CONTROLS CONTAINER (Compact two-row layout)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-bottom-controls {
+.jiaoleaf-bottom-controls {
   display: flex;
   flex-direction: column;
-  background: var(--ageaf-black);
-  border-top: 1px solid var(--ageaf-border);
+  background: var(--jiaoleaf-black);
+  border-top: 1px solid var(--jiaoleaf-border);
   order: 4;
   /* After input area */
 }
@@ -93,204 +93,204 @@
    CONTROL BAR (Row 1: Model, Thinking, Context, YOLO)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-control-bar {
+.jiaoleaf-control-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--ageaf-space-sm) var(--ageaf-space-lg);
-  gap: var(--ageaf-space-md);
-  border-bottom: 1px solid var(--ageaf-border);
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-lg);
+  gap: var(--jiaoleaf-space-md);
+  border-bottom: 1px solid var(--jiaoleaf-border);
 }
 
-.ageaf-control-bar__left {
+.jiaoleaf-control-bar__left {
   display: flex;
   align-items: center;
-  gap: var(--ageaf-space-md);
+  gap: var(--jiaoleaf-space-md);
   flex: 1;
   min-width: 0;
 }
 
-.ageaf-control-bar__right {
+.jiaoleaf-control-bar__right {
   display: flex;
   align-items: center;
-  gap: var(--ageaf-space-lg);
+  gap: var(--jiaoleaf-space-lg);
 }
 
 /* Model & Thinking Selectors (Compact) */
-.ageaf-selector {
+.jiaoleaf-selector {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: var(--ageaf-slate);
-  border: 1.5px solid var(--ageaf-border);
-  border-radius: var(--ageaf-radius-full);
-  font-family: var(--ageaf-font-body);
+  background: var(--jiaoleaf-slate);
+  border: 1.5px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-full);
+  font-family: var(--jiaoleaf-font-body);
   font-size: 13px;
   font-weight: 500;
-  color: var(--ageaf-text-primary);
+  color: var(--jiaoleaf-text-primary);
   cursor: pointer;
-  transition: all var(--ageaf-transition-fast);
+  transition: all var(--jiaoleaf-transition-fast);
   white-space: nowrap;
   height: 36px;
 }
 
-.ageaf-selector:hover {
-  border-color: var(--ageaf-emerald);
-  background: var(--ageaf-surface);
-  box-shadow: 0 0 0 2px var(--ageaf-emerald-soft);
+.jiaoleaf-selector:hover {
+  border-color: var(--jiaoleaf-emerald);
+  background: var(--jiaoleaf-surface);
+  box-shadow: 0 0 0 2px var(--jiaoleaf-emerald-soft);
 }
 
-.ageaf-selector__label {
+.jiaoleaf-selector__label {
   font-size: 11px;
-  color: var(--ageaf-text-dim);
+  color: var(--jiaoleaf-text-dim);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-right: var(--ageaf-space-xs);
+  margin-right: var(--jiaoleaf-space-xs);
 }
 
-.ageaf-selector__value {
-  color: var(--ageaf-text-primary);
+.jiaoleaf-selector__value {
+  color: var(--jiaoleaf-text-primary);
   font-weight: 600;
 }
 
-.ageaf-selector__value--accent {
-  color: var(--ageaf-emerald-light);
+.jiaoleaf-selector__value--accent {
+  color: var(--jiaoleaf-emerald-light);
 }
 
 /* Context Usage Ring (Compact) */
-.ageaf-context-ring {
+.jiaoleaf-context-ring {
   position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.ageaf-context-ring__circle {
+.jiaoleaf-context-ring__circle {
   position: relative;
   width: 36px;
   height: 36px;
   flex-shrink: 0;
 }
 
-.ageaf-context-ring__svg {
+.jiaoleaf-context-ring__svg {
   width: 100%;
   height: 100%;
   transform: rotate(-90deg);
 }
 
-.ageaf-context-ring__bg {
+.jiaoleaf-context-ring__bg {
   fill: none;
-  stroke: var(--ageaf-border);
+  stroke: var(--jiaoleaf-border);
   stroke-width: 3;
 }
 
-.ageaf-context-ring__progress {
+.jiaoleaf-context-ring__progress {
   fill: none;
-  stroke: var(--ageaf-emerald);
+  stroke: var(--jiaoleaf-emerald);
   stroke-width: 3;
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.5s var(--ageaf-ease-out);
-  filter: drop-shadow(0 0 4px var(--ageaf-emerald-glow));
+  transition: stroke-dashoffset 0.5s var(--jiaoleaf-ease-out);
+  filter: drop-shadow(0 0 4px var(--jiaoleaf-emerald-glow));
 }
 
-.ageaf-context-ring__percentage {
+.jiaoleaf-context-ring__percentage {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: var(--ageaf-font-mono);
+  font-family: var(--jiaoleaf-font-mono);
   font-size: 10px;
   font-weight: 700;
-  color: var(--ageaf-emerald);
-  text-shadow: 0 0 8px var(--ageaf-emerald-glow);
+  color: var(--jiaoleaf-emerald);
+  text-shadow: 0 0 8px var(--jiaoleaf-emerald-glow);
 }
 
-.ageaf-context-ring__label {
-  font-family: var(--ageaf-font-body);
+.jiaoleaf-context-ring__label {
+  font-family: var(--jiaoleaf-font-body);
   font-size: 14px;
   font-weight: 600;
-  color: var(--ageaf-text-primary);
+  color: var(--jiaoleaf-text-primary);
 }
 
 /* Warning state for high usage */
-.ageaf-context-ring--warning .ageaf-context-ring__progress {
-  stroke: var(--ageaf-warning);
+.jiaoleaf-context-ring--warning .jiaoleaf-context-ring__progress {
+  stroke: var(--jiaoleaf-warning);
   filter: drop-shadow(0 0 4px rgba(255, 179, 87, 0.4));
 }
 
-.ageaf-context-ring--warning .ageaf-context-ring__percentage {
-  color: var(--ageaf-warning);
+.jiaoleaf-context-ring--warning .jiaoleaf-context-ring__percentage {
+  color: var(--jiaoleaf-warning);
   text-shadow: 0 0 8px rgba(255, 179, 87, 0.4);
 }
 
 /* Critical state for very high usage */
-.ageaf-context-ring--critical .ageaf-context-ring__progress {
-  stroke: var(--ageaf-error);
+.jiaoleaf-context-ring--critical .jiaoleaf-context-ring__progress {
+  stroke: var(--jiaoleaf-error);
   filter: drop-shadow(0 0 4px rgba(255, 107, 107, 0.4));
 }
 
-.ageaf-context-ring--critical .ageaf-context-ring__percentage {
-  color: var(--ageaf-error);
+.jiaoleaf-context-ring--critical .jiaoleaf-context-ring__percentage {
+  color: var(--jiaoleaf-error);
   text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
 }
 
 /* YOLO Toggle Switch (Compact) */
-.ageaf-yolo-toggle {
+.jiaoleaf-yolo-toggle {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.ageaf-yolo-toggle__label {
-  font-family: var(--ageaf-font-body);
+.jiaoleaf-yolo-toggle__label {
+  font-family: var(--jiaoleaf-font-body);
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--ageaf-text-primary);
+  color: var(--jiaoleaf-text-primary);
 }
 
-.ageaf-yolo-toggle__switch {
+.jiaoleaf-yolo-toggle__switch {
   position: relative;
   width: 48px;
   height: 26px;
-  background: var(--ageaf-border);
-  border-radius: var(--ageaf-radius-full);
+  background: var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-full);
   cursor: pointer;
-  transition: all var(--ageaf-transition-base);
+  transition: all var(--jiaoleaf-transition-base);
   border: 1.5px solid transparent;
   flex: 0 0 auto;
 }
 
-.ageaf-yolo-toggle__switch::before {
+.jiaoleaf-yolo-toggle__switch::before {
   content: '';
   position: absolute;
   top: 2px;
   left: 2px;
   width: 18px;
   height: 18px;
-  background: var(--ageaf-text-primary);
+  background: var(--jiaoleaf-text-primary);
   border-radius: 50%;
-  transition: all var(--ageaf-transition-base);
+  transition: all var(--jiaoleaf-transition-base);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.ageaf-yolo-toggle__switch:hover {
-  border-color: var(--ageaf-emerald-soft);
+.jiaoleaf-yolo-toggle__switch:hover {
+  border-color: var(--jiaoleaf-emerald-soft);
 }
 
 /* Active state */
-.ageaf-yolo-toggle__switch.is-active {
-  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
-  border-color: var(--ageaf-emerald);
-  box-shadow: 0 0 0 2px var(--ageaf-emerald-soft);
+.jiaoleaf-yolo-toggle__switch.is-active {
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border-color: var(--jiaoleaf-emerald);
+  box-shadow: 0 0 0 2px var(--jiaoleaf-emerald-soft);
 }
 
-.ageaf-yolo-toggle__switch.is-active::before {
+.jiaoleaf-yolo-toggle__switch.is-active::before {
   left: calc(100% - 20px);
-  background: var(--ageaf-black);
+  background: var(--jiaoleaf-black);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
@@ -298,15 +298,15 @@
    ACTIONS ROW (Row 2: Session tabs + Action buttons)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-actions-row {
+.jiaoleaf-actions-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ageaf-space-md);
-  padding: var(--ageaf-space-sm) var(--ageaf-space-lg);
+  gap: var(--jiaoleaf-space-md);
+  padding: var(--jiaoleaf-space-sm) var(--jiaoleaf-space-lg);
 }
 
-.ageaf-sessions {
+.jiaoleaf-sessions {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -314,78 +314,78 @@
   scrollbar-width: none;
 }
 
-.ageaf-sessions::-webkit-scrollbar {
+.jiaoleaf-sessions::-webkit-scrollbar {
   display: none;
 }
 
-.ageaf-session-tab {
+.jiaoleaf-session-tab {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: var(--ageaf-slate);
-  border: 1.5px solid var(--ageaf-border);
+  background: var(--jiaoleaf-slate);
+  border: 1.5px solid var(--jiaoleaf-border);
   border-radius: 50%;
-  font-family: var(--ageaf-font-body);
+  font-family: var(--jiaoleaf-font-body);
   font-size: 14px;
   font-weight: 700;
-  color: var(--ageaf-text-secondary);
+  color: var(--jiaoleaf-text-secondary);
   cursor: pointer;
-  transition: all var(--ageaf-transition-base);
+  transition: all var(--jiaoleaf-transition-base);
   flex-shrink: 0;
 }
 
-.ageaf-session-tab:hover {
-  border-color: var(--ageaf-emerald);
-  background: var(--ageaf-surface);
-  color: var(--ageaf-emerald-light);
+.jiaoleaf-session-tab:hover {
+  border-color: var(--jiaoleaf-emerald);
+  background: var(--jiaoleaf-surface);
+  color: var(--jiaoleaf-emerald-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(57, 185, 138, 0.2);
 }
 
-.ageaf-session-tab.is-active {
-  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
-  border-color: var(--ageaf-emerald);
-  color: var(--ageaf-black);
+.jiaoleaf-session-tab.is-active {
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-black);
   box-shadow:
-    0 0 0 3px var(--ageaf-emerald-soft),
+    0 0 0 3px var(--jiaoleaf-emerald-soft),
     0 4px 12px rgba(57, 185, 138, 0.3);
 }
 
-.ageaf-session-tab.is-active:hover {
+.jiaoleaf-session-tab.is-active:hover {
   transform: translateY(-2px) scale(1.05);
 }
 
 /* Close button on hover */
-.ageaf-session-tab__close {
+.jiaoleaf-session-tab__close {
   position: absolute;
   top: -4px;
   right: -4px;
   width: 16px;
   height: 16px;
-  background: var(--ageaf-error);
-  border: 2px solid var(--ageaf-black);
+  background: var(--jiaoleaf-error);
+  border: 2px solid var(--jiaoleaf-black);
   border-radius: 50%;
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--ageaf-transition-fast);
+  transition: all var(--jiaoleaf-transition-fast);
 }
 
-.ageaf-session-tab:hover .ageaf-session-tab__close {
+.jiaoleaf-session-tab:hover .jiaoleaf-session-tab__close {
   display: flex;
 }
 
-.ageaf-session-tab__close:hover {
+.jiaoleaf-session-tab__close:hover {
   transform: scale(1.2);
   background: #ff4d4d;
 }
 
-.ageaf-session-tab__close::before,
-.ageaf-session-tab__close::after {
+.jiaoleaf-session-tab__close::before,
+.jiaoleaf-session-tab__close::after {
   content: '';
   position: absolute;
   width: 8px;
@@ -393,11 +393,11 @@
   background: white;
 }
 
-.ageaf-session-tab__close::before {
+.jiaoleaf-session-tab__close::before {
   transform: rotate(45deg);
 }
 
-.ageaf-session-tab__close::after {
+.jiaoleaf-session-tab__close::after {
   transform: rotate(-45deg);
 }
 
@@ -405,54 +405,54 @@
    TOOLBAR ACTIONS (Part of Row 2)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-toolbar {
+.jiaoleaf-toolbar {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.ageaf-toolbar-action {
+.jiaoleaf-toolbar-action {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 38px;
   height: 38px;
-  background: var(--ageaf-slate);
-  border: 1.5px solid var(--ageaf-border);
-  border-radius: var(--ageaf-radius-lg);
-  color: var(--ageaf-text-secondary);
+  background: var(--jiaoleaf-slate);
+  border: 1.5px solid var(--jiaoleaf-border);
+  border-radius: var(--jiaoleaf-radius-lg);
+  color: var(--jiaoleaf-text-secondary);
   cursor: pointer;
-  transition: all var(--ageaf-transition-base);
+  transition: all var(--jiaoleaf-transition-base);
   overflow: hidden;
   flex-shrink: 0;
 }
 
-.ageaf-toolbar-action::before {
+.jiaoleaf-toolbar-action::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--ageaf-emerald);
+  background: var(--jiaoleaf-emerald);
   opacity: 0;
-  transition: opacity var(--ageaf-transition-fast);
+  transition: opacity var(--jiaoleaf-transition-fast);
 }
 
-.ageaf-toolbar-action:hover::before {
+.jiaoleaf-toolbar-action:hover::before {
   opacity: 0.1;
 }
 
-.ageaf-toolbar-action:hover {
-  border-color: var(--ageaf-emerald);
-  color: var(--ageaf-emerald-light);
+.jiaoleaf-toolbar-action:hover {
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-emerald-light);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(57, 185, 138, 0.2);
 }
 
-.ageaf-toolbar-action:active {
+.jiaoleaf-toolbar-action:active {
   transform: translateY(0);
 }
 
-.ageaf-toolbar-action__icon {
+.jiaoleaf-toolbar-action__icon {
   width: 18px;
   height: 18px;
   position: relative;
@@ -460,20 +460,20 @@
 }
 
 /* Badge for file count, etc. (Compact) */
-.ageaf-toolbar-action__badge {
+.jiaoleaf-toolbar-action__badge {
   position: absolute;
   top: -3px;
   right: -3px;
   min-width: 16px;
   height: 16px;
   padding: 0 3px;
-  background: var(--ageaf-emerald);
-  border: 1.5px solid var(--ageaf-black);
-  border-radius: var(--ageaf-radius-full);
-  font-family: var(--ageaf-font-mono);
+  background: var(--jiaoleaf-emerald);
+  border: 1.5px solid var(--jiaoleaf-black);
+  border-radius: var(--jiaoleaf-radius-full);
+  font-family: var(--jiaoleaf-font-mono);
   font-size: 9px;
   font-weight: 700;
-  color: var(--ageaf-black);
+  color: var(--jiaoleaf-black);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -482,72 +482,72 @@
 }
 
 /* Tooltip on hover */
-.ageaf-toolbar-action__tooltip {
+.jiaoleaf-toolbar-action__tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   padding: 6px 12px;
-  background: var(--ageaf-charcoal);
-  border: 1px solid var(--ageaf-emerald);
-  border-radius: var(--ageaf-radius-md);
-  font-family: var(--ageaf-font-body);
+  background: var(--jiaoleaf-charcoal);
+  border: 1px solid var(--jiaoleaf-emerald);
+  border-radius: var(--jiaoleaf-radius-md);
+  font-family: var(--jiaoleaf-font-body);
   font-size: 11px;
   font-weight: 500;
-  color: var(--ageaf-text-primary);
+  color: var(--jiaoleaf-text-primary);
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--ageaf-transition-fast);
+  transition: opacity var(--jiaoleaf-transition-fast);
   z-index: 100;
-  box-shadow: var(--ageaf-shadow-md);
+  box-shadow: var(--jiaoleaf-shadow-md);
 }
 
-.ageaf-toolbar-action__tooltip::after {
+.jiaoleaf-toolbar-action__tooltip::after {
   content: '';
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
   border: 4px solid transparent;
-  border-top-color: var(--ageaf-emerald);
+  border-top-color: var(--jiaoleaf-emerald);
 }
 
-.ageaf-toolbar-action:hover .ageaf-toolbar-action__tooltip {
+.jiaoleaf-toolbar-action:hover .jiaoleaf-toolbar-action__tooltip {
   opacity: 1;
 }
 
 /* Destructive action (clear, close) */
-.ageaf-toolbar-action--destructive:hover {
-  border-color: var(--ageaf-error);
-  color: var(--ageaf-error);
+.jiaoleaf-toolbar-action--destructive:hover {
+  border-color: var(--jiaoleaf-error);
+  color: var(--jiaoleaf-error);
   box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
-.ageaf-toolbar-action--destructive::before {
-  background: var(--ageaf-error);
+.jiaoleaf-toolbar-action--destructive::before {
+  background: var(--jiaoleaf-error);
 }
 
 /* Primary action (new chat) */
-.ageaf-toolbar-action--primary {
-  background: linear-gradient(135deg, var(--ageaf-emerald) 0%, var(--ageaf-emerald-dark) 100%);
-  border-color: var(--ageaf-emerald);
-  color: var(--ageaf-black);
+.jiaoleaf-toolbar-action--primary {
+  background: linear-gradient(135deg, var(--jiaoleaf-emerald) 0%, var(--jiaoleaf-emerald-dark) 100%);
+  border-color: var(--jiaoleaf-emerald);
+  color: var(--jiaoleaf-black);
 }
 
-.ageaf-toolbar-action--primary::before {
+.jiaoleaf-toolbar-action--primary::before {
   background: white;
   opacity: 0;
 }
 
-.ageaf-toolbar-action--primary:hover::before {
+.jiaoleaf-toolbar-action--primary:hover::before {
   opacity: 0.15;
 }
 
-.ageaf-toolbar-action--primary:hover {
+.jiaoleaf-toolbar-action--primary:hover {
   transform: translateY(-2px) scale(1.05);
   box-shadow:
-    0 0 0 3px var(--ageaf-emerald-soft),
+    0 0 0 3px var(--jiaoleaf-emerald-soft),
     0 4px 16px rgba(57, 185, 138, 0.4);
 }
 
@@ -556,39 +556,39 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-  .ageaf-control-bar {
+  .jiaoleaf-control-bar {
     padding: 6px 12px;
     gap: 8px;
   }
 
-  .ageaf-selector {
+  .jiaoleaf-selector {
     font-size: 12px;
     padding: 6px 12px;
     height: 32px;
   }
 
-  .ageaf-context-ring__circle {
+  .jiaoleaf-context-ring__circle {
     width: 32px;
     height: 32px;
   }
 
-  .ageaf-yolo-toggle__switch {
+  .jiaoleaf-yolo-toggle__switch {
     width: 42px;
     height: 24px;
   }
 
-  .ageaf-actions-row {
+  .jiaoleaf-actions-row {
     padding: 6px 12px;
     gap: 8px;
   }
 
-  .ageaf-session-tab,
-  .ageaf-toolbar-action {
+  .jiaoleaf-session-tab,
+  .jiaoleaf-toolbar-action {
     width: 34px;
     height: 34px;
   }
 
-  .ageaf-toolbar-action__icon {
+  .jiaoleaf-toolbar-action__icon {
     width: 16px;
     height: 16px;
   }
@@ -598,23 +598,23 @@
    ANIMATIONS
    ═══════════════════════════════════════════════════════════════════════════ */
 
-@keyframes ageaf-context-pulse {
+@keyframes jiaoleaf-context-pulse {
 
   0%,
   100% {
-    filter: drop-shadow(0 0 4px var(--ageaf-emerald-glow));
+    filter: drop-shadow(0 0 4px var(--jiaoleaf-emerald-glow));
   }
 
   50% {
-    filter: drop-shadow(0 0 8px var(--ageaf-emerald-glow));
+    filter: drop-shadow(0 0 8px var(--jiaoleaf-emerald-glow));
   }
 }
 
-.ageaf-context-ring__progress {
-  animation: ageaf-context-pulse 2s ease-in-out infinite;
+.jiaoleaf-context-ring__progress {
+  animation: jiaoleaf-context-pulse 2s ease-in-out infinite;
 }
 
-@keyframes ageaf-badge-pop {
+@keyframes jiaoleaf-badge-pop {
   0% {
     transform: scale(0);
   }
@@ -628,8 +628,8 @@
   }
 }
 
-.ageaf-toolbar-action__badge {
-  animation: ageaf-badge-pop 0.3s var(--ageaf-ease-out);
+.jiaoleaf-toolbar-action__badge {
+  animation: jiaoleaf-badge-pop 0.3s var(--jiaoleaf-ease-out);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -638,86 +638,86 @@
    brand treatment. These rules are intentionally last in the cascade.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-panel {
-  --ageaf-font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  --ageaf-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  --ageaf-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+.jiaoleaf-panel {
+  --jiaoleaf-font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --jiaoleaf-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --jiaoleaf-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
-.ageaf-panel.light {
-  --ageaf-black: #ffffff;
-  --ageaf-charcoal: #f7f8fa;
-  --ageaf-slate: #edf1f5;
-  --ageaf-surface: #ffffff;
-  --ageaf-border: #d6dee6;
-  --ageaf-emerald: #138a43;
-  --ageaf-emerald-light: #1fa45a;
-  --ageaf-emerald-dark: #0f6f36;
-  --ageaf-emerald-soft: rgba(19, 138, 67, 0.1);
-  --ageaf-emerald-glow: rgba(19, 138, 67, 0.16);
-  --ageaf-text-primary: #25313b;
-  --ageaf-text-secondary: #4a5864;
-  --ageaf-text-muted: #6b7785;
-  --ageaf-text-dim: #8b97a3;
-  --ageaf-panel-bg: #f7f8fa;
-  --ageaf-panel-surface: #ffffff;
-  --ageaf-panel-border: #d6dee6;
-  --ageaf-panel-accent: #138a43;
-  --ageaf-panel-accent-soft: rgba(19, 138, 67, 0.1);
-  --ageaf-panel-text: #25313b;
-  --ageaf-panel-muted: #5f6d78;
-  --ageaf-panel-status: #996c00;
-  --ageaf-panel-shadow: -1px 0 0 #cfd7df, 0 10px 24px rgba(32, 45, 56, 0.12);
-  --ageaf-divider-line: rgba(68, 84, 98, 0.35);
-  --ageaf-divider-hover-bg: rgba(68, 84, 98, 0.08);
-  --ageaf-divider-active-bg: rgba(68, 84, 98, 0.14);
+.jiaoleaf-panel.light {
+  --jiaoleaf-black: #ffffff;
+  --jiaoleaf-charcoal: #f7f8fa;
+  --jiaoleaf-slate: #edf1f5;
+  --jiaoleaf-surface: #ffffff;
+  --jiaoleaf-border: #d6dee6;
+  --jiaoleaf-emerald: #138a43;
+  --jiaoleaf-emerald-light: #1fa45a;
+  --jiaoleaf-emerald-dark: #0f6f36;
+  --jiaoleaf-emerald-soft: rgba(19, 138, 67, 0.1);
+  --jiaoleaf-emerald-glow: rgba(19, 138, 67, 0.16);
+  --jiaoleaf-text-primary: #25313b;
+  --jiaoleaf-text-secondary: #4a5864;
+  --jiaoleaf-text-muted: #6b7785;
+  --jiaoleaf-text-dim: #8b97a3;
+  --jiaoleaf-panel-bg: #f7f8fa;
+  --jiaoleaf-panel-surface: #ffffff;
+  --jiaoleaf-panel-border: #d6dee6;
+  --jiaoleaf-panel-accent: #138a43;
+  --jiaoleaf-panel-accent-soft: rgba(19, 138, 67, 0.1);
+  --jiaoleaf-panel-text: #25313b;
+  --jiaoleaf-panel-muted: #5f6d78;
+  --jiaoleaf-panel-status: #996c00;
+  --jiaoleaf-panel-shadow: -1px 0 0 #cfd7df, 0 10px 24px rgba(32, 45, 56, 0.12);
+  --jiaoleaf-divider-line: rgba(68, 84, 98, 0.35);
+  --jiaoleaf-divider-hover-bg: rgba(68, 84, 98, 0.08);
+  --jiaoleaf-divider-active-bg: rgba(68, 84, 98, 0.14);
 }
 
-.ageaf-panel:not(.light) {
-  --ageaf-charcoal: #17212b;
-  --ageaf-slate: #202b36;
-  --ageaf-surface: #253240;
-  --ageaf-border: #3a4857;
-  --ageaf-emerald: #2da44e;
-  --ageaf-emerald-dark: #238636;
-  --ageaf-emerald-soft: rgba(45, 164, 78, 0.14);
-  --ageaf-text-primary: #f0f3f6;
-  --ageaf-text-secondary: #d7dee6;
-  --ageaf-text-muted: #aab6c2;
-  --ageaf-panel-shadow: -1px 0 0 rgba(255, 255, 255, 0.08), 0 14px 32px rgba(0, 0, 0, 0.24);
+.jiaoleaf-panel:not(.light) {
+  --jiaoleaf-charcoal: #17212b;
+  --jiaoleaf-slate: #202b36;
+  --jiaoleaf-surface: #253240;
+  --jiaoleaf-border: #3a4857;
+  --jiaoleaf-emerald: #2da44e;
+  --jiaoleaf-emerald-dark: #238636;
+  --jiaoleaf-emerald-soft: rgba(45, 164, 78, 0.14);
+  --jiaoleaf-text-primary: #f0f3f6;
+  --jiaoleaf-text-secondary: #d7dee6;
+  --jiaoleaf-text-muted: #aab6c2;
+  --jiaoleaf-panel-shadow: -1px 0 0 rgba(255, 255, 255, 0.08), 0 14px 32px rgba(0, 0, 0, 0.24);
 }
 
-.ageaf-panel,
-.ageaf-panel.light {
-  background: var(--ageaf-panel-bg);
+.jiaoleaf-panel,
+.jiaoleaf-panel.light {
+  background: var(--jiaoleaf-panel-bg);
   background-image: none;
 }
 
-.ageaf-panel::before {
+.jiaoleaf-panel::before {
   display: none;
 }
 
-.ageaf-panel__inner {
-  background: var(--ageaf-panel-bg);
+.jiaoleaf-panel__inner {
+  background: var(--jiaoleaf-panel-bg);
 }
 
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   background: #17212b;
   border-bottom: 1px solid #2f3b48;
   box-shadow: none;
   min-height: 58px;
 }
 
-.ageaf-panel__name {
+.jiaoleaf-panel__name {
   color: #f4f7fa;
-  font-family: var(--ageaf-font-display);
+  font-family: var(--jiaoleaf-font-display);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: none;
 }
 
-.ageaf-panel__intro {
+.jiaoleaf-panel__intro {
   color: #b9c4cf;
   font-size: 11px;
   font-weight: 500;
@@ -725,44 +725,44 @@
   text-transform: none;
 }
 
-.ageaf-panel__header .ageaf-panel__theme-toggle,
-.ageaf-panel__header .ageaf-panel__help,
-.ageaf-panel__header .ageaf-provider {
+.jiaoleaf-panel__header .jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__header .jiaoleaf-panel__help,
+.jiaoleaf-panel__header .jiaoleaf-provider {
   background: #1f2b37;
   border-color: #3a4857;
   color: #dbe3ea;
 }
 
-.ageaf-panel__header .ageaf-provider__label {
+.jiaoleaf-panel__header .jiaoleaf-provider__label {
   color: #dbe3ea;
 }
 
-.ageaf-panel__header .ageaf-panel__theme-toggle:hover,
-.ageaf-panel__header .ageaf-panel__help:hover {
+.jiaoleaf-panel__header .jiaoleaf-panel__theme-toggle:hover,
+.jiaoleaf-panel__header .jiaoleaf-panel__help:hover {
   background: #263545;
   border-color: #4c5d6f;
   color: #ffffff;
 }
 
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help,
-.ageaf-provider,
-.ageaf-runtime__button,
-.ageaf-runtime__yolo,
-.ageaf-toolbar-action,
-.ageaf-session-tab,
-.ageaf-panel__editor,
-.ageaf-panel__input {
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help,
+.jiaoleaf-provider,
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo,
+.jiaoleaf-toolbar-action,
+.jiaoleaf-session-tab,
+.jiaoleaf-panel__editor,
+.jiaoleaf-panel__input {
   border-radius: 6px;
 }
 
-.ageaf-panel__input {
-  background: var(--ageaf-panel-surface);
-  border-top: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-panel__input {
+  background: var(--jiaoleaf-panel-surface);
+  border-top: 1px solid var(--jiaoleaf-panel-border);
   box-shadow: 0 -1px 0 rgba(32, 45, 56, 0.06);
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   background: #2f3b48;
   border-bottom: 1px solid #243140;
   margin: 0 -4px 0 -6px;
@@ -771,28 +771,28 @@
   flex-wrap: wrap;
 }
 
-.ageaf-runtime__button,
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo {
   background: #f7f8fa;
   border-color: #cfd7df;
   color: #25313b;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-.ageaf-runtime__button:hover,
-.ageaf-runtime__yolo:hover {
+.jiaoleaf-runtime__button:hover,
+.jiaoleaf-runtime__yolo:hover {
   background: #ffffff;
   border-color: #9fb0bf;
 }
 
-.ageaf-panel:not(.light) .ageaf-runtime__button,
-.ageaf-panel:not(.light) .ageaf-runtime__yolo {
+.jiaoleaf-panel:not(.light) .jiaoleaf-runtime__button,
+.jiaoleaf-panel:not(.light) .jiaoleaf-runtime__yolo {
   background: #1f2b37;
   border-color: #47586a;
   color: #eef3f8;
 }
 
-.ageaf-panel__toolbar {
+.jiaoleaf-panel__toolbar {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
@@ -803,69 +803,69 @@
   margin-bottom: 8px;
 }
 
-.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__toolbar {
   background: #202b36;
   border-color: #3a4857;
 }
 
-.ageaf-session-tabs,
-.ageaf-toolbar-actions {
+.jiaoleaf-session-tabs,
+.jiaoleaf-toolbar-actions {
   min-width: 0;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   justify-content: space-between;
   gap: 4px;
   flex-wrap: wrap;
 }
 
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   background: #ffffff;
   border-color: #d6dee6;
   color: #43515e;
   box-shadow: 0 1px 1px rgba(32, 45, 56, 0.04);
 }
 
-.ageaf-panel:not(.light) .ageaf-toolbar-button,
-.ageaf-panel:not(.light) .ageaf-session-tab {
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-button,
+.jiaoleaf-panel:not(.light) .jiaoleaf-session-tab {
   background: #17212b;
   border-color: #3a4857;
   color: #dbe3ea;
 }
 
-.ageaf-panel__editor {
-  background: var(--ageaf-panel-surface);
-  border-color: var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+.jiaoleaf-panel__editor {
+  background: var(--jiaoleaf-panel-surface);
+  border-color: var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   box-shadow: inset 0 1px 2px rgba(32, 45, 56, 0.06);
 }
 
-.ageaf-message--assistant,
-.ageaf-patch-review,
-.ageaf-file-summary,
-.ageaf-cot-item,
-.ageaf-runtime__menu,
-.ageaf-toolbar-menu__list {
-  background: var(--ageaf-panel-surface);
-  border-color: var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+.jiaoleaf-message--assistant,
+.jiaoleaf-patch-review,
+.jiaoleaf-file-summary,
+.jiaoleaf-cot-item,
+.jiaoleaf-runtime__menu,
+.jiaoleaf-toolbar-menu__list {
+  background: var(--jiaoleaf-panel-surface);
+  border-color: var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-message--user {
-  background: var(--ageaf-panel-accent-soft);
+.jiaoleaf-message--user {
+  background: var(--jiaoleaf-panel-accent-soft);
   border-color: rgba(19, 138, 67, 0.22);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-panel__theme-toggle:hover,
-.ageaf-panel__help:hover,
-.ageaf-runtime__button:hover,
-.ageaf-toolbar-action:hover,
-.ageaf-session-tab:hover {
-  background: var(--ageaf-panel-accent-soft);
+.jiaoleaf-panel__theme-toggle:hover,
+.jiaoleaf-panel__help:hover,
+.jiaoleaf-runtime__button:hover,
+.jiaoleaf-toolbar-action:hover,
+.jiaoleaf-session-tab:hover {
+  background: var(--jiaoleaf-panel-accent-soft);
   border-color: rgba(19, 138, 67, 0.28);
-  color: var(--ageaf-panel-accent);
+  color: var(--jiaoleaf-panel-accent);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -874,12 +874,12 @@
    behind one explicit control instead of showing every skill inline.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-panel__input {
+.jiaoleaf-panel__input {
   padding: 0;
   background: #f5f6f7;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   flex-wrap: nowrap;
   gap: 8px;
   min-height: 46px;
@@ -890,7 +890,7 @@
   border-bottom: 1px solid #1e2a36;
 }
 
-.ageaf-runtime__refresh {
+.jiaoleaf-runtime__refresh {
   width: 28px;
   height: 28px;
   border-radius: 6px;
@@ -898,12 +898,12 @@
   border-color: #48596a;
 }
 
-.ageaf-runtime__picker {
+.jiaoleaf-runtime__picker {
   max-width: 34%;
 }
 
-.ageaf-runtime__button,
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo {
   height: 30px;
   border-radius: 4px;
   background: #f7f8fa;
@@ -911,35 +911,35 @@
   color: #22303c;
 }
 
-.ageaf-runtime__label {
+.jiaoleaf-runtime__label {
   color: #667482;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.ageaf-runtime__value {
+.jiaoleaf-runtime__value {
   color: #22303c;
   font-weight: 600;
 }
 
-.ageaf-runtime__usage {
+.jiaoleaf-runtime__usage {
   flex: 0 0 auto;
   margin-left: auto;
   color: #c7d1dc;
 }
 
-.ageaf-runtime__ring {
+.jiaoleaf-runtime__ring {
   width: 24px;
   height: 24px;
 }
 
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__yolo {
   flex-basis: 82px;
   min-width: 82px;
   max-width: 82px;
 }
 
-.ageaf-panel__toolbar {
+.jiaoleaf-panel__toolbar {
   display: block;
   margin: 0;
   padding: 0;
@@ -948,7 +948,7 @@
   background: #eef1f4;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -958,12 +958,12 @@
   border-bottom: 1px solid #d4dce4;
 }
 
-.ageaf-session-tabs {
+.jiaoleaf-session-tabs {
   gap: 5px;
   padding: 0;
 }
 
-.ageaf-session-tab {
+.jiaoleaf-session-tab {
   width: 30px;
   height: 30px;
   border-radius: 4px;
@@ -973,14 +973,14 @@
   box-shadow: none;
 }
 
-.ageaf-session-tab.is-active {
+.jiaoleaf-session-tab.is-active {
   background: #ffffff;
   border-color: #9cc7ad;
   color: #13251a;
   box-shadow: inset 3px 0 0 #138a43;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   justify-content: flex-end;
   gap: 6px;
   flex-wrap: nowrap;
@@ -988,12 +988,12 @@
   padding-bottom: 0;
 }
 
-.ageaf-toolbar-actions::-webkit-scrollbar,
-.ageaf-session-tabs::-webkit-scrollbar {
+.jiaoleaf-toolbar-actions::-webkit-scrollbar,
+.jiaoleaf-session-tabs::-webkit-scrollbar {
   display: none;
 }
 
-.ageaf-toolbar-button {
+.jiaoleaf-toolbar-button {
   width: 30px;
   height: 30px;
   min-width: 30px;
@@ -1004,7 +1004,7 @@
   box-shadow: none;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   width: auto;
   min-width: 64px;
   padding: 0 10px;
@@ -1013,18 +1013,18 @@
   letter-spacing: 0.02em;
 }
 
-.ageaf-toolbar-button:hover:not(:disabled),
-.ageaf-toolbar-button:focus-visible:not(:disabled),
-.ageaf-session-tab:hover:not(:disabled),
-.ageaf-session-tab:focus-visible:not(:disabled) {
+.jiaoleaf-toolbar-button:hover:not(:disabled),
+.jiaoleaf-toolbar-button:focus-visible:not(:disabled),
+.jiaoleaf-session-tab:hover:not(:disabled),
+.jiaoleaf-session-tab:focus-visible:not(:disabled) {
   background: #e4ebe7;
   border-color: #95b9a3;
   color: #0f6f36;
 }
 
-.ageaf-toolbar-menu__list,
-.ageaf-runtime__menu,
-.ageaf-runtime__group-models {
+.jiaoleaf-toolbar-menu__list,
+.jiaoleaf-runtime__menu,
+.jiaoleaf-runtime__group-models {
   background: #ffffff;
   border-color: #c8d2dc;
   color: #25313b;
@@ -1032,54 +1032,54 @@
   box-shadow: 0 10px 24px rgba(32, 45, 56, 0.18);
 }
 
-.ageaf-toolbar-menu__option,
-.ageaf-runtime__option {
+.jiaoleaf-toolbar-menu__option,
+.jiaoleaf-runtime__option {
   color: #25313b;
   border-radius: 3px;
 }
 
-.ageaf-toolbar-menu__option:hover:not(:disabled),
-.ageaf-runtime__option:hover,
-.ageaf-runtime__option.is-selected {
+.jiaoleaf-toolbar-menu__option:hover:not(:disabled),
+.jiaoleaf-runtime__option:hover,
+.jiaoleaf-runtime__option.is-selected {
   background: #e8f2ec;
   border-color: #b7d4c2;
   color: #0f6f36;
 }
 
-.ageaf-skill-menu__list {
+.jiaoleaf-skill-menu__list {
   width: min(360px, calc(100vw - 32px));
   max-height: 360px;
   overflow: auto;
   padding: 6px;
 }
 
-.ageaf-skill-menu__option {
+.jiaoleaf-skill-menu__option {
   display: grid;
   gap: 3px;
   padding: 8px 10px;
 }
 
-.ageaf-skill-menu__name {
-  font-family: var(--ageaf-font-mono);
+.jiaoleaf-skill-menu__name {
+  font-family: var(--jiaoleaf-font-mono);
   font-size: 12px;
   font-weight: 700;
 }
 
-.ageaf-skill-menu__description {
+.jiaoleaf-skill-menu__description {
   color: #5f6d78;
   font-size: 12px;
   line-height: 1.35;
   white-space: normal;
 }
 
-.ageaf-skill-menu__manage {
+.jiaoleaf-skill-menu__manage {
   margin-top: 4px;
   border-top: 1px solid #d6dee6;
   color: #0f6f36;
   font-weight: 700;
 }
 
-.ageaf-panel__editor {
+.jiaoleaf-panel__editor {
   margin: 10px;
   border-radius: 4px;
   background: #ffffff;
@@ -1087,53 +1087,53 @@
   min-height: 86px;
 }
 
-.ageaf-panel:not(.light) .ageaf-panel__input,
-.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__input,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__toolbar {
   background: #202b36;
 }
 
-.ageaf-panel:not(.light) .ageaf-toolbar-strip {
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-strip {
   border-bottom-color: #394858;
 }
 
-.ageaf-panel:not(.light) .ageaf-toolbar-button,
-.ageaf-panel:not(.light) .ageaf-session-tab,
-.ageaf-panel:not(.light) .ageaf-panel__editor,
-.ageaf-panel:not(.light) .ageaf-toolbar-menu__list,
-.ageaf-panel:not(.light) .ageaf-runtime__menu,
-.ageaf-panel:not(.light) .ageaf-runtime__group-models {
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-button,
+.jiaoleaf-panel:not(.light) .jiaoleaf-session-tab,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__editor,
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-menu__list,
+.jiaoleaf-panel:not(.light) .jiaoleaf-runtime__menu,
+.jiaoleaf-panel:not(.light) .jiaoleaf-runtime__group-models {
   background: #17212b;
   border-color: #435466;
   color: #dbe3ea;
 }
 
-.ageaf-panel:not(.light) .ageaf-toolbar-menu__option,
-.ageaf-panel:not(.light) .ageaf-runtime__option {
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-menu__option,
+.jiaoleaf-panel:not(.light) .jiaoleaf-runtime__option {
   color: #dbe3ea;
 }
 
-.ageaf-panel:not(.light) .ageaf-skill-menu__description {
+.jiaoleaf-panel:not(.light) .jiaoleaf-skill-menu__description {
   color: #aab6c2;
 }
 
-.ageaf-settings__skill-actions {
+.jiaoleaf-settings__skill-actions {
   display: flex;
   gap: 8px;
   margin: 8px 0 12px;
 }
 
-.ageaf-settings__skill-list {
+.jiaoleaf-settings__skill-list {
   display: grid;
   gap: 6px;
   max-height: 260px;
   overflow: auto;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
   padding: 8px;
   background: rgba(255, 255, 255, 0.04);
 }
 
-.ageaf-settings__skill-row {
+.jiaoleaf-settings__skill-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
@@ -1143,65 +1143,65 @@
   border: 1px solid rgba(127, 143, 158, 0.22);
 }
 
-.ageaf-settings__skill-check {
+.jiaoleaf-settings__skill-check {
   margin-top: 0;
 }
 
-.ageaf-settings__skill-check span {
+.jiaoleaf-settings__skill-check span {
   display: grid;
   gap: 2px;
   min-width: 0;
 }
 
-.ageaf-settings__skill-check strong {
-  font-family: var(--ageaf-font-mono);
+.jiaoleaf-settings__skill-check strong {
+  font-family: var(--jiaoleaf-font-mono);
   font-size: 12px;
 }
 
-.ageaf-settings__skill-check small {
-  color: var(--ageaf-panel-muted);
+.jiaoleaf-settings__skill-check small {
+  color: var(--jiaoleaf-panel-muted);
   font-size: 12px;
   line-height: 1.3;
 }
 
-.ageaf-settings__skill-source {
-  border: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-settings__skill-source {
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 999px;
   padding: 2px 7px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   font-size: 11px;
 }
 
-.ageaf-settings__skill-remove {
-  border: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-settings__skill-remove {
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 4px;
   background: transparent;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   cursor: pointer;
   padding: 4px 8px;
 }
 
-.ageaf-settings__skill-fields {
+.jiaoleaf-settings__skill-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
 @media (max-width: 520px) {
-  .ageaf-toolbar-strip {
+  .jiaoleaf-toolbar-strip {
     grid-template-columns: 1fr;
   }
 
-  .ageaf-toolbar-actions {
+  .jiaoleaf-toolbar-actions {
     justify-content: flex-start;
   }
 
-  .ageaf-runtime {
+  .jiaoleaf-runtime {
     flex-wrap: wrap;
   }
 
-  .ageaf-settings__skill-row,
-  .ageaf-settings__skill-fields {
+  .jiaoleaf-settings__skill-row,
+  .jiaoleaf-settings__skill-fields {
     grid-template-columns: 1fr;
   }
 }
@@ -1212,29 +1212,29 @@
    project editor density (top navbar + secondary toolbar + flat panes).
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.ageaf-panel,
-.ageaf-panel.light,
-.ageaf-panel:not(.light) {
-  --ageaf-overleaf-top: #111b26;
-  --ageaf-overleaf-subbar: #2d3a48;
-  --ageaf-overleaf-subbar-border: #1f2a35;
-  --ageaf-overleaf-pane: #f3f5f7;
-  --ageaf-overleaf-border: #cfd8e1;
-  --ageaf-overleaf-button: #f8fafb;
-  --ageaf-overleaf-text: #25313b;
-  --ageaf-overleaf-muted: #63717d;
-  --ageaf-overleaf-green: #138a43;
-  background: var(--ageaf-overleaf-pane) !important;
+.jiaoleaf-panel,
+.jiaoleaf-panel.light,
+.jiaoleaf-panel:not(.light) {
+  --jiaoleaf-overleaf-top: #111b26;
+  --jiaoleaf-overleaf-subbar: #2d3a48;
+  --jiaoleaf-overleaf-subbar-border: #1f2a35;
+  --jiaoleaf-overleaf-pane: #f3f5f7;
+  --jiaoleaf-overleaf-border: #cfd8e1;
+  --jiaoleaf-overleaf-button: #f8fafb;
+  --jiaoleaf-overleaf-text: #25313b;
+  --jiaoleaf-overleaf-muted: #63717d;
+  --jiaoleaf-overleaf-green: #138a43;
+  background: var(--jiaoleaf-overleaf-pane) !important;
   background-image: none !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
 }
 
-.ageaf-panel__inner {
+.jiaoleaf-panel__inner {
   grid-template-rows: auto minmax(0, 1fr) auto !important;
-  background: var(--ageaf-overleaf-pane) !important;
+  background: var(--jiaoleaf-overleaf-pane) !important;
 }
 
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   display: grid !important;
   grid-template-columns: 28px minmax(0, 1fr) auto !important;
   grid-template-rows: 40px 40px !important;
@@ -1246,13 +1246,13 @@
   min-height: 80px !important;
   height: 80px !important;
   padding: 0 !important;
-  background: var(--ageaf-overleaf-top) !important;
+  background: var(--jiaoleaf-overleaf-top) !important;
   border-bottom: 0 !important;
   box-shadow: none !important;
   overflow: hidden !important;
 }
 
-.ageaf-panel__logo {
+.jiaoleaf-panel__logo {
   grid-area: logo !important;
   width: 18px !important;
   height: 18px !important;
@@ -1261,7 +1261,7 @@
   filter: none !important;
 }
 
-.ageaf-panel__title {
+.jiaoleaf-panel__title {
   grid-area: title !important;
   min-width: 0 !important;
   padding-left: 6px !important;
@@ -1270,7 +1270,7 @@
   gap: 8px !important;
 }
 
-.ageaf-panel__name {
+.jiaoleaf-panel__name {
   color: #f4f7fa !important;
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -1282,7 +1282,7 @@
   text-overflow: ellipsis !important;
 }
 
-.ageaf-panel__intro {
+.jiaoleaf-panel__intro {
   color: #b8c2cc !important;
   font-size: 10px !important;
   font-weight: 500 !important;
@@ -1293,15 +1293,15 @@
   text-overflow: ellipsis !important;
 }
 
-.ageaf-panel__header-actions {
+.jiaoleaf-panel__header-actions {
   grid-area: actions !important;
   gap: 4px !important;
   padding-right: 6px !important;
 }
 
-.ageaf-provider,
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
+.jiaoleaf-provider,
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
   height: 28px !important;
   border-radius: 3px !important;
   background: #162331 !important;
@@ -1310,24 +1310,24 @@
   box-shadow: none !important;
 }
 
-.ageaf-provider {
+.jiaoleaf-provider {
   padding: 0 8px !important;
   min-width: 72px !important;
 }
 
-.ageaf-provider__label {
+.jiaoleaf-provider__label {
   color: #e6edf3 !important;
   font-size: 12px !important;
   font-weight: 600 !important;
 }
 
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
   width: 28px !important;
   min-width: 28px !important;
 }
 
-.ageaf-tips {
+.jiaoleaf-tips {
   grid-area: tips !important;
   align-self: stretch !important;
   justify-self: stretch !important;
@@ -1337,8 +1337,8 @@
   height: 40px !important;
   margin: 0 !important;
   padding: 0 10px !important;
-  background: var(--ageaf-overleaf-subbar) !important;
-  border-top: 1px solid var(--ageaf-overleaf-subbar-border) !important;
+  background: var(--jiaoleaf-overleaf-subbar) !important;
+  border-top: 1px solid var(--jiaoleaf-overleaf-subbar-border) !important;
   color: #e0a32b !important;
   font-size: 12px !important;
   line-height: 1 !important;
@@ -1346,53 +1346,53 @@
   animation: none !important;
 }
 
-.ageaf-panel__body {
+.jiaoleaf-panel__body {
   min-height: 0 !important;
   overflow: hidden !important;
-  background: var(--ageaf-overleaf-pane) !important;
+  background: var(--jiaoleaf-overleaf-pane) !important;
 }
 
-.ageaf-panel__chat {
+.jiaoleaf-panel__chat {
   height: 100% !important;
   padding: 10px 10px 12px !important;
-  background: var(--ageaf-overleaf-pane) !important;
+  background: var(--jiaoleaf-overleaf-pane) !important;
   scrollbar-color: #aab6c2 transparent !important;
 }
 
-.ageaf-message {
+.jiaoleaf-message {
   margin: 0 0 10px !important;
   animation: none !important;
 }
 
-.ageaf-message--assistant,
-.ageaf-message--system,
-.ageaf-message--user {
+.jiaoleaf-message--assistant,
+.jiaoleaf-message--system,
+.jiaoleaf-message--user {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 
-.ageaf-message__content {
+.jiaoleaf-message__content {
   max-width: none !important;
   padding: 10px 12px !important;
-  border: 1px solid var(--ageaf-overleaf-border) !important;
+  border: 1px solid var(--jiaoleaf-overleaf-border) !important;
   border-radius: 4px !important;
   background: #ffffff !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   font-size: 13px !important;
   line-height: 1.48 !important;
   letter-spacing: 0 !important;
   box-shadow: none !important;
 }
 
-.ageaf-message--user .ageaf-message__content {
+.jiaoleaf-message--user .jiaoleaf-message__content {
   border-color: #b7d4c2 !important;
   background: #eef8f2 !important;
 }
 
-.ageaf-message__status,
-.ageaf-message__thinking,
-.ageaf-message__cot {
+.jiaoleaf-message__status,
+.jiaoleaf-message__thinking,
+.jiaoleaf-message__cot {
   margin: 0 0 6px !important;
   padding: 6px 9px !important;
   border-radius: 4px !important;
@@ -1403,118 +1403,118 @@
   font-size: 12px !important;
 }
 
-.ageaf-patch-review,
-.ageaf-file-summary {
+.jiaoleaf-patch-review,
+.jiaoleaf-file-summary {
   margin: 0 0 10px !important;
   border-radius: 4px !important;
-  border-color: var(--ageaf-overleaf-border) !important;
+  border-color: var(--jiaoleaf-overleaf-border) !important;
   background: #ffffff !important;
   box-shadow: none !important;
 }
 
-.ageaf-generating {
+.jiaoleaf-generating {
   margin: 6px 0 !important;
   padding: 0 !important;
-  color: var(--ageaf-overleaf-muted) !important;
+  color: var(--jiaoleaf-overleaf-muted) !important;
 }
 
-.ageaf-panel__scroll {
+.jiaoleaf-panel__scroll {
   border-radius: 4px !important;
-  border: 1px solid var(--ageaf-overleaf-border) !important;
+  border: 1px solid var(--jiaoleaf-overleaf-border) !important;
   background: #ffffff !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   box-shadow: 0 2px 8px rgba(32, 45, 56, 0.15) !important;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   height: 40px !important;
   min-height: 40px !important;
   padding: 5px 8px !important;
-  background: var(--ageaf-overleaf-subbar) !important;
-  border-top: 1px solid var(--ageaf-overleaf-subbar-border) !important;
-  border-bottom: 1px solid var(--ageaf-overleaf-subbar-border) !important;
+  background: var(--jiaoleaf-overleaf-subbar) !important;
+  border-top: 1px solid var(--jiaoleaf-overleaf-subbar-border) !important;
+  border-bottom: 1px solid var(--jiaoleaf-overleaf-subbar-border) !important;
   gap: 5px !important;
   overflow: hidden !important;
 }
 
-.ageaf-runtime__refresh,
-.ageaf-runtime__button,
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__refresh,
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo {
   height: 28px !important;
   border-radius: 4px !important;
   border: 1px solid #647485 !important;
   background: #f8fafb !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   box-shadow: none !important;
 }
 
-.ageaf-runtime__button {
+.jiaoleaf-runtime__button {
   padding: 0 8px !important;
 }
 
-.ageaf-runtime__refresh {
+.jiaoleaf-runtime__refresh {
   width: 28px !important;
   min-width: 28px !important;
 }
 
-.ageaf-runtime__picker {
+.jiaoleaf-runtime__picker {
   flex: 1 1 0 !important;
   min-width: 0 !important;
   max-width: none !important;
 }
 
-.ageaf-runtime__picker:first-of-type {
+.jiaoleaf-runtime__picker:first-of-type {
   flex-grow: 1.2 !important;
 }
 
-.ageaf-runtime__picker:nth-of-type(2) {
+.jiaoleaf-runtime__picker:nth-of-type(2) {
   flex-grow: 1 !important;
 }
 
-.ageaf-runtime__value,
-.ageaf-runtime__value--accent,
-.ageaf-runtime__label {
-  color: var(--ageaf-overleaf-text) !important;
+.jiaoleaf-runtime__value,
+.jiaoleaf-runtime__value--accent,
+.jiaoleaf-runtime__label {
+  color: var(--jiaoleaf-overleaf-text) !important;
   font-size: 12px !important;
 }
 
-.ageaf-runtime__label {
-  color: var(--ageaf-overleaf-muted) !important;
+.jiaoleaf-runtime__label {
+  color: var(--jiaoleaf-overleaf-muted) !important;
 }
 
-.ageaf-runtime__usage {
+.jiaoleaf-runtime__usage {
   display: none !important;
   color: #d7e0e8 !important;
 }
 
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__yolo {
   flex: 0 0 68px !important;
   min-width: 68px !important;
   max-width: 68px !important;
   padding: 0 7px !important;
 }
 
-.ageaf-runtime__yolo-text {
+.jiaoleaf-runtime__yolo-text {
   width: auto !important;
   font-size: 10px !important;
 }
 
-.ageaf-runtime__yolo-switch {
+.jiaoleaf-runtime__yolo-switch {
   width: 24px !important;
   min-width: 24px !important;
   height: 14px !important;
 }
 
-.ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo-thumb {
   width: 10px !important;
   height: 10px !important;
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-thumb {
   transform: translateX(10px) !important;
 }
 
-.ageaf-panel__input {
+.jiaoleaf-panel__input {
   padding: 0 !important;
   gap: 0 !important;
   background: #f7f8fa !important;
@@ -1522,7 +1522,7 @@
   box-shadow: none !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   min-height: 38px !important;
   height: 38px !important;
   grid-template-columns: auto minmax(0, 1fr) !important;
@@ -1532,12 +1532,12 @@
   border-bottom: 1px solid #d4dce4 !important;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   gap: 3px !important;
 }
 
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   width: 26px !important;
   height: 26px !important;
   min-width: 26px !important;
@@ -1548,7 +1548,7 @@
   box-shadow: none !important;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   width: auto !important;
   min-width: 50px !important;
   padding: 0 7px !important;
@@ -1556,20 +1556,20 @@
   font-size: 11px !important;
 }
 
-.ageaf-session-tab.is-active {
+.jiaoleaf-session-tab.is-active {
   background: #ffffff !important;
   border-color: #9cc7ad !important;
-  box-shadow: inset 3px 0 0 var(--ageaf-overleaf-green) !important;
+  box-shadow: inset 3px 0 0 var(--jiaoleaf-overleaf-green) !important;
 }
 
-.ageaf-toolbar-button:hover:not(:disabled),
-.ageaf-session-tab:hover:not(:disabled) {
+.jiaoleaf-toolbar-button:hover:not(:disabled),
+.jiaoleaf-session-tab:hover:not(:disabled) {
   background: #ffffff !important;
   border-color: #95a6b7 !important;
   color: #0f6f36 !important;
 }
 
-.ageaf-panel__editor {
+.jiaoleaf-panel__editor {
   min-height: 54px !important;
   max-height: 150px !important;
   margin: 6px !important;
@@ -1577,113 +1577,113 @@
   border-radius: 4px !important;
   border: 1px solid #cfd8e1 !important;
   background: #ffffff !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   box-shadow: none !important;
   font-size: 13px !important;
 }
 
-.ageaf-panel__editor.is-empty::before {
+.jiaoleaf-panel__editor.is-empty::before {
   color: #8b97a3 !important;
   font-style: normal !important;
 }
 
-.ageaf-toolbar-menu__list,
-.ageaf-runtime__menu,
-.ageaf-runtime__group-models,
-.ageaf-skill,
-.ageaf-mention {
+.jiaoleaf-toolbar-menu__list,
+.jiaoleaf-runtime__menu,
+.jiaoleaf-runtime__group-models,
+.jiaoleaf-skill,
+.jiaoleaf-mention {
   border-radius: 4px !important;
   border: 1px solid #c6d0da !important;
   background: #ffffff !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   box-shadow: 0 8px 20px rgba(32, 45, 56, 0.16) !important;
 }
 
-.ageaf-toolbar-menu__option,
-.ageaf-runtime__option,
-.ageaf-skill__option,
-.ageaf-mention__option {
+.jiaoleaf-toolbar-menu__option,
+.jiaoleaf-runtime__option,
+.jiaoleaf-skill__option,
+.jiaoleaf-mention__option {
   border-radius: 3px !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
 }
 
-.ageaf-toolbar-menu__option:hover:not(:disabled),
-.ageaf-runtime__option:hover,
-.ageaf-skill__option.is-active,
-.ageaf-mention__option.is-active {
+.jiaoleaf-toolbar-menu__option:hover:not(:disabled),
+.jiaoleaf-runtime__option:hover,
+.jiaoleaf-skill__option.is-active,
+.jiaoleaf-mention__option.is-active {
   background: #e8f2ec !important;
   border-color: #b7d4c2 !important;
   color: #0f6f36 !important;
 }
 
-.ageaf-panel:not(.light) .ageaf-panel__input,
-.ageaf-panel:not(.light) .ageaf-panel__toolbar,
-.ageaf-panel:not(.light) .ageaf-toolbar-strip,
-.ageaf-panel:not(.light) .ageaf-panel__editor,
-.ageaf-panel:not(.light) .ageaf-message__content,
-.ageaf-panel:not(.light) .ageaf-patch-review,
-.ageaf-panel:not(.light) .ageaf-file-summary {
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__input,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__toolbar,
+.jiaoleaf-panel:not(.light) .jiaoleaf-toolbar-strip,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__editor,
+.jiaoleaf-panel:not(.light) .jiaoleaf-message__content,
+.jiaoleaf-panel:not(.light) .jiaoleaf-patch-review,
+.jiaoleaf-panel:not(.light) .jiaoleaf-file-summary {
   background: #f7f8fa !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
 }
 
 /* OVERLEAF STRICT ALIGNMENT PASS
  * Treat the panel chrome as an Overleaf side pane, not as a separate app shell.
  */
-.ageaf-panel {
-  --ageaf-overleaf-top-height: 40px;
-  --ageaf-overleaf-subbar-height: 40px;
-  --ageaf-overleaf-control-height: 28px;
+.jiaoleaf-panel {
+  --jiaoleaf-overleaf-top-height: 40px;
+  --jiaoleaf-overleaf-subbar-height: 40px;
+  --jiaoleaf-overleaf-control-height: 28px;
 }
 
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) auto !important;
-  grid-template-rows: var(--ageaf-overleaf-top-height) var(--ageaf-overleaf-subbar-height) !important;
+  grid-template-rows: var(--jiaoleaf-overleaf-top-height) var(--jiaoleaf-overleaf-subbar-height) !important;
   grid-template-areas:
     "spacer actions"
     "tips tips" !important;
-  min-height: calc(var(--ageaf-overleaf-top-height) + var(--ageaf-overleaf-subbar-height)) !important;
-  height: calc(var(--ageaf-overleaf-top-height) + var(--ageaf-overleaf-subbar-height)) !important;
+  min-height: calc(var(--jiaoleaf-overleaf-top-height) + var(--jiaoleaf-overleaf-subbar-height)) !important;
+  height: calc(var(--jiaoleaf-overleaf-top-height) + var(--jiaoleaf-overleaf-subbar-height)) !important;
   padding: 0 !important;
   gap: 0 !important;
   border: 0 !important;
   border-left: 1px solid #2f3a46 !important;
   border-bottom: 0 !important;
-  background: var(--ageaf-overleaf-top) !important;
+  background: var(--jiaoleaf-overleaf-top) !important;
   box-shadow: none !important;
 }
 
-.ageaf-panel__logo,
-.ageaf-panel__title {
+.jiaoleaf-panel__logo,
+.jiaoleaf-panel__title {
   display: none !important;
 }
 
-.ageaf-panel__header::before {
+.jiaoleaf-panel__header::before {
   content: "";
   grid-area: spacer;
   align-self: stretch;
   min-width: 0;
-  background: var(--ageaf-overleaf-top);
+  background: var(--jiaoleaf-overleaf-top);
 }
 
-.ageaf-panel__header-actions {
+.jiaoleaf-panel__header-actions {
   grid-area: actions !important;
   align-self: stretch !important;
-  height: var(--ageaf-overleaf-top-height) !important;
+  height: var(--jiaoleaf-overleaf-top-height) !important;
   padding: 0 6px 0 0 !important;
   gap: 6px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  background: var(--ageaf-overleaf-top) !important;
+  background: var(--jiaoleaf-overleaf-top) !important;
 }
 
-.ageaf-provider,
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
-  height: var(--ageaf-overleaf-control-height) !important;
-  min-height: var(--ageaf-overleaf-control-height) !important;
+.jiaoleaf-provider,
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
+  height: var(--jiaoleaf-overleaf-control-height) !important;
+  min-height: var(--jiaoleaf-overleaf-control-height) !important;
   border-radius: 4px !important;
   border: 1px solid #718195 !important;
   background: transparent !important;
@@ -1691,28 +1691,28 @@
   box-shadow: none !important;
 }
 
-.ageaf-provider {
+.jiaoleaf-provider {
   min-width: 84px !important;
   padding: 0 10px !important;
 }
 
-.ageaf-provider__label {
+.jiaoleaf-provider__label {
   font-size: 13px !important;
   line-height: 1 !important;
   color: #eef3f7 !important;
 }
 
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
   width: 32px !important;
   min-width: 32px !important;
   padding: 0 !important;
 }
 
-.ageaf-tips {
+.jiaoleaf-tips {
   grid-area: tips !important;
-  height: var(--ageaf-overleaf-subbar-height) !important;
-  min-height: var(--ageaf-overleaf-subbar-height) !important;
+  height: var(--jiaoleaf-overleaf-subbar-height) !important;
+  min-height: var(--jiaoleaf-overleaf-subbar-height) !important;
   padding: 0 12px !important;
   display: flex !important;
   align-items: center !important;
@@ -1720,7 +1720,7 @@
   border: 0 !important;
   border-top: 1px solid #17212b !important;
   border-bottom: 1px solid #314254 !important;
-  background: var(--ageaf-overleaf-subbar) !important;
+  background: var(--jiaoleaf-overleaf-subbar) !important;
   color: #e3a12b !important;
   font-size: 12px !important;
   letter-spacing: 0.08em !important;
@@ -1728,11 +1728,11 @@
   box-shadow: none !important;
 }
 
-.ageaf-panel__messages {
+.jiaoleaf-panel__messages {
   padding-top: 10px !important;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   height: 34px !important;
   min-height: 34px !important;
   padding: 3px 6px !important;
@@ -1740,45 +1740,45 @@
   display: flex !important;
   align-items: center !important;
   overflow: hidden !important;
-  background: var(--ageaf-overleaf-subbar) !important;
+  background: var(--jiaoleaf-overleaf-subbar) !important;
   border-top: 1px solid #314254 !important;
   border-bottom: 1px solid #17212b !important;
 }
 
-.ageaf-runtime__refresh,
-.ageaf-runtime__button,
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__refresh,
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo {
   height: 26px !important;
   min-height: 26px !important;
   border-radius: 4px !important;
   border: 1px solid #708092 !important;
   background: #f8fafb !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
   box-shadow: none !important;
 }
 
-.ageaf-runtime__refresh {
+.jiaoleaf-runtime__refresh {
   flex: 0 0 26px !important;
   width: 26px !important;
   min-width: 26px !important;
   padding: 0 !important;
 }
 
-.ageaf-runtime__picker {
+.jiaoleaf-runtime__picker {
   flex: 1 1 0 !important;
   min-width: 0 !important;
   max-width: none !important;
 }
 
-.ageaf-runtime__picker:first-of-type {
+.jiaoleaf-runtime__picker:first-of-type {
   flex-grow: 1.15 !important;
 }
 
-.ageaf-runtime__picker:nth-of-type(2) {
+.jiaoleaf-runtime__picker:nth-of-type(2) {
   flex-grow: 0.9 !important;
 }
 
-.ageaf-runtime__button {
+.jiaoleaf-runtime__button {
   width: 100% !important;
   min-width: 0 !important;
   padding: 0 8px !important;
@@ -1786,23 +1786,23 @@
   overflow: hidden !important;
 }
 
-.ageaf-runtime__value,
-.ageaf-runtime__value--accent {
+.jiaoleaf-runtime__value,
+.jiaoleaf-runtime__value--accent {
   min-width: 0 !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
   font-size: 12px !important;
   line-height: 1 !important;
-  color: var(--ageaf-overleaf-text) !important;
+  color: var(--jiaoleaf-overleaf-text) !important;
 }
 
-.ageaf-runtime__label,
-.ageaf-runtime__usage {
+.jiaoleaf-runtime__label,
+.jiaoleaf-runtime__usage {
   display: none !important;
 }
 
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__yolo {
   flex: 0 0 50px !important;
   min-width: 50px !important;
   max-width: 50px !important;
@@ -1810,7 +1810,7 @@
   gap: 4px !important;
 }
 
-.ageaf-runtime__yolo-text {
+.jiaoleaf-runtime__yolo-text {
   width: 8px !important;
   min-width: 8px !important;
   font-size: 10px !important;
@@ -1818,22 +1818,22 @@
   line-height: 1 !important;
 }
 
-.ageaf-runtime__yolo-switch {
+.jiaoleaf-runtime__yolo-switch {
   width: 22px !important;
   min-width: 22px !important;
   height: 13px !important;
 }
 
-.ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo-thumb {
   width: 9px !important;
   height: 9px !important;
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-thumb {
   transform: translateX(9px) !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   height: 34px !important;
   min-height: 34px !important;
   padding: 4px 6px !important;
@@ -1846,20 +1846,20 @@
   border-bottom: 1px solid #d4dde6 !important;
 }
 
-.ageaf-session-stack,
-.ageaf-toolbar-actions {
+.jiaoleaf-session-stack,
+.jiaoleaf-toolbar-actions {
   height: 26px !important;
   min-height: 26px !important;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   gap: 4px !important;
   justify-content: flex-end !important;
   overflow: hidden !important;
 }
 
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   width: 26px !important;
   min-width: 26px !important;
   height: 26px !important;
@@ -1872,7 +1872,7 @@
   box-shadow: none !important;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   width: auto !important;
   min-width: 54px !important;
   padding: 0 8px !important;
@@ -1880,7 +1880,7 @@
   font-weight: 700 !important;
 }
 
-.ageaf-panel__editor {
+.jiaoleaf-panel__editor {
   min-height: 48px !important;
   max-height: 120px !important;
   margin: 6px !important;
@@ -1895,165 +1895,165 @@
  * - toolbar-small-height: 32px
  * - top buttons are flat nav cells, not rounded app buttons
  */
-.ageaf-panel,
-.ageaf-panel.light,
-.ageaf-panel:not(.light) {
-  --ageaf-ol-toolbar-height: 40px;
-  --ageaf-ol-toolbar-small-height: 32px;
-  --ageaf-ol-top-bg: #111b26;
-  --ageaf-ol-alt-bg: #2d3a48;
-  --ageaf-ol-divider: #314254;
-  --ageaf-ol-divider-dark: #1c2733;
-  --ageaf-ol-content-bg: #f3f5f7;
-  --ageaf-ol-control-fg: #f4f7fa;
+.jiaoleaf-panel,
+.jiaoleaf-panel.light,
+.jiaoleaf-panel:not(.light) {
+  --jiaoleaf-ol-toolbar-height: 40px;
+  --jiaoleaf-ol-toolbar-small-height: 32px;
+  --jiaoleaf-ol-top-bg: #111b26;
+  --jiaoleaf-ol-alt-bg: #2d3a48;
+  --jiaoleaf-ol-divider: #314254;
+  --jiaoleaf-ol-divider-dark: #1c2733;
+  --jiaoleaf-ol-content-bg: #f3f5f7;
+  --jiaoleaf-ol-control-fg: #f4f7fa;
 }
 
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   grid-template-columns: minmax(0, 1fr) auto !important;
-  grid-template-rows: var(--ageaf-ol-toolbar-height) var(--ageaf-ol-toolbar-small-height) !important;
+  grid-template-rows: var(--jiaoleaf-ol-toolbar-height) var(--jiaoleaf-ol-toolbar-small-height) !important;
   grid-template-areas:
     "spacer actions"
     "tips tips" !important;
-  min-height: calc(var(--ageaf-ol-toolbar-height) + var(--ageaf-ol-toolbar-small-height)) !important;
-  height: calc(var(--ageaf-ol-toolbar-height) + var(--ageaf-ol-toolbar-small-height)) !important;
-  border-left: 1px solid var(--ageaf-ol-divider) !important;
+  min-height: calc(var(--jiaoleaf-ol-toolbar-height) + var(--jiaoleaf-ol-toolbar-small-height)) !important;
+  height: calc(var(--jiaoleaf-ol-toolbar-height) + var(--jiaoleaf-ol-toolbar-small-height)) !important;
+  border-left: 1px solid var(--jiaoleaf-ol-divider) !important;
   border-bottom: 0 !important;
-  background: var(--ageaf-ol-top-bg) !important;
+  background: var(--jiaoleaf-ol-top-bg) !important;
 }
 
-.ageaf-panel__header::before {
-  background: var(--ageaf-ol-top-bg) !important;
-  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+.jiaoleaf-panel__header::before {
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-divider-dark) !important;
   box-sizing: border-box !important;
 }
 
-.ageaf-panel__header-actions {
-  height: var(--ageaf-ol-toolbar-height) !important;
+.jiaoleaf-panel__header-actions {
+  height: var(--jiaoleaf-ol-toolbar-height) !important;
   padding: 0 !important;
   gap: 0 !important;
   align-items: stretch !important;
-  background: var(--ageaf-ol-top-bg) !important;
-  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-divider-dark) !important;
   box-sizing: border-box !important;
 }
 
-.ageaf-provider,
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
-  height: var(--ageaf-ol-toolbar-height) !important;
-  min-height: var(--ageaf-ol-toolbar-height) !important;
+.jiaoleaf-provider,
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
+  height: var(--jiaoleaf-ol-toolbar-height) !important;
+  min-height: var(--jiaoleaf-ol-toolbar-height) !important;
   border: 0 !important;
-  border-left: 1px solid var(--ageaf-ol-divider) !important;
+  border-left: 1px solid var(--jiaoleaf-ol-divider) !important;
   border-radius: 0 !important;
-  background: var(--ageaf-ol-top-bg) !important;
-  color: var(--ageaf-ol-control-fg) !important;
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  color: var(--jiaoleaf-ol-control-fg) !important;
   box-shadow: none !important;
 }
 
-.ageaf-provider {
+.jiaoleaf-provider {
   min-width: 110px !important;
   padding: 0 14px !important;
   justify-content: center !important;
   gap: 7px !important;
 }
 
-.ageaf-provider__dot {
+.jiaoleaf-provider__dot {
   width: 6px !important;
   height: 6px !important;
 }
 
-.ageaf-provider__label {
-  color: var(--ageaf-ol-control-fg) !important;
+.jiaoleaf-provider__label {
+  color: var(--jiaoleaf-ol-control-fg) !important;
   font-size: 14px !important;
   font-weight: 600 !important;
   letter-spacing: 0.01em !important;
-  line-height: var(--ageaf-ol-toolbar-height) !important;
+  line-height: var(--jiaoleaf-ol-toolbar-height) !important;
 }
 
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
   width: 40px !important;
   min-width: 40px !important;
 }
 
-.ageaf-provider:hover,
-.ageaf-panel__theme-toggle:hover,
-.ageaf-panel__help:hover {
+.jiaoleaf-provider:hover,
+.jiaoleaf-panel__theme-toggle:hover,
+.jiaoleaf-panel__help:hover {
   background: #1b2937 !important;
 }
 
-.ageaf-tips {
-  height: var(--ageaf-ol-toolbar-small-height) !important;
-  min-height: var(--ageaf-ol-toolbar-small-height) !important;
+.jiaoleaf-tips {
+  height: var(--jiaoleaf-ol-toolbar-small-height) !important;
+  min-height: var(--jiaoleaf-ol-toolbar-small-height) !important;
   padding: 0 11px !important;
   border-top: 0 !important;
   border-bottom: 0 !important;
-  background: var(--ageaf-ol-alt-bg) !important;
+  background: var(--jiaoleaf-ol-alt-bg) !important;
   color: #e3a12b !important;
   font-size: 12px !important;
   letter-spacing: 0.08em !important;
 }
 
-.ageaf-panel__body {
-  background: var(--ageaf-ol-content-bg) !important;
+.jiaoleaf-panel__body {
+  background: var(--jiaoleaf-ol-content-bg) !important;
 }
 
-.ageaf-panel__messages {
+.jiaoleaf-panel__messages {
   padding-top: 8px !important;
 }
 
-.ageaf-panel__chat {
+.jiaoleaf-panel__chat {
   padding-top: 8px !important;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   height: 32px !important;
   min-height: 32px !important;
   padding: 3px 6px !important;
 }
 
-.ageaf-runtime__refresh,
-.ageaf-runtime__button,
-.ageaf-runtime__yolo,
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-runtime__refresh,
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo,
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   height: 24px !important;
   min-height: 24px !important;
   border-radius: 3px !important;
 }
 
-.ageaf-runtime__refresh,
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-runtime__refresh,
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   width: 24px !important;
   min-width: 24px !important;
 }
 
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__yolo {
   flex-basis: 46px !important;
   min-width: 46px !important;
   max-width: 46px !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   height: 32px !important;
   min-height: 32px !important;
   padding: 4px 6px !important;
 }
 
-.ageaf-session-stack,
-.ageaf-toolbar-actions {
+.jiaoleaf-session-stack,
+.jiaoleaf-toolbar-actions {
   height: 24px !important;
   min-height: 24px !important;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   min-width: 52px !important;
   height: 24px !important;
   line-height: 22px !important;
 }
 
-.ageaf-panel__editor {
+.jiaoleaf-panel__editor {
   min-height: 44px !important;
   margin: 6px !important;
 }
@@ -2064,219 +2064,219 @@
  * - bg-dark-secondary / neutral-80 / border-divider-dark: #2f3a4c
  * - border-radius-base: 4px
  */
-.ageaf-panel,
-.ageaf-panel.light,
-.ageaf-panel:not(.light) {
-  --ageaf-ol-neutral-10: #f4f5f6;
-  --ageaf-ol-neutral-20: #e7e9ee;
-  --ageaf-ol-neutral-30: #d0d5dd;
-  --ageaf-ol-neutral-60: #677283;
-  --ageaf-ol-neutral-70: #495365;
-  --ageaf-ol-neutral-80: #2f3a4c;
-  --ageaf-ol-neutral-90: #1b222c;
-  --ageaf-ol-green-10: #eaf6ef;
-  --ageaf-ol-green-50: #098842;
-  --ageaf-ol-green-70: #195936;
-  --ageaf-ol-blue-30: #97b6e5;
-  --ageaf-ol-top-bg: var(--ageaf-ol-neutral-90);
-  --ageaf-ol-alt-bg: var(--ageaf-ol-neutral-80);
-  --ageaf-ol-divider: var(--ageaf-ol-neutral-80);
-  --ageaf-ol-divider-dark: var(--ageaf-ol-neutral-80);
-  --ageaf-ol-content-bg: var(--ageaf-ol-neutral-10);
-  --ageaf-ol-control-fg: #ffffff;
-  --ageaf-ol-muted-fg: var(--ageaf-ol-neutral-20);
-  --ageaf-ol-radius: 4px;
-  --ageaf-ol-hover-bg: rgba(125, 125, 125, 0.2);
-  --ageaf-ol-focus-ring: inset 0 0 0 2px var(--ageaf-ol-blue-30);
+.jiaoleaf-panel,
+.jiaoleaf-panel.light,
+.jiaoleaf-panel:not(.light) {
+  --jiaoleaf-ol-neutral-10: #f4f5f6;
+  --jiaoleaf-ol-neutral-20: #e7e9ee;
+  --jiaoleaf-ol-neutral-30: #d0d5dd;
+  --jiaoleaf-ol-neutral-60: #677283;
+  --jiaoleaf-ol-neutral-70: #495365;
+  --jiaoleaf-ol-neutral-80: #2f3a4c;
+  --jiaoleaf-ol-neutral-90: #1b222c;
+  --jiaoleaf-ol-green-10: #eaf6ef;
+  --jiaoleaf-ol-green-50: #098842;
+  --jiaoleaf-ol-green-70: #195936;
+  --jiaoleaf-ol-blue-30: #97b6e5;
+  --jiaoleaf-ol-top-bg: var(--jiaoleaf-ol-neutral-90);
+  --jiaoleaf-ol-alt-bg: var(--jiaoleaf-ol-neutral-80);
+  --jiaoleaf-ol-divider: var(--jiaoleaf-ol-neutral-80);
+  --jiaoleaf-ol-divider-dark: var(--jiaoleaf-ol-neutral-80);
+  --jiaoleaf-ol-content-bg: var(--jiaoleaf-ol-neutral-10);
+  --jiaoleaf-ol-control-fg: #ffffff;
+  --jiaoleaf-ol-muted-fg: var(--jiaoleaf-ol-neutral-20);
+  --jiaoleaf-ol-radius: 4px;
+  --jiaoleaf-ol-hover-bg: rgba(125, 125, 125, 0.2);
+  --jiaoleaf-ol-focus-ring: inset 0 0 0 2px var(--jiaoleaf-ol-blue-30);
 }
 
-.ageaf-panel__header {
-  background: var(--ageaf-ol-top-bg) !important;
-  border-left-color: var(--ageaf-ol-divider) !important;
+.jiaoleaf-panel__header {
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  border-left-color: var(--jiaoleaf-ol-divider) !important;
 }
 
-.ageaf-panel__header::before,
-.ageaf-panel__header-actions {
-  background: var(--ageaf-ol-top-bg) !important;
-  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
+.jiaoleaf-panel__header::before,
+.jiaoleaf-panel__header-actions {
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-divider-dark) !important;
 }
 
-.ageaf-provider,
-.ageaf-panel__theme-toggle,
-.ageaf-panel__help {
-  background: var(--ageaf-ol-top-bg) !important;
-  border-left-color: var(--ageaf-ol-divider) !important;
-  color: var(--ageaf-ol-control-fg) !important;
+.jiaoleaf-provider,
+.jiaoleaf-panel__theme-toggle,
+.jiaoleaf-panel__help {
+  background: var(--jiaoleaf-ol-top-bg) !important;
+  border-left-color: var(--jiaoleaf-ol-divider) !important;
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
-.ageaf-provider:hover,
-.ageaf-panel__theme-toggle:hover,
-.ageaf-panel__help:hover {
-  background: var(--ageaf-ol-neutral-70) !important;
+.jiaoleaf-provider:hover,
+.jiaoleaf-panel__theme-toggle:hover,
+.jiaoleaf-panel__help:hover {
+  background: var(--jiaoleaf-ol-neutral-70) !important;
 }
 
-.ageaf-provider:focus-visible,
-.ageaf-panel__theme-toggle:focus-visible,
-.ageaf-panel__help:focus-visible,
-.ageaf-runtime__button:focus-visible,
-.ageaf-runtime__refresh:focus-visible,
-.ageaf-runtime__yolo:focus-visible,
-.ageaf-toolbar-button:focus-visible,
-.ageaf-session-tab:focus-visible {
+.jiaoleaf-provider:focus-visible,
+.jiaoleaf-panel__theme-toggle:focus-visible,
+.jiaoleaf-panel__help:focus-visible,
+.jiaoleaf-runtime__button:focus-visible,
+.jiaoleaf-runtime__refresh:focus-visible,
+.jiaoleaf-runtime__yolo:focus-visible,
+.jiaoleaf-toolbar-button:focus-visible,
+.jiaoleaf-session-tab:focus-visible {
   outline: none !important;
-  box-shadow: var(--ageaf-ol-focus-ring) !important;
+  box-shadow: var(--jiaoleaf-ol-focus-ring) !important;
 }
 
-.ageaf-provider__label {
-  color: var(--ageaf-ol-control-fg) !important;
+.jiaoleaf-provider__label {
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
-.ageaf-tips {
-  background: var(--ageaf-ol-alt-bg) !important;
+.jiaoleaf-tips {
+  background: var(--jiaoleaf-ol-alt-bg) !important;
   color: #de8014 !important;
 }
 
-.ageaf-panel__input,
-.ageaf-panel__toolbar,
-.ageaf-panel:not(.light) .ageaf-panel__input,
-.ageaf-panel:not(.light) .ageaf-panel__toolbar {
+.jiaoleaf-panel__input,
+.jiaoleaf-panel__toolbar,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__input,
+.jiaoleaf-panel:not(.light) .jiaoleaf-panel__toolbar {
   overflow: visible !important;
-  background: var(--ageaf-ol-neutral-10) !important;
-  border-top: 1px solid var(--ageaf-ol-neutral-30) !important;
+  background: var(--jiaoleaf-ol-neutral-10) !important;
+  border-top: 1px solid var(--jiaoleaf-ol-neutral-30) !important;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   overflow: visible !important;
-  background: var(--ageaf-ol-alt-bg) !important;
-  border-top: 1px solid var(--ageaf-ol-divider) !important;
-  border-bottom: 1px solid var(--ageaf-ol-divider) !important;
+  background: var(--jiaoleaf-ol-alt-bg) !important;
+  border-top: 1px solid var(--jiaoleaf-ol-divider) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-divider) !important;
   position: relative !important;
   z-index: 30 !important;
 }
 
-.ageaf-runtime__picker,
-.ageaf-toolbar-menu,
-.ageaf-skill-menu {
+.jiaoleaf-runtime__picker,
+.jiaoleaf-toolbar-menu,
+.jiaoleaf-skill-menu {
   overflow: visible !important;
   position: relative !important;
 }
 
-.ageaf-runtime__refresh,
-.ageaf-runtime__button,
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__refresh,
+.jiaoleaf-runtime__button,
+.jiaoleaf-runtime__yolo {
   background: transparent !important;
   border: 1px solid transparent !important;
-  border-radius: var(--ageaf-ol-radius) !important;
-  color: var(--ageaf-ol-control-fg) !important;
+  border-radius: var(--jiaoleaf-ol-radius) !important;
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
-.ageaf-runtime__refresh:hover,
-.ageaf-runtime__button:hover,
-.ageaf-runtime__yolo:hover {
-  background: var(--ageaf-ol-hover-bg) !important;
-  color: var(--ageaf-ol-control-fg) !important;
+.jiaoleaf-runtime__refresh:hover,
+.jiaoleaf-runtime__button:hover,
+.jiaoleaf-runtime__yolo:hover {
+  background: var(--jiaoleaf-ol-hover-bg) !important;
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
-.ageaf-runtime__value,
-.ageaf-runtime__value--accent,
-.ageaf-runtime__yolo-text {
-  color: var(--ageaf-ol-control-fg) !important;
+.jiaoleaf-runtime__value,
+.jiaoleaf-runtime__value--accent,
+.jiaoleaf-runtime__yolo-text {
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
-.ageaf-runtime__yolo-switch {
-  background: var(--ageaf-ol-neutral-60) !important;
+.jiaoleaf-runtime__yolo-switch {
+  background: var(--jiaoleaf-ol-neutral-60) !important;
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-switch {
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-switch {
   background: #b8dbc8 !important;
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
-  background: var(--ageaf-ol-green-50) !important;
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-thumb {
+  background: var(--jiaoleaf-ol-green-50) !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   overflow: visible !important;
-  background: var(--ageaf-ol-neutral-10) !important;
-  border-top: 1px solid var(--ageaf-ol-neutral-20) !important;
-  border-bottom: 1px solid var(--ageaf-ol-neutral-30) !important;
+  background: var(--jiaoleaf-ol-neutral-10) !important;
+  border-top: 1px solid var(--jiaoleaf-ol-neutral-20) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-neutral-30) !important;
   position: relative !important;
   z-index: 25 !important;
 }
 
-.ageaf-toolbar-actions,
-.ageaf-session-tabs,
-.ageaf-session-stack {
+.jiaoleaf-toolbar-actions,
+.jiaoleaf-session-tabs,
+.jiaoleaf-session-stack {
   overflow: visible !important;
 }
 
-.ageaf-toolbar-button,
-.ageaf-session-tab {
+.jiaoleaf-toolbar-button,
+.jiaoleaf-session-tab {
   background: transparent !important;
   border: 1px solid transparent !important;
-  border-radius: var(--ageaf-ol-radius) !important;
-  color: var(--ageaf-ol-neutral-70) !important;
+  border-radius: var(--jiaoleaf-ol-radius) !important;
+  color: var(--jiaoleaf-ol-neutral-70) !important;
   box-shadow: none !important;
 }
 
-.ageaf-toolbar-button:hover:not(:disabled),
-.ageaf-toolbar-button:focus-visible:not(:disabled),
-.ageaf-session-tab:hover:not(:disabled),
-.ageaf-session-tab:focus-visible:not(:disabled) {
-  background: var(--ageaf-ol-neutral-20) !important;
+.jiaoleaf-toolbar-button:hover:not(:disabled),
+.jiaoleaf-toolbar-button:focus-visible:not(:disabled),
+.jiaoleaf-session-tab:hover:not(:disabled),
+.jiaoleaf-session-tab:focus-visible:not(:disabled) {
+  background: var(--jiaoleaf-ol-neutral-20) !important;
   border-color: transparent !important;
-  color: var(--ageaf-ol-neutral-90) !important;
+  color: var(--jiaoleaf-ol-neutral-90) !important;
 }
 
-.ageaf-session-tab.is-active {
+.jiaoleaf-session-tab.is-active {
   background: #ffffff !important;
-  border-color: var(--ageaf-ol-neutral-30) !important;
-  box-shadow: inset 3px 0 0 var(--ageaf-ol-green-50) !important;
-  color: var(--ageaf-ol-neutral-90) !important;
+  border-color: var(--jiaoleaf-ol-neutral-30) !important;
+  box-shadow: inset 3px 0 0 var(--jiaoleaf-ol-green-50) !important;
+  color: var(--jiaoleaf-ol-neutral-90) !important;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   min-width: 56px !important;
   padding: 0 10px !important;
   font-weight: 600 !important;
   letter-spacing: 0 !important;
 }
 
-.ageaf-runtime__menu,
-.ageaf-runtime__group-models,
-.ageaf-toolbar-menu__list {
+.jiaoleaf-runtime__menu,
+.jiaoleaf-runtime__group-models,
+.jiaoleaf-toolbar-menu__list {
   z-index: 2147483647 !important;
   background: #ffffff !important;
   border: 1px solid transparent !important;
-  border-radius: var(--ageaf-ol-radius) !important;
-  color: var(--ageaf-ol-neutral-90) !important;
+  border-radius: var(--jiaoleaf-ol-radius) !important;
+  color: var(--jiaoleaf-ol-neutral-90) !important;
   box-shadow: 0 4px 16px rgba(30, 37, 48, 0.16) !important;
 }
 
-.ageaf-runtime__menu {
+.jiaoleaf-runtime__menu {
   bottom: calc(100% + 4px) !important;
 }
 
-.ageaf-toolbar-menu__list {
+.jiaoleaf-toolbar-menu__list {
   bottom: calc(100% + 4px) !important;
 }
 
-.ageaf-runtime__picker.is-open .ageaf-runtime__menu,
-.ageaf-runtime__menu:hover,
-.ageaf-skill-menu.is-open .ageaf-toolbar-menu__list {
+.jiaoleaf-runtime__picker.is-open .jiaoleaf-runtime__menu,
+.jiaoleaf-runtime__menu:hover,
+.jiaoleaf-skill-menu.is-open .jiaoleaf-toolbar-menu__list {
   opacity: 1 !important;
   transform: translateY(0) !important;
   pointer-events: auto !important;
 }
 
-.ageaf-runtime__picker:not(.is-open) .ageaf-runtime__menu,
-.ageaf-skill-menu:not(.is-open) .ageaf-toolbar-menu__list {
+.jiaoleaf-runtime__picker:not(.is-open) .jiaoleaf-runtime__menu,
+.jiaoleaf-skill-menu:not(.is-open) .jiaoleaf-toolbar-menu__list {
   opacity: 0 !important;
   transform: translateY(6px) !important;
   pointer-events: none !important;
 }
 
-.ageaf-skill-menu .ageaf-toolbar-menu__list {
+.jiaoleaf-skill-menu .jiaoleaf-toolbar-menu__list {
   right: 8px !important;
   left: 8px !important;
   bottom: calc(100% + 8px) !important;
@@ -2286,85 +2286,85 @@
   overflow: auto !important;
 }
 
-.ageaf-skill-menu__option {
+.jiaoleaf-skill-menu__option {
   grid-template-columns: 1fr !important;
   min-width: 0 !important;
 }
 
-.ageaf-skill-menu__description {
+.jiaoleaf-skill-menu__description {
   display: -webkit-box !important;
   -webkit-line-clamp: 3 !important;
   -webkit-box-orient: vertical !important;
   overflow: hidden !important;
 }
 
-.ageaf-runtime__menu {
+.jiaoleaf-runtime__menu {
   max-width: min(280px, calc(100vw - 48px)) !important;
   max-height: min(260px, calc(100vh - 280px)) !important;
   overflow: auto !important;
 }
 
-.ageaf-runtime__option,
-.ageaf-toolbar-menu__option {
+.jiaoleaf-runtime__option,
+.jiaoleaf-toolbar-menu__option {
   min-height: 32px !important;
   padding: 6px 10px !important;
   border: 0 !important;
-  border-radius: var(--ageaf-ol-radius) !important;
+  border-radius: var(--jiaoleaf-ol-radius) !important;
   background: #ffffff !important;
-  color: var(--ageaf-ol-neutral-90) !important;
+  color: var(--jiaoleaf-ol-neutral-90) !important;
 }
 
-.ageaf-runtime__option:hover,
-.ageaf-toolbar-menu__option:hover:not(:disabled),
-.ageaf-runtime__option.is-selected {
-  background: var(--ageaf-ol-neutral-10) !important;
-  color: var(--ageaf-ol-neutral-90) !important;
+.jiaoleaf-runtime__option:hover,
+.jiaoleaf-toolbar-menu__option:hover:not(:disabled),
+.jiaoleaf-runtime__option.is-selected {
+  background: var(--jiaoleaf-ol-neutral-10) !important;
+  color: var(--jiaoleaf-ol-neutral-90) !important;
 }
 
-.ageaf-runtime__option.is-selected .ageaf-runtime__option-title {
-  color: var(--ageaf-ol-green-70) !important;
+.jiaoleaf-runtime__option.is-selected .jiaoleaf-runtime__option-title {
+  color: var(--jiaoleaf-ol-green-70) !important;
 }
 
-.ageaf-skill-menu__description {
-  color: var(--ageaf-ol-neutral-70) !important;
+.jiaoleaf-skill-menu__description {
+  color: var(--jiaoleaf-ol-neutral-70) !important;
 }
 
-.ageaf-skill-menu__manage {
-  border-top: 1px solid var(--ageaf-ol-neutral-20) !important;
-  color: var(--ageaf-ol-green-70) !important;
+.jiaoleaf-skill-menu__manage {
+  border-top: 1px solid var(--jiaoleaf-ol-neutral-20) !important;
+  color: var(--jiaoleaf-ol-green-70) !important;
 }
 
-.ageaf-toolbar-button[data-tooltip]::after {
+.jiaoleaf-toolbar-button[data-tooltip]::after {
   bottom: calc(100% + 4px) !important;
   left: 50% !important;
   transform: translate(-50%, 4px) !important;
   z-index: 2147483647 !important;
-  border-radius: var(--ageaf-ol-radius) !important;
-  background: var(--ageaf-ol-neutral-90) !important;
-  border: 1px solid var(--ageaf-ol-neutral-80) !important;
-  color: var(--ageaf-ol-control-fg) !important;
+  border-radius: var(--jiaoleaf-ol-radius) !important;
+  background: var(--jiaoleaf-ol-neutral-90) !important;
+  border: 1px solid var(--jiaoleaf-ol-neutral-80) !important;
+  color: var(--jiaoleaf-ol-control-fg) !important;
 }
 
 /* Final compact-toolbar guardrails: the action row must stay usable at min width. */
-.ageaf-panel__toolbar {
+.jiaoleaf-panel__toolbar {
   position: relative !important;
   z-index: 80 !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   grid-template-columns: minmax(0, 1fr) !important;
   z-index: 80 !important;
 }
 
-.ageaf-toolbar-strip:has(.ageaf-session-tabs) {
+.jiaoleaf-toolbar-strip:has(.jiaoleaf-session-tabs) {
   grid-template-columns: auto minmax(0, 1fr) !important;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   z-index: 20 !important;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   width: 100% !important;
   min-width: 0 !important;
   justify-content: space-between !important;
@@ -2372,60 +2372,60 @@
   overflow: visible !important;
 }
 
-.ageaf-toolbar-button:not(.ageaf-toolbar-button--text),
-.ageaf-panel__settings.ageaf-toolbar-button {
+.jiaoleaf-toolbar-button:not(.jiaoleaf-toolbar-button--text),
+.jiaoleaf-panel__settings.jiaoleaf-toolbar-button {
   width: 22px !important;
   min-width: 22px !important;
   height: 24px !important;
   min-height: 24px !important;
 }
 
-.ageaf-toolbar-button--text {
+.jiaoleaf-toolbar-button--text {
   width: 48px !important;
   min-width: 48px !important;
   max-width: 48px !important;
   padding: 0 4px !important;
 }
 
-.ageaf-toolbar-icon {
+.jiaoleaf-toolbar-icon {
   width: 16px !important;
   height: 16px !important;
 }
 
-.ageaf-skill-menu .ageaf-toolbar-menu__list {
+.jiaoleaf-skill-menu .jiaoleaf-toolbar-menu__list {
   z-index: 2147483647 !important;
 }
 
 /* Session tabs live in the header, not in the bottom action toolbar. */
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   position: relative !important;
   z-index: 90 !important;
 }
 
-.ageaf-panel__header-sessions {
+.jiaoleaf-panel__header-sessions {
   grid-area: spacer !important;
   align-self: stretch !important;
   display: flex !important;
   align-items: center !important;
   gap: 4px !important;
   min-width: 0 !important;
-  height: var(--ageaf-ol-toolbar-height) !important;
+  height: var(--jiaoleaf-ol-toolbar-height) !important;
   overflow-x: auto !important;
   padding: 0 8px !important;
-  border-bottom: 1px solid var(--ageaf-ol-divider-dark) !important;
-  background: var(--ageaf-ol-top-bg) !important;
+  border-bottom: 1px solid var(--jiaoleaf-ol-divider-dark) !important;
+  background: var(--jiaoleaf-ol-top-bg) !important;
   scrollbar-width: none !important;
 }
 
-.ageaf-panel__header:has(.ageaf-panel__header-sessions)::before {
+.jiaoleaf-panel__header:has(.jiaoleaf-panel__header-sessions)::before {
   display: none !important;
 }
 
-.ageaf-panel__header-sessions::-webkit-scrollbar {
+.jiaoleaf-panel__header-sessions::-webkit-scrollbar {
   display: none !important;
 }
 
-.ageaf-panel__header-sessions .ageaf-session-tab {
+.jiaoleaf-panel__header-sessions .jiaoleaf-session-tab {
   width: 24px !important;
   min-width: 24px !important;
   height: 22px !important;
@@ -2434,62 +2434,62 @@
   background: transparent !important;
 }
 
-.ageaf-toolbar-strip {
+.jiaoleaf-toolbar-strip {
   grid-template-columns: minmax(0, 1fr) !important;
 }
 
-.ageaf-toolbar-strip:has(.ageaf-session-tabs) {
+.jiaoleaf-toolbar-strip:has(.jiaoleaf-session-tabs) {
   grid-template-columns: minmax(0, 1fr) !important;
 }
 
-.ageaf-skill-menu {
+.jiaoleaf-skill-menu {
   position: static !important;
 }
 
-.ageaf-toolbar-menu:not(.ageaf-skill-menu) {
+.jiaoleaf-toolbar-menu:not(.jiaoleaf-skill-menu) {
   position: relative !important;
 }
 
-.ageaf-toolbar-button {
-  color: var(--ageaf-ol-neutral-70) !important;
+.jiaoleaf-toolbar-button {
+  color: var(--jiaoleaf-ol-neutral-70) !important;
 }
 
-.ageaf-toolbar-button:hover:not(:disabled),
-.ageaf-toolbar-button:focus-visible:not(:disabled) {
-  color: var(--ageaf-ol-neutral-90) !important;
+.jiaoleaf-toolbar-button:hover:not(:disabled),
+.jiaoleaf-toolbar-button:focus-visible:not(:disabled) {
+  color: var(--jiaoleaf-ol-neutral-90) !important;
 }
 
-.ageaf-toolbar-button:hover::after,
-.ageaf-toolbar-button:focus-visible::after {
+.jiaoleaf-toolbar-button:hover::after,
+.jiaoleaf-toolbar-button:focus-visible::after {
   opacity: 1 !important;
   transform: translate(-50%, 0) !important;
 }
 
 /* Final visual polish: hide the sidecar seam while keeping resize hit testing. */
-.ageaf-panel:not(.ageaf-panel--collapsed) {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) {
   box-shadow: none !important;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider::before {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider::before {
   background: transparent !important;
   opacity: 0 !important;
   mix-blend-mode: normal !important;
   box-shadow: none !important;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:hover,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:focus-within,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:active {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:hover,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:focus-within,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:active {
   background: transparent !important;
 }
 
-.ageaf-panel__theme-toggle {
+.jiaoleaf-panel__theme-toggle {
   width: 32px !important;
   min-width: 32px !important;
 }
 
-.ageaf-panel__theme-toggle svg {
+.jiaoleaf-panel__theme-toggle svg {
   width: 17px !important;
   height: 17px !important;
 }

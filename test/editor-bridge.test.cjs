@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 
-test('Main editor bridge registers Ageaf events', () => {
+test('Main editor bridge registers JiaoLeaf events', () => {
   const bridgePath = path.join(
     __dirname,
     '..',
@@ -15,10 +15,10 @@ test('Main editor bridge registers Ageaf events', () => {
   const contents = fs.readFileSync(bridgePath, 'utf8');
 
   assert.match(contents, /registerEditorBridge/);
-  assert.match(contents, /ageaf:editor:request/);
-  assert.match(contents, /ageaf:editor:response/);
-  assert.match(contents, /ageaf:editor:replace/);
-  assert.match(contents, /ageaf:editor:insert/);
+  assert.match(contents, /jiaoleaf:editor:request/);
+  assert.match(contents, /jiaoleaf:editor:response/);
+  assert.match(contents, /jiaoleaf:editor:replace/);
+  assert.match(contents, /jiaoleaf:editor:insert/);
 });
 
 test('registerEditorBridge tolerates early tracker bootstrap failure and still registers listeners', () => {

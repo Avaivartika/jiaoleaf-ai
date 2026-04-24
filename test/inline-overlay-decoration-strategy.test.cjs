@@ -32,8 +32,8 @@ test('Replacement hunks use Decoration.mark + Decoration.widget for selectabilit
     'expected Decoration.mark() for old text range (selectability)'
   );
   assert.ok(
-    stateFieldBlock.includes('ageaf-inline-diff-mark-old'),
-    'expected ageaf-inline-diff-mark-old class on mark decoration'
+    stateFieldBlock.includes('jiaoleaf-inline-diff-mark-old'),
+    'expected jiaoleaf-inline-diff-mark-old class on mark decoration'
   );
 
   // 2. Decoration.widget with block: true is used for both replacement and

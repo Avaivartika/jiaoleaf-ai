@@ -7,11 +7,11 @@ import { resetCodexAppServerForTests } from '../src/runtimes/codex/appServer.js'
 import { runCodexJob } from '../src/runtimes/codex/run.js';
 
 /**
- * When the LLM response contains BOTH ageaf-patch fences AND AGEAF_FILE_UPDATE
+ * When the LLM response contains BOTH jiaoleaf-patch fences AND JIAOLEAF_FILE_UPDATE
  * markers for the same file, the Codex runtime must NOT emit duplicate patches.
  * Only one set of patches should be produced (from whichever path processes first).
  */
-test('Codex runtime skips ageaf-patch fences when FILE_UPDATE patches exist', async () => {
+test('Codex runtime skips jiaoleaf-patch fences when FILE_UPDATE patches exist', async () => {
   const cliPath = path.join(process.cwd(), 'test', 'fixtures', 'codex-file-update-dedup');
   const events: JobEvent[] = [];
 
@@ -64,7 +64,7 @@ test('Codex runtime skips ageaf-patch fences when FILE_UPDATE patches exist', as
       yearPatches.length,
       1,
       `expected exactly 1 year={2025} patch but got ${yearPatches.length} — ` +
-      'ageaf-patch fence should be suppressed when FILE_UPDATE patches exist'
+      'jiaoleaf-patch fence should be suppressed when FILE_UPDATE patches exist'
     );
   } finally {
     await resetCodexAppServerForTests();

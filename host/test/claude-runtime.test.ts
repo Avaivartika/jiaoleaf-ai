@@ -9,12 +9,12 @@ test(
   async () => {
   const previousApiKey = process.env.ANTHROPIC_API_KEY;
   const previousClaude = process.env.CLAUDE_CODE_AVAILABLE;
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  const previousDetect = process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT;
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  const previousDetect = process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT;
   delete process.env.ANTHROPIC_API_KEY;
   delete process.env.CLAUDE_CODE_AVAILABLE;
-  delete process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
+  delete process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
 
   try {
     const { runClaudeJob } = await import('../src/runtimes/claude/run.js');
@@ -35,10 +35,10 @@ test(
     else process.env.ANTHROPIC_API_KEY = previousApiKey;
     if (previousClaude === undefined) delete process.env.CLAUDE_CODE_AVAILABLE;
     else process.env.CLAUDE_CODE_AVAILABLE = previousClaude;
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
-    if (previousDetect === undefined) delete process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT;
-    else process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = previousDetect;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
+    if (previousDetect === undefined) delete process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT;
+    else process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = previousDetect;
   }
   }
 );

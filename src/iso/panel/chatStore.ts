@@ -133,7 +133,7 @@ export type StoredProjectChat = {
   providers: Record<ProviderId, StoredProviderState>;
 };
 
-const STORAGE_KEY_PREFIX = 'ageaf-chat-v1:project:';
+const STORAGE_KEY_PREFIX = 'jiaoleaf-chat-v1:project:';
 const MAX_CONVERSATIONS_PER_PROVIDER = 8;
 const MAX_MESSAGES_PER_CONVERSATION = 200;
 

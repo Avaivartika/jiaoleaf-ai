@@ -75,7 +75,7 @@ function filterKnownModels(models: ModelInfo[]) {
 export async function getClaudeSupportedModels(
   runtime?: ClaudeRuntimeConfig
 ): Promise<ModelInfo[]> {
-  if (process.env.AGEAF_CLAUDE_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CLAUDE_MOCK === 'true') {
     return FALLBACK_MODELS;
   }
 

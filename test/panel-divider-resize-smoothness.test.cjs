@@ -9,7 +9,7 @@ test('Resizing disables width transition for smooth drag', () => {
 
   assert.match(
     contents,
-    /\.ageaf-resizing\s+\.ageaf-panel\s*{[\s\S]*transition:\s*none/,
+    /\.jiaoleaf-resizing\s+\.jiaoleaf-panel\s*{[\s\S]*transition:\s*none/,
     'panel should disable transition while dragging to avoid lag'
   );
 });

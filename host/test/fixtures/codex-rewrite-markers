@@ -160,7 +160,7 @@ rl.on("line", (line) => {
     });
     write({
       method: "item/agentMessage/delta",
-      params: { threadId, itemId: "item-1", delta: "<<<AGEAF_REWRITE>>>\n" },
+      params: { threadId, itemId: "item-1", delta: "<<<JIAOLEAF_REWRITE>>>\n" },
     });
     write({
       method: "item/agentMessage/delta",
@@ -168,7 +168,7 @@ rl.on("line", (line) => {
     });
     write({
       method: "item/agentMessage/delta",
-      params: { threadId, itemId: "item-1", delta: "<<<AGEAF_REWRITE_END>>>\n" },
+      params: { threadId, itemId: "item-1", delta: "<<<JIAOLEAF_REWRITE_END>>>\n" },
     });
 
     write({ method: "turn/completed", params: { threadId, turn: { id: turnId } } });

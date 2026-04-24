@@ -12,9 +12,10 @@ const config = (env, argv) =>
   merge(common, {
     plugins: [
       new webpack.DefinePlugin({
-        __AGEAF_BUILD_MODE__: JSON.stringify(argv.mode === 'production' ? 'production' : 'development'),
-        // Default to HTTP so users can run host via `npm run dev` without native host registration.
-        __AGEAF_DEFAULT_TRANSPORT__: JSON.stringify('http'),
+        __JIAOLEAF_BUILD_MODE__: JSON.stringify(argv.mode === 'production' ? 'production' : 'development'),
+        // Prefer Chrome Native Messaging so Chrome can start the local host without a visible terminal.
+        // The transport layer falls back to HTTP for development and unregistered native hosts.
+        __JIAOLEAF_DEFAULT_TRANSPORT__: JSON.stringify('native'),
       }),
     ],
     entry: {

@@ -7,7 +7,7 @@ test('Status line toggles CoT when both exist (no duplicate header)', () => {
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-message__status--toggle/);
+  assert.match(contents, /jiaoleaf-message__status--toggle/);
   assert.match(contents, /hideHeader:\s*isStatusCoTToggle/);
   assert.match(contents, /toggleThinkingExpanded\(message\.id\)/);
 

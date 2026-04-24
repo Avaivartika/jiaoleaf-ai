@@ -7,7 +7,7 @@ test('Chat history persists via chrome.storage.local', () => {
   const storePath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'chatStore.ts');
   const contents = fs.readFileSync(storePath, 'utf8');
 
-  assert.match(contents, /ageaf-chat-v1:project:/);
+  assert.match(contents, /jiaoleaf-chat-v1:project:/);
   assert.match(contents, /chrome\.storage\.local\.get\(/);
   assert.match(contents, /chrome\.storage\.local\.set\(/);
 });

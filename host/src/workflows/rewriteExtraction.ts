@@ -4,8 +4,8 @@
  * Used by both Claude (rewriteSelection.ts) and Pi (pi/run.ts) runtimes.
  */
 
-export const REWRITE_START = '<<<AGEAF_REWRITE>>>';
-export const REWRITE_END = '<<<AGEAF_REWRITE_END>>>';
+export const REWRITE_START = '<<<JIAOLEAF_REWRITE>>>';
+export const REWRITE_END = '<<<JIAOLEAF_REWRITE_END>>>';
 
 export const REWRITE_PROMPT = `Rewrite the selected LaTeX text for clarity and academic tone.
 Preserve all LaTeX commands, citations (e.g., \\cite{}), labels (\\label{}), references (\\ref{}), and math.

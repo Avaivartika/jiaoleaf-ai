@@ -57,7 +57,7 @@ export async function runRewriteSelection(payload: RewritePayload, emitEvent: Em
 
   // Keep test/dev behavior stable: in mock mode we don't enforce markers and we
   // simply echo the original selection back as the patch.
-  if (process.env.AGEAF_CLAUDE_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CLAUDE_MOCK === 'true') {
     emitEvent({ event: 'patch', data: patch });
     emitEvent(doneEvent);
     return;

@@ -19,7 +19,7 @@ import {
   parseBlockedCommandPatterns,
 } from './safety.js';
 import { extractToolDisplayInfo } from '../../toolDisplayInfo.js';
-import { extractAllAgeafPatchFences } from '../../patch/ageafPatchFence.js';
+import { extractAllJiaoLeafPatchFences } from '../../patch/jiaoleafPatchFence.js';
 import { canonicalizePatchFilePath, computePerHunkReplacements, extractOverleafFilesFromMessage, findOverleafFileContent } from '../../patch/fileUpdate.js';
 
 type EmitEvent = (event: JobEvent) => void;
@@ -285,13 +285,13 @@ async function runQuery(
       settingSources: runtime.loadUserSettings ? ['user', 'project'] : ['project'],
       env: combinedEnv,
       mcpServers: {
-        'ageaf-mermaid': mermaidMcpServer,
-        'ageaf-interactive': askUserMcpServer,
+        'jiaoleaf-mermaid': mermaidMcpServer,
+        'jiaoleaf-interactive': askUserMcpServer,
       },
       allowedTools: [
-        'mcp__ageaf-mermaid__render_mermaid',
-        'mcp__ageaf-mermaid__list_mermaid_themes',
-        'mcp__ageaf-interactive__ask_user',
+        'mcp__jiaoleaf-mermaid__render_mermaid',
+        'mcp__jiaoleaf-mermaid__list_mermaid_themes',
+        'mcp__jiaoleaf-interactive__ask_user',
       ],
       ...(resumeSessionId ? { resume: resumeSessionId } : {}),
       ...(outputFormat ? { outputFormat } : {}),
@@ -304,19 +304,19 @@ async function runQuery(
   let visibleBuffer = '';
   let payloadStarted = false;
   const payloadStartRe =
-    /```(?:ageaf[-_]?patch)|<<<\s*AGEAF_REWRITE\s*>>>|<<<\s*AGEAF_FILE_UPDATE\b/i;
+    /```(?:jiaoleaf[-_]?patch)|<<<\s*JIAOLEAF_REWRITE\s*>>>|<<<\s*JIAOLEAF_FILE_UPDATE\b/i;
   const HOLD_BACK_CHARS = 32;
   let payloadBuffer = '';
   const emittedPatchFiles = new Set<string>();
   const emittedFileStarted = new Set<string>();
-  const fileUpdateOpenRe = /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
+  const fileUpdateOpenRe = /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>/gi;
   const overleafFiles = overleafMessage
     ? extractOverleafFilesFromMessage(overleafMessage)
     : [];
 
   let insideDiagramFence = false;
   let diagramBuffer = '';
-  const diagramOpenRe = /```ageaf-diagram[^\n]*\n/i;
+  const diagramOpenRe = /```jiaoleaf-diagram[^\n]*\n/i;
 
   const emitVisibleDelta = (text: string) => {
     if (!text) return;
@@ -339,7 +339,7 @@ async function runQuery(
           const nlPos = restAfterClose.indexOf('\n');
           const closingLineLen = nlPos >= 0 ? nlPos + 1 : restAfterClose.length;
           const fenceContent = diagramBuffer.slice(0, closeIdx);
-          const completeFence = '```ageaf-diagram\n' + fenceContent + '\n```\n';
+          const completeFence = '```jiaoleaf-diagram\n' + fenceContent + '\n```\n';
           emitEvent({ event: 'delta', data: { text: completeFence } });
           insideDiagramFence = false;
           const remaining = diagramBuffer.slice(afterBackticks + closingLineLen);
@@ -394,7 +394,7 @@ async function runQuery(
 
   const flushVisible = () => {
     if (insideDiagramFence) {
-      const partialFence = '```ageaf-diagram\n' + diagramBuffer + '\n```\n';
+      const partialFence = '```jiaoleaf-diagram\n' + diagramBuffer + '\n```\n';
       emitEvent({ event: 'delta', data: { text: partialFence } });
       insideDiagramFence = false;
       diagramBuffer = '';
@@ -423,7 +423,7 @@ async function runQuery(
     }
 
     const blockRe =
-      /<<<\s*AGEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*AGEAF_FILE_UPDATE_END\s*>>>/gi;
+      /<<<\s*JIAOLEAF_FILE_UPDATE\s+path="([^"]+)"\s*>>>\s*\n([\s\S]*?)\n<<<\s*JIAOLEAF_FILE_UPDATE_END\s*>>>/gi;
     let match: RegExpExecArray | null;
     let lastMatchEnd = 0;
 
@@ -703,9 +703,9 @@ async function runQuery(
             break;
           }
         } else {
-          // Process ageaf-patch fences with per-file dedup — skip replaceRangeInFile
+          // Process jiaoleaf-patch fences with per-file dedup — skip replaceRangeInFile
           // patches whose canonical filePath was already emitted via FILE_UPDATE streaming.
-          const patchFences = extractAllAgeafPatchFences(resultText);
+          const patchFences = extractAllJiaoLeafPatchFences(resultText);
           for (const patchFence of patchFences) {
             const candidate = extractJsonObject(patchFence);
             const parsed = PatchSchema.safeParse(candidate);
@@ -757,7 +757,7 @@ async function runQuery(
 }
 
 export async function runClaudeStructuredPatch(input: StructuredPatchInput) {
-  if (process.env.AGEAF_CLAUDE_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CLAUDE_MOCK === 'true') {
     if (input.fallbackPatch) {
       input.emitEvent({ event: 'patch', data: input.fallbackPatch });
     }
@@ -803,7 +803,7 @@ export async function runClaudeStructuredPatch(input: StructuredPatchInput) {
 }
 
 export async function runClaudeText(input: TextRunInput): Promise<RunQueryResult> {
-  if (process.env.AGEAF_CLAUDE_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CLAUDE_MOCK === 'true') {
     input.emitEvent({ event: 'delta', data: { text: 'Mock response.' } });
     input.emitEvent({
       event: 'usage',

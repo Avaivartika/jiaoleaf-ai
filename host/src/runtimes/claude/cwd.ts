@@ -13,13 +13,13 @@ function ensureDirectory(directory: string): string {
   return directory;
 }
 
-function getAgeafWorkspaceCwd(): string {
-  const workspace = path.join(os.homedir(), '.ageaf');
+function getJiaoLeafWorkspaceCwd(): string {
+  const workspace = path.join(os.homedir(), '.jiaoleaf');
   return ensureDirectory(workspace);
 }
 
 export function getClaudeSessionCwd(runtime?: ClaudeRuntimeConfig): string {
-  const override = process.env.AGEAF_CLAUDE_CWD;
+  const override = process.env.JIAOLEAF_CLAUDE_CWD;
   if (override && override.trim()) {
     return override.trim();
   }
@@ -28,12 +28,12 @@ export function getClaudeSessionCwd(runtime?: ClaudeRuntimeConfig): string {
     return os.homedir();
   }
 
-  // Per-conversation session isolation under ~/.ageaf/claude/sessions/{conversationId}
+  // Per-conversation session isolation under ~/.jiaoleaf/claude/sessions/{conversationId}
   const conversationId = runtime?.conversationId?.trim();
   if (conversationId) {
-    const sessionDir = path.join(os.homedir(), '.ageaf', 'claude', 'sessions', conversationId);
+    const sessionDir = path.join(os.homedir(), '.jiaoleaf', 'claude', 'sessions', conversationId);
     return ensureDirectory(sessionDir);
   }
 
-  return getAgeafWorkspaceCwd();
+  return getJiaoLeafWorkspaceCwd();
 }

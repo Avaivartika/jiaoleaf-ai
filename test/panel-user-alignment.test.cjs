@@ -7,6 +7,6 @@ test('User message bubbles align to the right edge', () => {
   const cssPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'panel.css');
   const contents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.match(contents, /\.ageaf-message--user\s*\{[^}]*justify-self:\s*end;/s);
-  assert.match(contents, /\.ageaf-message--user\s*\{[^}]*align-self:\s*end;/s);
+  assert.match(contents, /\.jiaoleaf-message--user\s*\{[^}]*justify-self:\s*end;/s);
+  assert.match(contents, /\.jiaoleaf-message--user\s*\{[^}]*align-self:\s*end;/s);
 });

@@ -3,14 +3,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 
-test('Pi provider uses ageaf-provider--pi CSS class', () => {
+test('Pi provider uses jiaoleaf-provider--pi CSS class', () => {
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
   assert.match(
     contents,
-    /ageaf-provider--pi/,
-    'Panel should use ageaf-provider--pi CSS class for pi provider'
+    /jiaoleaf-provider--pi/,
+    'Panel should use jiaoleaf-provider--pi CSS class for pi provider'
   );
 });
 
@@ -20,12 +20,12 @@ test('Pi provider indicator CSS exists in panel.css', () => {
 
   assert.match(
     contents,
-    /\.ageaf-provider--pi\s+\.ageaf-provider__dot/,
-    'panel.css should define .ageaf-provider--pi .ageaf-provider__dot'
+    /\.jiaoleaf-provider--pi\s+\.jiaoleaf-provider__dot/,
+    'panel.css should define .jiaoleaf-provider--pi .jiaoleaf-provider__dot'
   );
   assert.match(
     contents,
-    /ageaf-provider-flash-pi/,
+    /jiaoleaf-provider-flash-pi/,
     'panel.css should define pi flash animation'
   );
 });

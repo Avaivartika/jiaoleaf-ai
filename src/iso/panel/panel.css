@@ -31,32 +31,32 @@
 }
 
 /* Base/structural variables — the panel redesign stylesheet provides the canonical
-   design tokens (--ageaf-*). These --ageaf-panel-* aliases exist for backward
+   design tokens (--jiaoleaf-*). These --jiaoleaf-panel-* aliases exist for backward
    compatibility with rules in this file that haven't been migrated yet. */
 :root {
-  --ageaf-panel-bg: var(--ageaf-charcoal, #0f1411);
-  --ageaf-panel-surface: var(--ageaf-surface, #141b17);
-  --ageaf-panel-border: var(--ageaf-border, #27322a);
-  --ageaf-panel-accent: var(--ageaf-emerald, #39b98a);
-  --ageaf-panel-accent-soft: var(--ageaf-emerald-soft, rgba(57, 185, 138, 0.15));
-  --ageaf-panel-text: var(--ageaf-text-primary, #f7fbf9);
-  --ageaf-panel-muted: var(--ageaf-text-secondary, #dbe6e0);
-  --ageaf-panel-status: var(--ageaf-warning, #ffb357);
-  --ageaf-panel-shadow: var(--ageaf-shadow-xl, 0 24px 60px rgba(0, 0, 0, 0.35));
-  --ageaf-panel-font: var(--ageaf-font-body, 'Work Sans', -apple-system, sans-serif);
-  --ageaf-divider-hit: 12px;
-  --ageaf-divider-line: transparent;
-  --ageaf-divider-hover-bg: rgba(0, 0, 0, 0.04);
-  --ageaf-divider-active-bg: rgba(0, 0, 0, 0.08);
+  --jiaoleaf-panel-bg: var(--jiaoleaf-charcoal, #0f1411);
+  --jiaoleaf-panel-surface: var(--jiaoleaf-surface, #141b17);
+  --jiaoleaf-panel-border: var(--jiaoleaf-border, #27322a);
+  --jiaoleaf-panel-accent: var(--jiaoleaf-emerald, #39b98a);
+  --jiaoleaf-panel-accent-soft: var(--jiaoleaf-emerald-soft, rgba(57, 185, 138, 0.15));
+  --jiaoleaf-panel-text: var(--jiaoleaf-text-primary, #f7fbf9);
+  --jiaoleaf-panel-muted: var(--jiaoleaf-text-secondary, #dbe6e0);
+  --jiaoleaf-panel-status: var(--jiaoleaf-warning, #ffb357);
+  --jiaoleaf-panel-shadow: var(--jiaoleaf-shadow-xl, 0 24px 60px rgba(0, 0, 0, 0.35));
+  --jiaoleaf-panel-font: var(--jiaoleaf-font-body, 'Work Sans', -apple-system, sans-serif);
+  --jiaoleaf-divider-hit: 12px;
+  --jiaoleaf-divider-line: transparent;
+  --jiaoleaf-divider-hover-bg: rgba(0, 0, 0, 0.04);
+  --jiaoleaf-divider-active-bg: rgba(0, 0, 0, 0.08);
 }
 
-.ageaf-layout {
+.jiaoleaf-layout {
   display: flex;
   min-height: 100vh;
   width: 100%;
 }
 
-.ageaf-layout--overlay {
+.jiaoleaf-layout--overlay {
   position: fixed;
   top: 0;
   right: 0;
@@ -67,7 +67,7 @@
   pointer-events: none;
 }
 
-.ageaf-layout--sidecar {
+.jiaoleaf-layout--sidecar {
   position: fixed;
   top: 0;
   right: 0;
@@ -78,22 +78,22 @@
   pointer-events: none;
 }
 
-.ageaf-sidecar-host {
-  right: var(--ageaf-sidecar-width, 360px) !important;
+.jiaoleaf-sidecar-host {
+  right: var(--jiaoleaf-sidecar-width, 360px) !important;
   width: auto !important;
-  max-width: calc(100vw - var(--ageaf-sidecar-width, 360px)) !important;
+  max-width: calc(100vw - var(--jiaoleaf-sidecar-width, 360px)) !important;
 }
 
-.ageaf-layout__main {
+.jiaoleaf-layout__main {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ageaf-layout--overlay .ageaf-layout__main {
+.jiaoleaf-layout--overlay .jiaoleaf-layout__main {
   display: none;
 }
 
-#ageaf-panel-root {
+#jiaoleaf-panel-root {
   display: flex;
   position: relative;
   height: 100%;
@@ -101,28 +101,28 @@
   pointer-events: none;
 }
 
-.ageaf-panel {
-  --ageaf-panel-width: 360px;
+.jiaoleaf-panel {
+  --jiaoleaf-panel-width: 360px;
   pointer-events: auto;
   height: 100vh;
-  width: var(--ageaf-panel-width);
-  flex: 0 0 var(--ageaf-panel-width);
+  width: var(--jiaoleaf-panel-width);
+  flex: 0 0 var(--jiaoleaf-panel-width);
   background: linear-gradient(160deg, #0d1210 0%, #111915 55%, #0b100e 100%);
-  box-shadow: var(--ageaf-panel-shadow);
-  color: var(--ageaf-panel-text);
-  font-family: var(--ageaf-panel-font);
+  box-shadow: var(--jiaoleaf-panel-shadow);
+  color: var(--jiaoleaf-panel-text);
+  font-family: var(--jiaoleaf-panel-font);
   font-size: 14px;
   position: relative;
-  animation: ageaf-slide-in 0.4s ease;
+  animation: jiaoleaf-slide-in 0.4s ease;
   overflow: visible;
   transition: width 0.22s ease, flex-basis 0.22s ease, box-shadow 0.22s ease;
 }
 
-.ageaf-resizing .ageaf-panel {
+.jiaoleaf-resizing .jiaoleaf-panel {
   transition: none !important;
 }
 
-.ageaf-panel__inner {
+.jiaoleaf-panel__inner {
   display: grid;
   grid-template-rows: auto 1fr auto;
   height: 100%;
@@ -130,12 +130,12 @@
   min-width: 0;
 }
 
-.ageaf-panel__divider {
+.jiaoleaf-panel__divider {
   position: absolute;
   top: 0;
   left: 0;
   height: 100vh;
-  width: var(--ageaf-divider-hit);
+  width: var(--jiaoleaf-divider-hit);
   padding: 0;
   margin: 0;
   background: transparent;
@@ -144,74 +144,74 @@
   transition: background 0.15s ease, left 0.22s ease;
 }
 
-.ageaf-panel__divider::before {
+.jiaoleaf-panel__divider::before {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--ageaf-divider-line);
+  background: var(--jiaoleaf-divider-line);
   opacity: 0.45;
   mix-blend-mode: difference;
   left: 0;
   transition: opacity 0.15s ease;
 }
 
-.ageaf-panel__divider.is-collapsed::before {
+.jiaoleaf-panel__divider.is-collapsed::before {
   left: auto;
   right: 0;
 }
 
-.ageaf-panel--collapsed .ageaf-panel__divider::before {
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__divider::before {
   background: rgba(0, 0, 0, 0.6);
   opacity: 0.95;
   mix-blend-mode: normal;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
-.ageaf-panel--collapsed .ageaf-panel__divider:hover::before,
-.ageaf-panel--collapsed .ageaf-panel__divider:focus-within::before {
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__divider:hover::before,
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__divider:focus-within::before {
   opacity: 1;
 }
 
-.ageaf-panel__divider:hover,
-.ageaf-panel__divider:focus-within {
-  background: var(--ageaf-divider-hover-bg);
+.jiaoleaf-panel__divider:hover,
+.jiaoleaf-panel__divider:focus-within {
+  background: var(--jiaoleaf-divider-hover-bg);
 }
 
-.ageaf-panel__divider:active {
-  background: var(--ageaf-divider-active-bg);
+.jiaoleaf-panel__divider:active {
+  background: var(--jiaoleaf-divider-active-bg);
 }
 
-.ageaf-panel__divider:hover::before,
-.ageaf-panel__divider:focus-within::before {
+.jiaoleaf-panel__divider:hover::before,
+.jiaoleaf-panel__divider:focus-within::before {
   opacity: 0.9;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) {
   box-shadow: none;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider {
   background: transparent;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider::before,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:hover::before,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:focus-within::before {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider::before,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:hover::before,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:focus-within::before {
   background: transparent;
   opacity: 0;
   mix-blend-mode: normal;
   box-shadow: none;
 }
 
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:hover,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:focus-within,
-.ageaf-panel:not(.ageaf-panel--collapsed) .ageaf-panel__divider:active {
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:hover,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:focus-within,
+.jiaoleaf-panel:not(.jiaoleaf-panel--collapsed) .jiaoleaf-panel__divider:active {
   background: transparent;
 }
 
-.ageaf-panel__divider-toggle {
+.jiaoleaf-panel__divider-toggle {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -228,7 +228,7 @@
   place-items: center;
 }
 
-.ageaf-panel__divider-toggle::after {
+.jiaoleaf-panel__divider-toggle::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -243,28 +243,28 @@
   transition: opacity 0.15s ease;
 }
 
-.ageaf-panel__divider-toggle.is-collapsed::after {
+.jiaoleaf-panel__divider-toggle.is-collapsed::after {
   transform: translate(-50%, -50%) rotate(135deg);
 }
 
-.ageaf-panel__divider-toggle:hover,
-.ageaf-panel__divider-toggle:focus-visible {
-  background: var(--ageaf-divider-active-bg);
+.jiaoleaf-panel__divider-toggle:hover,
+.jiaoleaf-panel__divider-toggle:focus-visible {
+  background: var(--jiaoleaf-divider-active-bg);
 }
 
-.ageaf-panel__divider-toggle:hover::after,
-.ageaf-panel__divider-toggle:focus-visible::after,
-.ageaf-panel__divider:hover .ageaf-panel__divider-toggle::after,
-.ageaf-panel__divider:focus-within .ageaf-panel__divider-toggle::after {
+.jiaoleaf-panel__divider-toggle:hover::after,
+.jiaoleaf-panel__divider-toggle:focus-visible::after,
+.jiaoleaf-panel__divider:hover .jiaoleaf-panel__divider-toggle::after,
+.jiaoleaf-panel__divider:focus-within .jiaoleaf-panel__divider-toggle::after {
   opacity: 0.9;
 }
 
-.ageaf-panel__divider-toggle:focus-visible {
+.jiaoleaf-panel__divider-toggle:focus-visible {
   outline: 2px solid rgba(33, 124, 244, 0.55);
   outline-offset: 2px;
 }
 
-.ageaf-panel__divider-tooltip {
+.jiaoleaf-panel__divider-tooltip {
   position: absolute;
   top: 50%;
   right: calc(100% + 10px);
@@ -282,14 +282,14 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
 }
 
-.ageaf-panel__divider-toggle:hover .ageaf-panel__divider-tooltip,
-.ageaf-panel__divider-toggle:focus-visible .ageaf-panel__divider-tooltip {
+.jiaoleaf-panel__divider-toggle:hover .jiaoleaf-panel__divider-tooltip,
+.jiaoleaf-panel__divider-toggle:focus-visible .jiaoleaf-panel__divider-tooltip {
   opacity: 1;
   transform: translateY(-50%) translateX(0);
   transition-delay: 0.2s;
 }
 
-@keyframes ageaf-slide-in {
+@keyframes jiaoleaf-slide-in {
   from {
     transform: translateX(32px);
     opacity: 0;
@@ -301,47 +301,47 @@
   }
 }
 
-.ageaf-panel--collapsed {
+.jiaoleaf-panel--collapsed {
   width: 0;
   flex-basis: 0;
   box-shadow: none;
 }
 
-.ageaf-panel--collapsed .ageaf-panel__divider {
-  left: calc(-1 * var(--ageaf-divider-hit));
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__divider {
+  left: calc(-1 * var(--jiaoleaf-divider-hit));
 }
 
-.ageaf-panel--collapsed .ageaf-panel__inner {
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__inner {
   display: none;
 }
 
-.ageaf-panel__header {
+.jiaoleaf-panel__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   padding: 10px 16px;
-  border-bottom: 1px solid var(--ageaf-panel-border);
+  border-bottom: 1px solid var(--jiaoleaf-panel-border);
   background: transparent;
   min-width: 0;
   column-gap: 10px;
   row-gap: 2px;
 }
 
-.ageaf-panel__header-actions {
+.jiaoleaf-panel__header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
 }
 
-.ageaf-panel__help {
+.jiaoleaf-panel__help {
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  border: 1px solid var(--ageaf-panel-border);
-  background: var(--ageaf-panel-surface);
-  color: var(--ageaf-panel-accent);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  background: var(--jiaoleaf-panel-surface);
+  color: var(--jiaoleaf-panel-accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -351,12 +351,12 @@
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.ageaf-panel__help:hover {
-  border-color: var(--ageaf-panel-accent);
-  background: var(--ageaf-panel-accent-soft);
+.jiaoleaf-panel__help:hover {
+  border-color: var(--jiaoleaf-panel-accent);
+  background: var(--jiaoleaf-panel-accent-soft);
 }
 
-.ageaf-panel__update-banner {
+.jiaoleaf-panel__update-banner {
   width: 100%;
   display: flex;
   align-items: center;
@@ -365,17 +365,17 @@
   border-radius: 10px;
   border: 1px solid rgba(255, 179, 87, 0.38);
   background: rgba(255, 179, 87, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-size: 12px;
 }
 
-.ageaf-panel__update-text {
+.jiaoleaf-panel__update-text {
   flex: 1 1 auto;
   min-width: 0;
   line-height: 1.35;
 }
 
-.ageaf-panel__update-link {
+.jiaoleaf-panel__update-link {
   color: #ffe4be;
   text-decoration: none;
   font-weight: 600;
@@ -383,11 +383,11 @@
   white-space: nowrap;
 }
 
-.ageaf-panel__update-link:hover {
+.jiaoleaf-panel__update-link:hover {
   border-bottom-color: currentColor;
 }
 
-.ageaf-panel__update-close {
+.jiaoleaf-panel__update-close {
   width: 22px;
   height: 22px;
   border: 0;
@@ -400,22 +400,22 @@
   padding: 0;
 }
 
-.ageaf-panel__update-close:hover {
+.jiaoleaf-panel__update-close:hover {
   background: rgba(255, 255, 255, 0.12);
 }
 
-.ageaf-panel.light .ageaf-panel__update-banner {
+.jiaoleaf-panel.light .jiaoleaf-panel__update-banner {
   border-color: rgba(163, 102, 20, 0.35);
   background: rgba(255, 208, 145, 0.4);
   color: #4a3316;
 }
 
-.ageaf-panel.light .ageaf-panel__update-link {
+.jiaoleaf-panel.light .jiaoleaf-panel__update-link {
   color: #7f4904;
 }
 
 /* ── Tips ticker ── */
-.ageaf-tips {
+.jiaoleaf-tips {
   width: 100%;
   overflow: hidden;
   height: 16px;
@@ -427,15 +427,15 @@
   text-align: right;
 }
 
-.ageaf-tips--up {
-  animation: ageaf-tip-up 0.35s ease both;
+.jiaoleaf-tips--up {
+  animation: jiaoleaf-tip-up 0.35s ease both;
 }
 
-.ageaf-tips--down {
-  animation: ageaf-tip-down 0.35s ease both;
+.jiaoleaf-tips--down {
+  animation: jiaoleaf-tip-down 0.35s ease both;
 }
 
-@keyframes ageaf-tip-up {
+@keyframes jiaoleaf-tip-up {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -447,7 +447,7 @@
   }
 }
 
-@keyframes ageaf-tip-down {
+@keyframes jiaoleaf-tip-down {
   from {
     opacity: 0;
     transform: translateY(-8px);
@@ -459,7 +459,7 @@
   }
 }
 
-.ageaf-panel__logo {
+.jiaoleaf-panel__logo {
   width: 32px;
   height: 32px;
   object-fit: cover;
@@ -468,7 +468,7 @@
   flex-shrink: 0;
 }
 
-.ageaf-panel__name {
+.jiaoleaf-panel__name {
   font-family: 'Orbitron', sans-serif;
   font-size: 22px;
   font-weight: 700;
@@ -479,7 +479,7 @@
   margin-right: auto;
 }
 
-.ageaf-panel__title {
+.jiaoleaf-panel__title {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -487,53 +487,53 @@
   gap: 2px;
 }
 
-.ageaf-panel__intro {
+.jiaoleaf-panel__intro {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   line-height: 1.3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.ageaf-diff-review {
+.jiaoleaf-diff-review {
   max-height: 280px;
   overflow: auto;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 10px;
 }
 
-.ageaf-diff-review__status {
+.jiaoleaf-diff-review__status {
   padding: 8px 10px;
   font-size: 12px;
-  color: var(--ageaf-panel-status);
+  color: var(--jiaoleaf-panel-status);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.ageaf-diff-review__host {
+.jiaoleaf-diff-review__host {
   display: block;
 }
 
-.ageaf-diff-review__fallback {
+.jiaoleaf-diff-review__fallback {
   display: grid;
   gap: 8px;
   padding: 10px 12px;
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-diff-review__fallback-title {
+.jiaoleaf-diff-review__fallback-title {
   font-weight: 600;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-diff-review__fallback-label {
+.jiaoleaf-diff-review__fallback-label {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
-.ageaf-diff-review__fallback-diff {
+.jiaoleaf-diff-review__fallback-diff {
   margin: 0;
   padding: 10px 12px;
   border-radius: 10px;
@@ -550,19 +550,19 @@
   overflow: auto;
 }
 
-.ageaf-diff-review__fallback-diff-line {
+.jiaoleaf-diff-review__fallback-diff-line {
   white-space: pre;
 }
 
-.ageaf-diff-review__fallback-diff-line.is-added {
+.jiaoleaf-diff-review__fallback-diff-line.is-added {
   color: rgba(188, 255, 228, 0.95);
 }
 
-.ageaf-diff-review__fallback-diff-line.is-removed {
+.jiaoleaf-diff-review__fallback-diff-line.is-removed {
   color: rgba(255, 188, 198, 0.95);
 }
 
-.ageaf-diff-review__fallback-code {
+.jiaoleaf-diff-review__fallback-code {
   margin: 0;
   padding: 10px 12px;
   border-radius: 10px;
@@ -579,7 +579,7 @@
   overflow: auto;
 }
 
-@keyframes ageaf-patch-card-fade-in {
+@keyframes jiaoleaf-patch-card-fade-in {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -591,72 +591,72 @@
   }
 }
 
-.ageaf-patch-review {
+.jiaoleaf-patch-review {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  animation: ageaf-patch-card-fade-in 0.25s ease-out;
+  animation: jiaoleaf-patch-card-fade-in 0.25s ease-out;
 }
 
-.ageaf-grouped-patch {
+.jiaoleaf-grouped-patch {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  animation: ageaf-patch-card-fade-in 0.25s ease-out;
+  animation: jiaoleaf-patch-card-fade-in 0.25s ease-out;
 }
 
-.ageaf-grouped-patch__pending {
-  color: var(--ageaf-panel-muted);
+.jiaoleaf-grouped-patch__pending {
+  color: var(--jiaoleaf-panel-muted);
   font-weight: 500;
 }
 
-.ageaf-grouped-patch__hunk {
+.jiaoleaf-grouped-patch__hunk {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.ageaf-grouped-patch__hunk-header {
+.jiaoleaf-grouped-patch__hunk-header {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.ageaf-grouped-patch__separator {
+.jiaoleaf-grouped-patch__separator {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 0;
   font-size: 10px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   opacity: 0.7;
 }
 
-.ageaf-grouped-patch__separator::before,
-.ageaf-grouped-patch__separator::after {
+.jiaoleaf-grouped-patch__separator::before,
+.jiaoleaf-grouped-patch__separator::after {
   content: '';
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.06);
 }
 
-.ageaf-grouped-patch__separator::before {
+.jiaoleaf-grouped-patch__separator::before {
   margin-right: 8px;
 }
 
-.ageaf-grouped-patch__separator::after {
+.jiaoleaf-grouped-patch__separator::after {
   margin-left: 8px;
 }
 
-.ageaf-grouped-patch__hunk-status {
+.jiaoleaf-grouped-patch__hunk-status {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   font-size: 10px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-grouped-patch__modal-list {
+.jiaoleaf-grouped-patch__modal-list {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -666,27 +666,27 @@
   padding-right: 4px;
 }
 
-.ageaf-patch-review__header {
+.jiaoleaf-patch-review__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 4px;
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   flex-wrap: nowrap;
 }
 
-.ageaf-patch-review__title {
+.jiaoleaf-patch-review__title {
   font-weight: 600;
   font-size: 11px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.ageaf-patch-review__actions {
+.jiaoleaf-patch-review__actions {
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -695,7 +695,7 @@
   flex-shrink: 0;
 }
 
-.ageaf-patch-review__actions .ageaf-panel__apply {
+.jiaoleaf-patch-review__actions .jiaoleaf-panel__apply {
   margin-left: 0;
   min-width: 0;
   text-align: center;
@@ -706,7 +706,7 @@
   border-radius: 6px;
 }
 
-.ageaf-patch-review__expand-btn {
+.jiaoleaf-patch-review__expand-btn {
   all: unset;
   display: inline-flex;
   align-items: center;
@@ -717,7 +717,7 @@
   flex: 0 0 auto;
   cursor: pointer;
   opacity: 0.9;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.03);
   transition:
@@ -727,42 +727,42 @@
   border-radius: 4px;
 }
 
-.ageaf-patch-review__expand-btn:hover {
+.jiaoleaf-patch-review__expand-btn:hover {
   opacity: 1;
   border-color: rgba(57, 185, 138, 0.45);
   background: rgba(57, 185, 138, 0.12);
 }
 
-.ageaf-patch-review__expand-btn:focus-visible {
+.jiaoleaf-patch-review__expand-btn:focus-visible {
   outline: 2px solid rgba(33, 124, 244, 0.55);
   outline-offset: 1px;
 }
 
-.ageaf-patch-review__expand-icon {
+.jiaoleaf-patch-review__expand-icon {
   width: 16px;
   height: 16px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
 /* File change summary card */
-.ageaf-file-summary {
+.jiaoleaf-file-summary {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--ageaf-panel-border);
-  border-bottom: 1px solid var(--ageaf-panel-border);
+  border-top: 1px solid var(--jiaoleaf-panel-border);
+  border-bottom: 1px solid var(--jiaoleaf-panel-border);
   border-left: 0;
   border-right: 0;
   border-radius: 0;
-  background: var(--ageaf-panel-surface);
+  background: var(--jiaoleaf-panel-surface);
   overflow: hidden;
 }
 
-.ageaf-file-summary__list {
+.jiaoleaf-file-summary__list {
   max-height: 240px;
   overflow-y: auto;
 }
 
-.ageaf-file-summary__row {
+.jiaoleaf-file-summary__row {
   all: unset;
   display: flex;
   align-items: center;
@@ -772,59 +772,59 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.ageaf-file-summary__row:last-child {
+.jiaoleaf-file-summary__row:last-child {
   border-bottom: 0;
 }
 
-.ageaf-file-summary__row:hover {
+.jiaoleaf-file-summary__row:hover {
   background: rgba(57, 185, 138, 0.08);
 }
 
-.ageaf-file-summary__status-dot {
+.jiaoleaf-file-summary__status-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex: 0 0 auto;
 }
 
-.ageaf-file-summary__status-dot.is-pending {
-  background: var(--ageaf-panel-status);
+.jiaoleaf-file-summary__status-dot.is-pending {
+  background: var(--jiaoleaf-panel-status);
 }
 
-.ageaf-file-summary__status-dot.is-accepted {
+.jiaoleaf-file-summary__status-dot.is-accepted {
   background: #4dd4a4;
 }
 
-.ageaf-file-summary__status-dot.is-rejected {
+.jiaoleaf-file-summary__status-dot.is-rejected {
   background: #ef4444;
 }
 
-.ageaf-file-summary__status-dot.is-mixed {
-  background: var(--ageaf-panel-muted);
+.jiaoleaf-file-summary__status-dot.is-mixed {
+  background: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-file-summary__added {
+.jiaoleaf-file-summary__added {
   color: #4dd4a4;
   font-size: 11px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-.ageaf-file-summary__removed {
+.jiaoleaf-file-summary__removed {
   color: #ef4444;
   font-size: 11px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-.ageaf-file-summary__basename {
+.jiaoleaf-file-summary__basename {
   font-weight: 600;
   font-size: 12px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   min-width: 0;
 }
 
-.ageaf-file-summary__path {
+.jiaoleaf-file-summary__path {
   font-size: 10px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   margin-left: auto;
   text-align: right;
   overflow: hidden;
@@ -832,29 +832,29 @@
   white-space: nowrap;
 }
 
-.ageaf-file-summary__footer {
+.jiaoleaf-file-summary__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding: 8px 12px;
-  border-top: 1px solid var(--ageaf-panel-border);
+  border-top: 1px solid var(--jiaoleaf-panel-border);
   background: rgba(0, 0, 0, 0.12);
 }
 
-.ageaf-file-summary__count {
+.jiaoleaf-file-summary__count {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   font-weight: 500;
 }
 
-.ageaf-file-summary__actions {
+.jiaoleaf-file-summary__actions {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.ageaf-file-summary__actions .ageaf-panel__apply {
+.jiaoleaf-file-summary__actions .jiaoleaf-panel__apply {
   margin-left: 0;
   min-width: 0;
   padding: 2px 7px;
@@ -862,7 +862,7 @@
   font-size: 11px;
 }
 
-.ageaf-file-summary__chevron {
+.jiaoleaf-file-summary__chevron {
   all: unset;
   cursor: pointer;
   padding: 2px;
@@ -870,15 +870,15 @@
   transition: transform 0.2s ease, opacity 0.15s ease;
 }
 
-.ageaf-file-summary__chevron:hover {
+.jiaoleaf-file-summary__chevron:hover {
   opacity: 1;
 }
 
-.ageaf-file-summary__chevron.is-collapsed {
+.jiaoleaf-file-summary__chevron.is-collapsed {
   transform: rotate(180deg);
 }
 
-.ageaf-diff-modal__backdrop {
+.jiaoleaf-diff-modal__backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -891,10 +891,10 @@
   z-index: 10000;
 }
 
-.ageaf-diff-modal {
+.jiaoleaf-diff-modal {
   background: #0f1411;
   /* Opaque baseline for dark mode */
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
   width: min(960px, 90vw);
   height: min(720px, 90vh);
@@ -909,22 +909,22 @@
   overflow: hidden;
 }
 
-.ageaf-diff-modal__header {
+.jiaoleaf-diff-modal__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--ageaf-panel-border);
+  border-bottom: 1px solid var(--jiaoleaf-panel-border);
   flex-shrink: 0;
 }
 
-.ageaf-diff-modal__title {
+.jiaoleaf-diff-modal__title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-diff-modal__close {
+.jiaoleaf-diff-modal__close {
   all: unset;
   display: inline-flex;
   align-items: center;
@@ -937,11 +937,11 @@
   transition: opacity 0.15s ease;
 }
 
-.ageaf-diff-modal__close:hover {
+.jiaoleaf-diff-modal__close:hover {
   opacity: 1;
 }
 
-.ageaf-diff-modal__content {
+.jiaoleaf-diff-modal__content {
   flex: 1;
   /* Keep a stable bottom inset regardless of modal height. */
   padding: 16px 20px 16px 32px;
@@ -951,13 +951,13 @@
   display: flex;
 }
 
-.ageaf-diff-modal__content>.ageaf-diff-review {
+.jiaoleaf-diff-modal__content>.jiaoleaf-diff-review {
   flex: 1 1 auto;
   min-height: 0;
   max-height: none;
 }
 
-.ageaf-patch-review__warning {
+.jiaoleaf-patch-review__warning {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -966,54 +966,54 @@
   color: #f5b27a;
 }
 
-.ageaf-patch-review__warning .ageaf-panel__apply {
+.jiaoleaf-patch-review__warning .jiaoleaf-panel__apply {
   margin-left: 0;
 }
 
-.ageaf-patch-review__diff-wrap {
+.jiaoleaf-patch-review__diff-wrap {
   position: relative;
 }
 
-.ageaf-patch-review__diff-wrap.is-collapsed {
+.jiaoleaf-patch-review__diff-wrap.is-collapsed {
   max-height: 88px;
   overflow: hidden;
 }
 
-.ageaf-patch-review__diff-wrap.is-collapsed::after {
+.jiaoleaf-patch-review__diff-wrap.is-collapsed::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 32px;
-  background: linear-gradient(transparent, var(--ageaf-panel-bg, #1a1a2e));
+  background: linear-gradient(transparent, var(--jiaoleaf-panel-bg, #1a1a2e));
   pointer-events: none;
 }
 
-.ageaf-patch-review__toggle {
+.jiaoleaf-patch-review__toggle {
   all: unset;
   display: block;
   width: 100%;
   text-align: center;
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   cursor: pointer;
   padding: 2px 0;
   opacity: 0.8;
   transition: opacity 0.15s ease;
 }
 
-.ageaf-patch-review__toggle:hover {
+.jiaoleaf-patch-review__toggle:hover {
   opacity: 1;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-panel__status {
+.jiaoleaf-panel__status {
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-provider {
+.jiaoleaf-provider {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1028,7 +1028,7 @@
   flex-shrink: 0;
 }
 
-.ageaf-provider__dot {
+.jiaoleaf-provider__dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -1037,35 +1037,35 @@
   transition: background 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
 }
 
-.ageaf-provider--openai .ageaf-provider__dot {
+.jiaoleaf-provider--openai .jiaoleaf-provider__dot {
   background: rgba(95, 160, 255, 0.9);
   box-shadow: 0 0 0 2px rgba(95, 160, 255, 0.2);
 }
 
-.ageaf-provider--disconnected.ageaf-provider--anthropic .ageaf-provider__dot {
+.jiaoleaf-provider--disconnected.jiaoleaf-provider--anthropic .jiaoleaf-provider__dot {
   border: 1px solid rgba(57, 185, 138, 0.9);
   box-shadow: 0 0 0 0 rgba(57, 185, 138, 0.2);
-  animation: ageaf-provider-flash-anthropic 1.5s ease-in-out infinite;
+  animation: jiaoleaf-provider-flash-anthropic 1.5s ease-in-out infinite;
 }
 
-.ageaf-provider--disconnected.ageaf-provider--openai .ageaf-provider__dot {
+.jiaoleaf-provider--disconnected.jiaoleaf-provider--openai .jiaoleaf-provider__dot {
   border: 1px solid rgba(95, 160, 255, 0.9);
   box-shadow: 0 0 0 0 rgba(95, 160, 255, 0.2);
-  animation: ageaf-provider-flash-openai 1.5s ease-in-out infinite;
+  animation: jiaoleaf-provider-flash-openai 1.5s ease-in-out infinite;
 }
 
-.ageaf-provider--pi .ageaf-provider__dot {
+.jiaoleaf-provider--pi .jiaoleaf-provider__dot {
   background: rgba(20, 184, 166, 0.9);
   box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.2);
 }
 
-.ageaf-provider--disconnected.ageaf-provider--pi .ageaf-provider__dot {
+.jiaoleaf-provider--disconnected.jiaoleaf-provider--pi .jiaoleaf-provider__dot {
   border: 1px solid rgba(20, 184, 166, 0.9);
   box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.2);
-  animation: ageaf-provider-flash-pi 1.5s ease-in-out infinite;
+  animation: jiaoleaf-provider-flash-pi 1.5s ease-in-out infinite;
 }
 
-@keyframes ageaf-provider-flash-anthropic {
+@keyframes jiaoleaf-provider-flash-anthropic {
 
   0%,
   50% {
@@ -1080,7 +1080,7 @@
   }
 }
 
-@keyframes ageaf-provider-flash-openai {
+@keyframes jiaoleaf-provider-flash-openai {
 
   0%,
   50% {
@@ -1095,7 +1095,7 @@
   }
 }
 
-@keyframes ageaf-provider-flash-pi {
+@keyframes jiaoleaf-provider-flash-pi {
 
   0%,
   50% {
@@ -1110,14 +1110,14 @@
   }
 }
 
-.ageaf-provider::after {
+.jiaoleaf-provider::after {
   content: attr(data-tooltip);
   position: absolute;
   right: 0;
   top: calc(100% + 8px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   font-size: 11px;
   padding: 6px 10px;
   border-radius: 8px;
@@ -1132,13 +1132,13 @@
   word-wrap: break-word;
 }
 
-.ageaf-provider:hover::after,
-.ageaf-provider:focus-visible::after {
+.jiaoleaf-provider:hover::after,
+.jiaoleaf-provider:focus-visible::after {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ageaf-panel__body {
+.jiaoleaf-panel__body {
   padding: 10px 8px;
   overflow: visible;
   position: relative;
@@ -1149,7 +1149,7 @@
   min-width: 0;
 }
 
-.ageaf-panel__chat {
+.jiaoleaf-panel__chat {
   display: grid;
   gap: 8px;
   overflow-y: auto;
@@ -1161,12 +1161,12 @@
   grid-auto-rows: max-content;
 }
 
-.ageaf-message {
+.jiaoleaf-message {
   padding: 6px 10px;
   border-radius: 14px;
   font-size: 14px;
   line-height: 1.45;
-  background: var(--ageaf-panel-surface);
+  background: var(--jiaoleaf-panel-surface);
   border: 1px solid rgba(255, 255, 255, 0.04);
   display: inline-block;
   max-width: 100%;
@@ -1179,48 +1179,48 @@
   box-sizing: border-box;
 }
 
-.ageaf-message h1,
-.ageaf-message h2,
-.ageaf-message h3,
-.ageaf-message h4 {
+.jiaoleaf-message h1,
+.jiaoleaf-message h2,
+.jiaoleaf-message h3,
+.jiaoleaf-message h4 {
   margin: 0 0 0.35em 0;
   line-height: 1.2;
   font-weight: 600;
   color: #fbfdfc;
 }
 
-.ageaf-message h1 {
+.jiaoleaf-message h1 {
   font-size: 1.15rem;
 }
 
-.ageaf-message h2 {
+.jiaoleaf-message h2 {
   font-size: 1.05rem;
 }
 
-.ageaf-message h3,
-.ageaf-message h4 {
+.jiaoleaf-message h3,
+.jiaoleaf-message h4 {
   font-size: 0.98rem;
 }
 
-.ageaf-message p {
+.jiaoleaf-message p {
   margin: 0 0 0.5em 0;
 }
 
-.ageaf-message p:last-child {
+.jiaoleaf-message p:last-child {
   margin-bottom: 0;
 }
 
-.ageaf-message ul,
-.ageaf-message ol {
+.jiaoleaf-message ul,
+.jiaoleaf-message ol {
   margin: 0 0 0.5em 0;
   padding-left: 1.1em;
 }
 
-.ageaf-message li {
+.jiaoleaf-message li {
   margin: 0.2em 0;
 }
 
-.ageaf-message code {
+.jiaoleaf-message code {
   font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco,
     Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 0.92em;
@@ -1230,7 +1230,7 @@
   border-radius: 6px;
 }
 
-.ageaf-message pre {
+.jiaoleaf-message pre {
   margin: 0 0 0.6em 0;
   padding: 8px 10px;
   border-radius: 10px;
@@ -1243,7 +1243,7 @@
   color: #f4faf7;
 }
 
-.ageaf-message pre code {
+.jiaoleaf-message pre code {
   background: none;
   padding: 0;
   white-space: inherit;
@@ -1251,19 +1251,19 @@
   overflow-wrap: inherit;
 }
 
-.ageaf-message__content {
+.jiaoleaf-message__content {
   display: block;
   min-width: 0;
 }
 
-.ageaf-message__file-attachments {
+.jiaoleaf-message__file-attachments {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 8px;
 }
 
-.ageaf-message__file-chip {
+.jiaoleaf-message__file-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1271,29 +1271,29 @@
   border-radius: 999px;
   border: 1px solid rgba(57, 185, 138, 0.35);
   background: rgba(57, 185, 138, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-size: 12px;
   white-space: nowrap;
   max-width: 100%;
 }
 
-.ageaf-message__file-chip-name {
+.jiaoleaf-message__file-chip-name {
   font-weight: 600;
 }
 
-.ageaf-message__file-chip-meta {
-  color: var(--ageaf-panel-muted);
+.jiaoleaf-message__file-chip-meta {
+  color: var(--jiaoleaf-panel-muted);
   font-size: 11px;
 }
 
-.ageaf-message__attachments {
+.jiaoleaf-message__attachments {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 8px;
 }
 
-.ageaf-message__attachment {
+.jiaoleaf-message__attachment {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1301,11 +1301,11 @@
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   max-width: 100%;
 }
 
-.ageaf-message__attachment-thumb {
+.jiaoleaf-message__attachment-thumb {
   width: 84px;
   height: 60px;
   border-radius: 8px;
@@ -1314,14 +1314,14 @@
   flex: 0 0 auto;
 }
 
-.ageaf-message__attachment-meta {
+.jiaoleaf-message__attachment-meta {
   display: flex;
   flex-direction: column;
   min-width: 0;
   gap: 2px;
 }
 
-.ageaf-message__attachment-name {
+.jiaoleaf-message__attachment-name {
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -1330,29 +1330,29 @@
   max-width: 180px;
 }
 
-.ageaf-message__attachment-size {
+.jiaoleaf-message__attachment-size {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-message__interrupt {
+.jiaoleaf-message__interrupt {
   display: inline-block;
-  color: var(--ageaf-panel-accent);
+  color: var(--jiaoleaf-panel-accent);
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1.2;
   margin: 0;
 }
 
-.ageaf-message p:has(+ p.ageaf-message__interrupt) {
+.jiaoleaf-message p:has(+ p.jiaoleaf-message__interrupt) {
   margin-bottom: 0.25em;
 }
 
 /* Inline code blocks — rendered in the message flow, not extracted to the end.
-   The original quote UI had two layers (outer .ageaf-message__quote with padding: 8px
-   + inner .ageaf-message__quote-block).  We use a single container, so offsets are
+   The original quote UI had two layers (outer .jiaoleaf-message__quote with padding: 8px
+   + inner .jiaoleaf-message__quote-block).  We use a single container, so offsets are
    increased to match the original visual insets. */
-.ageaf-inline-code {
+.jiaoleaf-inline-code {
   margin: 8px 0;
   padding: 8px;
   border-radius: 10px;
@@ -1364,7 +1364,7 @@
   overflow: hidden;
 }
 
-.ageaf-inline-code__lang {
+.jiaoleaf-inline-code__lang {
   position: absolute;
   top: 14px;
   left: 16px;
@@ -1381,7 +1381,7 @@
   pointer-events: none;
 }
 
-.ageaf-inline-code__copy {
+.jiaoleaf-inline-code__copy {
   position: absolute;
   top: 14px;
   right: 14px;
@@ -1399,29 +1399,29 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.ageaf-inline-code__copy:hover {
+.jiaoleaf-inline-code__copy:hover {
   background: rgba(57, 185, 138, 0.15);
   border-color: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-inline-code__copy .ageaf-message__copy-icon,
-.ageaf-inline-code__copy .ageaf-message__copy-check {
+.jiaoleaf-inline-code__copy .jiaoleaf-message__copy-icon,
+.jiaoleaf-inline-code__copy .jiaoleaf-message__copy-check {
   width: 14px;
   height: 14px;
 }
 
 /* Reserve top space for the language pill / copy button, and right space for the copy button.
    Original: outer padding 8px + inner padding-top 28px = 36px from outer edge. */
-.ageaf-inline-code>.ageaf-code-block {
+.jiaoleaf-inline-code>.jiaoleaf-code-block {
   padding-top: 36px;
   padding-right: 40px;
 }
 
-.ageaf-inline-code>pre {
+.jiaoleaf-inline-code>pre {
   margin: 0;
 }
 
-.ageaf-message__quote {
+.jiaoleaf-message__quote {
   margin-top: 8px;
   padding: 8px;
   border-radius: 10px;
@@ -1433,7 +1433,7 @@
   gap: 0;
 }
 
-.ageaf-message__quote-body {
+.jiaoleaf-message__quote-body {
   display: grid;
   gap: 6px;
   max-height: 160px;
@@ -1441,7 +1441,7 @@
   padding-right: 2px;
 }
 
-.ageaf-message__quote-block {
+.jiaoleaf-message__quote-block {
   padding: 0;
   border-radius: 8px;
   background: rgba(18, 24, 20, 0.5);
@@ -1453,14 +1453,14 @@
 }
 
 /* When rendered inline in the message flow (not inside the extracted-quote container) */
-.ageaf-message__content>.ageaf-message__quote-block {
+.jiaoleaf-message__content>.jiaoleaf-message__quote-block {
   margin: 8px 0;
 }
 
 /* The outer quote-block wrapper provides the border and background;
    strip the duplicate from the inner PRE so the badge and copy button
    sit inside the visible card edge. */
-.ageaf-message__quote-block pre {
+.jiaoleaf-message__quote-block pre {
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -1468,7 +1468,7 @@
   border-radius: 0 !important;
 }
 
-.ageaf-message__quote-lang {
+.jiaoleaf-message__quote-lang {
   position: absolute;
   top: 6px;
   left: 8px;
@@ -1485,39 +1485,39 @@
   pointer-events: none;
 }
 
-.ageaf-message__quote-content {
+.jiaoleaf-message__quote-content {
   /* Reserve space for the absolute language pill in the top-left. */
   padding: 28px 8px 8px;
   padding-right: 32px;
 }
 
 /* For code blocks, keep the top "header" space for the language pill, but let the code control left padding. */
-.ageaf-message__quote-content:has(.ageaf-code-block) {
+.jiaoleaf-message__quote-content:has(.jiaoleaf-code-block) {
   padding: 0;
 }
 
 /* Override the bloated redesign padding on the inner code block when inside a quote-block.
    The wrapper uses a lot of space for the badge/copy button, so the code block itself
    should be tighter. The top padding allows the code to start below the badge. */
-.ageaf-message__quote-block pre code {
+.jiaoleaf-message__quote-block pre code {
   padding: 32px 16px 12px 16px !important;
   background: transparent !important;
   border: none !important;
 }
 
-.ageaf-message__quote-block p:last-child {
+.jiaoleaf-message__quote-block p:last-child {
   margin-bottom: 0;
 }
 
-.ageaf-message__quote-block pre {
+.jiaoleaf-message__quote-block pre {
   margin-bottom: 0;
 }
 
-.ageaf-message__quote-block p {
+.jiaoleaf-message__quote-block p {
   display: block;
 }
 
-.ageaf-message__copy {
+.jiaoleaf-message__copy {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -1537,28 +1537,28 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.ageaf-message__copy:hover:not(.is-disabled) {
+.jiaoleaf-message__copy:hover:not(.is-disabled) {
   background: rgba(57, 185, 138, 0.15);
   border-color: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-message__copy.is-disabled {
+.jiaoleaf-message__copy.is-disabled {
   opacity: 0.35;
   pointer-events: none;
 }
 
-.ageaf-message__copy-icon {
+.jiaoleaf-message__copy-icon {
   width: 14px;
   height: 14px;
 }
 
-.ageaf-message__copy-check {
+.jiaoleaf-message__copy-check {
   width: 14px;
   height: 14px;
 }
 
 /* Prism Syntax Highlighting - Dark Theme */
-.ageaf-code-block {
+.jiaoleaf-code-block {
   margin: 0;
   padding: 0;
   background: transparent;
@@ -1571,7 +1571,7 @@
   line-height: 1.5;
 }
 
-.ageaf-code-block code {
+.jiaoleaf-code-block code {
   display: block;
   /* Top padding is small here because the quote container reserves space for the language pill. */
   padding: 10px 8px 8px;
@@ -1656,18 +1656,18 @@
 }
 
 /* LaTeX rendering styles */
-.ageaf-latex {
+.jiaoleaf-latex {
   cursor: text;
   user-select: text;
   position: relative;
 }
 
-.ageaf-latex--inline {
+.jiaoleaf-latex--inline {
   display: inline;
   margin: 0 2px;
 }
 
-.ageaf-latex--display {
+.jiaoleaf-latex--display {
   /* Keep math self-contained so it can't break wrapping for other content */
   display: inline-flex;
   align-items: flex-start;
@@ -1680,7 +1680,7 @@
   min-width: 0;
 }
 
-.ageaf-latex__copy {
+.jiaoleaf-latex__copy {
   width: 22px;
   height: 22px;
   border-radius: 6px;
@@ -1699,26 +1699,26 @@
   flex: 0 0 auto;
 }
 
-.ageaf-latex--display:hover .ageaf-latex__copy,
-.ageaf-latex--display:focus-within .ageaf-latex__copy {
+.jiaoleaf-latex--display:hover .jiaoleaf-latex__copy,
+.jiaoleaf-latex--display:focus-within .jiaoleaf-latex__copy {
   opacity: 1;
 }
 
-.ageaf-latex__copy:hover {
+.jiaoleaf-latex__copy:hover {
   background: rgba(57, 185, 138, 0.15);
   border-color: rgba(57, 185, 138, 0.45);
 }
 
 /* Left-align KaTeX rendered output - override KaTeX's default centering */
-.ageaf-latex--display>.katex,
-.ageaf-latex--display>.katex-display {
+.jiaoleaf-latex--display>.katex,
+.jiaoleaf-latex--display>.katex-display {
   text-align: left !important;
   margin-left: 0 !important;
   margin-right: auto !important;
   display: inline-block !important;
 }
 
-.ageaf-latex--display .katex-display {
+.jiaoleaf-latex--display .katex-display {
   text-align: left !important;
   margin-left: 0 !important;
   margin-right: auto !important;
@@ -1727,7 +1727,7 @@
   margin-bottom: 0 !important;
 }
 
-.ageaf-latex-fence {
+.jiaoleaf-latex-fence {
   margin: 10px 0;
   /* Shrink-to-fit instead of looking like a fixed full-width block. */
   display: inline-block;
@@ -1741,26 +1741,26 @@
   text-align: left;
 }
 
-.ageaf-latex-fence .ageaf-latex--display {
+.jiaoleaf-latex-fence .jiaoleaf-latex--display {
   margin: 0;
 }
 
 /* Left-align KaTeX output inside fences - override KaTeX's default centering */
-.ageaf-latex-fence .katex,
-.ageaf-latex-fence .katex-display {
+.jiaoleaf-latex-fence .katex,
+.jiaoleaf-latex-fence .katex-display {
   text-align: left !important;
   margin-left: 0 !important;
   margin-right: auto !important;
   display: block;
 }
 
-.ageaf-latex-fence .katex-display {
+.jiaoleaf-latex-fence .katex-display {
   text-align: left !important;
   margin-left: 0 !important;
   margin-right: auto !important;
 }
 
-.ageaf-latex-error {
+.jiaoleaf-latex-error {
   color: rgba(249, 165, 157, 0.95);
   background: rgba(249, 165, 157, 0.1);
   padding: 2px 6px;
@@ -1769,8 +1769,8 @@
   font-size: 12px;
 }
 
-/* Rendered Mermaid diagrams (SVG from ageaf-diagram fence) */
-.ageaf-diagram {
+/* Rendered Mermaid diagrams (SVG from jiaoleaf-diagram fence) */
+.jiaoleaf-diagram {
   margin: 10px 0;
   border-radius: 10px;
   background: rgba(18, 24, 20, 0.35);
@@ -1778,25 +1778,25 @@
   overflow: hidden;
 }
 
-.ageaf-diagram__svg {
+.jiaoleaf-diagram__svg {
   padding: 12px;
   overflow-x: auto;
   display: flex;
   justify-content: center;
 }
 
-.ageaf-diagram__svg svg {
+.jiaoleaf-diagram__svg svg {
   max-width: 100%;
   height: auto;
 }
 
-.ageaf-diagram__actions {
+.jiaoleaf-diagram__actions {
   display: flex;
   padding: 6px 12px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.ageaf-diagram__download {
+.jiaoleaf-diagram__download {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -1811,42 +1811,42 @@
   transition: background 0.15s;
 }
 
-.ageaf-diagram__download:hover {
+.jiaoleaf-diagram__download:hover {
   background: rgba(57, 185, 138, 0.22);
 }
 
-.ageaf-diagram__download svg {
+.jiaoleaf-diagram__download svg {
   flex-shrink: 0;
 }
 
 /* Hide diagram download button during streaming to prevent layout thrashing */
-.ageaf-message--streaming .ageaf-diagram__actions {
+.jiaoleaf-message--streaming .jiaoleaf-diagram__actions {
   display: none;
 }
 
 /* Ensure code blocks within quotes maintain proper styling */
-.ageaf-message__quote-block pre,
-.ageaf-message__quote-block code {
+.jiaoleaf-message__quote-block pre,
+.jiaoleaf-message__quote-block code {
   background: transparent;
   border: none;
   margin: 0;
 }
 
-.ageaf-message__response-actions {
+.jiaoleaf-message__response-actions {
   margin-top: 6px;
   display: flex;
   justify-content: flex-start;
 }
 
-.ageaf-message__attachment-chip-row {
+.jiaoleaf-message__attachment-chip-row {
   margin: 6px 0;
 }
 
-.ageaf-message__attachment-chip {
+.jiaoleaf-message__attachment-chip {
   max-width: 100%;
 }
 
-.ageaf-message__copy-response {
+.jiaoleaf-message__copy-response {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1858,33 +1858,33 @@
   font-size: 12px;
 }
 
-.ageaf-message__copy-response:hover {
+.jiaoleaf-message__copy-response:hover {
   background: rgba(9, 14, 11, 0.8);
 }
 
-.ageaf-message--system {
+.jiaoleaf-message--system {
   background: rgba(57, 185, 138, 0.08);
   border-color: rgba(57, 185, 138, 0.3);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-message--assistant {
+.jiaoleaf-message--assistant {
   background: rgba(18, 24, 20, 0.8);
   color: #e9f2ec;
 }
 
-.ageaf-message__status {
+.jiaoleaf-message__status {
   font-size: 12px;
-  color: var(--ageaf-panel-status);
+  color: var(--jiaoleaf-panel-status);
   text-shadow: 0 0 10px rgba(255, 165, 70, 0.35);
   margin-bottom: 6px;
 }
 
-.ageaf-message__status.is-active {
-  animation: ageaf-activity-pulse 1.2s ease-in-out infinite;
+.jiaoleaf-message__status.is-active {
+  animation: jiaoleaf-activity-pulse 1.2s ease-in-out infinite;
 }
 
-.ageaf-message__status--toggle {
+.jiaoleaf-message__status--toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1892,53 +1892,53 @@
   text-align: left;
 }
 
-.ageaf-message__status--toggle:focus-visible {
+.jiaoleaf-message__status--toggle:focus-visible {
   outline: 2px solid rgba(57, 185, 138, 0.45);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
-.ageaf-message__status-toggle-arrow {
+.jiaoleaf-message__status-toggle-arrow {
   width: 14px;
   flex: 0 0 14px;
   opacity: 0.85;
 }
 
-.ageaf-message__status-toggle-text {
+.jiaoleaf-message__status-toggle-text {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.ageaf-message__trace {
+.jiaoleaf-message__trace {
   font-size: 12px;
-  color: var(--ageaf-panel-status);
+  color: var(--jiaoleaf-panel-status);
   text-shadow: 0 0 10px rgba(255, 165, 70, 0.25);
   margin-bottom: 8px;
   border-left: 2px solid rgba(255, 165, 70, 0.35);
   padding-left: 8px;
 }
 
-.ageaf-message__trace.is-active {
-  animation: ageaf-activity-pulse 1.2s ease-in-out infinite;
+.jiaoleaf-message__trace.is-active {
+  animation: jiaoleaf-activity-pulse 1.2s ease-in-out infinite;
 }
 
-.ageaf-message__trace-line {
+.jiaoleaf-message__trace-line {
   line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.ageaf-message__trace-more {
+.jiaoleaf-message__trace-more {
   margin-top: 2px;
   opacity: 0.8;
 }
 
-.ageaf-message__trace-toggle {
+.jiaoleaf-message__trace-toggle {
   margin-top: 4px;
   padding: 2px 6px;
   font-size: 11px;
-  color: var(--ageaf-panel-accent);
+  color: var(--jiaoleaf-panel-accent);
   background: transparent;
   border: 1px solid rgba(57, 185, 138, 0.3);
   border-radius: 4px;
@@ -1946,22 +1946,22 @@
   transition: all 0.2s ease;
 }
 
-.ageaf-message__trace-toggle:hover {
+.jiaoleaf-message__trace-toggle:hover {
   background: rgba(57, 185, 138, 0.1);
   border-color: rgba(57, 185, 138, 0.5);
 }
 
-.ageaf-message__trace.is-active .ageaf-message__trace-toggle {
+.jiaoleaf-message__trace.is-active .jiaoleaf-message__trace-toggle {
   color: rgba(255, 165, 70, 0.9);
   border-color: rgba(255, 165, 70, 0.4);
 }
 
-.ageaf-message__trace.is-active .ageaf-message__trace-toggle:hover {
+.jiaoleaf-message__trace.is-active .jiaoleaf-message__trace-toggle:hover {
   background: rgba(255, 165, 70, 0.1);
   border-color: rgba(255, 165, 70, 0.6);
 }
 
-@keyframes ageaf-activity-pulse {
+@keyframes jiaoleaf-activity-pulse {
 
   0%,
   100% {
@@ -1976,7 +1976,7 @@
 }
 
 /* Thinking Block - orange themed, matches status line */
-.ageaf-message__thinking {
+.jiaoleaf-message__thinking {
   font-size: 12px;
   color: rgba(255, 200, 150, 0.9);
   text-shadow: 0 0 10px rgba(255, 165, 70, 0.25);
@@ -1987,11 +1987,11 @@
   border-radius: 0 6px 6px 0;
 }
 
-.ageaf-message__thinking.is-active {
-  animation: ageaf-thinking-pulse 1.5s ease-in-out infinite;
+.jiaoleaf-message__thinking.is-active {
+  animation: jiaoleaf-thinking-pulse 1.5s ease-in-out infinite;
 }
 
-.ageaf-message__thinking-header {
+.jiaoleaf-message__thinking-header {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2003,24 +2003,24 @@
   color: rgba(255, 165, 70, 0.9);
 }
 
-.ageaf-message__thinking-content {
+.jiaoleaf-message__thinking-content {
   line-height: 1.5;
   padding: 4px 0;
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   opacity: 0.85;
   max-height: 150px;
   overflow-y: auto;
 }
 
-.ageaf-message__thinking-content+.ageaf-message__thinking-content {
+.jiaoleaf-message__thinking-content+.jiaoleaf-message__thinking-content {
   border-top: 1px solid rgba(255, 165, 70, 0.15);
   margin-top: 4px;
   padding-top: 8px;
 }
 
-.ageaf-message__thinking-toggle {
+.jiaoleaf-message__thinking-toggle {
   margin-top: 6px;
   padding: 2px 8px;
   font-size: 11px;
@@ -2031,12 +2031,12 @@
   cursor: pointer;
 }
 
-.ageaf-message__thinking-toggle:hover {
+.jiaoleaf-message__thinking-toggle:hover {
   background: rgba(255, 165, 70, 0.1);
   border-color: rgba(255, 165, 70, 0.5);
 }
 
-@keyframes ageaf-thinking-pulse {
+@keyframes jiaoleaf-thinking-pulse {
 
   0%,
   100% {
@@ -2051,11 +2051,11 @@
 }
 
 /* Tool Execution Indicators */
-.ageaf-tool-indicators {
+.jiaoleaf-tool-indicators {
   padding: 4px 0;
 }
 
-.ageaf-tool-indicator {
+.jiaoleaf-tool-indicator {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2064,32 +2064,32 @@
   line-height: 1.4;
 }
 
-.ageaf-tool-indicator--started {
-  color: var(--ageaf-panel-text);
+.jiaoleaf-tool-indicator--started {
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-tool-indicator--completed {
-  color: var(--ageaf-panel-text);
+.jiaoleaf-tool-indicator--completed {
+  color: var(--jiaoleaf-panel-text);
   opacity: 0.7;
 }
 
-.ageaf-tool-indicator--failed {
+.jiaoleaf-tool-indicator--failed {
   color: rgba(255, 100, 100, 0.9);
 }
 
-.ageaf-tool-indicator__icon {
+.jiaoleaf-tool-indicator__icon {
   font-size: 15px;
   flex-shrink: 0;
 }
 
-.ageaf-tool-indicator__name {
+.jiaoleaf-tool-indicator__name {
   font-weight: 500;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-tool-indicator__input {
+.jiaoleaf-tool-indicator__input {
   flex: 1;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   opacity: 0.7;
   font-family: monospace;
   font-size: 12px;
@@ -2102,54 +2102,54 @@
   max-width: 280px;
 }
 
-.ageaf-tool-indicator__spinner {
+.jiaoleaf-tool-indicator__spinner {
   width: 10px;
   height: 10px;
   border: 2px solid rgba(57, 185, 138, 0.3);
   border-top-color: rgba(57, 185, 138, 0.9);
   border-radius: 50%;
-  animation: ageaf-spin 0.8s linear infinite;
+  animation: jiaoleaf-spin 0.8s linear infinite;
   flex-shrink: 0;
 }
 
-@keyframes ageaf-spin {
+@keyframes jiaoleaf-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-.ageaf-message--user {
+.jiaoleaf-message--user {
   background: rgba(57, 185, 138, 0.2);
   border-color: rgba(57, 185, 138, 0.3);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   justify-self: end;
   align-self: end;
   margin-left: auto;
 }
 
-.ageaf-panel__input {
-  border-top: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-panel__input {
+  border-top: 1px solid var(--jiaoleaf-panel-border);
   padding: 10px 20px 18px;
   display: grid;
   gap: 8px;
-  background: var(--ageaf-panel-bg);
+  background: var(--jiaoleaf-panel-bg);
   position: relative;
   min-width: 0;
 }
 
-.ageaf-panel__attachments {
+.jiaoleaf-panel__attachments {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.ageaf-panel__file-attachments {
+.jiaoleaf-panel__file-attachments {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.ageaf-panel__file-chip {
+.jiaoleaf-panel__file-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2157,35 +2157,35 @@
   border-radius: 999px;
   background: rgba(57, 185, 138, 0.12);
   border: 1px solid rgba(57, 185, 138, 0.4);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-size: 12px;
   white-space: nowrap;
   max-width: 100%;
 }
 
-.ageaf-panel__file-chip-name {
+.jiaoleaf-panel__file-chip-name {
   font-weight: 600;
 }
 
-.ageaf-panel__file-chip-meta {
-  color: var(--ageaf-panel-muted);
+.jiaoleaf-panel__file-chip-meta {
+  color: var(--jiaoleaf-panel-muted);
   font-size: 11px;
 }
 
-.ageaf-panel__file-chip-remove {
+.jiaoleaf-panel__file-chip-remove {
   border: none;
   background: transparent;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   cursor: pointer;
   font-size: 14px;
   line-height: 1;
 }
 
-.ageaf-panel__file-chip-remove:hover {
-  color: var(--ageaf-panel-accent);
+.jiaoleaf-panel__file-chip-remove:hover {
+  color: var(--jiaoleaf-panel-accent);
 }
 
-.ageaf-panel__attachment {
+.jiaoleaf-panel__attachment {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2193,11 +2193,11 @@
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   max-width: 100%;
 }
 
-.ageaf-panel__attachment-thumb {
+.jiaoleaf-panel__attachment-thumb {
   width: 42px;
   height: 42px;
   border-radius: 8px;
@@ -2206,14 +2206,14 @@
   flex: 0 0 auto;
 }
 
-.ageaf-panel__attachment-meta {
+.jiaoleaf-panel__attachment-meta {
   display: flex;
   flex-direction: column;
   min-width: 0;
   gap: 2px;
 }
 
-.ageaf-panel__attachment-name {
+.jiaoleaf-panel__attachment-name {
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -2222,16 +2222,16 @@
   max-width: 160px;
 }
 
-.ageaf-panel__attachment-size {
+.jiaoleaf-panel__attachment-size {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-panel__attachment-remove {
+.jiaoleaf-panel__attachment-remove {
   margin-left: auto;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(15, 20, 17, 0.9);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   width: 22px;
   height: 22px;
   border-radius: 6px;
@@ -2239,23 +2239,23 @@
   flex: 0 0 auto;
 }
 
-.ageaf-panel__attachment-remove:hover {
+.jiaoleaf-panel__attachment-remove:hover {
   border-color: rgba(255, 255, 255, 0.25);
   background: rgba(25, 32, 28, 0.95);
 }
 
-.ageaf-panel__attachment-error {
+.jiaoleaf-panel__attachment-error {
   font-size: 12px;
   color: #f5b27a;
 }
 
-.ageaf-panel__dropzone {
+.jiaoleaf-panel__dropzone {
   position: absolute;
   inset: 8px 20px 12px;
   border-radius: 12px;
   border: 1px dashed rgba(255, 255, 255, 0.35);
   background: rgba(12, 18, 15, 0.9);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2266,17 +2266,17 @@
   pointer-events: none;
 }
 
-.ageaf-panel__dropzone-icon {
+.jiaoleaf-panel__dropzone-icon {
   width: 28px;
   height: 28px;
-  color: var(--ageaf-panel-accent);
+  color: var(--jiaoleaf-panel-accent);
 }
 
-.ageaf-panel__dropzone-label {
+.jiaoleaf-panel__dropzone-label {
   text-align: center;
 }
 
-.ageaf-panel__toolbar {
+.jiaoleaf-panel__toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2284,7 +2284,7 @@
   min-width: 0;
 }
 
-.ageaf-session-tabs {
+.jiaoleaf-session-tabs {
   display: flex;
   gap: 6px;
   align-items: center;
@@ -2293,7 +2293,7 @@
   padding-bottom: 2px;
 }
 
-.ageaf-session-tab {
+.jiaoleaf-session-tab {
   width: 28px;
   height: 28px;
   border-radius: 10px;
@@ -2306,22 +2306,22 @@
   flex: 0 0 auto;
 }
 
-.ageaf-session-tab:hover:not(:disabled) {
+.jiaoleaf-session-tab:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-.ageaf-session-tab.is-active {
+.jiaoleaf-session-tab.is-active {
   border-color: rgba(57, 185, 138, 0.55);
   background: rgba(57, 185, 138, 0.18);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-session-tab.is-busy {
+.jiaoleaf-session-tab.is-busy {
   border-left: 3px solid rgba(57, 185, 138, 0.75);
 }
 
-.ageaf-session__status {
+.jiaoleaf-session__status {
   margin-left: 4px;
   font-size: 10px;
   opacity: 0.8;
@@ -2340,29 +2340,29 @@
   }
 }
 
-.ageaf-session-tab:disabled {
+.jiaoleaf-session-tab:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.ageaf-toolbar-actions {
+.jiaoleaf-toolbar-actions {
   display: flex;
   gap: 8px;
   align-items: center;
   flex: 0 0 auto;
 }
 
-.ageaf-toolbar-menu {
+.jiaoleaf-toolbar-menu {
   position: relative;
 }
 
-.ageaf-toolbar-button {
+.jiaoleaf-toolbar-button {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  border: 1px solid var(--ageaf-panel-border);
-  background: var(--ageaf-panel-surface);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  background: var(--jiaoleaf-panel-surface);
+  color: var(--jiaoleaf-panel-text);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -2373,31 +2373,31 @@
   line-height: 1;
 }
 
-.ageaf-toolbar-icon {
+.jiaoleaf-toolbar-icon {
   width: 18px;
   height: 18px;
   display: block;
 }
 
-.ageaf-toolbar-button:hover:not(:disabled),
-.ageaf-toolbar-button:focus-visible:not(:disabled) {
+.jiaoleaf-toolbar-button:hover:not(:disabled),
+.jiaoleaf-toolbar-button:focus-visible:not(:disabled) {
   border-color: rgba(57, 185, 138, 0.55);
   background: rgba(57, 185, 138, 0.14);
 }
 
-.ageaf-toolbar-button:disabled {
+.jiaoleaf-toolbar-button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.ageaf-toolbar-button[data-tooltip]::after {
+.jiaoleaf-toolbar-button[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
   left: 0;
   bottom: calc(100% + 6px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 8px;
@@ -2409,18 +2409,18 @@
   z-index: 6;
 }
 
-.ageaf-toolbar-button:hover::after,
-.ageaf-toolbar-button:focus-visible::after {
+.jiaoleaf-toolbar-button:hover::after,
+.jiaoleaf-toolbar-button:focus-visible::after {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ageaf-toolbar-menu__list {
+.jiaoleaf-toolbar-menu__list {
   position: absolute;
   right: 0;
   bottom: calc(100% + 8px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
   padding: 2px;
   min-width: fit-content;
@@ -2433,7 +2433,7 @@
   z-index: 5;
 }
 
-.ageaf-toolbar-menu__list::before {
+.jiaoleaf-toolbar-menu__list::before {
   content: '';
   position: absolute;
   bottom: -10px;
@@ -2442,18 +2442,18 @@
   height: 10px;
 }
 
-.ageaf-toolbar-menu:hover .ageaf-toolbar-menu__list,
-.ageaf-toolbar-menu:focus-within .ageaf-toolbar-menu__list {
+.jiaoleaf-toolbar-menu:hover .jiaoleaf-toolbar-menu__list,
+.jiaoleaf-toolbar-menu:focus-within .jiaoleaf-toolbar-menu__list {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-.ageaf-toolbar-menu[data-disabled='true'] .ageaf-toolbar-menu__list {
+.jiaoleaf-toolbar-menu[data-disabled='true'] .jiaoleaf-toolbar-menu__list {
   display: none;
 }
 
-.ageaf-toolbar-menu__option {
+.jiaoleaf-toolbar-menu__option {
   position: relative;
   width: 100%;
   text-align: left;
@@ -2469,23 +2469,23 @@
   white-space: nowrap;
 }
 
-.ageaf-toolbar-menu__option:hover:not(:disabled) {
+.jiaoleaf-toolbar-menu__option:hover:not(:disabled) {
   background: rgba(57, 185, 138, 0.14);
 }
 
-.ageaf-toolbar-menu__option:disabled {
+.jiaoleaf-toolbar-menu__option:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.ageaf-toolbar-menu__option[data-tooltip]::after {
+.jiaoleaf-toolbar-menu__option[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
   left: 0;
   bottom: calc(100% + 6px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 8px;
@@ -2496,18 +2496,18 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.ageaf-toolbar-menu__option[data-tooltip]:hover::after {
+.jiaoleaf-toolbar-menu__option[data-tooltip]:hover::after {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ageaf-panel__editor {
+.jiaoleaf-panel__editor {
   border-radius: 12px;
   padding: 10px 12px;
   background: #111815;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
-  font-family: var(--ageaf-panel-font);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
+  font-family: var(--jiaoleaf-panel-font);
   font-size: 14px;
   min-height: 80px;
   max-height: 200px;
@@ -2517,13 +2517,13 @@
   outline: none;
 }
 
-.ageaf-panel__editor.is-empty::before {
+.jiaoleaf-panel__editor.is-empty::before {
   content: attr(data-placeholder);
   color: #6b7280;
   pointer-events: none;
 }
 
-.ageaf-panel__chip {
+.jiaoleaf-panel__chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2531,7 +2531,7 @@
   border-radius: 999px;
   background: rgba(57, 185, 138, 0.18);
   border: 1px solid rgba(57, 185, 138, 0.4);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -2539,7 +2539,7 @@
   user-select: none;
 }
 
-.ageaf-panel__chip-icon {
+.jiaoleaf-panel__chip-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2551,60 +2551,60 @@
   text-transform: uppercase;
   background: rgba(15, 20, 17, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-panel__chip-icon--tex {
+.jiaoleaf-panel__chip-icon--tex {
   background: rgba(90, 58, 130, 0.28);
   border-color: rgba(149, 107, 221, 0.4);
 }
 
-.ageaf-panel__chip-icon--json,
-.ageaf-panel__chip-icon--yaml,
-.ageaf-panel__chip-icon--yml,
-.ageaf-panel__chip-icon--toml,
-.ageaf-panel__chip-icon--ini {
+.jiaoleaf-panel__chip-icon--json,
+.jiaoleaf-panel__chip-icon--yaml,
+.jiaoleaf-panel__chip-icon--yml,
+.jiaoleaf-panel__chip-icon--toml,
+.jiaoleaf-panel__chip-icon--ini {
   background: rgba(50, 96, 160, 0.28);
   border-color: rgba(97, 155, 255, 0.4);
 }
 
-.ageaf-panel__chip-icon--csv,
-.ageaf-panel__chip-icon--xml {
+.jiaoleaf-panel__chip-icon--csv,
+.jiaoleaf-panel__chip-icon--xml {
   background: rgba(32, 117, 88, 0.28);
   border-color: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-panel__chip-icon--md,
-.ageaf-panel__chip-icon--txt,
-.ageaf-panel__chip-icon--log,
-.ageaf-panel__chip-icon--file {
+.jiaoleaf-panel__chip-icon--md,
+.jiaoleaf-panel__chip-icon--txt,
+.jiaoleaf-panel__chip-icon--log,
+.jiaoleaf-panel__chip-icon--file {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.15);
 }
 
-.ageaf-panel__chip-name {
+.jiaoleaf-panel__chip-name {
   font-weight: 600;
 }
 
-.ageaf-panel__chip-range {
-  color: var(--ageaf-panel-muted);
+.jiaoleaf-panel__chip-range {
+  color: var(--jiaoleaf-panel-muted);
   font-weight: 500;
 }
 
-.ageaf-panel__mention {
+.jiaoleaf-panel__mention {
   display: inline-flex;
   align-items: center;
   padding: 2px 6px;
   border-radius: 8px;
   background: rgba(57, 185, 138, 0.18);
   border: 1px solid rgba(57, 185, 138, 0.4);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-weight: 600;
   margin: 0 2px;
   user-select: none;
 }
 
-.ageaf-mention {
+.jiaoleaf-mention {
   position: absolute;
   left: 20px;
   right: 20px;
@@ -2617,7 +2617,7 @@
   pointer-events: auto;
   touch-action: pan-y;
   background: rgba(12, 18, 15, 0.98);
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
   padding: 2px;
   display: grid;
@@ -2626,7 +2626,7 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
-.ageaf-mention__option {
+.jiaoleaf-mention__option {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -2635,18 +2635,18 @@
   border-radius: 10px;
   background: transparent;
   border: 1px solid transparent;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   text-align: left;
   cursor: pointer;
   line-height: 1.25;
 }
 
-.ageaf-mention__option.is-active {
+.jiaoleaf-mention__option.is-active {
   border-color: rgba(57, 185, 138, 0.45);
   background: rgba(57, 185, 138, 0.12);
 }
 
-.ageaf-mention__icon {
+.jiaoleaf-mention__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2658,35 +2658,35 @@
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-mention__icon.is-tex {
+.jiaoleaf-mention__icon.is-tex {
   background: rgba(90, 58, 130, 0.28);
   border-color: rgba(149, 107, 221, 0.4);
 }
 
-.ageaf-mention__icon.is-bib {
+.jiaoleaf-mention__icon.is-bib {
   background: rgba(50, 96, 160, 0.28);
   border-color: rgba(97, 155, 255, 0.4);
 }
 
-.ageaf-mention__icon.is-img {
+.jiaoleaf-mention__icon.is-img {
   background: rgba(32, 117, 88, 0.28);
   border-color: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-mention__name {
+.jiaoleaf-mention__name {
   font-weight: 600;
 }
 
-.ageaf-mention__empty {
+.jiaoleaf-mention__empty {
   padding: 10px 10px;
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-skill {
+.jiaoleaf-skill {
   position: absolute;
   left: 20px;
   right: 20px;
@@ -2699,7 +2699,7 @@
   pointer-events: auto;
   touch-action: pan-y;
   background: rgba(12, 18, 15, 0.98);
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
   padding: 2px;
   display: grid;
@@ -2708,7 +2708,7 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
-.ageaf-skill__option {
+.jiaoleaf-skill__option {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -2716,18 +2716,18 @@
   border-radius: 10px;
   background: transparent;
   border: 1px solid transparent;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   text-align: left;
   cursor: pointer;
   line-height: 1.3;
 }
 
-.ageaf-skill__option.is-active {
+.jiaoleaf-skill__option.is-active {
   border-color: rgba(57, 185, 138, 0.45);
   background: rgba(57, 185, 138, 0.12);
 }
 
-.ageaf-skill__name {
+.jiaoleaf-skill__name {
   font-weight: 600;
   font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas,
     'Courier New', monospace;
@@ -2735,9 +2735,9 @@
   color: rgba(57, 185, 138, 1);
 }
 
-.ageaf-skill__description {
+.jiaoleaf-skill__description {
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -2746,14 +2746,14 @@
   -webkit-box-orient: vertical;
 }
 
-.ageaf-skill__tags {
+.jiaoleaf-skill__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin-top: 2px;
 }
 
-.ageaf-skill__tag {
+.jiaoleaf-skill__tag {
   display: inline-flex;
   align-items: center;
   padding: 2px 6px;
@@ -2762,61 +2762,61 @@
   letter-spacing: 0.02em;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   opacity: 0.8;
 }
 
-.ageaf-skill__empty {
+.jiaoleaf-skill__empty {
   padding: 10px 12px;
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-panel__settings {
+.jiaoleaf-panel__settings {
   font-size: 14px;
 }
 
 /* ── Generating indicator ────────────────────────────────── */
-.ageaf-generating {
+.jiaoleaf-generating {
   position: sticky;
   bottom: 0;
   justify-self: center;
   padding: 4px 10px;
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   z-index: 2;
   display: flex;
   align-items: center;
   gap: 1px;
 }
 
-.ageaf-generating__text {
+.jiaoleaf-generating__text {
   opacity: 0.7;
 }
 
-.ageaf-generating__dots {
+.jiaoleaf-generating__dots {
   display: inline-flex;
   gap: 0;
 }
 
-.ageaf-generating__dot {
-  animation: ageaf-dot-bounce 1.4s ease-in-out infinite;
+.jiaoleaf-generating__dot {
+  animation: jiaoleaf-dot-bounce 1.4s ease-in-out infinite;
   opacity: 0.2;
 }
 
-.ageaf-generating__dot:nth-child(1) {
+.jiaoleaf-generating__dot:nth-child(1) {
   animation-delay: 0s;
 }
 
-.ageaf-generating__dot:nth-child(2) {
+.jiaoleaf-generating__dot:nth-child(2) {
   animation-delay: 0.2s;
 }
 
-.ageaf-generating__dot:nth-child(3) {
+.jiaoleaf-generating__dot:nth-child(3) {
   animation-delay: 0.4s;
 }
 
-@keyframes ageaf-dot-bounce {
+@keyframes jiaoleaf-dot-bounce {
 
   0%,
   60%,
@@ -2829,7 +2829,7 @@
   }
 }
 
-.ageaf-panel__scroll {
+.jiaoleaf-panel__scroll {
   position: sticky;
   bottom: 12px;
   left: auto;
@@ -2837,16 +2837,16 @@
   justify-self: center;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   background: rgba(15, 20, 17, 0.95);
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   font-size: 12px;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   z-index: 3;
 }
 
-.ageaf-runtime {
+.jiaoleaf-runtime {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2857,7 +2857,7 @@
   min-width: 0;
 }
 
-.ageaf-runtime__refresh {
+.jiaoleaf-runtime__refresh {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -2867,7 +2867,7 @@
   border-radius: 50%;
   border: 1px solid rgba(57, 185, 138, 0.2);
   background: transparent;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   font-size: 14px;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
@@ -2875,25 +2875,25 @@
   line-height: 1;
 }
 
-.ageaf-runtime__refresh:hover,
-.ageaf-runtime__refresh:focus-visible {
-  color: var(--ageaf-panel-accent);
+.jiaoleaf-runtime__refresh:hover,
+.jiaoleaf-runtime__refresh:focus-visible {
+  color: var(--jiaoleaf-panel-accent);
   border-color: rgba(57, 185, 138, 0.5);
 }
 
-.ageaf-runtime__refresh:focus-visible {
-  outline: 2px solid var(--ageaf-panel-accent);
+.jiaoleaf-runtime__refresh:focus-visible {
+  outline: 2px solid var(--jiaoleaf-panel-accent);
   outline-offset: 2px;
 }
 
-.ageaf-runtime__picker {
+.jiaoleaf-runtime__picker {
   position: relative;
   flex-shrink: 0;
   min-width: 0;
   max-width: 100%;
 }
 
-.ageaf-runtime__button {
+.jiaoleaf-runtime__button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2905,7 +2905,7 @@
   border-radius: 999px;
   border: 1px solid rgba(57, 185, 138, 0.25);
   background: rgba(15, 20, 17, 0.8);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   padding: 6px 10px;
   font-size: 12px;
   cursor: pointer;
@@ -2913,31 +2913,31 @@
   white-space: nowrap;
 }
 
-.ageaf-runtime__label {
+.jiaoleaf-runtime__label {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-runtime__value {
+.jiaoleaf-runtime__value {
   font-size: 12px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-runtime__value--accent {
-  color: var(--ageaf-panel-accent);
+.jiaoleaf-runtime__value--accent {
+  color: var(--jiaoleaf-panel-accent);
   font-weight: 600;
 }
 
-.ageaf-runtime__menu {
+.jiaoleaf-runtime__menu {
   position: absolute;
   bottom: calc(100% + 8px);
   left: 0;
   min-width: fit-content;
   width: max-content;
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
-  box-shadow: var(--ageaf-panel-shadow);
+  box-shadow: var(--jiaoleaf-panel-shadow);
   padding: 2px;
   display: grid;
   gap: 4px;
@@ -2947,7 +2947,7 @@
   z-index: 10;
 }
 
-.ageaf-runtime__menu::before {
+.jiaoleaf-runtime__menu::before {
   content: '';
   position: absolute;
   left: 0;
@@ -2957,61 +2957,61 @@
   background: transparent;
 }
 
-.ageaf-runtime__picker:hover .ageaf-runtime__menu,
-.ageaf-runtime__menu:hover {
+.jiaoleaf-runtime__picker:hover .jiaoleaf-runtime__menu,
+.jiaoleaf-runtime__menu:hover {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-.ageaf-runtime__option {
+.jiaoleaf-runtime__option {
   border: 1px solid transparent;
   background: rgba(20, 27, 23, 0.85);
   border-radius: 6px;
   padding: 4px 8px;
   text-align: left;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   cursor: pointer;
 }
 
-.ageaf-runtime__option.is-selected {
+.jiaoleaf-runtime__option.is-selected {
   border-color: rgba(57, 185, 138, 0.55);
   background: rgba(57, 185, 138, 0.18);
 }
 
-.ageaf-runtime__option.is-selected .ageaf-runtime__option-title {
-  color: var(--ageaf-panel-accent);
+.jiaoleaf-runtime__option.is-selected .jiaoleaf-runtime__option-title {
+  color: var(--jiaoleaf-panel-accent);
 }
 
-.ageaf-runtime__option:hover {
+.jiaoleaf-runtime__option:hover {
   border-color: rgba(57, 185, 138, 0.35);
   background: rgba(57, 185, 138, 0.12);
 }
 
-.ageaf-runtime__option-title {
+.jiaoleaf-runtime__option-title {
   font-size: 12px;
   font-weight: 600;
   margin-bottom: 1px;
   line-height: 1.3;
 }
 
-.ageaf-runtime__option-description {
+.jiaoleaf-runtime__option-description {
   font-size: 11px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   line-height: 1.3;
 }
 
 /* ── Grouped model menu (BYOK / pi only) ────────────────── */
-.ageaf-runtime__menu--grouped {
+.jiaoleaf-runtime__menu--grouped {
   min-width: 160px;
   overflow: visible;
 }
 
-.ageaf-runtime__group {
+.jiaoleaf-runtime__group {
   position: relative;
 }
 
-.ageaf-runtime__group-label {
+.jiaoleaf-runtime__group-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3020,23 +3020,23 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: default;
   transition: color 0.15s;
 }
 
-.ageaf-runtime__group:hover>.ageaf-runtime__group-label {
-  color: var(--ageaf-panel-text);
+.jiaoleaf-runtime__group:hover>.jiaoleaf-runtime__group-label {
+  color: var(--jiaoleaf-panel-text);
   background: rgba(57, 185, 138, 0.08);
 }
 
-.ageaf-runtime__group-arrow {
+.jiaoleaf-runtime__group-arrow {
   font-size: 14px;
 }
 
-.ageaf-runtime__group-models {
+.jiaoleaf-runtime__group-models {
   display: none;
   position: absolute;
   left: calc(100% + 6px);
@@ -3048,15 +3048,15 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 8px;
-  box-shadow: var(--ageaf-panel-shadow);
+  box-shadow: var(--jiaoleaf-panel-shadow);
   padding: 2px;
   z-index: 20;
 }
 
 /* Bridge gap between provider row and submenu to prevent hover loss */
-.ageaf-runtime__group-models::after {
+.jiaoleaf-runtime__group-models::after {
   content: '';
   position: absolute;
   top: 0;
@@ -3065,16 +3065,16 @@
   width: 8px;
 }
 
-.ageaf-runtime__group:hover>.ageaf-runtime__group-models {
+.jiaoleaf-runtime__group:hover>.jiaoleaf-runtime__group-models {
   display: grid;
   gap: 2px;
 }
 
-.ageaf-runtime__group+.ageaf-runtime__group {
-  border-top: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-runtime__group+.jiaoleaf-runtime__group {
+  border-top: 1px solid var(--jiaoleaf-panel-border);
 }
 
-.ageaf-runtime__usage {
+.jiaoleaf-runtime__usage {
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -3083,7 +3083,7 @@
   position: relative;
 }
 
-.ageaf-runtime__yolo {
+.jiaoleaf-runtime__yolo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3095,7 +3095,7 @@
   border-radius: 999px;
   border: 1px solid rgba(57, 185, 138, 0.25);
   background: rgba(15, 20, 17, 0.8);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   font-size: 12px;
   cursor: pointer;
   position: relative;
@@ -3103,16 +3103,16 @@
   flex: 0 0 96px;
 }
 
-.ageaf-runtime__yolo-text {
+.jiaoleaf-runtime__yolo-text {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.2px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   width: 40px;
   text-align: left;
 }
 
-.ageaf-runtime__yolo-switch {
+.jiaoleaf-runtime__yolo-switch {
   width: 30px;
   height: 16px;
   border-radius: 999px;
@@ -3122,7 +3122,7 @@
   transition: background 0.15s ease;
 }
 
-.ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo-thumb {
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -3133,23 +3133,23 @@
   transition: transform 0.15s ease, background 0.15s ease;
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-switch {
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-switch {
   background: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-runtime__yolo.is-on .ageaf-runtime__yolo-thumb {
+.jiaoleaf-runtime__yolo.is-on .jiaoleaf-runtime__yolo-thumb {
   transform: translateX(14px);
-  background: var(--ageaf-panel-accent);
+  background: var(--jiaoleaf-panel-accent);
 }
 
-.ageaf-runtime__yolo::after {
+.jiaoleaf-runtime__yolo::after {
   content: attr(data-tooltip);
   position: absolute;
   right: 0;
   bottom: calc(100% + 6px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 8px;
@@ -3160,25 +3160,25 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.ageaf-runtime__yolo:hover::after,
-.ageaf-runtime__yolo:focus-visible::after {
+.jiaoleaf-runtime__yolo:hover::after,
+.jiaoleaf-runtime__yolo:focus-visible::after {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ageaf-runtime__yolo:focus-visible {
+.jiaoleaf-runtime__yolo:focus-visible {
   outline: 2px solid rgba(33, 124, 244, 0.55);
   outline-offset: 2px;
 }
 
-.ageaf-runtime__usage::after {
+.jiaoleaf-runtime__usage::after {
   content: attr(data-tooltip);
   position: absolute;
   right: 0;
   bottom: calc(100% + 6px);
   background: #0f1411;
-  border: 1px solid var(--ageaf-panel-border);
-  color: var(--ageaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
   font-size: 11px;
   padding: 4px 8px;
   border-radius: 8px;
@@ -3189,96 +3189,96 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.ageaf-runtime__usage:hover::after {
+.jiaoleaf-runtime__usage:hover::after {
   opacity: 1;
   transform: translateY(0);
 }
 
-.ageaf-runtime__ring {
+.jiaoleaf-runtime__ring {
   width: 22px;
   height: 22px;
   transform: rotate(-90deg);
 }
 
-.ageaf-runtime__ring-track {
+.jiaoleaf-runtime__ring-track {
   fill: none;
   stroke: rgba(255, 255, 255, 0.08);
 }
 
-.ageaf-runtime__ring-value {
+.jiaoleaf-runtime__ring-value {
   fill: none;
-  stroke: var(--ageaf-panel-accent);
+  stroke: var(--jiaoleaf-panel-accent);
   stroke-linecap: round;
 }
 
-.ageaf-panel__apply {
+.jiaoleaf-panel__apply {
   margin-left: 10px;
   padding: 6px 12px;
   border-radius: 999px;
   border: none;
-  background: var(--ageaf-panel-accent);
+  background: var(--jiaoleaf-panel-accent);
   color: #07110c;
   font-weight: 600;
   cursor: pointer;
 }
 
-.ageaf-panel__apply.is-secondary {
+.jiaoleaf-panel__apply.is-secondary {
   background: transparent;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.ageaf-panel__apply:disabled {
+.jiaoleaf-panel__apply:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.ageaf-toolcall {
+.jiaoleaf-toolcall {
   display: grid;
   gap: 8px;
 }
 
-.ageaf-toolcall__title {
+.jiaoleaf-toolcall__title {
   font-weight: 600;
   color: #fbfdfc;
 }
 
-.ageaf-toolcall__detail {
+.jiaoleaf-toolcall__detail {
   font-size: 12px;
   color: rgba(233, 242, 236, 0.82);
   overflow-wrap: anywhere;
 }
 
-.ageaf-toolcall__actions {
+.jiaoleaf-toolcall__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
 
-.ageaf-toolcall__question {
+.jiaoleaf-toolcall__question {
   display: grid;
   gap: 6px;
 }
 
-.ageaf-toolcall__question-title {
+.jiaoleaf-toolcall__question-title {
   font-weight: 600;
   font-size: 13px;
   color: #fbfdfc;
 }
 
-.ageaf-toolcall__question-text {
+.jiaoleaf-toolcall__question-text {
   font-size: 12px;
   color: rgba(233, 242, 236, 0.82);
 }
 
-.ageaf-toolcall__options {
+.jiaoleaf-toolcall__options {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.ageaf-toolcall__option {
+.jiaoleaf-toolcall__option {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(18, 24, 20, 0.5);
   color: rgba(233, 242, 236, 0.92);
@@ -3288,18 +3288,18 @@
   cursor: pointer;
 }
 
-.ageaf-toolcall__option:hover {
+.jiaoleaf-toolcall__option:hover {
   border-color: rgba(57, 185, 138, 0.45);
 }
 
-.ageaf-toolcall__input {
+.jiaoleaf-toolcall__input {
   width: 100%;
   resize: vertical;
   min-height: 34px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(18, 24, 20, 0.6);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   padding: 6px 10px;
   font-size: 13px;
   line-height: 1.3;
@@ -3307,12 +3307,12 @@
   box-sizing: border-box;
 }
 
-.ageaf-toolcall__input:focus {
+.jiaoleaf-toolcall__input:focus {
   border-color: rgba(57, 185, 138, 0.5);
   box-shadow: 0 0 0 2px rgba(57, 185, 138, 0.18);
 }
 
-.ageaf-settings {
+.jiaoleaf-settings {
   position: fixed;
   inset: 0;
   z-index: 2147483647;
@@ -3320,28 +3320,28 @@
   place-items: center;
 }
 
-.ageaf-settings__backdrop {
+.jiaoleaf-settings__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(8, 12, 10, 0.6);
 }
 
-.ageaf-settings__panel {
+.jiaoleaf-settings__panel {
   position: relative;
   width: min(820px, 92vw);
   height: min(520px, 85vh);
   background: #0e1411;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 18px;
   display: grid;
   grid-template-columns: 200px 1fr;
   overflow: hidden;
-  box-shadow: var(--ageaf-panel-shadow);
+  box-shadow: var(--jiaoleaf-panel-shadow);
   z-index: 1;
 }
 
-.ageaf-settings__sidebar {
-  border-right: 1px solid var(--ageaf-panel-border);
+.jiaoleaf-settings__sidebar {
+  border-right: 1px solid var(--jiaoleaf-panel-border);
   background: #0b100e;
   padding: 16px;
   display: grid;
@@ -3350,24 +3350,24 @@
   align-content: start;
 }
 
-.ageaf-settings__tab {
+.jiaoleaf-settings__tab {
   text-align: left;
   border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   padding: 10px 12px;
   cursor: pointer;
   font-size: 13px;
 }
 
-.ageaf-settings__tab.is-active {
+.jiaoleaf-settings__tab.is-active {
   background: rgba(57, 185, 138, 0.12);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   border-color: rgba(57, 185, 138, 0.35);
 }
 
-.ageaf-settings__content {
+.jiaoleaf-settings__content {
   padding: 24px;
   display: grid;
   grid-template-rows: 1fr auto;
@@ -3375,14 +3375,14 @@
   overflow: auto;
 }
 
-.ageaf-settings__section h3 {
+.jiaoleaf-settings__section h3 {
   margin: 0 0 12px 0;
   font-size: 16px;
   color: #e9f2ec;
   font-weight: 600;
 }
 
-.ageaf-settings__subhead {
+.jiaoleaf-settings__subhead {
   margin: 18px 0 6px 0;
   font-size: 13px;
   font-weight: 600;
@@ -3390,57 +3390,57 @@
   letter-spacing: 0.2px;
 }
 
-.ageaf-settings__section h3+.ageaf-settings__subhead {
+.jiaoleaf-settings__section h3+.jiaoleaf-settings__subhead {
   margin-top: 0;
 }
 
-.ageaf-settings__label {
+.jiaoleaf-settings__label {
   display: block;
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   margin-top: 12px;
   margin-bottom: 6px;
 }
 
-.ageaf-settings__input,
-.ageaf-settings__textarea {
+.jiaoleaf-settings__input,
+.jiaoleaf-settings__textarea {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid var(--ageaf-panel-border);
+  border: 1px solid var(--jiaoleaf-panel-border);
   background: #111815;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   padding: 12px 14px;
-  font-family: var(--ageaf-panel-font);
+  font-family: var(--jiaoleaf-panel-font);
   font-size: 13px;
 }
 
-.ageaf-settings__textarea {
+.jiaoleaf-settings__textarea {
   resize: vertical;
 }
 
-.ageaf-settings__hint {
+.jiaoleaf-settings__hint {
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   margin-top: 8px;
   margin-bottom: 10px;
 }
 
-.ageaf-settings__checkbox {
+.jiaoleaf-settings__checkbox {
   display: flex;
   gap: 10px;
   align-items: center;
   font-size: 13px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   margin-top: 12px;
 }
 
-.ageaf-settings__actions {
+.jiaoleaf-settings__actions {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.ageaf-settings__button {
+.jiaoleaf-settings__button {
   padding: 8px 16px;
   border-radius: 12px;
   border: none;
@@ -3450,33 +3450,33 @@
   cursor: pointer;
 }
 
-.ageaf-settings__button.is-secondary {
+.jiaoleaf-settings__button.is-secondary {
   background: #141b17;
-  color: var(--ageaf-panel-text);
-  border: 1px solid var(--ageaf-panel-border);
+  color: var(--jiaoleaf-panel-text);
+  border: 1px solid var(--jiaoleaf-panel-border);
 }
 
-.ageaf-settings__status {
+.jiaoleaf-settings__status {
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
 }
 
-.ageaf-panel--collapsed .ageaf-panel__body,
-.ageaf-panel--collapsed .ageaf-panel__input {
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__body,
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__input {
   display: none;
 }
 
-.ageaf-panel--collapsed .ageaf-panel__resize-handle {
+.jiaoleaf-panel--collapsed .jiaoleaf-panel__resize-handle {
   display: none;
 }
 
-.ageaf-resizing * {
+.jiaoleaf-resizing * {
   cursor: col-resize !important;
   user-select: none !important;
 }
 
 /* Citation usage indicators */
-.ageaf-citation-indicator {
+.jiaoleaf-citation-indicator {
   display: inline-block;
   margin-left: 8px;
   padding: 2px 6px;
@@ -3488,13 +3488,13 @@
   user-select: none;
 }
 
-.ageaf-citation-used {
+.jiaoleaf-citation-used {
   color: #22863a;
   background-color: #dcffe4;
   border: 1px solid #34d058;
 }
 
-.ageaf-citation-unused {
+.jiaoleaf-citation-unused {
   color: #6a737d;
   background-color: #f6f8fa;
   border: 1px solid #d1d5da;
@@ -3502,20 +3502,20 @@
 }
 
 /* Dark mode support */
-.dark .ageaf-citation-used {
+.dark .jiaoleaf-citation-used {
   color: #7ee787;
   background-color: #002d11;
   border-color: #238636;
 }
 
-.dark .ageaf-citation-unused {
+.dark .jiaoleaf-citation-unused {
   color: #8b949e;
   background-color: #21262d;
   border-color: #30363d;
 }
 
 /* Duplicate title indicator */
-.ageaf-citation-dup {
+.jiaoleaf-citation-dup {
   display: inline-block;
   margin-left: 6px;
   padding: 2px 6px;
@@ -3530,19 +3530,19 @@
   border: 1px solid #d29922;
 }
 
-.dark .ageaf-citation-dup {
+.dark .jiaoleaf-citation-dup {
   color: #ffdf5d;
   background-color: #2d2400;
   border-color: #bb8009;
 }
 
 /* CoT Display */
-.ageaf-message__cot {
+.jiaoleaf-message__cot {
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
 
-.ageaf-message__cot-header {
+.jiaoleaf-message__cot-header {
   width: 100%;
   text-align: left;
   padding: 4px 2px;
@@ -3551,37 +3551,37 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   font-size: 11px;
   font-family: inherit;
   transition: opacity 0.15s ease-out;
   opacity: 0.7;
 }
 
-.ageaf-message__cot-header:hover {
+.jiaoleaf-message__cot-header:hover {
   opacity: 1;
 }
 
-.ageaf-message__cot.is-active .ageaf-message__cot-header {
+.jiaoleaf-message__cot.is-active .jiaoleaf-message__cot-header {
   opacity: 0.9;
 }
 
-.ageaf-cot-arrow {
+.jiaoleaf-cot-arrow {
   font-size: 9px;
   opacity: 0.6;
 }
 
-.ageaf-cot-label {
+.jiaoleaf-cot-label {
   font-weight: 500;
 }
 
-.ageaf-cot-duration {
+.jiaoleaf-cot-duration {
   font-size: 10px;
   font-family: 'SF Mono', Monaco, monospace;
   opacity: 0.5;
 }
 
-.ageaf-message__cot-body {
+.jiaoleaf-message__cot-body {
   padding: 2px 0;
   margin-left: 2px;
   font-size: 12px;
@@ -3591,39 +3591,39 @@
 }
 
 /* ── Per-item left accent bar ── */
-.ageaf-cot-item {
+.jiaoleaf-cot-item {
   border-left: 2px solid rgba(255, 255, 255, 0.08);
   padding-left: 10px;
   transition: border-color 0.2s ease-out;
 }
 
-.ageaf-cot-item--active {
+.jiaoleaf-cot-item--active {
   border-left-color: rgba(57, 185, 138, 0.6);
-  animation: ageaf-cot-pulse 2s ease-in-out infinite;
+  animation: jiaoleaf-cot-pulse 2s ease-in-out infinite;
 }
 
-.ageaf-cot-item--completed {
+.jiaoleaf-cot-item--completed {
   border-left-color: rgba(57, 185, 138, 0.2);
 }
 
-.ageaf-cot-item--failed {
+.jiaoleaf-cot-item--failed {
   border-left-color: rgba(244, 100, 100, 0.5);
 }
 
-@keyframes ageaf-cot-pulse {
+@keyframes jiaoleaf-cot-pulse {
   0%, 100% { border-left-color: rgba(57, 185, 138, 0.6); }
   50% { border-left-color: rgba(57, 185, 138, 0.25); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ageaf-cot-item--active {
+  .jiaoleaf-cot-item--active {
     animation: none;
     border-left-color: rgba(57, 185, 138, 0.5);
   }
 }
 
 /* ── Gradient fade for truncated text ── */
-.ageaf-cot-fade {
+.jiaoleaf-cot-fade {
   overflow: hidden;
   white-space: nowrap;
   -webkit-mask-image: linear-gradient(90deg, #000 75%, transparent 100%);
@@ -3631,11 +3631,11 @@
 }
 
 /* ── Thinking items ── */
-.ageaf-cot-thinking {
+.jiaoleaf-cot-thinking {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   line-height: 1.4;
   cursor: pointer;
   padding: 3px 6px;
@@ -3643,25 +3643,25 @@
   transition: background 0.15s ease-out;
 }
 
-.ageaf-cot-thinking:hover {
+.jiaoleaf-cot-thinking:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.ageaf-cot-thinking.is-expanded {
+.jiaoleaf-cot-thinking.is-expanded {
   align-items: flex-start;
 }
 
-.ageaf-cot-thinking-icon {
+.jiaoleaf-cot-thinking-icon {
   font-size: 11px;
   flex-shrink: 0;
   opacity: 0.5;
 }
 
-.ageaf-cot-thinking.is-expanded .ageaf-cot-thinking-icon {
+.jiaoleaf-cot-thinking.is-expanded .jiaoleaf-cot-thinking-icon {
   margin-top: 2px;
 }
 
-.ageaf-cot-thinking-preview {
+.jiaoleaf-cot-thinking-preview {
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -3672,7 +3672,7 @@
   mask-image: linear-gradient(90deg, #000 75%, transparent 100%);
 }
 
-.ageaf-cot-thinking-content {
+.jiaoleaf-cot-thinking-content {
   white-space: pre-wrap;
   flex: 1;
   min-width: 0;
@@ -3680,7 +3680,7 @@
   opacity: 0.8;
 }
 
-.ageaf-cot-thinking-toggle {
+.jiaoleaf-cot-thinking-toggle {
   font-size: 8px;
   opacity: 0.4;
   flex-shrink: 0;
@@ -3688,46 +3688,46 @@
 }
 
 /* Merged thinking group */
-.ageaf-cot-thinking-group {
+.jiaoleaf-cot-thinking-group {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.ageaf-cot-thinking-group .ageaf-cot-thinking {
+.jiaoleaf-cot-thinking-group .jiaoleaf-cot-thinking {
   padding-top: 2px;
   padding-bottom: 2px;
 }
 
-.ageaf-cot-thinking-group .ageaf-cot-thinking:first-child {
+.jiaoleaf-cot-thinking-group .jiaoleaf-cot-thinking:first-child {
   padding-top: 3px;
 }
 
-.ageaf-cot-thinking-group .ageaf-cot-thinking:last-child {
+.jiaoleaf-cot-thinking-group .jiaoleaf-cot-thinking:last-child {
   padding-bottom: 3px;
 }
 
 /* ── Tool items ── */
-.ageaf-cot-tool {
+.jiaoleaf-cot-tool {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 4px;
 }
 
-.ageaf-cot-tool--started {
+.jiaoleaf-cot-tool--started {
   background: rgba(57, 185, 138, 0.03);
 }
 
-.ageaf-cot-tool--completed {
+.jiaoleaf-cot-tool--completed {
   opacity: 0.8;
 }
 
-.ageaf-cot-tool--failed {
+.jiaoleaf-cot-tool--failed {
   background: rgba(244, 100, 100, 0.03);
 }
 
-.ageaf-cot-tool__header {
+.jiaoleaf-cot-tool__header {
   display: flex;
   align-items: center;
   padding: 3px 6px;
@@ -3737,25 +3737,25 @@
   border-radius: 4px;
 }
 
-.ageaf-cot-tool__header:hover {
+.jiaoleaf-cot-tool__header:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.ageaf-cot-tool__icon {
+.jiaoleaf-cot-tool__icon {
   font-size: 12px;
   width: 16px;
   text-align: center;
   flex-shrink: 0;
 }
 
-.ageaf-cot-tool__name {
+.jiaoleaf-cot-tool__name {
   font-weight: 600;
   font-size: 11px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   flex-shrink: 0;
 }
 
-.ageaf-cot-tool__context {
+.jiaoleaf-cot-tool__context {
   font-weight: 400;
   font-size: 11px;
   opacity: 0.45;
@@ -3767,7 +3767,7 @@
   mask-image: linear-gradient(90deg, #000 70%, transparent 100%);
 }
 
-.ageaf-cot-tool__status {
+.jiaoleaf-cot-tool__status {
   display: flex;
   align-items: center;
   margin-left: auto;
@@ -3775,44 +3775,44 @@
   flex-shrink: 0;
 }
 
-.ageaf-cot-tool__elapsed {
+.jiaoleaf-cot-tool__elapsed {
   font-size: 10px;
   font-family: 'SF Mono', Monaco, monospace;
   opacity: 0.4;
 }
 
-.ageaf-cot-tool__spinner {
+.jiaoleaf-cot-tool__spinner {
   width: 8px;
   height: 8px;
   border: 1.5px solid rgba(57, 185, 138, 0.3);
   border-top-color: rgba(57, 185, 138, 0.9);
   border-radius: 50%;
-  animation: ageaf-spin 0.8s linear infinite;
+  animation: jiaoleaf-spin 0.8s linear infinite;
   flex-shrink: 0;
 }
 
-.ageaf-cot-tool__check {
+.jiaoleaf-cot-tool__check {
   font-size: 11px;
   color: rgba(57, 185, 138, 0.8);
 }
 
-.ageaf-cot-tool__fail {
+.jiaoleaf-cot-tool__fail {
   font-size: 11px;
   color: rgba(244, 100, 100, 0.8);
 }
 
-.ageaf-cot-tool__chevron {
+.jiaoleaf-cot-tool__chevron {
   font-size: 7px;
   opacity: 0.35;
   transition: transform 0.15s ease-out;
   flex-shrink: 0;
 }
 
-.ageaf-cot-tool.is-expanded .ageaf-cot-tool__chevron {
+.jiaoleaf-cot-tool.is-expanded .jiaoleaf-cot-tool__chevron {
   transform: rotate(90deg);
 }
 
-.ageaf-cot-tool__input {
+.jiaoleaf-cot-tool__input {
   padding: 0 6px 2px 28px;
   font-family: 'SF Mono', Monaco, monospace;
   font-size: 10px;
@@ -3823,7 +3823,7 @@
   mask-image: linear-gradient(90deg, #000 80%, transparent 100%);
 }
 
-.ageaf-cot-tool__detail {
+.jiaoleaf-cot-tool__detail {
   padding: 2px 6px 4px 28px;
   font-size: 10px;
   opacity: 0.45;
@@ -3834,7 +3834,7 @@
 }
 
 /* ── Text items ── */
-.ageaf-cot-text {
+.jiaoleaf-cot-text {
   display: flex;
   align-items: center;
   padding: 3px 6px;
@@ -3843,29 +3843,29 @@
   overflow: hidden;
   cursor: pointer;
   font-size: 11px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   transition: background 0.15s ease-out;
 }
 
-.ageaf-cot-text:hover {
+.jiaoleaf-cot-text:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.ageaf-cot-text.is-expanded {
+.jiaoleaf-cot-text.is-expanded {
   align-items: flex-start;
 }
 
-.ageaf-cot-text-icon {
+.jiaoleaf-cot-text-icon {
   font-size: 11px;
   flex-shrink: 0;
   opacity: 0.5;
 }
 
-.ageaf-cot-text.is-expanded .ageaf-cot-text-icon {
+.jiaoleaf-cot-text.is-expanded .jiaoleaf-cot-text-icon {
   margin-top: 2px;
 }
 
-.ageaf-cot-text-preview {
+.jiaoleaf-cot-text-preview {
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -3876,7 +3876,7 @@
   mask-image: linear-gradient(90deg, #000 75%, transparent 100%);
 }
 
-.ageaf-cot-text-content {
+.jiaoleaf-cot-text-content {
   white-space: pre-wrap;
   flex: 1;
   min-width: 0;
@@ -3884,7 +3884,7 @@
   opacity: 0.8;
 }
 
-.ageaf-cot-text-toggle {
+.jiaoleaf-cot-text-toggle {
   font-size: 8px;
   opacity: 0.4;
   flex-shrink: 0;
@@ -3892,44 +3892,44 @@
 }
 
 /* ── Light mode overrides ── */
-.ageaf-panel.light .ageaf-cot-item {
+.jiaoleaf-panel.light .jiaoleaf-cot-item {
   border-left-color: rgba(0, 0, 0, 0.08);
 }
 
-.ageaf-panel.light .ageaf-cot-item--active {
+.jiaoleaf-panel.light .jiaoleaf-cot-item--active {
   border-left-color: rgba(57, 185, 138, 0.5);
-  animation-name: ageaf-cot-pulse-light;
+  animation-name: jiaoleaf-cot-pulse-light;
 }
 
-.ageaf-panel.light .ageaf-cot-item--completed {
+.jiaoleaf-panel.light .jiaoleaf-cot-item--completed {
   border-left-color: rgba(57, 185, 138, 0.25);
 }
 
-.ageaf-panel.light .ageaf-cot-item--failed {
+.jiaoleaf-panel.light .jiaoleaf-cot-item--failed {
   border-left-color: rgba(220, 60, 60, 0.5);
 }
 
-@keyframes ageaf-cot-pulse-light {
+@keyframes jiaoleaf-cot-pulse-light {
   0%, 100% { border-left-color: rgba(57, 185, 138, 0.5); }
   50% { border-left-color: rgba(57, 185, 138, 0.15); }
 }
 
-.ageaf-panel.light .ageaf-cot-thinking:hover,
-.ageaf-panel.light .ageaf-cot-text:hover,
-.ageaf-panel.light .ageaf-cot-tool__header:hover {
+.jiaoleaf-panel.light .jiaoleaf-cot-thinking:hover,
+.jiaoleaf-panel.light .jiaoleaf-cot-text:hover,
+.jiaoleaf-panel.light .jiaoleaf-cot-tool__header:hover {
   background: rgba(0, 0, 0, 0.04);
 }
 
-.ageaf-panel.light .ageaf-cot-tool--started {
+.jiaoleaf-panel.light .jiaoleaf-cot-tool--started {
   background: rgba(57, 185, 138, 0.04);
 }
 
-.ageaf-panel.light .ageaf-cot-tool--failed {
+.jiaoleaf-panel.light .jiaoleaf-cot-tool--failed {
   background: rgba(220, 60, 60, 0.04);
 }
 
 /* Landing Page */
-.ageaf-landing {
+.jiaoleaf-landing {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -3937,12 +3937,12 @@
   height: 100%;
   padding: 24px;
   background: transparent;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   text-align: center;
   gap: 32px;
 }
 
-.ageaf-landing__content {
+.jiaoleaf-landing__content {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -3951,38 +3951,38 @@
   gap: 32px;
 }
 
-.ageaf-landing__header {
+.jiaoleaf-landing__header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
 }
 
-.ageaf-landing__logo {
+.jiaoleaf-landing__logo {
   width: 96px;
   height: 96px;
   margin-bottom: 4px;
 }
 
-.ageaf-landing__title {
+.jiaoleaf-landing__title {
   font-family: 'Orbitron', sans-serif;
   font-size: 32px;
   font-weight: 700;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   text-shadow: 0 0 20px rgba(57, 185, 138, 0.3);
 }
 
-.ageaf-landing__slogan {
+.jiaoleaf-landing__slogan {
   font-size: 14px;
-  color: var(--ageaf-panel-accent);
+  color: var(--jiaoleaf-panel-accent);
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.ageaf-landing__actions {
+.jiaoleaf-landing__actions {
   display: flex;
   gap: 16px;
   width: 100%;
@@ -3991,10 +3991,10 @@
   flex-wrap: wrap;
 }
 
-.ageaf-landing__card {
+.jiaoleaf-landing__card {
   flex: 1;
-  background-color: var(--ageaf-panel-surface);
-  border: 1px solid var(--ageaf-panel-border);
+  background-color: var(--jiaoleaf-panel-surface);
+  border: 1px solid var(--jiaoleaf-panel-border);
   border-radius: 12px;
   padding: 24px 16px;
   display: flex;
@@ -4003,39 +4003,39 @@
   gap: 8px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
   text-align: center;
   min-width: 140px;
 }
 
-.ageaf-landing__card:hover {
-  background-color: var(--ageaf-panel-accent-soft);
-  border-color: var(--ageaf-panel-accent);
+.jiaoleaf-landing__card:hover {
+  background-color: var(--jiaoleaf-panel-accent-soft);
+  border-color: var(--jiaoleaf-panel-accent);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.ageaf-landing__card-title {
+.jiaoleaf-landing__card-title {
   font-weight: 600;
   font-size: 16px;
-  color: var(--ageaf-panel-text);
+  color: var(--jiaoleaf-panel-text);
 }
 
-.ageaf-landing__card-desc {
+.jiaoleaf-landing__card-desc {
   font-size: 12px;
-  color: var(--ageaf-panel-muted);
+  color: var(--jiaoleaf-panel-muted);
   line-height: 1.4;
 }
 
-.ageaf-landing__footer {
+.jiaoleaf-landing__footer {
   padding-bottom: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.ageaf-landing__help {
-  color: var(--ageaf-panel-accent);
+.jiaoleaf-landing__help {
+  color: var(--jiaoleaf-panel-accent);
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
@@ -4046,14 +4046,14 @@
   gap: 6px;
 }
 
-.ageaf-landing__help:hover {
-  color: var(--ageaf-panel-accent);
-  border-bottom-color: var(--ageaf-panel-accent);
+.jiaoleaf-landing__help:hover {
+  color: var(--jiaoleaf-panel-accent);
+  border-bottom-color: var(--jiaoleaf-panel-accent);
   filter: brightness(1.1);
 }
 
 /* Ensure landing page replaces the main body layout correctly */
-.ageaf-panel__body:has(.ageaf-landing) {
+.jiaoleaf-panel__body:has(.jiaoleaf-landing) {
   padding: 0;
   overflow: hidden;
   background: transparent;
@@ -4061,7 +4061,7 @@
 }
 
 @media (max-width: 420px) {
-  .ageaf-landing__actions {
+  .jiaoleaf-landing__actions {
     flex-direction: column;
   }
 }
@@ -4071,81 +4071,81 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Re-bind the legacy panel variables so they dynamically switch when .light is present */
-.ageaf-panel.light {
-  --ageaf-panel-bg: var(--ageaf-charcoal);
-  --ageaf-panel-surface: var(--ageaf-surface);
-  --ageaf-panel-border: var(--ageaf-border);
-  --ageaf-panel-text: var(--ageaf-text-primary);
-  --ageaf-panel-muted: var(--ageaf-text-secondary);
+.jiaoleaf-panel.light {
+  --jiaoleaf-panel-bg: var(--jiaoleaf-charcoal);
+  --jiaoleaf-panel-surface: var(--jiaoleaf-surface);
+  --jiaoleaf-panel-border: var(--jiaoleaf-border);
+  --jiaoleaf-panel-text: var(--jiaoleaf-text-primary);
+  --jiaoleaf-panel-muted: var(--jiaoleaf-text-secondary);
 }
 
 /* Hardcoded Chat Input Box */
-.ageaf-panel.light .ageaf-panel__input {
-  background: var(--ageaf-panel-bg);
-  border-top-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-panel__input {
+  background: var(--jiaoleaf-panel-bg);
+  border-top-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-panel__editor {
-  background: var(--ageaf-surface);
-  color: var(--ageaf-text-primary);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-panel__editor {
+  background: var(--jiaoleaf-surface);
+  color: var(--jiaoleaf-text-primary);
+  border-color: var(--jiaoleaf-border);
 }
 
 /* Hardcoded response bubble */
-.ageaf-panel.light .ageaf-message--assistant {
-  background: var(--ageaf-surface);
-  color: var(--ageaf-text-primary);
-  border: 1px solid var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-message--assistant {
+  background: var(--jiaoleaf-surface);
+  color: var(--jiaoleaf-text-primary);
+  border: 1px solid var(--jiaoleaf-border);
 }
 
 /* Hardcoded File Chips (like references.bib BIB) */
-.ageaf-panel.light .ageaf-panel__file-chip {
+.jiaoleaf-panel.light .jiaoleaf-panel__file-chip {
   background: rgba(57, 185, 138, 0.12);
   border: 1px solid rgba(57, 185, 138, 0.3);
-  color: var(--ageaf-emerald-dark);
+  color: var(--jiaoleaf-emerald-dark);
 }
 
-.ageaf-panel.light .ageaf-panel__file-chip-meta {
-  color: var(--ageaf-text-secondary);
+.jiaoleaf-panel.light .jiaoleaf-panel__file-chip-meta {
+  color: var(--jiaoleaf-text-secondary);
 }
 
-.ageaf-panel.light .ageaf-panel__file-chip-remove {
-  color: var(--ageaf-text-primary);
+.jiaoleaf-panel.light .jiaoleaf-panel__file-chip-remove {
+  color: var(--jiaoleaf-text-primary);
 }
 
-.ageaf-panel.light .ageaf-panel__chip-icon {
+.jiaoleaf-panel.light .jiaoleaf-panel__chip-icon {
   background: rgba(57, 185, 138, 0.2);
   border-color: rgba(57, 185, 138, 0.4);
-  color: var(--ageaf-text-primary);
+  color: var(--jiaoleaf-text-primary);
 }
 
 /* Tooltips */
-.ageaf-panel.light [data-tooltip]::after {
-  background: var(--ageaf-surface);
-  color: var(--ageaf-text-primary);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light [data-tooltip]::after {
+  background: var(--jiaoleaf-surface);
+  color: var(--jiaoleaf-text-primary);
+  border-color: var(--jiaoleaf-border);
 }
 
 /* Runtime Selector Menus (Model / Thinking) */
-.ageaf-panel.light .ageaf-runtime__menu,
-.ageaf-panel.light .ageaf-runtime__group-models,
-.ageaf-panel.light .ageaf-toolbar-menu__list {
-  background: var(--ageaf-surface);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-runtime__menu,
+.jiaoleaf-panel.light .jiaoleaf-runtime__group-models,
+.jiaoleaf-panel.light .jiaoleaf-toolbar-menu__list {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
 }
 
-.ageaf-panel.light .ageaf-runtime__option,
-.ageaf-panel.light .ageaf-toolbar-menu__option {
-  background: var(--ageaf-surface);
-  color: var(--ageaf-text-primary);
+.jiaoleaf-panel.light .jiaoleaf-runtime__option,
+.jiaoleaf-panel.light .jiaoleaf-toolbar-menu__option {
+  background: var(--jiaoleaf-surface);
+  color: var(--jiaoleaf-text-primary);
 }
 
-.ageaf-panel.light .ageaf-runtime__option:hover,
-.ageaf-panel.light .ageaf-toolbar-menu__option:hover {
-  background: var(--ageaf-slate);
+.jiaoleaf-panel.light .jiaoleaf-runtime__option:hover,
+.jiaoleaf-panel.light .jiaoleaf-toolbar-menu__option:hover {
+  background: var(--jiaoleaf-slate);
 }
 
-.ageaf-panel.light .ageaf-runtime__yolo {
-  background: var(--ageaf-surface);
-  border-color: var(--ageaf-border);
+.jiaoleaf-panel.light .jiaoleaf-runtime__yolo {
+  background: var(--jiaoleaf-surface);
+  border-color: var(--jiaoleaf-border);
 }

@@ -40,12 +40,12 @@ function sendNativeRequest(request: NativeHostRequest, options?: { timeoutMs?: n
       settled = true;
       // Cancel the pending request in background
       if (request.kind === 'request') {
-        chrome.runtime.sendMessage({ type: 'ageaf:native-cancel', requestId: request.id });
+        chrome.runtime.sendMessage({ type: 'jiaoleaf:native-cancel', requestId: request.id });
       }
       reject(new Error('native request timed out'));
     }, timeoutMs);
 
-    chrome.runtime.sendMessage({ type: 'ageaf:native-request', request }, (response) => {
+    chrome.runtime.sendMessage({ type: 'jiaoleaf:native-request', request }, (response) => {
       if (settled) return;
       settled = true;
       clearTimeout(timeoutId);
@@ -78,7 +78,7 @@ export function nativeTransport(_options: Options): Transport {
       request?: { signal?: AbortSignal }
     ) {
       return new Promise<void>((resolve, reject) => {
-        const port = chrome.runtime.connect({ name: 'ageaf:native-stream' });
+        const port = chrome.runtime.connect({ name: 'jiaoleaf:native-stream' });
         const requestId = crypto.randomUUID();
         let finished = false;
 

@@ -14,11 +14,11 @@ function getTraceMessages(events: JobEvent[]) {
 
 test('Codex trace stream is curated by default (raw events gated by env)', async () => {
   const cliPath = path.join(process.cwd(), 'test', 'fixtures', 'codex');
-  const previousTraceAll = process.env.AGEAF_CODEX_TRACE_ALL_EVENTS;
+  const previousTraceAll = process.env.JIAOLEAF_CODEX_TRACE_ALL_EVENTS;
 
   try {
     await resetCodexAppServerForTests();
-    delete process.env.AGEAF_CODEX_TRACE_ALL_EVENTS;
+    delete process.env.JIAOLEAF_CODEX_TRACE_ALL_EVENTS;
     const events: JobEvent[] = [];
     await runCodexJob(
       {
@@ -38,8 +38,8 @@ test('Codex trace stream is curated by default (raw events gated by env)', async
       'expected raw event trace to be disabled by default'
     );
   } finally {
-    if (previousTraceAll === undefined) delete process.env.AGEAF_CODEX_TRACE_ALL_EVENTS;
-    else process.env.AGEAF_CODEX_TRACE_ALL_EVENTS = previousTraceAll;
+    if (previousTraceAll === undefined) delete process.env.JIAOLEAF_CODEX_TRACE_ALL_EVENTS;
+    else process.env.JIAOLEAF_CODEX_TRACE_ALL_EVENTS = previousTraceAll;
     await resetCodexAppServerForTests();
   }
 });

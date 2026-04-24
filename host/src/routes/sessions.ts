@@ -15,8 +15,8 @@ type DeleteSessionParams = {
  * DELETE /v1/sessions/:provider/:sessionId
  *
  * Deletes a session directory and associated runtime state:
- * - For Claude: Removes ~/.ageaf/claude/sessions/{sessionId}
- * - For Codex: Removes ~/.ageaf/codex/sessions/{sessionId} + deletes thread
+ * - For Claude: Removes ~/.jiaoleaf/claude/sessions/{sessionId}
+ * - For Codex: Removes ~/.jiaoleaf/codex/sessions/{sessionId} + deletes thread
  */
 export default async function registerSessionRoutes(server: FastifyInstance) {
   server.delete<{ Params: DeleteSessionParams }>(
@@ -33,7 +33,7 @@ export default async function registerSessionRoutes(server: FastifyInstance) {
       }
 
       const trimmedId = sessionId.trim();
-      const sessionDir = path.join(os.homedir(), '.ageaf', provider, 'sessions', trimmedId);
+      const sessionDir = path.join(os.homedir(), '.jiaoleaf', provider, 'sessions', trimmedId);
 
       try {
         // Evict Pi agent session (if applicable)

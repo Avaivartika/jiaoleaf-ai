@@ -119,7 +119,7 @@ rl.on("line", (line) => {
     }
 
     const hasGuidance =
-      promptText.includes("ageaf-patch") &&
+      promptText.includes("jiaoleaf-patch") &&
       promptText.includes("replaceSelection") &&
       promptText.includes("Selection edits");
     write({ id: msg.id, result: { ok: true } });

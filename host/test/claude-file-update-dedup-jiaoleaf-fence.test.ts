@@ -23,30 +23,30 @@ function asStream(messages: QueryMessage[]): AsyncIterable<QueryMessage> {
 function setClaudeEnvForTests() {
   const previous = {
     apiKey: process.env.ANTHROPIC_API_KEY,
-    mock: process.env.AGEAF_CLAUDE_MOCK,
-    disableDetect: process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT,
+    mock: process.env.JIAOLEAF_CLAUDE_MOCK,
+    disableDetect: process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT,
   };
 
   process.env.ANTHROPIC_API_KEY = 'test-key';
-  delete process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
+  delete process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = 'true';
 
   return () => {
     if (previous.apiKey === undefined) delete process.env.ANTHROPIC_API_KEY;
     else process.env.ANTHROPIC_API_KEY = previous.apiKey;
-    if (previous.mock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previous.mock;
-    if (previous.disableDetect === undefined) delete process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT;
-    else process.env.AGEAF_DISABLE_CLAUDE_CLI_DETECT = previous.disableDetect;
+    if (previous.mock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previous.mock;
+    if (previous.disableDetect === undefined) delete process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT;
+    else process.env.JIAOLEAF_DISABLE_CLAUDE_CLI_DETECT = previous.disableDetect;
   };
 }
 
 /**
- * When the LLM response contains BOTH AGEAF_FILE_UPDATE markers (processed
- * during streaming via stream_event deltas) AND ageaf-patch fences for the
- * same file, the agent must NOT emit duplicates from the ageaf-patch fences.
+ * When the LLM response contains BOTH JIAOLEAF_FILE_UPDATE markers (processed
+ * during streaming via stream_event deltas) AND jiaoleaf-patch fences for the
+ * same file, the agent must NOT emit duplicates from the jiaoleaf-patch fences.
  */
-test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were already streamed', async () => {
+test('Claude agent skips jiaoleaf-patch fences when FILE_UPDATE patches were already streamed', async () => {
   const restoreEnv = setClaudeEnvForTests();
   const events: JobEvent[] = [];
 
@@ -73,16 +73,16 @@ test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were alread
     text: '  year={2025},\n',
   });
 
-  // Full response text containing BOTH ageaf-patch fence AND FILE_UPDATE block
+  // Full response text containing BOTH jiaoleaf-patch fence AND FILE_UPDATE block
   const fullResponseText = [
     'I updated the year.\n',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     patchJson,
     '```',
     '',
-    '<<<AGEAF_FILE_UPDATE path="references.bib">>>',
+    '<<<JIAOLEAF_FILE_UPDATE path="references.bib">>>',
     updatedBib.trimEnd(),
-    '<<<AGEAF_FILE_UPDATE_END>>>',
+    '<<<JIAOLEAF_FILE_UPDATE_END>>>',
   ].join('\n');
 
   const overleafMessage = [
@@ -109,10 +109,10 @@ test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were alread
       // Use stream_event messages (content_block_delta with text_delta) to
       // exercise the real streaming path → emitVisibleDelta → extractAndEmitCompletedBlocks.
       // Split the response into chunks so the FILE_UPDATE block arrives during streaming.
-      const preamble = 'I updated the year.\n\n```ageaf-patch\n' + patchJson + '\n```\n\n';
-      const fileUpdateOpen = '<<<AGEAF_FILE_UPDATE path="references.bib">>>\n';
+      const preamble = 'I updated the year.\n\n```jiaoleaf-patch\n' + patchJson + '\n```\n\n';
+      const fileUpdateOpen = '<<<JIAOLEAF_FILE_UPDATE path="references.bib">>>\n';
       const fileUpdateBody = updatedBib;
-      const fileUpdateClose = '<<<AGEAF_FILE_UPDATE_END>>>\n';
+      const fileUpdateClose = '<<<JIAOLEAF_FILE_UPDATE_END>>>\n';
 
       return asStream([
         // Start a text content block
@@ -124,7 +124,7 @@ test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were alread
             content_block: { type: 'text', text: '' },
           },
         },
-        // Stream the preamble (contains ageaf-patch fence)
+        // Stream the preamble (contains jiaoleaf-patch fence)
         {
           type: 'stream_event',
           event: {
@@ -198,7 +198,7 @@ test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were alread
     );
 
     // The single patch should come from the FILE_UPDATE streaming path
-    // (which includes from/to offsets), not the ageaf-patch fence path
+    // (which includes from/to offsets), not the jiaoleaf-patch fence path
     const yearPatch = yearPatches[0]?.data as any;
     assert.equal(yearPatch.kind, 'replaceRangeInFile');
     assert.equal(yearPatch.filePath, 'references.bib');
@@ -216,7 +216,7 @@ test('Claude agent skips ageaf-patch fences when FILE_UPDATE patches were alread
 });
 
 /**
- * Path canonicalization: ageaf-patch fence uses "./references.bib" while the
+ * Path canonicalization: jiaoleaf-patch fence uses "./references.bib" while the
  * [Overleaf file:] block uses "references.bib". Dedup must still match them.
  */
 test('Claude agent dedup works when fence path has ./ prefix vs canonical path', async () => {
@@ -226,7 +226,7 @@ test('Claude agent dedup works when fence path has ./ prefix vs canonical path',
   const originalBib = '@article{foo2023,\n  year={2023},\n}\n';
   const updatedBib = '@article{foo2023,\n  year={2025},\n}\n';
 
-  // ageaf-patch fence uses "./references.bib" — note the ./ prefix
+  // jiaoleaf-patch fence uses "./references.bib" — note the ./ prefix
   const patchJson = JSON.stringify({
     kind: 'replaceRangeInFile',
     filePath: './references.bib',
@@ -236,13 +236,13 @@ test('Claude agent dedup works when fence path has ./ prefix vs canonical path',
 
   const fullResponseText = [
     'Updated.\n',
-    '```ageaf-patch',
+    '```jiaoleaf-patch',
     patchJson,
     '```',
     '',
-    '<<<AGEAF_FILE_UPDATE path="references.bib">>>',
+    '<<<JIAOLEAF_FILE_UPDATE path="references.bib">>>',
     updatedBib.trimEnd(),
-    '<<<AGEAF_FILE_UPDATE_END>>>',
+    '<<<JIAOLEAF_FILE_UPDATE_END>>>',
   ].join('\n');
 
   const overleafMessage = [
@@ -266,10 +266,10 @@ test('Claude agent dedup works when fence path has ./ prefix vs canonical path',
     clearClaudeSessionResumeCacheForTests();
 
     setClaudeQueryForTests(() => {
-      const preamble = 'Updated.\n\n```ageaf-patch\n' + patchJson + '\n```\n\n';
-      const fileUpdateOpen = '<<<AGEAF_FILE_UPDATE path="references.bib">>>\n';
+      const preamble = 'Updated.\n\n```jiaoleaf-patch\n' + patchJson + '\n```\n\n';
+      const fileUpdateOpen = '<<<JIAOLEAF_FILE_UPDATE path="references.bib">>>\n';
       const fileUpdateBody = updatedBib;
-      const fileUpdateClose = '<<<AGEAF_FILE_UPDATE_END>>>\n';
+      const fileUpdateClose = '<<<JIAOLEAF_FILE_UPDATE_END>>>\n';
 
       return asStream([
         { type: 'stream_event', event: { type: 'content_block_start', index: 0, content_block: { type: 'text', text: '' } } },

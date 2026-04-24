@@ -28,7 +28,7 @@ const notationActions = ['notation_check', 'notation_draft_fixes'] as const;
 
 for (const action of notationActions) {
   test(`POST /v1/jobs routes provider=pi action=${action} through notation workflow`, async () => {
-    process.env.AGEAF_PI_MOCK = 'true';
+    process.env.JIAOLEAF_PI_MOCK = 'true';
     const server = buildServer();
 
     try {
@@ -79,7 +79,7 @@ for (const action of notationActions) {
       assert.match(deltaText, /Generating notation draft fixes\.\.\./);
     } finally {
       await server.close();
-      delete process.env.AGEAF_PI_MOCK;
+      delete process.env.JIAOLEAF_PI_MOCK;
     }
   });
 }

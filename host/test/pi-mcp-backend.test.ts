@@ -11,12 +11,12 @@ test('MCP backend discovers tools with correct prefixed names', async () => {
     assert.ok(catalog.length >= 2, `expected at least 2 tools, got ${catalog.length}`);
 
     const names = catalog.map((t) => t.name);
-    assert.ok(names.includes('mcp__ageaf-mermaid__render_mermaid'), 'should have prefixed render_mermaid');
-    assert.ok(names.includes('mcp__ageaf-mermaid__list_mermaid_themes'), 'should have prefixed list_mermaid_themes');
+    assert.ok(names.includes('mcp__jiaoleaf-mermaid__render_mermaid'), 'should have prefixed render_mermaid');
+    assert.ok(names.includes('mcp__jiaoleaf-mermaid__list_mermaid_themes'), 'should have prefixed list_mermaid_themes');
 
     // Check source
     for (const entry of catalog) {
-      assert.equal(entry.source, 'mcp:ageaf-mermaid', 'source should be mcp:ageaf-mermaid');
+      assert.equal(entry.source, 'mcp:jiaoleaf-mermaid', 'source should be mcp:jiaoleaf-mermaid');
     }
   } finally {
     await backend.shutdown();
@@ -28,7 +28,7 @@ test('MCP backend render_mermaid returns SVG content', async () => {
   await backend.init();
   try {
     const tools = backend.getAgentTools();
-    const renderTool = tools.find((t) => t.name === 'mcp__ageaf-mermaid__render_mermaid');
+    const renderTool = tools.find((t) => t.name === 'mcp__jiaoleaf-mermaid__render_mermaid');
     assert.ok(renderTool, 'render_mermaid tool should exist');
 
     const result = await renderTool!.execute('test-call-1', { code: 'graph TD\nA-->B' });
@@ -50,7 +50,7 @@ test('MCP backend list_mermaid_themes returns themes', async () => {
   await backend.init();
   try {
     const tools = backend.getAgentTools();
-    const listTool = tools.find((t) => t.name === 'mcp__ageaf-mermaid__list_mermaid_themes');
+    const listTool = tools.find((t) => t.name === 'mcp__jiaoleaf-mermaid__list_mermaid_themes');
     assert.ok(listTool, 'list_mermaid_themes tool should exist');
 
     const result = await listTool!.execute('test-call-2', {});

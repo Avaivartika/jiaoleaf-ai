@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 import type { StoredPatchReview, StoredPatchReviewStatus } from './chatStore';
-import { CloseIcon } from './ageaf-icons';
+import { CloseIcon } from './jiaoleaf-icons';
 import { DiffReview } from './DiffReview';
 
 export type HunkEntry = {
@@ -23,7 +23,7 @@ type GroupedPatchReviewCardProps = {
 
 const ExpandIcon = () => (
   <svg
-    class="ageaf-patch-review__expand-icon"
+    class="jiaoleaf-patch-review__expand-icon"
     viewBox="0 0 20 20"
     aria-hidden="true"
     focusable="false"
@@ -157,15 +157,15 @@ export function GroupedPatchReviewCard({
         : `${hiddenLineCount} unchanged lines hidden`;
 
     return (
-      <div class="ageaf-grouped-patch__hunk" key={`${hunk.messageId}-${options.wrap ? 'modal' : 'inline'}`}>
+      <div class="jiaoleaf-grouped-patch__hunk" key={`${hunk.messageId}-${options.wrap ? 'modal' : 'inline'}`}>
         {previous ? (
-          <div class="ageaf-grouped-patch__separator">{separatorLabel}</div>
+          <div class="jiaoleaf-grouped-patch__separator">{separatorLabel}</div>
         ) : null}
-        <div class="ageaf-grouped-patch__hunk-header">
+        <div class="jiaoleaf-grouped-patch__hunk-header">
           <span
-            class={`ageaf-file-summary__status-dot ${getStatusClass(hunk.status)}`}
+            class={`jiaoleaf-file-summary__status-dot ${getStatusClass(hunk.status)}`}
           />
-          <span class="ageaf-grouped-patch__hunk-status">
+          <span class="jiaoleaf-grouped-patch__hunk-status">
             {hunk.status === 'pending'
               ? 'Pending'
               : hunk.status === 'accepted'
@@ -174,7 +174,7 @@ export function GroupedPatchReviewCard({
           </span>
           {options.feedback && hunk.status === 'pending' ? (
             <button
-              class="ageaf-panel__apply is-secondary"
+              class="jiaoleaf-panel__apply is-secondary"
               type="button"
               disabled={busy}
               onClick={() => onFeedback(hunk.messageId)}
@@ -185,7 +185,7 @@ export function GroupedPatchReviewCard({
           ) : null}
         </div>
         {hunk.error && !options.wrap ? (
-          <div class="ageaf-patch-review__warning">
+          <div class="jiaoleaf-patch-review__warning">
             <span>{hunk.error}</span>
           </div>
         ) : null}
@@ -203,18 +203,18 @@ export function GroupedPatchReviewCard({
   };
 
   return (
-    <div class="ageaf-patch-review ageaf-grouped-patch">
-      <div class="ageaf-patch-review__header">
-        <div class="ageaf-patch-review__title">
+    <div class="jiaoleaf-patch-review jiaoleaf-grouped-patch">
+      <div class="jiaoleaf-patch-review__header">
+        <div class="jiaoleaf-patch-review__title">
           {title}
           <span> · {filePath}</span>
           {pendingCount > 0 ? (
-            <span class="ageaf-grouped-patch__pending"> · {pendingCount} pending</span>
+            <span class="jiaoleaf-grouped-patch__pending"> · {pendingCount} pending</span>
           ) : null}
         </div>
-        <div class="ageaf-patch-review__actions">
+        <div class="jiaoleaf-patch-review__actions">
           <button
-            class="ageaf-patch-review__expand-btn"
+            class="jiaoleaf-patch-review__expand-btn"
             type="button"
             onClick={() => setShowModal(true)}
             title="Expand diff"
@@ -225,7 +225,7 @@ export function GroupedPatchReviewCard({
           {pendingCount > 0 ? (
             <>
               <button
-                class="ageaf-panel__apply"
+                class="jiaoleaf-panel__apply"
                 type="button"
                 disabled={busy}
                 onClick={onAcceptAll}
@@ -235,7 +235,7 @@ export function GroupedPatchReviewCard({
                 ✓
               </button>
               <button
-                class="ageaf-panel__apply is-secondary"
+                class="jiaoleaf-panel__apply is-secondary"
                 type="button"
                 disabled={busy}
                 onClick={onRejectAll}
@@ -249,7 +249,7 @@ export function GroupedPatchReviewCard({
         </div>
       </div>
 
-      <div class={`ageaf-patch-review__diff-wrap${collapsed ? ' is-collapsed' : ''}`}>
+      <div class={`jiaoleaf-patch-review__diff-wrap${collapsed ? ' is-collapsed' : ''}`}>
         {sortedHunks.map((hunk, index) =>
           renderHunk(hunk, index, {
             animate: shouldAnimateRef.current,
@@ -258,7 +258,7 @@ export function GroupedPatchReviewCard({
         )}
         {collapsed ? (
           <button
-            class="ageaf-patch-review__toggle"
+            class="jiaoleaf-patch-review__toggle"
             type="button"
             onClick={() => {
               setCollapsed(false);
@@ -270,7 +270,7 @@ export function GroupedPatchReviewCard({
       </div>
       {!collapsed ? (
         <button
-          class="ageaf-patch-review__toggle"
+          class="jiaoleaf-patch-review__toggle"
           type="button"
           onClick={() => setCollapsed(true)}
         >
@@ -278,21 +278,21 @@ export function GroupedPatchReviewCard({
         </button>
       ) : null}
       {showModal ? createPortal(
-        <div class="ageaf-diff-modal__backdrop">
+        <div class="jiaoleaf-diff-modal__backdrop">
           <div
-            class="ageaf-diff-modal"
+            class="jiaoleaf-diff-modal"
             onClick={(event) => event.stopPropagation()}
           >
             <div
-              class="ageaf-diff-modal__header"
+              class="jiaoleaf-diff-modal__header"
             >
-              <div class="ageaf-diff-modal__title">
+              <div class="jiaoleaf-diff-modal__title">
                 {title}
                 <span> · {filePath}</span>
-                <span class="ageaf-diff-modal__shortcut-hint">ESC to close</span>
+                <span class="jiaoleaf-diff-modal__shortcut-hint">ESC to close</span>
               </div>
               <button
-                class="ageaf-diff-modal__close"
+                class="jiaoleaf-diff-modal__close"
                 type="button"
                 onClick={() => setShowModal(false)}
                 title="Close (ESC)"
@@ -301,8 +301,8 @@ export function GroupedPatchReviewCard({
                 <CloseIcon />
               </button>
             </div>
-            <div class="ageaf-diff-modal__content">
-              <div class="ageaf-grouped-patch__modal-list">
+            <div class="jiaoleaf-diff-modal__content">
+              <div class="jiaoleaf-grouped-patch__modal-list">
                 {sortedHunks.map((hunk, index) =>
                   renderHunk(hunk, index, {
                     animate: false,

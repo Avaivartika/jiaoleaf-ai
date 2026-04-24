@@ -11,7 +11,7 @@ test('JobEvent type includes file_started', () => {
   assert.match(contents, /'file_started'/);
 });
 
-test('Claude runtime emits file_started for AGEAF_FILE_UPDATE markers', () => {
+test('Claude runtime emits file_started for JIAOLEAF_FILE_UPDATE markers', () => {
   const agentPath = path.join(
     process.cwd(),
     'src',
@@ -24,10 +24,10 @@ test('Claude runtime emits file_started for AGEAF_FILE_UPDATE markers', () => {
   assert.match(contents, /event:\s*'file_started'/);
   assert.match(contents, /const fileUpdateOpenRe = /);
   assert.match(contents, /fileUpdateOpenRe\.lastIndex = 0/);
-  assert.match(contents, /AGEAF_FILE_UPDATE/);
+  assert.match(contents, /JIAOLEAF_FILE_UPDATE/);
 });
 
-test('Codex runtime emits file_started for AGEAF_FILE_UPDATE markers', () => {
+test('Codex runtime emits file_started for JIAOLEAF_FILE_UPDATE markers', () => {
   const runPath = path.join(
     process.cwd(),
     'src',
@@ -40,5 +40,5 @@ test('Codex runtime emits file_started for AGEAF_FILE_UPDATE markers', () => {
   assert.match(contents, /event:\s*'file_started'/);
   assert.match(contents, /const fileUpdateOpenRe = /);
   assert.match(contents, /fileUpdateOpenRe\.lastIndex = 0/);
-  assert.match(contents, /AGEAF_FILE_UPDATE/);
+  assert.match(contents, /JIAOLEAF_FILE_UPDATE/);
 });

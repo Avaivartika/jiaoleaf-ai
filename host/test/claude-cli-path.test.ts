@@ -5,7 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 test('resolveClaudeCliPath uses explicit cliPath when present', async () => {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ageaf-claude-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jiaoleaf-claude-'));
   const cliPath = path.join(tempDir, 'claude');
   fs.writeFileSync(cliPath, '#!/bin/sh\n');
 

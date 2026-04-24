@@ -53,7 +53,7 @@ export function getClaudeRuntimeStatus(config?: ClaudeRuntimeConfig): ClaudeRunt
   let settingsModel: string | null = null;
   if (shouldReadUserSettings) {
     const settingsPath =
-      process.env.AGEAF_CLAUDE_USER_SETTINGS_PATH ??
+      process.env.JIAOLEAF_CLAUDE_USER_SETTINGS_PATH ??
       path.join(os.homedir(), '.claude', 'settings.json');
     settingsModel = readClaudeUserSettingsModel(settingsPath);
   }
@@ -76,7 +76,7 @@ export function getClaudeRuntimeStatus(config?: ClaudeRuntimeConfig): ClaudeRunt
     configured: Boolean(cliPath || apiKey),
     cliPath,
     usingApiKey: Boolean(apiKey),
-    mock: process.env.AGEAF_CLAUDE_MOCK === 'true',
+    mock: process.env.JIAOLEAF_CLAUDE_MOCK === 'true',
     model,
     modelSource,
   };

@@ -13,8 +13,8 @@ node host/scripts/build-native-manifest.mjs <extension-id> <host-binary-path> <o
 ```bash
 node host/scripts/build-native-manifest.mjs \
   "abcdefghijklmnopqrstuvwxyz123456" \
-  "/usr/local/bin/ageaf-host" \
-  "$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.ageaf.host.json"
+  "/usr/local/bin/jiaoleaf-host" \
+  "$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.jiaoleaf.host.json"
 ```
 
 ## Example (Linux)
@@ -22,20 +22,23 @@ node host/scripts/build-native-manifest.mjs \
 ```bash
 node host/scripts/build-native-manifest.mjs \
   "abcdefghijklmnopqrstuvwxyz123456" \
-  "/usr/local/bin/ageaf-host" \
-  "$HOME/.config/google-chrome/NativeMessagingHosts/com.ageaf.host.json"
+  "/usr/local/bin/jiaoleaf-host" \
+  "$HOME/.config/google-chrome/NativeMessagingHosts/com.jiaoleaf.host.json"
 ```
 
 ## Example (Windows)
 
+The package root includes `install-native-host.cmd`, which performs these steps automatically.
+Manual equivalent:
+
 ```powershell
 node host/scripts/build-native-manifest.mjs `
   "abcdefghijklmnopqrstuvwxyz123456" `
-  "C:\Program Files\Ageaf\ageaf-host.exe" `
+  "C:\path\to\jiaoleaf-ai\native-host.cmd" `
   "manifest.json"
 
 # Then install to registry:
-# reg add "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.ageaf.host" /ve /d "C:\path\to\manifest.json"
+# reg add "HKCU\Software\Google\Chrome\NativeMessagingHosts\com.jiaoleaf.host" /ve /d "C:\path\to\manifest.json"
 ```
 
 ## Notes

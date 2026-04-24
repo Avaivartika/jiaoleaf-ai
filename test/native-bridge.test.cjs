@@ -8,5 +8,5 @@ test('background registers native messaging bridge', () => {
   const contents = fs.readFileSync(backgroundPath, 'utf8');
 
   assert.match(contents, /connectNative/);
-  assert.match(contents, /ageaf:native-request/);
+  assert.match(contents, /jiaoleaf:native-request/);
 });

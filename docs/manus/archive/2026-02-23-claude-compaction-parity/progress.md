@@ -119,6 +119,6 @@
 ## 5-Question Reboot Check
 1. **Where am I?** Phase 5 delivery/handoff completed.
 2. **Where am I going?** Hand off final summary with verified green host and extension suites.
-3. **What's the goal?** Stable, non-terminal, visible compaction flow parity for Ageaf Codex runtime + panel.
+3. **What's the goal?** Stable, non-terminal, visible compaction flow parity for JiaoLeaf Codex runtime + panel.
 4. **What have I learned?** Stable lifecycle IDs and completion-phase handling are required to avoid stale timeout-only compaction rows.
 5. **What have I done?** Implemented host lifecycle normalization + panel completion-phase handling, then resolved residual extension suite drift and validated `npm test` at 300/300.

@@ -11,6 +11,8 @@ const excludes = [
   /^node_modules\//,
   /^build\//,
   /^release\//,
+  /^docs\/manus(\/|$)/,
+  /(^|\/)CLAUDE\.md$/,
   /\s\d+\.[^/]+$/,
 ];
 
@@ -42,6 +44,8 @@ try {
     'AGENTS.md',
     'start-jiaoleaf-host.cmd',
     'start-jiaoleaf-host.command',
+    'install-native-host.cmd',
+    'native-host.cmd',
     'login-codex.cmd',
     'login-codex.command',
   ]) {

@@ -8,7 +8,7 @@ test('Panel input uses a contenteditable editor with chip placeholders', () => {
   const contents = fs.readFileSync(panelPath, 'utf8');
 
   assert.match(contents, /contentEditable/);
-  assert.match(contents, /ageaf-panel__editor/);
+  assert.match(contents, /jiaoleaf-panel__editor/);
   assert.match(contents, /data-chip-id/);
 });
 

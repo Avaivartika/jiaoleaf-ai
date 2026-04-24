@@ -14,8 +14,8 @@ test('Panel divider handle is keyboard accessible and shows tooltip copy', () =>
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-panel__divider-toggle/);
-  assert.match(contents, /aria-controls="ageaf-panel-inner"/);
+  assert.match(contents, /jiaoleaf-panel__divider-toggle/);
+  assert.match(contents, /aria-controls="jiaoleaf-panel-inner"/);
   assert.match(contents, /Hide panel/);
   assert.match(contents, /Show panel/);
   assert.match(contents, /Click to hide the panel/);

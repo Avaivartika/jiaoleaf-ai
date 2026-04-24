@@ -7,7 +7,7 @@ test('Settings include OpenAI approval policy selector', () => {
   const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.match(contents, /ageaf-openai-approval-policy/);
+  assert.match(contents, /jiaoleaf-openai-approval-policy/);
   assert.match(contents, /value=\"untrusted\"/);
   assert.match(contents, /value=\"on-request\"/);
   assert.match(contents, /value=\"on-failure\"/);

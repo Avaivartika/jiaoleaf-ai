@@ -62,7 +62,7 @@ function stripLocalCommandStdout(value: string): string {
 export async function getClaudeContextUsage(
   runtime?: ClaudeRuntimeConfig
 ): Promise<ClaudeContextUsage> {
-  if (process.env.AGEAF_CLAUDE_MOCK === 'true') {
+  if (process.env.JIAOLEAF_CLAUDE_MOCK === 'true') {
     return {
       configured: true,
       model: 'mock',
@@ -113,7 +113,7 @@ export async function getClaudeContextUsage(
         includePartialMessages: true,
         canUseTool: async () => ({
           behavior: 'deny',
-          message: 'Tools disabled for Ageaf host runtime',
+          message: 'Tools disabled for JiaoLeaf host runtime',
         }),
         settingSources: runtime?.loadUserSettings ? ['user', 'project'] : ['project'],
         env: combinedEnv,

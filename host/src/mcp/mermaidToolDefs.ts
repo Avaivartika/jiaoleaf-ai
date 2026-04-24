@@ -12,7 +12,7 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { renderMermaidToSvg, renderMermaidToAscii, listMermaidThemes } from './renderMermaid.js';
 
-export const MERMAID_SERVER_NAME = 'ageaf-mermaid';
+export const MERMAID_SERVER_NAME = 'jiaoleaf-mermaid';
 export const MERMAID_SERVER_VERSION = '1.0.0';
 
 // Shared Zod schemas

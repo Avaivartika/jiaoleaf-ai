@@ -114,7 +114,7 @@ function sendOpenAIMessage(options: Options, payload: JobPayload, signal?: Abort
     }
     chrome.runtime.sendMessage(
       {
-        type: 'ageaf:openai-response',
+        type: 'jiaoleaf:openai-response',
         apiKey,
         baseUrl: getOpenAIBaseUrl(options),
         model,

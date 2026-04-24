@@ -95,8 +95,8 @@ test(
   'web_search falls back to DuckDuckGo without API key (returns results)',
   { skip: process.env.CI ? 'DuckDuckGo fallback depends on external network availability.' : false },
   async () => {
-  const saved = process.env.AGEAF_PI_WEB_SEARCH_API_KEY;
-  delete process.env.AGEAF_PI_WEB_SEARCH_API_KEY;
+  const saved = process.env.JIAOLEAF_PI_WEB_SEARCH_API_KEY;
+  delete process.env.JIAOLEAF_PI_WEB_SEARCH_API_KEY;
 
   try {
     const tool = createWebSearchTool();
@@ -111,7 +111,7 @@ test(
     assert.ok(text.includes('URL:'), 'should contain result URLs');
   } finally {
     if (saved !== undefined) {
-      process.env.AGEAF_PI_WEB_SEARCH_API_KEY = saved;
+      process.env.JIAOLEAF_PI_WEB_SEARCH_API_KEY = saved;
     }
   }
   }
@@ -181,8 +181,8 @@ test('web_fetch blocks IPv6-mapped IPv4 hex form SSRF bypass', async () => {
   );
 });
 
-test('web_fetch allows private IPs when AGEAF_PI_WEB_FETCH_ALLOW_PRIVATE=true', async () => {
-  process.env.AGEAF_PI_WEB_FETCH_ALLOW_PRIVATE = 'true';
+test('web_fetch allows private IPs when JIAOLEAF_PI_WEB_FETCH_ALLOW_PRIVATE=true', async () => {
+  process.env.JIAOLEAF_PI_WEB_FETCH_ALLOW_PRIVATE = 'true';
   const tool = createWebFetchTool();
   try {
     await assert.rejects(
@@ -193,7 +193,7 @@ test('web_fetch allows private IPs when AGEAF_PI_WEB_FETCH_ALLOW_PRIVATE=true', 
       },
     );
   } finally {
-    delete process.env.AGEAF_PI_WEB_FETCH_ALLOW_PRIVATE;
+    delete process.env.JIAOLEAF_PI_WEB_FETCH_ALLOW_PRIVATE;
   }
 });
 

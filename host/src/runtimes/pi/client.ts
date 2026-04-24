@@ -10,7 +10,7 @@ export type PiRuntimeStatus = {
 };
 
 export function getPiRuntimeStatus(): PiRuntimeStatus {
-  if (process.env.AGEAF_PI_MOCK === 'true') {
+  if (process.env.JIAOLEAF_PI_MOCK === 'true') {
     return {
       configured: true,
       availableProviders: [{ provider: 'mock', hasApiKey: true }],

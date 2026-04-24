@@ -5,9 +5,9 @@ import test from 'node:test';
 import { resetCodexAppServerForTests } from '../src/runtimes/codex/appServer.js';
 
 test('GET /v1/runtime/codex/metadata returns models from Codex CLI', async () => {
-  const previousMock = process.env.AGEAF_CLAUDE_MOCK;
-  process.env.AGEAF_CLAUDE_MOCK = 'true';
-  process.env.AGEAF_START_SERVER = 'false';
+  const previousMock = process.env.JIAOLEAF_CLAUDE_MOCK;
+  process.env.JIAOLEAF_CLAUDE_MOCK = 'true';
+  process.env.JIAOLEAF_START_SERVER = 'false';
   const { buildServer } = await import('../src/server.js');
 
   const server = buildServer();
@@ -31,8 +31,8 @@ test('GET /v1/runtime/codex/metadata returns models from Codex CLI', async () =>
     assert.ok(Array.isArray(body.models));
     assert.ok(body.models.some((model) => model.value.includes('gpt')));
   } finally {
-    if (previousMock === undefined) delete process.env.AGEAF_CLAUDE_MOCK;
-    else process.env.AGEAF_CLAUDE_MOCK = previousMock;
+    if (previousMock === undefined) delete process.env.JIAOLEAF_CLAUDE_MOCK;
+    else process.env.JIAOLEAF_CLAUDE_MOCK = previousMock;
     await resetCodexAppServerForTests();
     await server.close();
   }

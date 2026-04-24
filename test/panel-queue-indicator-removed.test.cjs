@@ -14,7 +14,7 @@ test('Panel no longer renders bottom-right queue status chip', () => {
   );
   const contents = fs.readFileSync(panelPath, 'utf8');
 
-  assert.doesNotMatch(contents, /class=\"ageaf-panel__queue\"/);
+  assert.doesNotMatch(contents, /class=\"jiaoleaf-panel__queue\"/);
   assert.doesNotMatch(contents, /isSending \? 'Sending…' : 'Queued'/);
 });
 
@@ -29,5 +29,5 @@ test('Panel CSS no longer defines queue status chip style', () => {
   );
   const contents = fs.readFileSync(cssPath, 'utf8');
 
-  assert.doesNotMatch(contents, /\.ageaf-panel__queue\s*\{/);
+  assert.doesNotMatch(contents, /\.jiaoleaf-panel__queue\s*\{/);
 });

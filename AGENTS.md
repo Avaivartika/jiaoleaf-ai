@@ -1,6 +1,6 @@
 # AGENTS Guidelines for This Repository
 
-This repository contains **Ageaf**, a Chrome extension (Manifest V3) plus a small local
+This repository contains **JiaoLeaf**, a Chrome extension (Manifest V3) plus a small local
 host process:
 
 - **Extension (root)**: TypeScript + Preact content scripts that inject a right-side
@@ -30,7 +30,7 @@ to keep iteration fast and avoid breaking the local dev loop.
 * In Chrome, load unpacked **from `build/`**.
 * After changes:
   1. Ensure the extension has rebuilt (`npm run watch` output looks healthy).
-  2. Go to `chrome://extensions` and click **Reload** on Ageaf.
+  2. Go to `chrome://extensions` and click **Reload** on JiaoLeaf.
   3. Refresh the Overleaf tab so the updated content script runs.
 
 ## 3. Keep Dependencies in Sync (Two Node Projects)
@@ -58,7 +58,7 @@ For quick end-to-end verification:
 
 * Prefer TypeScript (`.ts`/`.tsx`) and small, explicit functions.
 * Follow existing Preact patterns in `src/iso/panel/` and `src/main/editorBridge/`.
-* Do **not** use `import { lazy, Suspense } from 'preact/compat';` in Ageaf. This
+* Do **not** use `import { lazy, Suspense } from 'preact/compat';` in JiaoLeaf. This
   breaks the extension UX and makes the panel unusable in practice.
 * Avoid adding a separate `options.html` page unless explicitly required; prefer the
   in-panel settings UI.
