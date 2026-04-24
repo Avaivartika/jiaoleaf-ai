@@ -10,3 +10,11 @@ test('panel shows native host status UI', () => {
   assert.match(contents, /Native host status/);
   assert.match(contents, /Retry/);
 });
+
+test('panel explains extension-context invalidation during native checks', () => {
+  const panelPath = path.join(__dirname, '..', 'src', 'iso', 'panel', 'Panel.tsx');
+  const contents = fs.readFileSync(panelPath, 'utf8');
+
+  assert.match(contents, /Extension was reloaded\. Refresh this Overleaf tab, then retry\./);
+  assert.match(contents, /!chrome\.runtime\?\.id/);
+});

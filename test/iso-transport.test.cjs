@@ -11,3 +11,10 @@ test('transport abstraction exists for native messaging', () => {
   assert.match(contents, /native/);
   assert.match(contents, /http/);
 });
+
+test('native transport falls back when extension context is invalidated', () => {
+  const transportPath = path.join(__dirname, '..', 'src', 'iso', 'messaging', 'transport.ts');
+  const contents = fs.readFileSync(transportPath, 'utf8');
+
+  assert.match(contents, /extension context invalidated/);
+});

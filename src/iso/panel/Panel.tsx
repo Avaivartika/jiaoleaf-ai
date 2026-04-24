@@ -1883,6 +1883,14 @@ const Panel = () => {
   const checkNativeHost = async () => {
     setNativeStatusError(null);
 
+    if (!chrome.runtime?.id) {
+      setNativeStatus('unavailable');
+      setNativeStatusError(
+        'Extension was reloaded. Refresh this Overleaf tab, then retry.'
+      );
+      return;
+    }
+
     const request: NativeHostRequest = {
       id: crypto.randomUUID(),
       kind: 'request',
@@ -1943,8 +1951,11 @@ const Panel = () => {
       }
     } catch (error) {
       setNativeStatus('unavailable');
+      const message = error instanceof Error ? error.message : 'native check failed';
       setNativeStatusError(
-        error instanceof Error ? error.message : 'native check failed'
+        message.toLowerCase().includes('extension context invalidated')
+          ? 'Extension was reloaded. Refresh this Overleaf tab, then retry.'
+          : message
       );
     }
   };

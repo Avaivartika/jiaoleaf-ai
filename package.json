@@ -1,6 +1,6 @@
 {
   "name": "jiaoleaf-ai",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Chrome extension AI assistant for SJTU Overleaf and Overleaf-compatible LaTeX projects",
   "private": true,
   "scripts": {
