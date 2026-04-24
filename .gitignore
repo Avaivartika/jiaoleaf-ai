@@ -69,6 +69,8 @@ docs/*
 !docs/native-messaging.md
 
 *.rb
+!host/scripts/homebrew/
+!host/scripts/homebrew/jiaoleaf-host.rb
 
 dist-native/
 .codex/
